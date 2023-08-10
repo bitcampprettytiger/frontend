@@ -1,0 +1,20 @@
+html {
+  width: 50%;
+  margin: 0 auto;
+
+}
+html a {
+  text-decoration: none;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+}
+
+.wrapper {
+  max-width: 480px;
+  margin: 0 auto;
+  background-color: #fff;
+  box-shadow: 0 0 20px #0000000d;
+}
