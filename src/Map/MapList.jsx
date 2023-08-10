@@ -8,7 +8,7 @@ const list = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']; // 예시 리�
 
 export default function MapList() {
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 500,
     slidesToShow: 5, // 한 번에 보여줄 슬라이더의 수를 5개로 설정
@@ -30,7 +30,6 @@ export default function MapList() {
           <div
             key={index}
             onClick={() => handleClick(item)}
-            style={{ paddingRight: '30px' }} // 항목 오른쪽에 패딩 추가
           >
             <div className="list-item">{item}</div>
           </div>

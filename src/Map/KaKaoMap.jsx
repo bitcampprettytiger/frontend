@@ -164,6 +164,8 @@ const KaKaoMap = (props) => {
       map.setCenter(
         new kakao.maps.LatLng(currentPosition.lat, currentPosition.lon)
       );
+
+      console.log("ge");
     }
   };
 
