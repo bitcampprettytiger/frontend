@@ -5,7 +5,7 @@ const Choice = ({moveToCurrentPosition}) => {
     <div className='full'>
       <div className="menu-wrap">
         <div className="cate">
-          <img src='img/길거리.png'></img>
+          <img src='images/stfood.png'></img>
         </div>
         <input className="input"></input>
       </div>
@@ -15,9 +15,11 @@ const Choice = ({moveToCurrentPosition}) => {
         <button className="tr">평택</button>
         <button className="f">세종</button>
       </div>
-      <div className='myloca' onClick={moveToCurrentPosition}> {/* onClick 이벤트 핸들러를 설정합니다 */}
+      {/*
+        임시 보류
+      <div className='myloca' onClick={moveToCurrentPosition}> 
         <img src="img/현위치.png"/>
-      </div>
+      </div> */}
     </div>
   );
 };
