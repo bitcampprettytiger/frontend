@@ -1,13 +1,18 @@
 .list {
     position: absolute;
-    bottom: 10px;
+    bottom: 1px;
     z-index: 1;
     width: 100%;
 }
 
 .list-item {
-    border: 1px dotted black;
-    background-color: red;
-    height: 100px;
-    width: 470px;
+    border: 1px solid black;
+    background-color: white;
+    margin: 0 auto;
+    border-radius: 20%;
+    height: 40% ;
+}
+
+.slick-slide {
+    padding-right: 4px;
 }

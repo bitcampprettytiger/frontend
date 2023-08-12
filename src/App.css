@@ -1,7 +1,10 @@
-html {
+.BV {
   width: 50%;
   margin: 0 auto;
-
+}
+.MV {
+  width: 100%;
+  margin: 0 auto;
 }
 html a {
   text-decoration: none;
