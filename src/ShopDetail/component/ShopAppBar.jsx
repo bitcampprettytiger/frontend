@@ -99,7 +99,7 @@ function ShopAppBar(props) {
               sx={{ marginRight: '3vw', color: liked ? '#FF745A' : 'inherit', height: '25px', width: '25px', marginTop: 'auto',
               marginBottom: 'auto',}}
             >
-              {liked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+              {liked ? <FavoriteIcon /> : <FavoriteBorderIcon sx={{ color: '#FF745A' }} />}
             </IconButton>
             <IconButton edge="end" aria-label="share" sx={{ height: '30px', width: '30px', marginRight: '1vw', marginTop: 'auto',
               marginBottom: 'auto',}}>
