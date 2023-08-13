@@ -1,0 +1,85 @@
+* {
+  box-sizing: border-box;
+}
+
+.BV {
+  width: 50%;
+  margin: 0 auto;
+
+}
+
+.MV {
+  width: 100%;
+  margin: 0 auto;
+
+}
+
+
+html a {
+  text-decoration: none;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.wrapper {
+  position: relative;
+  max-width: 480px;
+  margin: 0 auto;
+  background-color: #fff;
+  box-shadow: 0 0 20px #0000000d;
+}
+
+
+.App-main {
+  flex: 1;
+  background: #fff;
+  overflow-y: auto;
+  /* 내용이 넘칠 때 스크롤 */
+  display: flex;
+  /* Flexbox 사용 */
+  align-items: stretch;
+  /* 자식 요소를 늘림 */
+  /* margin-left: 12px; */
+}
+
+/* .contentArea {
+  padding: 20px;
+  margin: 0;
+  /* 마진 제거 */
+/* flex: 1; */
+/* 부모 영역에 꽉 차게 함 */
+/* background: #ffffff; */
+/* } */
+
+
+
+
+
+.App-footer {
+  height: 10vh;
+  background: #ffffff;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-top: 1px solid #e7e7e7;
+}
+
+.App-footer .image-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: none;
+  /* No border */
+  background-color: transparent;
+  /* No background */
+  cursor: pointer;
+}
+
+.image-button img {
+  width: 25px;
+  height: 25px;
+}

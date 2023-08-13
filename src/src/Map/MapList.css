@@ -1,0 +1,13 @@
+.list {
+    position: absolute;
+    bottom: 10px;
+    z-index: 1;
+    width: 100%;
+}
+
+.list-item {
+    border: 1px dotted black;
+    background-color: red;
+    height: 100px;
+    width: 470px;
+}
