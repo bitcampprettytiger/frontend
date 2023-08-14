@@ -1,50 +1,47 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Login.css';
 import Logo from '../login-component/Logo';
 import InputField from '../login-component/InputField';
 import SnsLogin from '../login-component/Snslogin';
+import instance from './instance';
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+
+  const navigate = useNavigate(); // 리다이렉트를 위한 navigate 함수 선언
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // FormData 객체를 생성하고 필드를 추가합니다.
-    const formData = new FormData();
-    formData.append('username', username);
-    formData.append('password', password);
+    const data = {
+      username: username,
+      password: password,
+    };
 
     try {
-      // Axios 요청에서 'Content-Type': 'multipart/form-data' 헤더를 사용합니다.
-      const response = await axios.post(
-        'http://101.101.210.23:80/member/login',
-        formData,
+      const response = await instance.post(
+        'http://27.96.135.75/member/login',
+        data,
         {
           headers: {
-            'Content-Type': 'multipart/form-data',
+            'Content-Type': 'application/json',
           },
         }
       );
+      const { accessToken, refreshToken } = response.data.item;
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('refreshToken', refreshToken);
 
-      const { token } = response.data.item;
-
-      // 엑세스 토큰을 로컬 스토리지에 저장합니다.
-      localStorage.setItem('accessToken', token);
-      console.log(token);
-      if (token) {
+      if (accessToken) {
         console.log('로그인 성공! 토큰이 존재합니다.');
-        console.log('Access Token:', token);
+        navigate('/hello'); // 로그인 성공 시 '/hello'로 리다이렉트
       } else {
         console.log('로그인 실패! 토큰이 존재하지 않습니다.');
       }
-
-      // 로그인 성공 후 원하는 페이지로 리다이렉트하거나 다른 동작을 수행하세요.
-      alert('성공');
-      console.log(response.data);
     } catch (err) {
       console.log(err.response);
       setError('로그인에 실패하였습니다. 아이디와 비밀번호를 확인해주세요.');
@@ -72,7 +69,6 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-
         <div className="sub-fun">
           <Link to="/signup" className="sub-button">
             회원가입
