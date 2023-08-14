@@ -1,7 +1,6 @@
 /*global kakao*/
 import React, { useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
-import MapList from './MapList';
 
 const KaKaoMap = (props) => {
   const [data, setData] = useState([]); // 데이터를 저장할 상태
@@ -9,7 +8,12 @@ const KaKaoMap = (props) => {
   const [markers, setMarkers] = useState([]); // 마커를 저장할 상태
   const [displayedMarkers, setDisplayedMarkers] = useState([]); // 표시되는 마커를 저장할 상태
   const [currentPosition, setCurrentPosition] = useState({ lat: 0, lon: 0 }); // 현재 위치를 저장할 상태
+  const [circle, setCircle] = useState(null); // 원을 저장할 상태
 
+  const [draggedMarker, setDraggedMarker] = useState(null); // 드래그 중인 마커 상태를 저장할 변수
+
+
+  
   useEffect(() => {
     // 외부 API에서 데이터를 가져오는 함수
     const fetchData = async () => {
@@ -48,6 +52,17 @@ const KaKaoMap = (props) => {
       const markerPosition = new kakao.maps.LatLng(lat, lon); // 마커의 위치
       const marker = new kakao.maps.Marker({ position: markerPosition }); // 마커 생성
       marker.setMap(map); // 마커를 지도에 표시
+
+      const circle = new kakao.maps.Circle({
+        center: markerPosition,
+        radius: 300,
+        strokeStyle: 'solid', // 테두리 스타일
+        fillColor: '#ff0000', // 채우기 색상
+        fillOpacity: 0.1, // 채우기 투명도
+      });
+
+      circle.setMap(map); // 원을 지도에 표시
+      setCircle(circle); // 원 상태 업데이트
     });
   }, []); // 컴포넌트가 처음 마운트될 때 한 번만 실행
 
@@ -88,6 +103,10 @@ const KaKaoMap = (props) => {
           marker.setImage(markerImage);
         });
 
+        // 마커에 클릭 이벤트 등록
+        kakao.maps.event.addListener(marker, 'click', function () {
+          handleMarkerClick(row.REFINE_WGS84_LAT, row.REFINE_WGS84_LOGT);
+        });
         return marker; // 생성된 마커 반환
       });
     }
@@ -97,40 +116,66 @@ const KaKaoMap = (props) => {
   useEffect(() => {
     setMarkers(newMarkers); // 마커 상태 업데이트
   }, [newMarkers]); // newMarkers가 변경될 때마다 실행
+  // useEffect를 사용하여 SDK 라이브러리 로드
+  useEffect(() => {
+    if (map) {
+      // SDK 라이브러리 로드
+      kakao.maps.load(() => {
+        // 이후 로드된 라이브러리를 사용한 코드 작성
+      });
+    }
+  }, [map]);
 
+  useEffect(() => {
+    if (draggedMarker) {
+      kakao.maps.event.addListener(draggedMarker, 'dragend', function () {
+        const newPosition = draggedMarker.getPosition();
+        const newLat = newPosition.getLat();
+        const newLng = newPosition.getLng();
+        console.log('드래그한 마커의 새 위치:', newLat, newLng);
+        
+        // 이후에 새 위치에 대한 로직 추가 가능
+      });
+    }
+  }, [draggedMarker]);
+
+  // updateMarkers 함수
   const updateMarkers = () => {
-    // 지도의 경계 내에 있는 마커만 표시하고, 경계 밖에 있는 마커는 숨기는 함수
     if (!map) return;
 
-    const bounds = map.getBounds(); // 현재 지도의 경계를 가져옴
-    const swLatLng = bounds.getSouthWest(); // 지도의 남서쪽 좌표를 가져옴
-    const neLatLng = bounds.getNorthEast(); // 지도의 북동쪽 좌표를 가져옴
+    const bounds = map.getBounds();
+    const swLatLng = bounds.getSouthWest();
+    const neLatLng = bounds.getNorthEast();
 
-    const newDisplayedMarkers = []; // 새로 표시될 마커를 저장할 배열
-    let hiddenMarkers = 0; // 숨겨질 마커의 수
+    const newDisplayedMarkers = [];
+    let hiddenMarkers = 0;
 
     for (const marker of markers) {
-      const markerPosition = marker.getPosition(); // 마커의 위치를 가져옴
+      const markerPosition = marker.getPosition();
 
-      // 마커의 위치가 지도의 경계 내에 있는지 확인
-      if (
-        swLatLng.getLat() <= markerPosition.getLat() &&
-        markerPosition.getLat() <= neLatLng.getLat() &&
-        swLatLng.getLng() <= markerPosition.getLng() &&
-        markerPosition.getLng() <= neLatLng.getLng()
-      ) {
-        newDisplayedMarkers.push(marker); // 마커를 새로 표시될 마커 배열에 추가
-      } else {
-        marker.setMap(null); // 마커를 지도에서 제거
-        hiddenMarkers++; // 숨겨질 마커의 수를 증가
+      if (kakao.maps.geometry) {
+        // SDK 라이브러리가 로드되었을 때만 실행
+        const distance = kakao.maps.geometry.distance(
+          circle.getCenter(),
+          markerPosition
+        );
+
+        if (distance <= circle.getRadius()) {
+          newDisplayedMarkers.push(marker);
+        } else {
+          marker.setMap(null);
+          hiddenMarkers++;
+        }
       }
     }
 
-    setDisplayedMarkers(newDisplayedMarkers); // 표시될 마커 상태 업데이트
-
-    console.log('Total markers: ', markers.length);
-    console.log('Displayed markers: ', newDisplayedMarkers.length);
-    console.log('Hidden markers: ', hiddenMarkers);
+    setDisplayedMarkers(newDisplayedMarkers);
+    console.log('----------------------');
+    console.log('총 마커: ', markers.length);
+    console.log('보여지는 마커: ', newDisplayedMarkers.length);
+    console.log('숨겨지는 마커: ', hiddenMarkers);
+    console.log('----------------------');
+    <br></br>;
   };
 
   useEffect(() => {
@@ -164,14 +209,33 @@ const KaKaoMap = (props) => {
       map.setCenter(
         new kakao.maps.LatLng(currentPosition.lat, currentPosition.lon)
       );
-
-      console.log("ge");
     }
   };
 
+  const handleLocationButtonClick = (lat, lon) => {
+    if (map) {
+      map.setCenter(new kakao.maps.LatLng(lat, lon));
+    }
+  };
+
+  const handleMarkerClick = (lat, lon) => {
+    if (map) {
+      map.setCenter(new kakao.maps.LatLng(lat, lon));
+      const clickedMarker = markers.find(marker => {
+        const markerPosition = marker.getPosition();
+        return markerPosition.getLat() === lat && markerPosition.getLng() === lon;
+      });
+      if (clickedMarker) {
+        setDraggedMarker(clickedMarker); // 클릭한 마커를 드래그 중인 마커로 설정
+        // 이후에 드래그 중인 마커의 이동을 처리하는 로직 추가 가능
+      }
+    }
+  };
   const childrenWithProps = React.Children.map(props.children, (child) =>
-    // 각 자식에 moveToCurrentPosition 함수를 전달하는 함수
-    React.cloneElement(child, { moveToCurrentPosition })
+    React.cloneElement(child, {
+      moveToCurrentPosition,
+      handleLocationButtonClick,
+    })
   );
 
   return (

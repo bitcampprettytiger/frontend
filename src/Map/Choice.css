@@ -1,7 +1,6 @@
 /* 전체 화면을 차지하는 클래스 */
 .full {
     margin: 0 auto; /* 중앙 정렬 */
-    pointer-events: none; /* 포인터 이벤트 비활성화 */
     width: 100%; /* 너비 100% */
     height: 80%; /* 높이 80% */
     align-items: center; /* 센터에 아이템 정렬 */
