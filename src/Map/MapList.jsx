@@ -11,8 +11,8 @@ export default function MapList() {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 5,
-    slidesToScroll: 1,
+    slidesToShow: 5, // 한 번에 보여줄 슬라이더의 수를 5개로 설정
+    slidesToScroll: 1, // 한 번에 스크롤 할 슬라이더의 수를 1개로 설정
     swipeToSlide: true,
   };
 
@@ -27,13 +27,11 @@ export default function MapList() {
     <>
       <Slider {...settings} className="list">
         {list.map((item, index) => (
-          <div key={index} onClick={() => handleClick(item)}>
-            <div className="list-item">
-              {item}
-              <div>이름</div>
-              <div>내용</div>
-              <div>별점</div>
-            </div>
+          <div
+            key={index}
+            onClick={() => handleClick(item)}
+          >
+            <div className="list-item">{item}</div>
           </div>
         ))}
       </Slider>
