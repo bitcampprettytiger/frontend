@@ -12,7 +12,7 @@ function Footer() {
   return (
     <footer className="App-footer">
       {/* Navigation buttons with images and text */}
-      <Link to="/home">
+      <Link to="/">
         <button
           className="image-button"
           onClick={() => handleButtonClick('home')}
@@ -36,77 +36,77 @@ function Footer() {
           </span>
         </button>
       </Link>
-      <Link to="/stfood">
-      <button
-        className="image-button"
-        onClick={() => handleButtonClick('streetFood')}
-      >
-        <img
-          src={
-            activeButton === 'streetFood'
-              ? '/images/spoonfork.png'
-              : '/images/graySpoon.png'
-          }
-          alt="길거리음식아이콘"
-        />
-        <span
-          style={{
-            fontSize: '16px',
-            color: activeButton === 'streetFood' ? '#FF745A' : 'gray',
-            fontWeight: activeButton === 'streetFood' ? 'bold' : 'normal',
-          }}
+      <Link to="/streetFood">
+        <button
+          className="image-button"
+          onClick={() => handleButtonClick('streetFood')}
         >
-          길거리음식
-        </span>
-      </button>
+          <img
+            src={
+              activeButton === 'streetFood'
+                ? '/images/spoonfork.png'
+                : '/images/graySpoon.png'
+            }
+            alt="길거리음식아이콘"
+          />
+          <span
+            style={{
+              fontSize: '16px',
+              color: activeButton === 'streetFood' ? '#FF745A' : 'gray',
+              fontWeight: activeButton === 'streetFood' ? 'bold' : 'normal',
+            }}
+          >
+            길거리음식
+          </span>
+        </button>
       </Link>
-      <Link to="/trfood">
-      <button
-        className="image-button"
-        onClick={() => handleButtonClick('foodTruck')}
-      >
-        <img
-          src={
-            activeButton === 'foodTruck'
-              ? 'images/foodcar.png'
-              : 'images/grayFoodcar.png'
-          }
-          alt="푸드트럭아이콘"
-        />
-        <span
-          style={{
-            fontSize: '16px',
-            color: activeButton === 'foodTruck' ? '#FF745A' : 'gray',
-            fontWeight: activeButton === 'foodTruck' ? 'bold' : 'normal',
-          }}
+      <Link to="/foodTruck">
+        <button
+          className="image-button"
+          onClick={() => handleButtonClick('foodTruck')}
         >
-          푸드트럭
-        </span>
-      </button>
+          <img
+            src={
+              activeButton === 'foodTruck'
+                ? 'images/foodcar.png'
+                : 'images/grayFoodcar.png'
+            }
+            alt="푸드트럭아이콘"
+          />
+          <span
+            style={{
+              fontSize: '16px',
+              color: activeButton === 'foodTruck' ? '#FF745A' : 'gray',
+              fontWeight: activeButton === 'foodTruck' ? 'bold' : 'normal',
+            }}
+          >
+            푸드트럭
+          </span>
+        </button>
       </Link>
       <Link to="/mypage">
-      <button
-        className="image-button"
-        onClick={() => handleButtonClick('myPage')}
-      >
-        <img
-          src={
-            activeButton === 'myPage'
-              ? 'images/mypage.png'
-              : 'images/grayMypage.png'
-          }
-          alt="마이페이지아이콘"
-        />
-        <span
-          style={{
-            fontSize: '16px',
-            color: activeButton === 'myPage' ? '#FF745A' : 'gray',
-            fontWeight: activeButton === 'myPage' ? 'bold' : 'normal',
-          }}
+        <button
+          className="image-button"
+          onClick={() => handleButtonClick('myPage')}
         >
-          마이페이지
-        </span>
-      </button>
+          <img
+            src={
+              activeButton === 'myPage'
+                ? 'images/mypage.png'
+                : 'images/grayMypage.png'
+            }
+            alt="마이페이지아이콘"
+          />
+          <span
+            style={{
+              fontSize: '16px',
+              color: activeButton === 'myPage' ? '#FF745A' : 'gray',
+              fontWeight: activeButton === 'myPage' ? 'bold' : 'normal',
+            }}
+          >
+            마이페이지
+          </span>
+        </button>
       </Link>
     </footer>
   );
