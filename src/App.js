@@ -7,6 +7,7 @@ import Trfood from '../src/Menu/TrFood';
 import Mypage from '../src/Menu/Mypage';
 import ShopMain from './ShopDetail/ShopMain';
 import CartPage from './ShopDetail/component/PackagingOrder/Cart';
+import PaymentPage from './ShopDetail/component/PackagingOrder/PaymentPage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { BrowserView, MobileView } from 'react-device-detect';
 
@@ -22,6 +23,7 @@ function App() {
             <Route path="/mypage" element={<Mypage></Mypage>}></Route>
             <Route path='/shophome' element={<ShopMain></ShopMain>}></Route>
             <Route path='/cart' element={<CartPage/>}></Route>
+            <Route path='/payment' element={<PaymentPage/>}></Route>
           </Routes>
         </BrowserRouter>
       </BrowserView>

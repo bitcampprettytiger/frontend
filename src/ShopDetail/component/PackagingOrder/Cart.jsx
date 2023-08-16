@@ -12,6 +12,7 @@ import {
   ListItem,
   ListItemText,
   Button,
+  ListItemSecondaryAction
 } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -22,7 +23,6 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 function CartPage() {
   const navigate = useNavigate();
-
   const location = useLocation();
   const [menuList, setMenuList] = useState(location.state ? location.state.addedMenus : []);
   const [selectIndex, setSelectIndex] = useState(-1);
@@ -53,11 +53,29 @@ function CartPage() {
     return menuList.reduce((sum, menu) => sum + menu.quantity, 0);
   };
 
+  const renderOptionItem = (option, quantity) => {
+    const choice = option.choices.find((c) => c.selected);
+    return choice
+      ? `${option.title}: ${choice.name} (${(choice.price * quantity).toLocaleString()}원)`
+      : `${option.title}: 선택 없음`;
+  };
+
   const getTotalPrice = () => {
-    return menuList.reduce(
-      (sum, menu) => sum + menu.quantity * menu.price,
-      0
-    );
+    return menuList.reduce((sum, menu) => {
+      const optionPrice = menu.options.reduce((subSum, option) => {
+        const selectedChoice = option.choices.find((c) => c.selected);
+        return subSum + (selectedChoice ? selectedChoice.price : 0);
+      }, 0);
+      return sum + (menu.price + optionPrice) * menu.quantity;
+    }, 0);
+  };
+
+  const handleCheckout = () => {
+    navigate('/payment', {
+      state: {
+        totalAmount: getTotalPrice()
+      },
+    });
   };
 
   return (
@@ -95,9 +113,7 @@ function CartPage() {
             {menuList.map((menu, index) => (
               <Box key={menu.menuName}>
                 <ListItem>
-                  <ListItemText primary={menu.menuName}>
-                    <CloseIcon onClick={() => onDelete(index)} />
-                  </ListItemText>
+                  <ListItemText primary={menu.menuName} />
                   <ListItemText>{menu.price.toLocaleString()}원</ListItemText>
                   <ListItemText>
                     <IconButton
@@ -122,10 +138,15 @@ function CartPage() {
                       <AddIcon />
                     </IconButton>
                   </ListItemText>
+                  <ListItemSecondaryAction>
+                    <IconButton edge="end" onClick={() => onDelete(index)}>
+                      <CloseIcon />
+                    </IconButton>
+                  </ListItemSecondaryAction>
                 </ListItem>
                 {menu.options.map((option) => (
                   <ListItem key={option}>
-                    <ListItemText secondary={option} />
+                    <ListItemText secondary={renderOptionItem(option, menu.quantity)} />
                   </ListItem>
                 ))}
                 <Divider
@@ -156,10 +177,10 @@ function CartPage() {
         }}
       >
         <Typography sx={{ mb: 2 }} variant="h6">
-          총 금액: {getTotalPrice().toLocaleString()}원
+          총 금액 {getTotalPrice().toLocaleString()}원
         </Typography>
         <Button
-          onClick={() => navigate('/checkout')} // 실제 결제 페이지 경로로 변경해야 합니다.
+            onClick={handleCheckout}
           sx={{
             backgroundColor: '#FF745A',
             width: '70vw',

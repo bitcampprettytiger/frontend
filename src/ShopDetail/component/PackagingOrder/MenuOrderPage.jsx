@@ -4,7 +4,7 @@ import Divider from '@mui/material/Divider';
 import { StyledMenuItem, StyledMenuList } from './MenuOrderStyle';
 import MenuOptionalPage from './MenuOptionalPage';
 import Button from '@mui/material/Button';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function groupByCategory(menuList) {
   const menuGroups = {};
@@ -26,6 +26,7 @@ function MenuOrderPage() {
   const [selectedMenu, setSelectedMenu] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [addedMenus, setAddedMenus] = useState([]);
+  const navigate = useNavigate();
 
   const handleClose = () => {
     setIsModalVisible(false);
@@ -72,26 +73,27 @@ function MenuOrderPage() {
         />
       )}
       {addedMenus.length > 0 && (
-      <Link
-        to={{ pathname: "/cart", state: { addedMenus } }}
-        style={{ textDecoration: "none" }}
-      >
+      
         <Button
-          sx={{
-            backgroundColor: '#FF745A',
-            width: '70vw',
-            height: '48px',
-            color: 'white',
-            fontSize: '17px',
-            position: 'fixed',
-            bottom: '16px',
-            left: '50%',
-            transform: 'translateX(-50%)'
-          }}
-        >
-          담은 메뉴
-        </Button>
-      </Link>
+        sx={{
+          backgroundColor: '#FF745A',
+          width: '70vw',
+          height: '48px',
+          color: 'white',
+          fontSize: '17px',
+          position: 'fixed',
+          bottom: '16px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+        }}
+        onClick={() =>
+          navigate('/cart', {
+            state: { addedMenus },
+          })
+        }
+      >
+        담은 메뉴
+      </Button>
     )}
     </>
   );
