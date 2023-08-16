@@ -46,11 +46,32 @@ const KaKaoMap = (props) => {
           Number(row.y),
           Number(row.x)
         );
-        console.log(row.x);
+
+        // 카테고리에 따른 이미지 선택
+        let imagePath;
+        switch (row.vendorType) {
+          case '분식':
+            imagePath = '../images/jeon.png';
+            break;
+          case '중식':
+            imagePath = '../images/bung.png';
+            break;
+          case '일식':
+            imagePath = '../images/tako.png';
+            break;
+          case '양식':
+            imagePath = '../images/ttuck.png';
+            break;
+          default:
+            imagePath = '../images/stfood.png';
+            break;
+        }
+
         let markerImage = new kakao.maps.MarkerImage(
-          '../images/ttuck.png',
+          imagePath,
           new kakao.maps.Size(50, 50)
         );
+
         const marker = new kakao.maps.Marker({
           position: markerPosition,
           image: markerImage,
@@ -58,7 +79,7 @@ const KaKaoMap = (props) => {
 
         kakao.maps.event.addListener(marker, 'mouseover', function () {
           markerImage = new kakao.maps.MarkerImage(
-            '../images/ttuck.png',
+            imagePath,
             new kakao.maps.Size(55, 55)
           );
           marker.setImage(markerImage);
@@ -66,7 +87,7 @@ const KaKaoMap = (props) => {
 
         kakao.maps.event.addListener(marker, 'mouseout', function () {
           markerImage = new kakao.maps.MarkerImage(
-            '../images/ttuck.png',
+            imagePath,
             new kakao.maps.Size(50, 50)
           );
           marker.setImage(markerImage);
@@ -133,20 +154,23 @@ const KaKaoMap = (props) => {
       });
     });
   }, []);
-  
+
   const moveToCurrentPosition = () => {
     // 지도의 중심을 사용자의 현재 위치로 이동시키는 함수
-    if (map && currentPosition) { // currentPosition이 null이 아닌지 확인합니다.
-      map.setCenter(
-        new kakao.maps.LatLng(currentPosition.lat, currentPosition.lon)
-      );
-      console.log('ge');
+    if (map) {
+      navigator.geolocation.getCurrentPosition(function (position) {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+
+        map.setCenter(new kakao.maps.LatLng(lat, lon));
+        console.log('Moved to current position');
+      });
     }
   };
 
   const childrenWithProps = React.Children.map(props.children, (child) =>
     // 각 자식에 moveToCurrentPosition 함수를 전달하는 함수
-    React.cloneElement(child,{moveToCurrentPosition})
+    React.cloneElement(child, { moveToCurrentPosition })
   );
 
   return (

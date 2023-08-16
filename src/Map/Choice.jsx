@@ -4,8 +4,8 @@ const Choice = ({moveToCurrentPosition}) => {
   return (
     <div className='full'>
       <div className="menu-wrap">
-        <div className="cate">
-          <img src='images/stfood.png'></img>
+        <div className="cate" onClick={moveToCurrentPosition}>
+          <img src='images/stfood.png' ></img>
         </div>
         <input className="input"></input>
       </div>
@@ -15,11 +15,6 @@ const Choice = ({moveToCurrentPosition}) => {
         <button className="tr">분식</button>
         <button className="f">중식</button>
       </div>
-      {/*
-        임시 보류
-      <div className='myloca' onClick={moveToCurrentPosition}> 
-        <img src="img/현위치.png"/>
-      </div> */}
     </div>
   );
 };
