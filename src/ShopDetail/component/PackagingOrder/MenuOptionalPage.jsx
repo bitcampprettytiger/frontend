@@ -1,19 +1,21 @@
-import React from 'react';
-import Dialog from '@mui/material/Dialog';
-import Slide from '@mui/material/Slide';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
+import React, { useState } from 'react';
+import {
+  Dialog,
+  Slide,
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  List,
+  ListItem,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  Checkbox,
+  Divider,
+  Button,
+} from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Radio from '@mui/material/Radio';
-import Checkbox from '@mui/material/Checkbox';
-import Divider from '@mui/material/Divider';
-import Button from '@mui/material/Button';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -21,11 +23,43 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export default function MenuOptionalPage(props) {
   const [open, setOpen] = React.useState(true);
-  const selectedMenu= props.selectedMenu;
+  const [selectedOptions, setSelectedOptions] = useState({});
+  const selectedMenu = props.selectedMenu;
+
+  const handleRadioChange = (optionIndex, event) => {
+    setSelectedOptions({
+      ...selectedOptions,
+      [optionIndex]: [{ name: event.target.value, price: event.target.dataset.price }],
+    });
+  };
+
+  const handleCheckboxChange = (optionIndex, choiceIndex) => (event) => {
+    const currentValues = selectedOptions[optionIndex] || [];
+    const newValues = event.target.checked
+      ? [...currentValues, { name: event.target.name, price: event.target.dataset.price }]
+      : currentValues.filter((_, idx) => idx !== choiceIndex);
+
+    setSelectedOptions({ ...selectedOptions, [optionIndex]: newValues });
+  };
 
   const handleClose = () => {
     setOpen(false);
     props.onClose();
+  };
+
+  const handleAddMenu = () => {
+    let totalPrice = selectedMenu.price;
+    selectedOptions &&
+      Object.keys(selectedOptions).forEach(
+        (optionIndex) =>
+          (totalPrice += selectedOptions[optionIndex].reduce(
+            (acc, curr) => acc + parseInt(curr.price, 10),
+            0
+          ))
+      );
+
+    props.onMenuAdd({ ...selectedMenu, selectedOptions, totalPrice });
+    handleClose();
   };
 
   return (
@@ -51,7 +85,7 @@ export default function MenuOptionalPage(props) {
             </Typography>
           </Toolbar>
         </AppBar>
-        <List>
+        <List sx={{ paddingBottom: '80px' }}>
           {selectedMenu?.options.map((option, index) => (
             <React.Fragment key={index}>
               <ListItem>
@@ -59,33 +93,40 @@ export default function MenuOptionalPage(props) {
               </ListItem>
               {option.type === 'radio' ? (
                 <RadioGroup>
-                  {option.choices.map((choice, idx) => (
+                  {option.choices.map((choice, choiceIndex) => (
                     <FormControlLabel
-                      key={idx}
+                      key={choiceIndex}
                       value={choice.name}
+                      data-price={(choice.price)}
                       control={<Radio />}
                       label={`${choice.name} + ${choice.price}원`}
+                      onChange={(event) => handleRadioChange(index, event)}
                     />
                   ))}
                 </RadioGroup>
               ) : (
-                option.choices.map((choice, idx) => (
-                  <FormControlLabel
-                    key={idx}
-                    control={<Checkbox />}
-                    label={`${choice.name} + ${choice.price}원`}
-                  />
-                ))
+                <React.Fragment>
+                  {option.choices.map((choice, choiceIndex) => (
+                    <FormControlLabel
+                      key={choiceIndex}
+                      control={<Checkbox />}
+                      name={choice.name}
+                      data-price={(choice.price)}
+                      label={`${choice.name} + ${choice.price}원`}
+                      onChange={handleCheckboxChange(index, choiceIndex)}
+                    />
+                  ))}
+                </React.Fragment>
               )}
-              <Divider />
             </React.Fragment>
           ))}
         </List>
+        <Divider />
         <Button
           variant="contained"
           sx={{
             backgroundColor: '#FF745A',
-            width: '80vw',
+            width: '70vw',
             height: '48px',
             color: 'white',
             fontSize: '17px',
@@ -94,7 +135,7 @@ export default function MenuOptionalPage(props) {
             left: '50%',
             transform: 'translateX(-50%)'
           }}
-          onClick={handleClose}
+          onClick={handleAddMenu}
         >
           메뉴 담기
         </Button>

@@ -3,6 +3,8 @@ import menuList from '../../../DataEx/menuList';
 import Divider from '@mui/material/Divider';
 import { StyledMenuItem, StyledMenuList } from './MenuOrderStyle';
 import MenuOptionalPage from './MenuOptionalPage';
+import Button from '@mui/material/Button';
+import { Link } from 'react-router-dom';
 
 function groupByCategory(menuList) {
   const menuGroups = {};
@@ -23,9 +25,14 @@ const menuGroups = groupByCategory(menuList);
 function MenuOrderPage() {
   const [selectedMenu, setSelectedMenu] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [addedMenus, setAddedMenus] = useState([]);
 
-  const closeModal = () => {
+  const handleClose = () => {
     setIsModalVisible(false);
+  };
+
+  const handleMenuAdd = (menu) => {
+    setAddedMenus([...addedMenus, menu]);
   };
 
   const handleMenuClick = (menu) => {
@@ -58,8 +65,34 @@ function MenuOrderPage() {
         ))}
       </StyledMenuList>
       {isModalVisible && (
-        <MenuOptionalPage selectedMenu={selectedMenu} onClose={closeModal} />
+        <MenuOptionalPage
+          selectedMenu={selectedMenu}
+          onClose={handleClose}
+          onMenuAdd={handleMenuAdd}
+        />
       )}
+      {addedMenus.length > 0 && (
+      <Link
+        to={{ pathname: "/cart", state: { addedMenus } }}
+        style={{ textDecoration: "none" }}
+      >
+        <Button
+          sx={{
+            backgroundColor: '#FF745A',
+            width: '70vw',
+            height: '48px',
+            color: 'white',
+            fontSize: '17px',
+            position: 'fixed',
+            bottom: '16px',
+            left: '50%',
+            transform: 'translateX(-50%)'
+          }}
+        >
+          담은 메뉴
+        </Button>
+      </Link>
+    )}
     </>
   );
 }

@@ -6,8 +6,10 @@ import Home from '../src/Menu/Home';
 import Trfood from '../src/Menu/TrFood';
 import Mypage from '../src/Menu/Mypage';
 import ShopMain from './ShopDetail/ShopMain';
+import CartPage from './ShopDetail/component/PackagingOrder/Cart';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { BrowserView, MobileView } from 'react-device-detect';
+
 function App() {
   return (
     <>
@@ -19,6 +21,7 @@ function App() {
             <Route path="/trfood" element={<Trfood></Trfood>}></Route>
             <Route path="/mypage" element={<Mypage></Mypage>}></Route>
             <Route path='/shophome' element={<ShopMain></ShopMain>}></Route>
+            <Route path='/cart' element={<CartPage/>}></Route>
           </Routes>
         </BrowserRouter>
       </BrowserView>
@@ -31,6 +34,7 @@ function App() {
             <Route path="/trfood" element={<Trfood></Trfood>}></Route>
             <Route path="/mypage" element={<Mypage></Mypage>}></Route>
             <Route path='/shophome' element={<ShopMain></ShopMain>}></Route>
+            <Route path='/cart' element={<CartPage/>}></Route>
           </Routes>
         </BrowserRouter>
       </MobileView>

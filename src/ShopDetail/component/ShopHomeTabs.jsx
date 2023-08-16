@@ -8,7 +8,7 @@ import AirIcon from '@mui/icons-material/Air';
 import WcIcon from '@mui/icons-material/Wc';
 import MenuSeeMore from './MenuSeeMore';
 import PhotoSeeMore from './PhotoSeeMore';
-import MenuOrderPage from './PackagingOrder/MenuDetail';
+import MenuOrderPage from './PackagingOrder/MenuOrderPage';
 import ReviewDeatail from '../Review/ReviewDetail';
 
 function CustomTabPanel(props) {
