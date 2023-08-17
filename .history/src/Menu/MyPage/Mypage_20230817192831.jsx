@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import './Mypage.css';
-import Footer from '../../Layout/Footer';
-import Header from '../../Layout/Header';
+import Footer from '../Layout/Footer';
+import Header from '../Layout/Header';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { Link } from 'react-router-dom';
@@ -124,4 +124,3 @@ function Mypage() {
 }
 
 export default Mypage;
-

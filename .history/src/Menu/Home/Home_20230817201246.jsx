@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; // useLocation은 사용하지 않아 제거
 import Header from '../../Layout/Header';
@@ -142,4 +141,3 @@ function Home() {
 }
 
 export default Home;
-

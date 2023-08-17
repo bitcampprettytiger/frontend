@@ -7,7 +7,10 @@ function App() {
   return (
     <>
       <div className="App">
-        <p>푸드트럭</p>
+        <KaKaoMap>
+          <Choice></Choice>
+          <MapList></MapList>
+        </KaKaoMap>
       </div>
     </>
   );
