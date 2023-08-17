@@ -6,17 +6,18 @@ import '../Map/MapList.css';
 import { useState, useRef } from 'react';
 
 export default function MapList({ vendorInfo, moveTo }) {
-  const [selectedItem, setSelectedItem] = useState(null); // 클릭한 아이템의 인덱스 상태 관리
-  const sliderRef = useRef(null); // 슬라이더 ref를 생성합니다.
+  const [selectedItem, setSelectedItem] = useState(null);
+  const sliderRef = useRef(null);
   const settings = {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 4, // 한 번에 보여줄 슬라이더의 수를 5개로 설정
-    slidesToScroll: 1, // 한 번에 스크롤 할 슬라이더의 수를 1개로 설정
+    slidesToShow: 4,
+    slidesToScroll: 1,
     swipeToSlide: true,
-    centermode:true,
+    initialSlide: 1, // 2번째 슬라이드부터 시작
   };
+
   const imageMap = {
     한식: '../images/stfood.png',
     중식: '../images/bung.png',
@@ -32,15 +33,14 @@ export default function MapList({ vendorInfo, moveTo }) {
   };
 
   const handleClick = (info, index) => {
-    // 클릭한 아이템의 좌표로 이동
     moveTo({ lat: info.vendorY, lon: info.vendorX });
-    sliderRef.current.slickGoTo(index); // 클릭한 슬라이드로 이동
+    setSelectedItem(index); // 선택한 아이템 인덱스 설정
+    sliderRef.current.slickGoTo(index - 1); // 선택한 슬라이드를 2번째 위치로 이동
   };
 
   return (
     <>
       <Slider ref={sliderRef} {...settings} className="list">
-        {/* sliderRef를 Slider에 연결 */}
         {vendorInfo.map((info, index) => (
           <div key={index}>
             <div
