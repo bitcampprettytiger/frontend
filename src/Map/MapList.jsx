@@ -3,35 +3,62 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import '../Map/MapList.css';
+import { useState, useRef } from 'react';
 
-const list = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']; // 예시 리스트입니다. 실제로는 원하는 데이터를 사용하실 수 있습니다.
-
-export default function MapList() {
+export default function MapList({ vendorInfo, moveTo }) {
+  const [selectedItem, setSelectedItem] = useState(null);
+  const sliderRef = useRef(null);
   const settings = {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 5, // 한 번에 보여줄 슬라이더의 수를 5개로 설정
-    slidesToScroll: 1, // 한 번에 스크롤 할 슬라이더의 수를 1개로 설정
+    slidesToShow: 4,
+    slidesToScroll: 1,
     swipeToSlide: true,
+    initialSlide: 1, // 2번째 슬라이드부터 시작
   };
 
-  // handleClick 함수에서는 클릭한 아이템에 따라 필요한 로직을 구현하면 됩니다.
-  // 예를 들어, 여기서는 각 지명에 해당하는 위치로 지도를 이동하는 로직을 구현할 수 있습니다.
-  const handleClick = (item) => {
-    console.log(item); // 클릭한 아이템 출력. 실제로는 원하는 로직을 구현하면 됩니다.
-    // 예: moveTo(item);
+  const imageMap = {
+    한식: '../images/stfood.png',
+    중식: '../images/bung.png',
+    일식: '../images/tako.png',
+    분식: '../images/jeon.png',
+    양식: '../images/ttuck.png',
+    // 다른 카테고리도 이곳에 추가
+  };
+
+  // 주어진 vendorType에 해당하는 이미지 경로를 반환하는 함수
+  const getImageByVendorType = (vendorType) => {
+    return imageMap[vendorType] || '../images/default.png'; // 만약 매핑되지 않은 카테고리라면 기본 이미지를 반환
+  };
+
+  const handleClick = (info, index) => {
+    moveTo({ lat: info.vendorY, lon: info.vendorX });
+    setSelectedItem(index); // 선택한 아이템 인덱스 설정
+    sliderRef.current.slickGoTo(index - 1); // 선택한 슬라이드를 2번째 위치로 이동
   };
 
   return (
     <>
-      <Slider {...settings} className="list">
-        {list.map((item, index) => (
-          <div
-            key={index}
-            onClick={() => handleClick(item)}
-          >
-            <div className="list-item">{item}</div>
+      <Slider ref={sliderRef} {...settings} className="list">
+        {vendorInfo.map((info, index) => (
+          <div key={index}>
+            <div
+              className={`list-item ${
+                selectedItem === index ? 'selected' : ''
+              }`}
+              onClick={() => handleClick(info, index)}
+            >
+              <img
+                src={getImageByVendorType(info.vendorType)}
+                alt={info.vendorType}
+              />
+              <div className="info-container">
+                <span>{info.vendorType}</span>
+                <span>{info.vendorOpenStatus}</span>
+                <span>{info.vendorTel}</span>
+              </div>
+            </div>
           </div>
         ))}
       </Slider>
