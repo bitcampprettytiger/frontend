@@ -1,0 +1,168 @@
+.myreview-container {
+    padding: 20px;
+    width: 480px;
+    height: 550px;
+}
+
+/* 구분선 스타일 */
+.review-divider {
+    width: 100%;
+    border: 0;
+    height: 2px;
+    /* 구분선 높이 */
+    background-color: #ccc;
+    /* 구분선 색상 */
+    margin: 20px 0;
+    /* 위 아래 여백 */
+}
+
+/* 리뷰 항목 스타일 */
+.review-item {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.store-name {
+    font-size: 16px;
+    font-weight: bold;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.navigate-btn {
+
+    margin-left: -350px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    outline: none;
+    transition: color 0.3s;
+    /* 버튼 클릭 시 색상 변화 속도 */
+    display: inline-block;
+}
+
+.delete-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    outline: none;
+    transition: color 0.3s;
+    /* 버튼 클릭 시 색상 변화 속도 */
+    display: inline-block;
+}
+
+.navigate-btn:hover .navigate-icon {
+    color: #888;
+    /* 버튼 클릭시 바뀌는 색상 */
+}
+
+.delete-btn:hover .delete-icon {
+    color: #888;
+    /* 버튼 클릭시 바뀌는 색상 */
+}
+
+.navigate-icon {
+    color: #fb663d;
+    /* 기본 색상 */
+}
+
+.delete-icon {
+    color: rgb(3, 3, 3)(0, 0, 0);
+    /* 초기 삭제 아이콘 색상 */
+}
+
+.star-container {
+    margin-top: 5px;
+    display: flex;
+    align-items: flex-start;
+    /* 왼쪽 정렬 */
+}
+
+.star-icon {
+    color: yellow;
+    margin-right: 5px;
+}
+
+.images-container {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    max-width: 100%;
+    margin-top: 5px;
+}
+
+.review-image {
+    width: 100px;
+    height: 100px;
+    margin-right: 5px;
+    object-fit: cover;
+}
+
+.more-images {
+    width: 100px;
+    height: 100px;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    color: white;
+}
+
+.modal-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    /* 배경 어둡게 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    width: 80%;
+    /* 원하는 대로 조절 */
+    max-height: 80%;
+    overflow-y: auto;
+}
+
+.modal-content img {
+    width: calc(33.33% - 10px);
+    margin: 5px;
+}
+
+.close-btn {
+    border: none;
+    background: transparent;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.close-icon {
+    font-size: 1.5rem;
+    color: #333;
+    transition: color 0.3s;
+}
+
+.close-btn:hover .close-icon {
+    color: #ff0000;
+    /* 원하는 색상으로 설정 */
+}
