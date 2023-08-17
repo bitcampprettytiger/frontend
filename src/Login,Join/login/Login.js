@@ -70,8 +70,8 @@ const Login = () => {
           />
         </div>
         <div className="sub-fun">
-          <Link to="/signup" className="sub-button">
-            회원가입
+          <Link to="/signup">
+            <button className="sub-button">회원가입</button>
           </Link>
           <button className="sub-button">비밀번호 찾기</button>
         </div>
