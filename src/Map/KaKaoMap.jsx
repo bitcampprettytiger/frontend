@@ -4,15 +4,18 @@ import { useMapAPI } from './MapCustomHooks/useMapAPI';
 import { useCreateMarkers } from './MapCustomHooks/useCreateMarker';
 import useUpdateMarkers from './MapCustomHooks/useUpdateMarkers';
 import useInitMap from './MapCustomHooks/useInitMap';
-
+import Modal from './MapComponents/Modal';
 const KaKaoMap = (props) => {
   const [markers, setMarkers] = useState([]);
   const [currentPosition, setCurrentPosition] = useState(null);
   const { data, loading } = useMapAPI('http://27.96.135.75/vendor/info');
   const [selectedVendorTypes, setSelectedVendorTypes] = useState([]);
+  const [selectedVendor, setSelectedVendor] = useState(null);
   const vendorInfo = useMemo(() => {
     if (data) {
       return data.map((vendor) => ({
+        vendorName: vendor.vendorName,
+        vendorAddress: vendor.address,
         vendorOpenStatus: vendor.vendorOpenStatus,
         vendorType: vendor.vendorType,
         vendorTel: vendor.tel,
@@ -22,6 +25,10 @@ const KaKaoMap = (props) => {
     }
     return [];
   }, [data]);
+   
+  console.log(vendorInfo);
+
+
   const map = useInitMap();
 
   const newMarkers = useCreateMarkers(map, data);
@@ -103,6 +110,18 @@ const KaKaoMap = (props) => {
     }
   };
 
+  useEffect(() => {
+    markers.forEach((marker, index) => {
+      kakao.maps.event.addListener(marker, 'click', () => {
+        setSelectedVendor(vendorInfo[index]);
+      });
+    });
+  }, [markers, vendorInfo]);
+  console.log(selectedVendor);
+  const handleCloseModal = () => {
+    setSelectedVendor(null);
+  };
+
   const childrenWithProps = React.Children.map(props.children, (child) =>
     React.cloneElement(child, {
       moveToCurrentPosition,
@@ -112,10 +131,12 @@ const KaKaoMap = (props) => {
       selectedVendorTypes,
     })
   );
-
   return (
     <div style={{ position: 'relative' }}>
       <div id="map" style={{ width: '100%', height: '80vh' }} />
+      {selectedVendor && (
+        <Modal info={selectedVendor} onClose={handleCloseModal} />
+      )}
       {childrenWithProps}
     </div>
   );
