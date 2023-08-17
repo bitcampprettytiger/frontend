@@ -1,12 +1,12 @@
 import React from "react";
-import ShopAppBar from './component/ShopAppBar';
-import ShopImage from "./component/ShopSwiper";
+import ShopAppBar from './ShopDetailcomponent/ShopAppBar';
+import ShopImage from "./ShopDetailcomponent/ShopSwiper";
 import shopList from "../DataEx/shop";
 import { useParams } from "react-router-dom";
-import ShopHomeTabs from "./component/ShopHomeTabs";
+import ShopHomeTabs from "./ShopDetailcomponent/ShopHomeTabs";
 import review from "../DataEx/review"
-import { Link } from "react-router-dom";
 import './ShopMain.css';
+import { ShopHomeTabsProvider } from "./ShopDetails/SDCustomHooks/SHTContext";
 
 const ShopMain = () => {
     const { shopId } = useParams();
@@ -17,15 +17,10 @@ const ShopMain = () => {
         <>
             <ShopAppBar />
             {shop && <ShopImage shop={shop} />}
+            <ShopHomeTabsProvider>
             <ShopHomeTabs images={imagesFromReviews} />
-            <div className="fixed-bottom">
-                <Link to="/getinLine">
-                <button className="bottom-button">줄서기</button>
-                </Link>
-                <Link to="/menu">
-                <button className="bottom-button">포장하기</button>
-                </Link>
-            </div>
+            </ShopHomeTabsProvider>
+            
         </>
     )
 }
