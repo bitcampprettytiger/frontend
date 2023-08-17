@@ -7,7 +7,7 @@ import TrFood from './Menu/TrFood/TrFood';
 import Mypage from './Menu/MyPage/Mypage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { BrowserView, MobileView } from 'react-device-detect';
-import LoginRoute from './LoginRoute';
+import LoginRoute from '../src/Login,Join/LoginRoute'
 function App() {
   return (
     <>

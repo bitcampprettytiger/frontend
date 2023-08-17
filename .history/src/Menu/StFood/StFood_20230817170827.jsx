@@ -1,7 +1,7 @@
 import '../App.css';
-import Choice from '../Map/Choice';
 import KaKaoMap from '../Map/KaKaoMap';
-import MapList from '../Map/MapList';
+import Choice from '../Map/MapComponents/Choice';
+import MapList from '../Map/MapComponents/MapList';
 function App() {
   return (
     <>
