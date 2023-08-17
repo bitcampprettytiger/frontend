@@ -10,7 +10,6 @@ import {
   CartesianGrid,
   ResponsiveContainer,
 } from "recharts";
-import styled from 'styled-components';
 
 const RatingAvg = () => {
   const calculateAverageRating = (review) => {

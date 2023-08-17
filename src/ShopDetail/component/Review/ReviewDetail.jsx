@@ -3,13 +3,17 @@ import { Box, Card, CardContent, CardMedia, Typography } from "@mui/material";
 import Rating from "@mui/material/Rating";
 import RatingAvg from "./RatingAvg";
 import reviewData from "../../../DataEx/review"; 
+import HygieneStatic from "./HygieneStatic";
 
 const ReviewDetail = () => {
   return (
     <Box padding={5} textAlign={'left'}>
       <RatingAvg/>
+      <hr />    
+      <HygieneStatic />
+      <hr />    
       {reviewData.map(({ id, nickname, img, altText, comment, rating }) => (
-        <Card key={id} sx={{ marginBottom: 2 }}>
+        <Card key={id} sx={{ marginBottom: 2 }}> 
           <CardContent>
             <Box>
               <Typography fontWeight={'bold'}>{nickname}</Typography>
