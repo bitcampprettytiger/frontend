@@ -2,7 +2,7 @@ import React from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import '../Map/MapList.css';
+import './MapList.css';
 import { useState, useRef } from 'react';
 
 export default function MapList({ vendorInfo, moveTo }) {
