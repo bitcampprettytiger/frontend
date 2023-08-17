@@ -120,5 +120,4 @@ const KaKaoMap = (props) => {
     </div>
   );
 };
-
 export default KaKaoMap;
