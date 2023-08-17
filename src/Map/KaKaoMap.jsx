@@ -19,7 +19,6 @@ const KaKaoMap = (props) => {
     setMarkers(newMarkers);
   }, [newMarkers]);
 
-
   // 업데이트 마커
   const updateMarkers = useUpdateMarkers(map, markers);
 
@@ -49,17 +48,25 @@ const KaKaoMap = (props) => {
 
   const vendorInfo = useMemo(() => {
     if (data) {
-      return data.map(vendor => ({
+      return data.map((vendor) => ({
         vendorOpenStatus: vendor.vendorOpenStatus,
         vendorType: vendor.vendorType,
-        vendorTel: vendor.tel
+        vendorTel: vendor.tel,
+        vendorX: vendor.x,
+        vendorY: vendor.y,
       }));
     }
     return [];
   }, [data]);
+  const moveTo = (coordinates) => {
+    if (map && coordinates) {
+      const { lat, lon } = coordinates;
+      map.setCenter(new kakao.maps.LatLng(lat, lon));
+      console.log('Moved to selected vendor');
+    }
+  };
 
-
-//-----------------------------------------------------------------------------------
+  //-----------------------------------------------------------------------------------
 
   // 자식 프롭스 관련 함수
   const moveToCurrentPosition = () => {
@@ -77,7 +84,7 @@ const KaKaoMap = (props) => {
 
   const childrenWithProps = React.Children.map(props.children, (child) =>
     // 각 자식에 moveToCurrentPosition 함수를 전달하는 함수
-    React.cloneElement(child, { moveToCurrentPosition,vendorInfo })
+    React.cloneElement(child, { moveToCurrentPosition, vendorInfo, moveTo })
   );
 
   return (
