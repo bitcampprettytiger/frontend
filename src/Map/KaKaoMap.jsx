@@ -1,6 +1,5 @@
 /*global kakao*/
 import React, { useEffect, useMemo, useState } from 'react';
-import axios from 'axios';
 import { useMapAPI } from './MapCustomHooks/useMapAPI';
 import { useCreateMarkers } from './MapCustomHooks/useCreateMarker';
 import useUpdateMarkers from './MapCustomHooks/useUpdateMarkers';
@@ -48,6 +47,19 @@ const KaKaoMap = (props) => {
     });
   }, []);
 
+  const vendorInfo = useMemo(() => {
+    if (data) {
+      return data.map(vendor => ({
+        vendorOpenStatus: vendor.vendorOpenStatus,
+        vendorType: vendor.vendorType,
+        vendorTel: vendor.tel
+      }));
+    }
+    return [];
+  }, [data]);
+
+
+//-----------------------------------------------------------------------------------
 
   // 자식 프롭스 관련 함수
   const moveToCurrentPosition = () => {
@@ -65,7 +77,7 @@ const KaKaoMap = (props) => {
 
   const childrenWithProps = React.Children.map(props.children, (child) =>
     // 각 자식에 moveToCurrentPosition 함수를 전달하는 함수
-    React.cloneElement(child, { moveToCurrentPosition })
+    React.cloneElement(child, { moveToCurrentPosition,vendorInfo })
   );
 
   return (

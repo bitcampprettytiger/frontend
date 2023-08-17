@@ -6,11 +6,14 @@
 }
 
 .list-item {
+    width: 100%;
     border: 1px solid black;
     background-color: white;
     margin: 0 auto;
     border-radius: 20%;
     height: 40% ;
+    display: flex;
+    flex-direction: column;
 }
 
 .slick-slide {
