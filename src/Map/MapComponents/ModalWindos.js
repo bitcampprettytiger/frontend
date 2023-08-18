@@ -1,11 +1,11 @@
-import './Modal.css';
-const Modal = ({ info, onClose }) => {
+import './ModalWindos.css'
+
+const ModalWindos = ({ info, onClose }) => {
   return (
-    <div className="modal">
+    <div className="modal-main">
       <div className="modal-content">
         <div className="modal-header">
           <p>{info.vendorAddress}</p>
-          
         </div>
         {/* <img src={info.vendorImage} alt={info.vendorName}></img> */}
         <p>이미지</p>
@@ -26,4 +26,4 @@ const Modal = ({ info, onClose }) => {
   );
 };
 
-export default Modal;
+export default ModalWindos;

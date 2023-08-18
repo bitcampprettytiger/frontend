@@ -6,6 +6,8 @@ import '../../App.css';
 import './Home.css';
 import Footer from '../../Layout/Footer';
 import MachaSection from '../Home/HomeComponents/MachaSection';
+import { BrowserView, MobileView } from 'react-device-detect'
+
 
 
 function Home() {
@@ -69,7 +71,9 @@ function Home() {
 
 
   return (
+
     <div className='App-main2'>
+
       <Header page="home" />
 
       <div className="slider">
@@ -98,27 +102,35 @@ function Home() {
           <img src="images/inputsearch.png" alt="Search" />
         </button>
       </div>
+      <div className='custom-text-container2'>
+        <p className='custom-text'>오늘 이곳은 어때요?</p>
+      </div>
 
-      <h3>오늘 이곳은 어때요?</h3>
       {/*지역별 인기 장소*/}
       <div className="outer-container">
         <div className="inner-container">
           {hotPlaces.map((place) => (
-            <button className="button-round" onClick={() => navigateToHotPlace(place.name)}>
+            <button key={place.name} className="button-round" onClick={() => navigateToHotPlace(place.name)}>
               <img src="images/place2.png" alt={place.name} />
               <span>{place.name}</span>
             </button>
           ))}
+
         </div>
       </div>
-      <h3>포장마차거리 핫플레이스 BEST</h3>
-      <p>지금은 야장이 가장 인기! 먹고가꼬에서 포장마차거리를 확인하세요!</p>
+      <div className='custom-text-container2'>
+        <p className='custom-text2'>포장마차거리 핫플레이스 BEST</p>
+      </div>
+      <div className='custom-text-container3'>
+        <p className='custom-text3'>지금은 야장이 가장 인기! 먹고가꼬에서 포장마차거리를 확인하세요!</p>
+      </div>
       <div className="macha-button-container">
         {["/images/place1.png", "/images/place2.png", "/images/place3.png", "/images/place4.png", "/images/place5.png"].map((image, index) => (
-          <button key={index} className="macha-button" onClick={navigateToSearch}>
+          <button key={image} className="macha-button" onClick={navigateToSearch}>
             <img src={image} alt={`Place ${index + 1}`} />
           </button>
         ))}
+
       </div>
       <div className='footer-text-container'>
         <div className='footer-text-container-text'>
@@ -138,6 +150,7 @@ function Home() {
 
 
     </div >
+
   );
 }
 

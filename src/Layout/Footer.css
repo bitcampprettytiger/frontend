@@ -1,10 +1,18 @@
 .App-footer {
+    position: relative;
     height: 10vh;
     background: #ffffff;
     display: flex;
     justify-content: space-around;
     align-items: center;
     border-top: 1px solid #e7e7e7;
+    /* 추가된 스타일 */
+    position: fixed;
+    bottom: 0;
+    /* left: 0; */
+    width: 30%;
+    /* z-index: 1000; */
+    /* 필요한 경우, 다른 요소 위에 표시하기 위해 */
 }
 
 .App-footer .image-button {
@@ -21,4 +29,14 @@
 .image-button img {
     width: 25px;
     height: 25px;
+}
+
+.modal-container {
+    position: fixed;
+    /* 화면 전체에 대한 중앙 배치를 위해 fixed로 설정 */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    /* 모달이 화면의 맨 앞에 오도록 z-index 설정 */
 }
