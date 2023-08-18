@@ -3,10 +3,6 @@
   margin: 0 auto;
 }
 
-
-.view {
-
-
 .view {
   width: 100%;
   margin: 0 auto;
@@ -32,6 +28,4 @@ html a {
 body::-webkit-scrollbar {
   display: none;
 
-body::-webkit-scrollbar {
-  display: none;
 }

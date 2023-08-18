@@ -1,11 +1,5 @@
-
-
 import '../../App.css';
 
-
-
-
-function TrFood() {
 function TrFood() {
   return (
     <>
@@ -16,5 +10,4 @@ function TrFood() {
   );
 }
 
-export default TrFood;
 export default TrFood;
