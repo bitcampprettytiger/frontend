@@ -67,7 +67,7 @@ function ShopAppBar(props) {
   return (
     <React.Fragment>
       <CssBaseline />
-      <AppBar sx={{ backgroundColor: 'white', width: '100vw', height: '70px',  position: 'fixed', zIndex:1000 }}>
+      <AppBar sx={{ backgroundColor: 'white', width: '100%', height: '70px',  position: 'fixed', zIndex:1000 }}>
         <Toolbar sx={{ minHeight: '0', display: 'flex'}}>
         <Box sx={{
               height: '50%', 

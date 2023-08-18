@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import { styled } from '@mui/system';
 import { Box, Button, Typography } from '@mui/material';
 
 export const Container = styled(Box)`
@@ -21,11 +21,12 @@ export const ButtonBox = styled(Box)`
 
 export const CallButton = styled(Button)`
   width: 100%;
-  margin-right: 2vw;
+  margin-right: 1vw;
   padding: 2vw;
   color: black;
   background: white;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+  border: #E7E3E3 solid 1px ;
 `;
 
 export const LocationButton = styled(Button)`
@@ -35,6 +36,7 @@ export const LocationButton = styled(Button)`
   color: black;
   background: white;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+  border: #E7E3E3 solid 1px; 
 `;
 export const StarTypography = styled(Typography)`
   font-size: 100%;
