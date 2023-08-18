@@ -16,4 +16,4 @@ function StFood() {
   );
 }
 
-export default StFood;
+export default App;

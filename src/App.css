@@ -5,14 +5,19 @@
 
 
 .view {
+
+
+.view {
   width: 100%;
   margin: 0 auto;
 }
+
 
 .MV {
   width: 100%;
   margin: 0 auto;
 }
+
 
 html a {
   text-decoration: none;
@@ -23,6 +28,9 @@ html a {
   flex-direction: column;
 }
 
+
+body::-webkit-scrollbar {
+  display: none;
 
 body::-webkit-scrollbar {
   display: none;
