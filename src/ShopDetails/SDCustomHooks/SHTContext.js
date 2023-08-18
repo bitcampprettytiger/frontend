@@ -14,7 +14,8 @@ export const ShopHomeTabsProvider = ({ children }) => {
 
   const contextValue = {
     value,
-    setValue: handleChange,
+    setValue,
+    handleChange, 
   };
 
   return (

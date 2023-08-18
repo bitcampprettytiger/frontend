@@ -1,3 +1,7 @@
+body {
+  width: 80vh;
+}
+
 .fixed-bottom {
     position: fixed;
     bottom: 3vh;

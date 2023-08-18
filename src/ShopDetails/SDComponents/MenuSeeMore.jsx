@@ -5,8 +5,8 @@ import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import shopList from '../../../DataEx/shop';
 import MenuItem from './MenuItems';
+import shopList from '../../DataEx/shop'
 
 const style = {
   width: '100%',

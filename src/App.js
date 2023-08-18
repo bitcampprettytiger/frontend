@@ -8,6 +8,7 @@ import Mypage from './Menu/MyPage/Mypage';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { BrowserView, MobileView } from 'react-device-detect';
 import LoginRoute from '../src/Login,Join/LoginRoute'
+import ShopMain from './ShopDetails/ShopMain'
 function App() {
   return (
     <>
@@ -20,6 +21,7 @@ function App() {
             <Route path="/stfood" element={<StFood></StFood>}></Route>
             <Route path="/trfood" element={<TrFood></TrFood>}></Route>
             <Route path="/mypage" element={<Mypage></Mypage>}></Route>
+            <Route path='/shophome' element={<ShopMain/>}></Route>
           </Routes>
 
         </BrowserRouter>

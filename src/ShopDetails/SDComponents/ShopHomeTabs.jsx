@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useContext} from 'react';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -45,7 +46,7 @@ function a11yProps(index) {
 }
 
 export default function ShopHomeTabs({images}) {
-  const { value, setValue } = useContext(ShopHomeTabsContext);
+  const { value, setValue, handleChange } = useContext(ShopHomeTabsContext);
 
   return (
     <Box sx={{ width: '100%' }}>
