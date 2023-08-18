@@ -35,6 +35,7 @@ function App() {
             <Route path="/stfood" element={<StFood></StFood>}></Route>
             <Route path="/trfood" element={<TrFood></TrFood>}></Route>
             <Route path="/mypage" element={<Mypage></Mypage>}></Route>
+            <Route path='/shophome' element={<ShopMain/>}></Route>
           </Routes>
 
         </BrowserRouter>
