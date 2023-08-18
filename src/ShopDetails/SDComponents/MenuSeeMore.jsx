@@ -12,6 +12,7 @@ const style = {
   width: '100%',
   maxWidth: 360,
   bgcolor: 'background.paper',
+  fontSize: '100%'
 };
 
 function MenuSeeMore() {
@@ -21,7 +22,7 @@ function MenuSeeMore() {
     <List sx={style} component="nav" aria-label="mailbox folders">
       <ListItem>
         <ListItemText primary="메뉴" />
-        <KeyboardArrowRightIcon fontSize="large" />
+        <KeyboardArrowRightIcon/>
       </ListItem>
       <Divider />
       {menuItems.map((menu, index) => (
@@ -32,7 +33,7 @@ function MenuSeeMore() {
           isLast={index === menuItems.length - 1}
         />
       ))}
-      <ListItem sx={{ justifyContent: 'center', mt: '10px', minHeight: '46px' }}>
+      <ListItem sx={{ justifyContent: 'center' }}>
         <Button
           variant="outlined"
           sx={{
@@ -40,7 +41,7 @@ function MenuSeeMore() {
             borderColor: '#000000',
             borderWidth: '1px',
             color: '#000000',
-            fontSize:'13px'
+            fontSize:'90%'
           }}
         >
           메뉴 전체보기
