@@ -7,6 +7,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import IconButton from '@mui/material/IconButton';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from 'react-router-dom';
+import { Box } from '@mui/material';
 
 const AppBarWithTitle = ({ title }) => {
   let navigate = useNavigate();
@@ -16,16 +17,28 @@ const AppBarWithTitle = ({ title }) => {
       <CssBaseline />
       <AppBar sx={{ position: 'relative',backgroundColor: 'white', width: '100%', height: '20vh' }}>
         <Toolbar sx={{ minHeight: '100%' }}>
-          <IconButton edge="start" aria-label="back" onClick={() => { navigate(-1); }}>
-            <ArrowBackIcon
-            sx={{width:'15px', height:'15px'}}/>
+        <Box sx={{
+              height: '50%', 
+              width: 'auto', 
+              display: 'flex',
+              alignItems: 'center', 
+              justifyContent: 'center',
+              marginRight: '1vw',
+              marginLeft: '1vw',
+            }}>
+          <IconButton edge="start" aria-label="back" onClick={() => {navigate(-1)}}>
+            <ArrowBackIcon sx={{
+                marginTop: 'auto',
+                marginBottom: 'auto',
+              }}/>
           </IconButton>
+          </Box>
           <Typography
             variant="h6"
             component="div"
             sx={{
               color: 'black',
-              fontSize: '18px',
+              fontSize: '115%',
               marginTop: 'auto',
               marginBottom: 'auto',
             }}

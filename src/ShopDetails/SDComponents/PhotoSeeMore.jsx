@@ -19,13 +19,13 @@ export default function PhotoSeeMore({ images }) {
   const imagesToShow = images.slice(0, maxImagesToShow);
 
   return (
-    <Box sx={{ width: '100%', paddingBottom: '20px' }}>
+    <Box sx={{ width: '100%', paddingBottom: '2vh' }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
         <Typography variant="h6" fontWeight="bold">
           방문자 사진
         </Typography>
         <Typography variant="body1">
-          <Box component="span" sx={{ fontSize: '13px' }}>
+          <Box component="span" sx={{ fontSize: '80%' }}>
             더 보기
           </Box>
         </Typography>

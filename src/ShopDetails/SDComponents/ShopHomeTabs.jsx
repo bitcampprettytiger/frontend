@@ -10,6 +10,7 @@ import MenuSeeMore from './MenuSeeMore';
 import PhotoSeeMore from './PhotoSeeMore';
 import Location from './Location';
 import ShopHomeTabsContext from '../SDCustomHooks/SHTContext';
+import { InView } from 'react-intersection-observer';
 
 
 function CustomTabPanel(props) {
@@ -46,7 +47,7 @@ function a11yProps(index) {
 }
 
 export default function ShopHomeTabs({images}) {
-  const { value, setValue, handleChange } = useContext(ShopHomeTabsContext);
+  const { value, setValue, handleChange, handleVisibilityChange } = useContext(ShopHomeTabsContext);
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -68,25 +69,27 @@ export default function ShopHomeTabs({images}) {
         <Tab
           label="홈"
           {...a11yProps(0)}
-          sx={{ fontSize: '18px' }}
+          sx={{ fontSize: '115%' }}
         />
         <Tab
           label="메뉴"
           {...a11yProps(1)}
-          sx={{ fontSize: '18px' }}
+          sx={{ fontSize: '115%' }}
         />
         <Tab
           label="리뷰"
           {...a11yProps(2)}
-          sx={{ fontSize: '18px' }}
+          sx={{ fontSize: '115%' }}
         />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
           <ShopFacilities/>
           <MenuSeeMore/>
+          <InView as="div" onChange={handleVisibilityChange}>
           <PhotoSeeMore images={images}/>
           <Location/>
+          </InView>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         full modal or 중첩 라우트

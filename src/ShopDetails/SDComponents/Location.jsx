@@ -22,20 +22,20 @@ function Location({ address }) {
       <Typography
         variant="h6"
         fontWeight="bold"
-        sx={{ fontSize: '16px', textAlign: 'left', color: 'black' }}
+        sx={{ fontSize: '100%', textAlign: 'left', color: 'black' }}
       >
         상세 위치 안내
       </Typography>
-      <Box sx={{ width: '80vw', height: '180px', marginBottom: '10px' }}>
+      <Box sx={{ width: '80vw', height: '20vh', marginBottom: '1vh' }}>
         {/* 지도 추가할 곳,,, */}
       </Box>
       <Box sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={copyToClipboard}>
-        <ContentCopyIcon sx={{ color: 'black', fontSize: '9px' }} />
-        <Typography variant="body2" sx={{ marginLeft: '5px', fontSize: '9px', color: 'black' }}>
+        <ContentCopyIcon sx={{ color: 'black', fontSize: '90%' }} />
+        <Typography variant="body2" sx={{ marginLeft: '1vw', fontSize: '90%', color: 'black' }}>
           주소 복사하기
         </Typography>
       </Box>
-      <Typography variant="body2" sx={{ fontSize: '9px', color: 'black', marginBottom: '10px' }}>
+      <Typography variant="body2" sx={{ fontSize: '95%', color: 'black', marginBottom: '1vh' }}>
         {address}
       </Typography>
       <Button
@@ -44,8 +44,8 @@ function Location({ address }) {
           borderRadius: '10px',
           borderColor: 'black',
           borderWidth: '0.8px',
-          width: '80vw',
-          height: '50px',
+          width: '70vw',
+          height: '40px',
         }}
       >
         매장 길찾기

@@ -67,24 +67,30 @@ function ShopAppBar(props) {
   return (
     <React.Fragment>
       <CssBaseline />
-      <AppBar sx={{ backgroundColor: 'white', width: '100vw', height: '70px' }}>
-        <Toolbar sx={{ minHeight: '0', display: 'flex' }}>
+      <AppBar sx={{ backgroundColor: 'white', width: '100vw', height: '70px',  position: 'fixed', zIndex:1000 }}>
+        <Toolbar sx={{ minHeight: '0', display: 'flex'}}>
+        <Box sx={{
+              height: '50%', 
+              width: 'auto', 
+              display: 'flex',
+              alignItems: 'center', 
+              justifyContent: 'center',
+              marginRight: '1vw',
+              marginLeft: '1vw',
+            }}>
           <IconButton edge="start" aria-label="back" onClick={() => {navigate(-1)}}>
             <ArrowBackIcon sx={{
-                height: '100%',
-                marginRight: '1vw',
-                marginLeft: '1vw',
                 marginTop: 'auto',
                 marginBottom: 'auto',
               }}/>
           </IconButton>
+          </Box>
           <Typography
-            variant="h6"
             component="div"
             noWrap
             sx={{
               color: 'black',
-              fontSize: '18px',
+              fontSize: '115%',
               marginTop: 'auto',
               marginBottom: 'auto',
             }}
@@ -107,17 +113,26 @@ function ShopAppBar(props) {
                 onClick={handleLike}
                 sx={{
                   color: liked ? '#FF745A' : 'inherit',
-                  height: '100%', // 아이콘 버튼의 높이를 상위 Box 높이에 맞춤
+                  height: '100%', 
                   width: 'auto',
                 }}
               >
                 {liked ? <FavoriteIcon /> : <FavoriteBorderIcon sx={{ color: '#FF745A' }} />}
               </IconButton>
             </Box>
-            <IconButton edge="end" aria-label="share" sx={{ height: '30px', width: '30px', marginRight: '1vw', marginTop: 'auto',
+            <Box sx={{
+              height: '50%', 
+              width: 'auto', 
+              display: 'flex',
+              alignItems: 'center', 
+              justifyContent: 'center',
+              marginRight: '2vw'
+            }}>
+            <IconButton edge="end" aria-label="share" sx={{ marginRight: '1vw', marginTop: 'auto',
               marginBottom: 'auto',}}>
               <ShareIcon />
             </IconButton>
+            </Box>
           </Box>
         </Toolbar>
       </AppBar>

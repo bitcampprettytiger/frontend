@@ -1,8 +1,10 @@
-import { createContext, useState } from 'react';
+import { createContext, useState, useCallback } from 'react';
 
 const ShopHomeTabsContext = createContext({
   value: 0,
   setValue: () => {},
+  loadMoreData: () => {},
+  handleVisibilityChange: () => {},
 });
 
 export const ShopHomeTabsProvider = ({ children }) => {
@@ -12,10 +14,22 @@ export const ShopHomeTabsProvider = ({ children }) => {
     setValue(newValue);
   };
 
+  const loadMoreData = useCallback(() => {
+    // 데이터 추가 로직
+  }, []);
+
+  const handleVisibilityChange = (inView, entry) => {
+    if (inView) {
+      loadMoreData();
+    }
+  };
+
   const contextValue = {
     value,
     setValue,
-    handleChange, 
+    handleChange,
+    loadMoreData,
+    handleVisibilityChange,
   };
 
   return (
