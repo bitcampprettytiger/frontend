@@ -43,7 +43,7 @@ function ScrollTop(props) {
       <Box
         onClick={handleClick}
         role="presentation"
-        sx={{ position: 'fixed', bottom: 16, right: 16, zIndex: 1000 }}
+        sx={{ position: 'fixed', bottom: '1vh', right: '2vw', zIndex: 1000 }}
       >
         {children}
       </Box>
@@ -67,12 +67,13 @@ function ShopAppBar(props) {
   return (
     <React.Fragment>
       <CssBaseline />
-      <AppBar sx={{ backgroundColor: 'white', width: '100vw', height: '8vh' }}>
-        <Toolbar sx={{ minHeight: '100%', display: 'flex' }}>
+      <AppBar sx={{ backgroundColor: 'white', width: '100vw', height: '70px' }}>
+        <Toolbar sx={{ minHeight: '0', display: 'flex' }}>
           <IconButton edge="start" aria-label="back" onClick={() => {navigate(-1)}}>
             <ArrowBackIcon sx={{
-                height: '30px',
+                height: '100%',
                 marginRight: '1vw',
+                marginLeft: '1vw',
                 marginTop: 'auto',
                 marginBottom: 'auto',
               }}/>
@@ -92,15 +93,27 @@ function ShopAppBar(props) {
           </Typography>
           <Box flexGrow={1} />
           <Box display="flex" alignItems="center" >
-            <IconButton
-              edge="end"
-              aria-label="like"
-              onClick={handleLike}
-              sx={{ marginRight: '3vw', color: liked ? '#FF745A' : 'inherit', height: '25px', width: '25px', marginTop: 'auto',
-              marginBottom: 'auto',}}
-            >
-              {liked ? <FavoriteIcon /> : <FavoriteBorderIcon sx={{ color: '#FF745A' }} />}
-            </IconButton>
+            <Box sx={{
+              height: '50%', 
+              width: 'auto', 
+              display: 'flex',
+              alignItems: 'center', 
+              justifyContent: 'center',
+              marginRight: '2vw'
+            }}>
+              <IconButton
+                edge="end"
+                aria-label="like"
+                onClick={handleLike}
+                sx={{
+                  color: liked ? '#FF745A' : 'inherit',
+                  height: '100%', // 아이콘 버튼의 높이를 상위 Box 높이에 맞춤
+                  width: 'auto',
+                }}
+              >
+                {liked ? <FavoriteIcon /> : <FavoriteBorderIcon sx={{ color: '#FF745A' }} />}
+              </IconButton>
+            </Box>
             <IconButton edge="end" aria-label="share" sx={{ height: '30px', width: '30px', marginRight: '1vw', marginTop: 'auto',
               marginBottom: 'auto',}}>
               <ShareIcon />

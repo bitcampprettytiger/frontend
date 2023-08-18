@@ -1,12 +1,12 @@
 import React from "react";
-import ShopAppBar from './ShopDetailcomponent/ShopAppBar';
-import ShopImage from "./ShopDetailcomponent/ShopSwiper";
-import shopList from "../DataEx/shop";
+import ShopAppBar from './SDComponents/ShopAppBar';
+import ShopImage from "./SDComponents/ShopSwiper";
 import { useParams } from "react-router-dom";
-import ShopHomeTabs from "./ShopDetailcomponent/ShopHomeTabs";
-import review from "../DataEx/review"
+import ShopHomeTabs from "./SDComponents/ShopHomeTabs";
 import './ShopMain.css';
-import { ShopHomeTabsProvider } from "./ShopDetails/SDCustomHooks/SHTContext";
+import { ShopHomeTabsProvider } from "./SDCustomHooks/SHTContext";
+import shopList from "../DataEx/shop";
+import review from '../DataEx/review'
 
 const ShopMain = () => {
     const { shopId } = useParams();
