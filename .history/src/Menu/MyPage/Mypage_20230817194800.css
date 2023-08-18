@@ -1,0 +1,80 @@
+.mypage-container {
+    padding: 20px;
+    width: 480px;
+    height: 550px;
+}
+
+.nickname-text {
+    font-size: 24px;
+    margin-right: 10px;
+    /* 아이콘과의 간격 조절 */
+}
+
+.nickname-display {
+    display: flex;
+    align-items: center;
+    /* 수직 정렬 */
+}
+
+.nickname-input {
+    padding: 5px;
+    font-size: 18px;
+    margin-right: 10px;
+    /* 버튼과의 간격 조절 */
+}
+
+.nickname-save-button,
+.nickname-cancel-button {
+    padding: 5px 15px;
+    margin-right: 5px;
+    /* 두 버튼 사이의 간격 조절 */
+}
+
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: none;
+    /* 기본적으로 숨김 처리 */
+}
+
+.nickname-edit-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.button-group {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    /* 버튼 사이의 간격 */
+}
+
+.custom-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 15px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    /* 버튼 호버 시 배경색 변경 */
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+}
+
+.button-icon {
+    width: 20px;
+    margin-right: 10px;
+    /* 이미지와 텍스트 사이의 간격 */
+}
