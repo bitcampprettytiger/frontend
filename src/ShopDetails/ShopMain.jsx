@@ -7,6 +7,7 @@ import './ShopMain.css';
 import { ShopHomeTabsProvider } from "./SDCustomHooks/SHTContext";
 import shopList from "../DataEx/shop";
 import review from '../DataEx/review'
+import ShopInfo from "./SDComponents/ShopInfo";
 
 const ShopMain = () => {
     const { shopId } = useParams();
@@ -16,6 +17,8 @@ const ShopMain = () => {
     return (
         <>
             <ShopAppBar />
+            <ShopInfo/>
+            <hr/>
             {shop && <ShopImage shop={shop} />}
             <ShopHomeTabsProvider>
             <ShopHomeTabs images={imagesFromReviews} />
