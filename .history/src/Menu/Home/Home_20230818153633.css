@@ -1,0 +1,160 @@
+* {
+    box-sizing: border-box;
+}
+
+.App-main2 {
+    width: 100%;
+    border: 1px solid #ff0000;
+}
+
+/* 검색바 스타일 */
+.Home-search-container {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    border: 1px solid #ff0000;
+    border-radius: 20px;
+    margin: auto;
+    width: 90%;
+    height: 20%;
+}
+
+.Home-search-input {
+    border-radius: 10px;
+    flex-grow: 1;
+    border: none;
+    outline: none;
+}
+
+.Home-search-button {
+    cursor: pointer;
+    background: transparent;
+    border: none;
+}
+
+.Home-search-button img {
+    width: 15px;
+    height: 15px;
+    margin-top: 3px;
+}
+
+/* 슬라이더 스타일 */
+.slider {
+    position: relative;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 1px;
+}
+
+.slide-image {
+    width: 100%;
+    height: 90%;
+    display: block;
+    margin: auto;
+}
+
+.dots {
+    text-align: center;
+    position: relative;
+    bottom: 30px;
+}
+
+.dot {
+    height: 8px;
+    width: 8px;
+    margin: 0 4px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.dot.active {
+    background-color: #717171;
+}
+
+/* 지역별 인기 장소 버튼 스타일 */
+.outer-container,
+.macha-container {
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    width: 100%;
+
+    ::-webkit-scrollbar {
+        display: none;
+    }
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.inner-container {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 20px;
+}
+
+.button-round {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+
+.button-round img,
+.button-round span {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+}
+
+.button-round span {
+    z-index: 1;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+/* 기타 스타일 */
+.custom-text-container,
+.custom-text-container2 {
+    width: 90%;
+    padding: 0% 10%;
+}
+
+.custom-text,
+.custom-text2 {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.footer-text-container {
+    width: 100%;
+    margin-right: 3px;
+    margin-top: 50px;
+    height: 110px;
+    background-color: #d0d0d0;
+}
+
+.footer-text-container-text {
+    text-align: center;
+    font-size: 8px;
+    color: #777777;
+}
+
+.macha-button-container {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+/* 추가 스타일 제거 부분은 위에서 이미 정의했기 때문에 불필요한 중복이므로 제거함 */

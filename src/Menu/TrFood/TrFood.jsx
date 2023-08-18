@@ -1,7 +1,8 @@
 
 import '../../App.css';
 
-function App() {
+
+function TrFood() {
   return (
     <>
       <div className="App">
@@ -11,4 +12,4 @@ function App() {
   );
 }
 
-export default App;
+export default TrFood;
