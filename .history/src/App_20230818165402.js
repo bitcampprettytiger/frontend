@@ -13,10 +13,12 @@ import Hotplace from './Menu/Home/HomeComponents/Hotplace';
 import MachaSection from './Menu/Home/HomeComponents/MachaSection';
 import Waiting from './Menu/Home/HomeComponents/Waiting';
 import WaitingDetail from './Menu/Home/HomeComponents/WaitingDetail';
+import { BrowserView, MobileView } from 'react-device-detect'
 import MyReview from './Menu/MyPage/MyPageComponents/MyReview';
 import MyFavorite from './Menu/MyPage/MyPageComponents/MyFavorite';
 import MyTakeout from './Menu/MyPage/MyPageComponents/MyTakeout';
 import MyEdit from './Menu/MyPage/MyPageComponents/MyEdit';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { BrowserView, MobileView } from 'react-device-detect';
 import LoginRoute from '../src/Login,Join/LoginRoute'
 import ShopMain from './ShopDetails/ShopMain'

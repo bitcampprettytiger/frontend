@@ -1,12 +1,9 @@
-
-import '../../App.css';
-
-
+import '../App.css';
 function App() {
   return (
     <>
-      <div className="App">
-        <p>푸드트럭</p>
+      <div className='App' >
+       <p>홈이야</p>
       </div>
     </>
   );
