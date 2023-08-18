@@ -16,6 +16,7 @@ import WaitingDetail from './Menu/Home/HomeComponents/WaitingDetail';
 import MyReview from './Menu/MyPage/MyPageComponents/MyReview';
 import MyFavorite from './Menu/MyPage/MyPageComponents/MyFavorite';
 import MyTakeout from './Menu/MyPage/MyPageComponents/MyTakeout';
+import GeolocationComponent from './Menu/Home/HomeComponents/GeolocationComponent';
 import MyEdit from './Menu/MyPage/MyPageComponents/MyEdit';
 import { BrowserView, MobileView } from 'react-device-detect';
 import LoginRoute from '../src/Login,Join/LoginRoute'
@@ -51,6 +52,7 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/trfood" element={<TrFood />} />
             <Route path="/stfood" element={<StFood />} />
+            <Route path="/geolocationcomponent" element={<GeolocationComponent />} />
             <Route path="/mypage" element={<Mypage />} />
             <Route path="/search" element={<Search />} />
             <Route path="/waiting" element={<Waiting />} />
@@ -102,6 +104,8 @@ function App() {
                 <Route path="/myfavorite" element={<MyFavorite />} />
                 <Route path="/mytakeout" element={<MyTakeout />} />
                 <Route path="/myedit" element={<MyEdit />} />
+                <Route path="/geolocationcomponent" element={<GeolocationComponent />} />
+
 
 
               </Routes>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../App.css';
 import './Header.css';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -29,6 +29,29 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
         navigate('/waiting'); // 여기서 '/waiting'은 Waiting.jsx 임시이동
     };
 
+    // 위치 정보를 저장할 state를 추가
+    const [location, setLocation] = useState({
+        latitude: null,
+        longitude: null
+    });
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(position => {
+                setLocation({
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude
+                });
+            }, error => {
+                console.error("Error getting location:", error);
+                setError(error.message);
+            });
+        } else {
+            setError("Geolocation은 이 브라우저에서 지원되지 않습니다.");
+        }
+    }, []);
+
 
     const renderHomeHeader = () => (
         <div className="App-header">
@@ -36,11 +59,11 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
                 <MenuIcon className="Home-menu-icon" onClick={handleMenuClick} />
             </div>
             <div className="Home-header-center-section">
-                {/* 현재 위치를 표시하는 API를 사용하면 됩니다. */}
-                아직 위치 api 안함
-            </div>
-            <div className="Home-header-right-section">
-                <button className="Home-login-signup-button">로그인/가입</button> {/* 버튼의 크기를 변경하기 위해 클래스를 추가합니다. */}
+                {location.latitude && location.longitude
+                    ? `Latitude: ${location.latitude}, Longitude: ${location.longitude}`
+                    : error
+                        ? `Error: ${error}`
+                        : "위치 안뜸"}
             </div>
         </div>
     );
@@ -290,6 +313,7 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
             {page === 'myfavorite' && renderMyFavoriteHeader()}
             {page === 'mytakeout' && renderMyTakeoutHeader()}
             {page === 'myedit' && renderMyEditHeader()}
+
 
 
 
