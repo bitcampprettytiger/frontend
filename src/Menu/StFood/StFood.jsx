@@ -4,7 +4,7 @@ import KaKaoMap from '../../Map/KaKaoMap';
 import Choice from '../../Map/MapComponents/Choice';
 import MapList from '../../Map/MapComponents/MapList';
 
-function App() {
+function StFood() {
   return (
     <>
       <div className="App">
@@ -17,4 +17,4 @@ function App() {
   );
 }
 
-export default App;
+export default StFood;
