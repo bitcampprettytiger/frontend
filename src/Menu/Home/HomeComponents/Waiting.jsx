@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import Header from '../../../Layout/Header.jsx';
-import Header from '../../../Layout/Footer.jsx';
-import Modal from './Modal';
-import './Modal.css';
+import Footer from '../../../Layout/Footer.jsx';
+import Modal from './WaitingModal.jsx';
+import './WaitingModal.css';
 
 const Waiting = () => {
     const [showModal, setShowModal] = useState(false);

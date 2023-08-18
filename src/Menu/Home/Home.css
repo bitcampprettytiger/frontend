@@ -3,41 +3,35 @@
 }
 
 .App-main2 {
-    width: 480px;
+    width: 100%;
+    border: 1px solid #ff0000;
 }
 
+/* 검색바 스타일 */
 .Home-search-container {
     display: flex;
     align-items: center;
-    border: 1px solid #ff0000;
-    /* 빨간색 테두리 */
     background-color: #ffffff;
-    /* 하얀색 배경 */
-    padding: 5px;
-    border-radius: 15px;
-    margin: 10px;
-    width: 350px;
-    /* height: 18px; */
-    height: auto;
-    /* 또는 원하는 높이 */
-    margin-left: 66px;
-    margin-bottom: 10px;
-    margin-top: -5px;
-
+    border: 1px solid #ff0000;
+    border-radius: 20px;
+    margin: auto;
+    margin-bottom: 10%;
+    width: 90%;
+    height: 10%;
+    padding: 2%;
 }
 
 .Home-search-input {
+    border-radius: 10px;
     flex-grow: 1;
     border: none;
     outline: none;
-
 }
 
 .Home-search-button {
     cursor: pointer;
     background: transparent;
     border: none;
-
 }
 
 .Home-search-button img {
@@ -46,12 +40,44 @@
     margin-top: 3px;
 }
 
+.custom-text-container,
+.custom-text-container2,
+.custom-text-container3 {
+    padding-left: 5%;
+    width: 95%;
+}
+
+.custom-text-container2 {
+    margin-bottom: -1%;
+    /* 아래쪽 간격을 줄입니다 */
+}
+
+.custom-text-container3 {
+    margin-top: -1%;
+    /* 위쪽 간격을 줄입니다 */
+}
+
+.custom-text,
+.custom-text2 {
+    font-size: 130%;
+    font-weight: bold;
+}
+
+.custom-text3 {
+    font-size: 80%;
+    font-weight: bold;
+    color: #070707;
+}
+
+
+
+
 .slider {
     position: relative;
     /* top: -20px; */
     /* 원하는 만큼 위로 올리기 */
     width: 100%;
-    max-width: 800px;
+    /* max-width: 100%; */
     /* 이미지의 최대 크기를 설정할 수 있습니다. */
     margin-top: 10px;
     margin-bottom: 1px;
@@ -61,9 +87,10 @@
 .slide-image {
 
     width: 100%;
-    height: 220px;
+    height: 90%;
     /* 원본 비율을 유지합니다. */
     display: block;
+    margin: auto;
 }
 
 .dots {
@@ -94,10 +121,10 @@
 
 .outer-container {
     padding-left: 20px;
-    width: 480px;
-    height: 60px;
+    width: 100%;
+    height: 40%;
     /* 원하는 너비 설정 */
-    overflow-x: scroll;
+    overflow-x: auto;
     /* 가로 스크롤 허용 */
     overflow-y: hidden;
     /* 세로 스크롤 숨기기 */
@@ -117,6 +144,10 @@
 
     /* Internet Explorer and Edge */
     -ms-overflow-style: none;
+
+    ::-webkit-scrollbar {
+        display: none;
+    }
 }
 
 /* inner-container에 가로 정렬 및 간격 설정 */
@@ -226,21 +257,17 @@
     /* 세로 스크롤 숨기기 */
     white-space: nowrap;
 
-    /* 한 줄에 모든 요소 배치 */
-    /* Chrome, Safari and Opera */
-    ::-webkit-scrollbar {
-        width: 0;
-        /* 가로 스크롤바 숨기기 */
-        height: 0;
-        /* 세로 스크롤바 숨기기 */
-    }
-
     /* Firefox */
     scrollbar-width: none;
 
     /* Internet Explorer and Edge */
     -ms-overflow-style: none;
 }
+
+.macha-container::-webkit-scrollbar {
+    display: none !important;
+}
+
 
 /* inner-container에 가로 정렬 및 간격 설정 */
 .macha-inner-container {
@@ -251,17 +278,10 @@
     /* 버튼 간 일정한 간격 유지 */
 }
 
-.custom-text {
-    padding-left: 20px;
-    margin-top: -20px;
-    font-size: 14px;
-    /* 텍스트 크기 조정 */
-    color: #939393;
-    /* 텍스트 색상 조정 */
-}
+
 
 .footer-text-container {
-    width: 480px;
+    width: 100%;
     margin-right: 3px;
     margin-top: 50px;
     height: 110px;
@@ -331,10 +351,17 @@
     overflow-x: auto;
     white-space: nowrap;
     /* 한 줄에 항목들이 유지되게 함 */
-    width: 480px;
+
     height: 150px;
+
     /* 컨테이너의 폭을 조절 가능 */
+
 }
+
+.macha-button-container::-webkit-scrollbar {
+    display: none !important;
+}
+
 
 .macha-button {
     flex: 0 0 auto;

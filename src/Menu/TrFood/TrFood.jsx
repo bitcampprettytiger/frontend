@@ -1,9 +1,9 @@
-import '../../App.css';
-import Choice from '../../Map/Choice';
-import KaKaoMap from '../../Map/KaKaoMap';
-import MapList from '../../Map/MapList';
 
-function App() {
+import '../../App.css';
+
+
+
+function TrFood() {
   return (
     <>
       <div className="App">
@@ -13,4 +13,4 @@ function App() {
   );
 }
 
-export default App;
+export default TrFood;
