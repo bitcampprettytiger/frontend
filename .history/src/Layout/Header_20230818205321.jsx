@@ -313,7 +313,7 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
             {page === 'myfavorite' && renderMyFavoriteHeader()}
             {page === 'mytakeout' && renderMyTakeoutHeader()}
             {page === 'myedit' && renderMyEditHeader()}
-
+            {page === 'geolocationcomponent' && renderHomeHeader()}
 
 
 

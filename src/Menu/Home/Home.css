@@ -22,14 +22,16 @@
     margin-bottom: 10%;
     width: 90%;
     height: 10%;
-    padding: 2%;
+    padding: 0%;
 }
 
 .Home-search-input {
+    margin-left: 3%;
     border-radius: 10px;
     flex-grow: 1;
     border: none;
     outline: none;
+
 }
 
 .Home-search-button {
@@ -124,8 +126,8 @@
 
 
 .outer-container {
-    padding-left: 20px;
-    width: 100%;
+    margin: auto;
+    width: 90%;
     height: 40%;
     /* 원하는 너비 설정 */
     overflow-x: auto;
@@ -182,7 +184,14 @@
     margin-right: 10px;
     /* 오른쪽 마진으로 버튼 간격 조절 */
     flex-shrink: 0;
-    /* 여기 추가 */
+    background-image: url('/public/images/place4.png');
+    /* 버튼의 배경 이미지 */
+    background-size: cover;
+    /* 이미지를 버튼에 맞게 크기 조절 */
+    background-position: center;
+    /* 이미지를 중앙에 위치시킴 */
+    background-repeat: no-repeat;
+    /* 이미지 반복 없음 */
 }
 
 .button-round img {
@@ -354,10 +363,10 @@
     flex-wrap: nowrap;
     overflow-x: auto;
     white-space: nowrap;
-    /* 한 줄에 항목들이 유지되게 함 */
-    width: 480px;
-    height: 150px;
-    /* 컨테이너의 폭을 조절 가능 */
+    margin: auto;
+    width: 95%;
+    height: 30vh;
+    transition: filter 0.3s;
 
 }
 
@@ -366,28 +375,37 @@
 }
 
 
+.macha-button-container:hover .macha-button:not(:hover) {
+    filter: brightness(0.7);
+    /* 호버되지 않은 버튼의 밝기를 줄입니다 */
+    transition: filter 0.3s;
+    /* 부드럽게 필터 효과가 나타나게 합니다 */
+}
+
+
 .macha-button {
     flex: 0 0 auto;
-    /* 항목들이 줄바꿈 없이 배치되도록 */
     margin-right: 10px;
-    /* 오른쪽 여백 추가 */
-    width: 40%;
-    height: 120%;
+    width: 45%;
+    height: 140%;
     padding: 0;
-    /* 버튼 내부의 패딩을 0으로 설정 */
     border: none;
-    /* 필요한 경우 버튼의 테두리 제거 */
     background: none;
-    /* 필요한 경우 버튼의 배경 제거 */
     overflow: hidden;
-    /* 이미지가 버튼을 벗어나지 않게 함 */
+    border-radius: 10px;
+    transition: transform 0.3s;
+    border-radius: 10px;
+}
+
+.macha-button:hover {
+    transform: scale(1.1);
+    filter: brightness(1);
+    z-index: 10;
 }
 
 .macha-button img {
-    width: 140%;
-    /* 이미지 폭을 버튼 폭에 맞춤 */
-    height: 30vh;
-    /* 이미지 높이를 버튼 높이에 맞춤 */
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    /* 이미지 비율 유지하면서 꽉 차게 표시 */
+    border-radius: 10px;
 }
