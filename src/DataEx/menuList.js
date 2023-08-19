@@ -5,6 +5,7 @@ const menuList = [
     description: '대파를 많이 넣어 시원한 맛이 나는 라면',
     image: 'https://tinyurl.com/248g4nh2',
     price: 7000,
+    quantity:'1',
     category:'면류',
     options: [
       {
@@ -34,6 +35,7 @@ const menuList = [
     description: '짜파게티 계란 치즈!',
     price: 7000,
     category:'면류',
+    quantity:'1',
     image: 'https://tinyurl.com/29zks4ed',
     options: [
       {
@@ -66,6 +68,7 @@ const menuList = [
     description: '믿고 먹는 골뱅이 소면',
     price: 9000,
     category:'면류',
+    quantity:'1',
     image: 'https://tinyurl.com/24exv9tj',
     options: [],
   },
@@ -75,6 +78,7 @@ const menuList = [
     description: '오징어와 홍합이 잔뜩 들어간 해물 파전',
     price: 13000,
     category:'전류',
+    quantity:'1',
     image: 'https://tinyurl.com/24exv9tj',
     options: [],
   },
@@ -84,6 +88,7 @@ const menuList = [
     description: '김치와 오징어가 들어가서 맛있는 전',
     price: 12000,
     category:'전류',
+    quantity:'1',
     image: 'https://tinyurl.com/24exv9tj',
     options: [],
   },
@@ -93,6 +98,7 @@ const menuList = [
     description: '치즈가 들어가서 더 맛있는 김치전',
     price: 13000,
     category:'전류',
+    quantity:'1',
     image: 'https://tinyurl.com/24exv9tj',
     options: [],
   },

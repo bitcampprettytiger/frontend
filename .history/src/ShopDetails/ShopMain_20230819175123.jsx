@@ -17,13 +17,13 @@ const ShopMain = () => {
     return (
         <>
             <ShopAppBar />
-            <ShopInfo />
-            <hr />
+            <ShopInfo/>
+            <hr/>
             {shop && <ShopImage shop={shop} />}
             <ShopHomeTabsProvider>
-                <ShopHomeTabs images={imagesFromReviews} />
+            <ShopHomeTabs images={imagesFromReviews} />
             </ShopHomeTabsProvider>
-
+            
         </>
     )
 }

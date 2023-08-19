@@ -1,13 +1,13 @@
 import React from "react";
-import ShopAppBar from './SDComponents/ShopAppBar';
-import ShopImage from "./SDComponents/ShopSwiper";
+import ShopAppBar from './Components/ShopAppBar';
+import ShopImage from "./Components/ShopSwiper";
 import { useParams } from "react-router-dom";
-import ShopHomeTabs from "./SDComponents/ShopHomeTabs";
+import ShopHomeTabs from "./Components/ShopHomeTabs";
 import './ShopMain.css';
-import { ShopHomeTabsProvider } from "./SDCustomHooks/SHTContext";
+import { ShopHomeTabsProvider } from "./CustomHooks/SHTContext";
 import shopList from "../DataEx/shop";
 import review from '../DataEx/review'
-import ShopInfo from "./SDComponents/ShopInfo";
+import ShopInfo from "./Components/ShopInfo";
 
 const ShopMain = () => {
     const { shopId } = useParams();
