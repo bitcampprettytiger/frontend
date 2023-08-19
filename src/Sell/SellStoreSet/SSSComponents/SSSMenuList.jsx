@@ -2,6 +2,11 @@ import React from 'react';
 import { Box, Grid, Button } from '@mui/material';
 
 const SSSMenuList = ({ menus, onDeleteMenu }) => {
+  // 금액을 쉼표로 구분하고 "원"을 붙이는 함수
+  const formatPrice = (price) => {
+    return `${parseInt(price, 10).toLocaleString('ko-KR')}원`;
+  };
+
   return (
     <Box
       sx={{
@@ -12,10 +17,10 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
         maxWidth: '400px',
         margin: 'auto',
         marginTop: '5%',
-        border : '1px solid black'
+        border: '1px solid black',
       }}
     >
-      <Grid container spacing={2} justifyContent="center">
+      <Grid container spacing={2} justifyContent="center" sx={{marginBottom:'5%'}}>
         <Grid item xs={4} sx={{ textAlign: 'center' }}>
           메뉴 목록
         </Grid>
@@ -29,13 +34,13 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
       <Box
         sx={{
           maxHeight: '180px',
-          overflowY: 'scroll', // 스크롤 설정
+          overflowY: 'scroll',
           width: '100%',
-          '&::-webkit-scrollbar': { // Chrome, Safari, newer versions of Opera
+          '&::-webkit-scrollbar': {
             display: 'none',
           },
-          '-ms-overflow-style': 'none', // IE 10+
-          scrollbarWidth: 'none', // Firefox
+          '-ms-overflow-style': 'none',
+          scrollbarWidth: 'none',
         }}
       >
         <Grid container spacing={2} justifyContent="center">
@@ -45,7 +50,7 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
                 {menu.name}
               </Grid>
               <Grid item xs={4} sx={{ textAlign: 'center' }}>
-                {menu.price}
+                {formatPrice(menu.price)} {/* 금액 형식 변경 */}
               </Grid>
               <Grid item xs={4} sx={{ textAlign: 'center' }}>
                 <Button variant="outlined" color="secondary" onClick={() => onDeleteMenu(index)}>

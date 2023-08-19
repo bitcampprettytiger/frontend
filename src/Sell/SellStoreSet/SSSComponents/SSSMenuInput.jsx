@@ -4,12 +4,16 @@ import { Button, TextField, Box, Grid, Typography } from '@mui/material';
 const SSSMenuInput = ({ onAddMenu }) => {
   const [menu, setMenu] = useState('');
   const [price, setPrice] = useState('');
-  const addMenu = () => {
-    onAddMenu(menu, price);
-    setMenu('');
-    setPrice('');
-  };
+  const isValid = menu.trim() !== '' && price.trim() !== '';
 
+  const addMenu = () => {
+    if (isValid) {
+      // 유효성 검사 추가
+      onAddMenu(menu, price);
+      setMenu('');
+      setPrice('');
+    }
+  };
   return (
     <Box
       component="form"
@@ -58,10 +62,14 @@ const SSSMenuInput = ({ onAddMenu }) => {
           />
         </Grid>
         <Grid item xs={12} container justifyContent="center">
-          <Button variant="contained" color="primary" onClick={addMenu}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={addMenu}
+            disabled={!isValid} // 유효하지 않으면 버튼 비활성화
+          >
             추가
           </Button>
-          
         </Grid>
       </Grid>
     </Box>

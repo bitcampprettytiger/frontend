@@ -25,7 +25,7 @@ const SSSUseLists = () => {
         marginTop: '5%',
       }}
     >
-      <Typography variant="h6">편의시설</Typography>
+      <Typography variant="h6" sx={{marginBottom:'5%'}}>편의시설</Typography>
       <Grid container spacing={2}>
         <Grid item xs={6}>
           <FormControlLabel
@@ -41,13 +41,14 @@ const SSSUseLists = () => {
           />
         </Grid>
         <Grid item xs={6}>
-          <FormControlLabel
+          <FormControlLabel sx={{textAlign:'center'}}
             control={
               <Checkbox
                 checked={amenities.airConditioner}
                 onChange={handleChange}
                 name="airConditioner"
                 color="primary"
+                
               />
             }
             label="에어컨"
