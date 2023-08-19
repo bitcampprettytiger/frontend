@@ -58,6 +58,7 @@ function App() {
             <Route path="/myreview" element={<MyReview />} />
             <Route path="/myfavorite" element={<MyFavorite />} />
             <Route path="/mytakeout" element={<MyTakeout />} />
+            <Route path="/order/:orderNumber" element={<MyTakeoutDetail />}/>
             <Route path="/waitingDetail" element={<WaitingDetail />} />
             <Route path="/myedit" element={<MyEdit />} />
             <Route path="/hotplace" element={

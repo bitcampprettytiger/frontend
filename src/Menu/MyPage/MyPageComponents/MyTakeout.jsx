@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import { Link } from 'react-router-dom';
 import Header from '../../../Layout/Header.jsx';
 import Footer from '../../../Layout/Footer.jsx';
 import './MyTakeout.css';
@@ -8,21 +9,19 @@ function MyTakeout() {
     const [orders, setOrders] = useState([
         {
             orderDate: '2023-08-20',
-            orderDetailPage: '/order/1',
-            storeInfo: {
-                storeName: '탕후루후루',
-                orderMenu: '딸기',
-                totalPrice: 30000
-            }
+            orderNumber: 'A1111',
+            storeName: '탕후루후루',
+            orderMenu: '딸기',
+            totalPrice: 30000
+            
         },
         {
             orderDate: '2023-08-19',
-            orderDetailPage: '/order/2',
-            storeInfo: {
-                storeName: '강남역 포장마차',
-                orderMenu: '떡볶이',
-                totalPrice: 15000
-            }
+            orderNumber: 'A1112',
+            storeName: '강남역 포장마차',
+            orderMenu: '떡볶이',
+            totalPrice: 15000
+            
         }
     ]);
 
@@ -34,19 +33,17 @@ function MyTakeout() {
                     {orders.map((order, index) => (
                         <div className='mytakeout-item' key={index}>
                             <div className='mytakeout-date'>{order.orderDate} 포장완료
-                            <button 
-                                onClick={() => window.location.href = order.orderDetailPage} 
-                                className='mytakeout-detail-button'>
-                                주문 상세
-                            </button>
+                            <Link to={`/order/${order.orderNumber}`} className='mytakeout-detail-button'>
+                                    주문 상세
+                                </Link>
                             </div>
                             <div className='mytakeout-store'>
                                 <img src="/path-to-your-third-image.jpg"/>
                             <div className='mytakeout-store-info'>
-                                <p>{order.storeInfo.storeName}</p>
+                                <p>{order.storeName}</p>
                                 <div className='menu-detail'>
-                                <p>{order.storeInfo.orderMenu}</p>
-                                <p>{order.storeInfo.totalPrice}원</p>
+                                <p>{order.orderMenu}</p>
+                                <p>{order.totalPrice}원</p>
                                 </div>
                             </div>
                             </div>
