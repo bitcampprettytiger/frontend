@@ -37,6 +37,7 @@ const ShopFacilities = () => {
           </Box>
         </Grid>
       </Grid>
+      <hr/>
     </Box>
   );
 };
