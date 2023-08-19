@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-// import Content from './components/Content'; 
+// import Content from './components/Content';
 import Home from './Menu/Home/Home';
 import StFood from './Menu/StFood/StFood';
 import TrFood from './Menu/TrFood/TrFood';
@@ -19,31 +19,52 @@ import MyTakeout from './Menu/MyPage/MyPageComponents/MyTakeout';
 import GeolocationComponent from './Menu/Home/HomeComponents/GeolocationComponent';
 import MyEdit from './Menu/MyPage/MyPageComponents/MyEdit';
 import { BrowserView, MobileView } from 'react-device-detect';
-import LoginRoute from '../src/Login,Join/LoginRoute'
-import ShopMain from './ShopDetails/ShopMain'
+import LoginRoute from '../src/Login,Join/LoginRoute';
+import ShopMain from './ShopDetails/ShopMain';
+import SellFooter from './Sell/SellLayout/SellFooter';
 
 function App() {
-
   const data = [
     {
-      title: "포장마차거리 핫플레이스 BEST",
-      description: "지금은 야장이 가장 인기! 먹고가꼬에서 포장마차거리를 확인하세요!",
-      imageList: ["/images/place1.png", "/images/place2.png", "/images/place3.png", "/images/place4.png", "/images/place5.png"]
+      title: '포장마차거리 핫플레이스 BEST',
+      description:
+        '지금은 야장이 가장 인기! 먹고가꼬에서 포장마차거리를 확인하세요!',
+      imageList: [
+        '/images/place1.png',
+        '/images/place2.png',
+        '/images/place3.png',
+        '/images/place4.png',
+        '/images/place5.png',
+      ],
     },
     {
-      title: "여기 갔다왔어요~ 리뷰를 참고해보는건 어때요?",
-      description: "먹꼬가꼬의 유저들이 남긴 생생한 후기! 이 가게는 어때요?",
-      imageList: ["/images/place5.png", "/images/place5.png", "/images/place3.png", "/images/place4.png", "/images/place2.png"]
+      title: '여기 갔다왔어요~ 리뷰를 참고해보는건 어때요?',
+      description: '먹꼬가꼬의 유저들이 남긴 생생한 후기! 이 가게는 어때요?',
+      imageList: [
+        '/images/place5.png',
+        '/images/place5.png',
+        '/images/place3.png',
+        '/images/place4.png',
+        '/images/place2.png',
+      ],
     },
     {
-      title: "이번달 가장 많이 찾은 장소! 놓칠 수 없지!",
-      description: "유행에 뒤쳐질순 없자나~",
-      imageList: ["/images/place3.png", "/images/place1.png", "/images/place4.png", "/images/place2.png", "/images/place5.png"]
-    }
+      title: '이번달 가장 많이 찾은 장소! 놓칠 수 없지!',
+      description: '유행에 뒤쳐질순 없자나~',
+      imageList: [
+        '/images/place3.png',
+        '/images/place1.png',
+        '/images/place4.png',
+        '/images/place2.png',
+        '/images/place5.png',
+      ],
+    },
   ];
   return (
     <>
-      <BrowserView className='BV'>
+      <SellFooter></SellFooter>
+
+      {/* <BrowserView className='ssBV'>
 
         <Router>
 
@@ -89,7 +110,6 @@ function App() {
 
             <div className="App-main">
 
-              {/* <Content> */}
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/trfood" element={<TrFood />} />
@@ -109,14 +129,13 @@ function App() {
 
 
               </Routes>
-              {/* </Content> */}
 
             </div>
 
 
           </div>
         </Router>
-      </MobileView>
+      </MobileView> */}
     </>
   );
 }

@@ -4,14 +4,14 @@
     top: 50%;
     /* 중앙에 위치시키기 위한 설정 */
     left: 10%;
-    transform: translate(-50%, -50%);
     /* 중앙에 위치시키기 위한 설정 */
     width: 500px;
     max-width: 80%;
-    background-color: #f5f5f5;
-    border-radius: 10px;
-    padding: 20px;
     z-index: 1000;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #f5f5f5;
+    transform: translate(-50%, -50%);
     transition: transform 0.3s ease-out;
 }
 
@@ -22,9 +22,9 @@
 
 .close-btn {
     position: absolute;
-    right: 15px;
     top: 10px;
-    background: none;
+    right: 15px;
     border: none;
+    background: none;
     cursor: pointer;
 }
