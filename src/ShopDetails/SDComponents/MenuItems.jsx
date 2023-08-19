@@ -22,7 +22,7 @@ function MenuItem({ menu, isLast, viewType, fontSize }) {
       return (
       <>
       <ListItemText primary={menu.name}
-      primaryTypographyProps={{ sx: { fontSize } }} />
+      primaryTypographyProps={{ sx: { fontSize, fontWeight: 'bold' } }} />
        <ListItemText
             primary={menu.price}
             primaryTypographyProps={{
