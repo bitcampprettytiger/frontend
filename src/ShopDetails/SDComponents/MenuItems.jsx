@@ -3,7 +3,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 
-function MenuItem({ menu, isLast, viewType }) {
+function MenuItem({ menu, isLast, viewType, fontSize }) {
   const renderContent = () => {
     if (viewType === 'MenuOrderPage') {
       return (
@@ -19,7 +19,8 @@ function MenuItem({ menu, isLast, viewType }) {
         </>
       );
     } else if (viewType === 'MenuSeeMore') {
-      return <ListItemText primary={menu.name} />;
+      return <ListItemText primary={menu.name}
+      primaryTypographyProps={{ sx: { fontSize } }} />;
     } else {
       return null;
     }

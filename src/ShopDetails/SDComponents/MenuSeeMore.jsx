@@ -6,23 +6,24 @@ import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import MenuItem from './MenuItems';
-import shopList from '../../DataEx/shop'
+import shopList from '../../DataEx/shop';
 
-const style = {
-  width: '100%',
-  maxWidth: 360,
-  bgcolor: 'background.paper',
-  fontSize: '100%'
-};
 
 function MenuSeeMore() {
   const menuItems = shopList.slice(0, 3);
 
   return (
-    <List sx={style} component="nav" aria-label="mailbox folders">
+    <List sx={{
+      width: '100%',
+      maxWidth: 360,
+      bgcolor: 'background.paper',
+      fontSize: '85%',
+      marginTop: '8%',
+      mx: 'auto',
+    }} component="nav" aria-label="mailbox folders">
       <ListItem>
-        <ListItemText primary="메뉴" />
-        <KeyboardArrowRightIcon/>
+        <ListItemText primary="메뉴" primaryTypographyProps={{sx: {fontSize: 'inherit'}}} />
+        <KeyboardArrowRightIcon />
       </ListItem>
       <Divider />
       {menuItems.map((menu, index) => (
@@ -30,7 +31,8 @@ function MenuSeeMore() {
           key={index}
           menu={menu}
           viewType="MenuSeeMore"
-          isLast={index === menuItems.length - 1}
+          isLast={index === menuItems.length - 1
+         } fontSize='inherit'
         />
       ))}
       <ListItem sx={{ justifyContent: 'center' }}>
@@ -41,11 +43,11 @@ function MenuSeeMore() {
             borderColor: '#000000',
             borderWidth: '1px',
             color: '#000000',
-            fontSize:'90%'
+            fontSize: 'inherit',
           }}
         >
           메뉴 전체보기
-          <KeyboardArrowRightIcon/>
+          <KeyboardArrowRightIcon />
         </Button>
       </ListItem>
     </List>
