@@ -25,19 +25,18 @@ const ShopFacilities = () => {
       <Grid container alignItems="flex-start" >
         <Grid item xs={6} textAlign="center">
           <Box display="flex" flexDirection="column" alignItems="center">
-            <AirIcon />
+            <AirIcon fontSize="large"/>
             <CommonTypography variant="body1">{fanAvailable}</CommonTypography>
           </Box>
         </Grid>
         <Grid item xs={6} textAlign="center">
           <Box display="flex" flexDirection="column" alignItems="center">
-            <WcIcon />
+            <WcIcon fontSize="large"/>
             <CommonTypography variant="body1">{restroomLocation}</CommonTypography>
             <CommonTypography variant="body1">{restroomDistance}</CommonTypography>
           </Box>
         </Grid>
       </Grid>
-      <hr/>
     </Box>
   );
 };

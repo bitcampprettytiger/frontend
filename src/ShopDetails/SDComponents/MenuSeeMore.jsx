@@ -6,16 +6,14 @@ import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import MenuItem from './MenuItems';
-import shopList from '../../DataEx/shop';
-
+import menuList from '../../DataEx/menuList';
 
 function MenuSeeMore() {
-  const menuItems = shopList.slice(0, 3);
+  const menuItems = menuList.slice(0, 3);
 
   return (
     <List sx={{
       width: '100%',
-      maxWidth: 360,
       bgcolor: 'background.paper',
       fontSize: '85%',
       marginTop: '8%',

@@ -19,8 +19,21 @@ function MenuItem({ menu, isLast, viewType, fontSize }) {
         </>
       );
     } else if (viewType === 'MenuSeeMore') {
-      return <ListItemText primary={menu.name}
-      primaryTypographyProps={{ sx: { fontSize } }} />;
+      return (
+      <>
+      <ListItemText primary={menu.name}
+      primaryTypographyProps={{ sx: { fontSize } }} />
+       <ListItemText
+            primary={menu.price}
+            primaryTypographyProps={{
+              sx: {
+                fontSize,
+                textAlign: 'right',
+              },
+            }}
+          />
+      </>
+      );
     } else {
       return null;
     }
