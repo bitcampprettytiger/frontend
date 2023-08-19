@@ -7,8 +7,9 @@ import Typography from '@mui/material/Typography';
 const ImageGrid = ({ imageUrls }) => (
   <Grid container spacing={2}>
     {imageUrls.map((imageUrl, index) => (
-      <Grid item xs={6} key={index}>
-        <Paper component="img" src={imageUrl} alt={`리뷰 이미지 - ${index}`} sx={{ width: '100%', height: 'auto' }} />
+      <Grid item xs={4} md={4} key={index}>
+        <Paper component="img" src={imageUrl} alt={`리뷰 이미지 - ${index}`} 
+        sx={{ width: '100%', height: '100%', objectFit: 'cover' }} />
       </Grid>
     ))}
   </Grid>
@@ -20,7 +21,7 @@ export default function PhotoSeeMore({ images }) {
 
   return (
     <Box sx={{ width: '100%', paddingBottom: '2vh' }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2vh' }}>
         <Typography variant="h6" fontWeight="bold">
           방문자 사진
         </Typography>

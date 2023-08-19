@@ -38,18 +38,21 @@ function Location({ address }) {
       <Typography variant="body2" sx={{ fontSize: '95%', color: 'black', marginBottom: '1vh' }}>
         {address}
       </Typography>
+      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
       <Button
         variant="outlined"
         sx={{
           borderRadius: '10px',
           borderColor: 'black',
           borderWidth: '0.8px',
-          width: '70vw',
-          height: '40px',
+          width: '80vw',
+          height: '6vh',
+          color: 'black'
         }}
       >
         매장 길찾기
       </Button>
+      </Box>
     </Box>
   );
 }
