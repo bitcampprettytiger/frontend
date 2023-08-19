@@ -6,16 +6,16 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 48px;
-  max-width: 480px;
   width: 100%;
+  max-width: 480px;
+  height: 48px;
+  padding: 0 10px;
+  border: none;
   background: #ffffff;
   border-bottom: 1px solid #e7e7e7;
-  padding: 0 10px;
   box-sizing: border-box;
   flex-shrink: 0;
   overflow: hidden;
-  border: none;
 
   /* 추가 */
   /* 헤더 크기 고정 */
@@ -29,9 +29,9 @@
 }
 
 .Home-header-center-section {
-  text-align: center;
-  font-size: 16px;
   margin-left: 50px;
+  font-size: 16px;
+  text-align: center;
 }
 
 .Home-header-right-section {
@@ -48,12 +48,12 @@
 }
 
 .Home-login-signup-button {
-  font-size: 12px;
   padding: 4px 16px;
-  border-radius: 15px;
   border: 1px solid #ff0000;
+  border-radius: 15px;
   /* 테두리의 두께와 스타일을 지정합니다. */
   background-color: #ffffff;
+  font-size: 12px;
   cursor: pointer;
 }
 
@@ -61,68 +61,68 @@
   /* 원하는 스타일을 여기에 추가 */
   width: 15px;
   height: 15px;
+  /* 모서리 둥글게 */
+  margin-right: 10px;
 
   /* 이미지 크기 변경 */
   border-radius: 5px;
-  /* 모서리 둥글게 */
-  margin-right: 10px;
   /* 오른쪽 여백 추가 */
 }
 
 /* 뒤로가기 버튼  */
 .header-left-section .hotplace-back-button {
-  background: none;
-  border: none;
-  cursor: pointer;
   display: flex;
   align-items: center;
+  border: none;
+  background: none;
+  cursor: pointer;
 }
 
 .back-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 10px;
   display: flex;
   align-items: center;
+  padding: 10px;
+  border: none;
+  background: none;
+  cursor: pointer;
 }
 
 /* 검색창 테두리 및 레이아웃 설정 */
 /* 검색창 테두리 및 레이아웃 설정 */
 .search-container {
-  border-color: #ff813d;
-  /* 테두리 색상 변경 */
-  background-color: #ffffff;
   /* 배경색 하양으로 변경 */
   display: flex;
+  width: 190%;
+  height: 190%;
   margin-left: -40%;
   border: 1px solid #ff813d;
   /* 테두리 색상 변경 */
   border-radius: 20px;
-  width: 190%;
-  height: 190%;
+  /* 테두리 색상 변경 */
+  background-color: #ffffff;
+  border-color: #ff813d;
 }
 
 /* 검색 버튼의 스타일 */
 .search-button {
-  background: none;
   /* 배경 없음 */
   border: none;
+  background: none;
   /* 테두리 없음 */
 }
 
 .search-button img {
+  width: 18px;
   /* 아이콘의 색상을 주황색으로 변경 */
   height: 18px;
-  width: 18px;
 
 }
 
 /* 삭제 버튼의 스타일 */
 .delete-button {
-  background: none;
   /* 배경 없음 */
   border: none;
+  background: none;
   /* 테두리 없음 */
 }
 
@@ -142,17 +142,17 @@
 /*HotPlace.js*/
 /* ArrowBackIcon 아이콘에 대한 스타일 */
 .header-left-section .hotplace-back-button .MuiSvgIcon-root {
+  margin-right: 5px;
   color: black;
   font-size: 24px;
-  margin-right: 5px;
   /* 오른쪽 여백 추가, 필요한 경우 조절 가능 */
 }
 
 /* Hotplace Header 섹션 */
 .hotplace-header-center-section {
-  text-align: center;
-  font-size: 16px;
   margin: 0 auto;
+  font-size: 16px;
+  text-align: center;
   /* 중앙 정렬 */
 }
 
@@ -161,9 +161,9 @@
 /* } */
 /* Waiting 페이지 헤더 */
 .waiting-header-center-section {
-  text-align: center;
-  font-size: 16px;
   margin: 0 auto;
+  font-size: 16px;
+  text-align: center;
   /* 중앙 정렬 */
 }
 
@@ -176,9 +176,9 @@
 /* ArrowBackIcon, ShareIcon, FavoriteIcon 아이콘에 대한 스타일 */
 .waiting-header-left-section .MuiSvgIcon-root,
 .waiting-header-right-section .MuiSvgIcon-root {
+  margin: 0 5px;
   color: black;
   font-size: 24px;
-  margin: 0 5px;
 }
 
 /* 아이콘에 대한 호버 스타일 (선택적) */
@@ -190,21 +190,21 @@
 
 .mypage-header-right-section {
   display: flex;
-  align-items: center;
   /* 세로 중앙 정렬 */
   justify-content: flex-end;
+  align-items: center;
   /* 수평 오른쪽 정렬 */
 }
 
 
 /* MyPage 설정 버튼에 대한 기본 스타일 */
 .mypage-settings-button {
+  padding: 0;
   border: none;
   background: none;
-  padding: 0;
-  outline: none;
   /* 포커스시의 아웃라인 제거 */
   cursor: pointer;
+  outline: none;
 }
 
 /* MyPage 설정 버튼이 눌렸을 때의 스타일 */
