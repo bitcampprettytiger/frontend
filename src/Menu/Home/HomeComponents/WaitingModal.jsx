@@ -1,8 +1,8 @@
-import './Modal.css';
+import './WaitingModal.css';
 import { useNavigate } from 'react-router-dom';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
-function Modal({ show, handleClose }) {
+function WaitingModal({ show, handleClose }) {
     const navigate = useNavigate();
 
     const goToWaitingDetail = (event) => {
@@ -36,4 +36,5 @@ function Modal({ show, handleClose }) {
     );
 }
 
-export default Modal;
+export default WaitingModal;
+

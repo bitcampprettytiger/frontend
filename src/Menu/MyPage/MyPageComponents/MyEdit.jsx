@@ -1,6 +1,6 @@
 import React from 'react'
 import Header from '../../../Layout/Header.jsx';
-import Header from '../../../Layout/Footer.jsx';
+import Footer from '../../../Layout/Footer.jsx';
 import './MyEdit.css';
 function MyEdit() {
     return (

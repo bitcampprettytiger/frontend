@@ -21,12 +21,12 @@ input {
 
 }
 .sub-button {
-    background: none;
     border: none;
+    background: none;
     color: grey;
     font-size: 16px;
-    cursor: pointer;
     text-decoration: none;
+    cursor: pointer;
 }
 
 .sub-button:hover {

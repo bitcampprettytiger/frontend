@@ -1,20 +1,20 @@
 .list {
     position: absolute;
     bottom: 6%;
-    z-index: 1;
     width: 100%;
+    z-index: 1;
 
 }
 
 .list-item {
-    width: 80%;
-    margin: 0 auto;
-    border-radius: 10%;
-    background-color: white;
     display: flex;
     flex-direction: row;
     /* 행 방향으로 설정합니다. */
     align-items: center;
+    width: 80%;
+    margin: 0 auto;
+    border-radius: 10%;
+    background-color: white;
     /* 센터 정렬을 위해 추가합니다. */
 }
 

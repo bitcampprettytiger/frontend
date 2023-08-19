@@ -3,41 +3,41 @@
 }
 
 .App-main2 {
-    width: 480px;
+    width: 100%;
+    width: 100%;
+    border: 1px solid #ff0000;
+    border: 1px solid #ff0000;
 }
 
+/* 검색바 스타일 */
+/* 검색바 스타일 */
 .Home-search-container {
     display: flex;
     align-items: center;
+    width: 90%;
+    height: 10%;
+    padding: 0%;
+    margin: auto;
+    margin-bottom: 10%;
     border: 1px solid #ff0000;
-    /* 빨간색 테두리 */
+    border-radius: 20px;
     background-color: #ffffff;
-    /* 하얀색 배경 */
-    padding: 5px;
-    border-radius: 15px;
-    margin: 10px;
-    width: 350px;
-    /* height: 18px; */
-    height: auto;
-    /* 또는 원하는 높이 */
-    margin-left: 66px;
-    margin-bottom: 10px;
-    margin-top: -5px;
-
+    background-color: #ffffff;
 }
 
 .Home-search-input {
-    flex-grow: 1;
+    margin-left: 3%;
     border: none;
+    border-radius: 10px;
+    flex-grow: 1;
     outline: none;
 
 }
 
 .Home-search-button {
-    cursor: pointer;
-    background: transparent;
     border: none;
-
+    background: transparent;
+    cursor: pointer;
 }
 
 .Home-search-button img {
@@ -46,12 +46,44 @@
     margin-top: 3px;
 }
 
+.custom-text-container,
+.custom-text-container2,
+.custom-text-container3 {
+    width: 95%;
+    padding-left: 5%;
+}
+
+.custom-text-container2 {
+    margin-bottom: -1%;
+    /* 아래쪽 간격을 줄입니다 */
+}
+
+.custom-text-container3 {
+    margin-top: -1%;
+    /* 위쪽 간격을 줄입니다 */
+}
+
+.custom-text,
+.custom-text2 {
+    font-weight: bold;
+    font-size: 130%;
+}
+
+.custom-text3 {
+    color: #070707;
+    font-weight: bold;
+    font-size: 80%;
+}
+
+
+
+
 .slider {
     position: relative;
     /* top: -20px; */
     /* 원하는 만큼 위로 올리기 */
     width: 100%;
-    max-width: 800px;
+    /* max-width: 100%; */
     /* 이미지의 최대 크기를 설정할 수 있습니다. */
     margin-top: 10px;
     margin-bottom: 1px;
@@ -59,29 +91,30 @@
 }
 
 .slide-image {
-
-    width: 100%;
-    height: 220px;
     /* 원본 비율을 유지합니다. */
     display: block;
+
+    width: 100%;
+    height: 90%;
+    margin: auto;
 }
 
 .dots {
-    text-align: center;
     position: relative;
     /* 위치 조정을 위한 상대 위치 설정 */
     bottom: 30px;
+    text-align: center;
     /* 원하는 만큼 위로 올리기 */
 }
 
 .dot {
-    height: 8px;
+    display: inline-block;
     width: 8px;
+    height: 8px;
     margin: 0 4px;
+    border-radius: 50%;
 
     background-color: #bbb;
-    border-radius: 50%;
-    display: inline-block;
     cursor: pointer;
     /* 손 모양 마우스 커서 */
 }
@@ -93,15 +126,21 @@
 
 
 .outer-container {
-    padding-left: 20px;
-    width: 480px;
-    height: 60px;
-    /* 원하는 너비 설정 */
-    overflow-x: scroll;
-    /* 가로 스크롤 허용 */
-    overflow-y: hidden;
+    width: 90%;
+    height: 40%;
+    margin: auto;
     /* 세로 스크롤 숨기기 */
     white-space: nowrap;
+    /* 원하는 너비 설정 */
+    overflow-x: auto;
+    /* 가로 스크롤 허용 */
+    overflow-y: hidden;
+
+    /* Firefox */
+    scrollbar-width: none;
+
+    /* Internet Explorer and Edge */
+    -ms-overflow-style: none;
 
     /* 한 줄에 모든 요소 배치 */
     /* Chrome, Safari and Opera */
@@ -112,11 +151,9 @@
         /* 세로 스크롤바 숨기기 */
     }
 
-    /* Firefox */
-    scrollbar-width: none;
-
-    /* Internet Explorer and Edge */
-    -ms-overflow-style: none;
+    ::-webkit-scrollbar {
+        display: none;
+    }
 }
 
 /* inner-container에 가로 정렬 및 간격 설정 */
@@ -128,26 +165,33 @@
 
 /* 각 버튼의 스타일 설정 */
 .button-round {
-    width: 60px;
-    /* 버튼의 너비 설정 */
-    height: 60px;
-    /* 버튼의 높이 설정 */
-    border-radius: 50%;
-    /* 버튼을 동그랗게 만듦 */
-    background-color: #f0f0f0;
     /* 버튼의 배경색 */
     display: flex;
     /* 이미지와 텍스트를 중앙에 배치하기 위해 flex 사용 */
     justify-content: center;
     align-items: center;
     position: relative;
-    /* 이미지의 위치를 조정하기 위해 relative 설정 */
-    overflow: hidden;
+    width: 60px;
+    /* 버튼의 너비 설정 */
+    height: 60px;
     /* 동그란 형태를 유지하기 위해 overflow 숨김 */
     margin-right: 10px;
+    /* 버튼의 높이 설정 */
+    border-radius: 50%;
+    /* 버튼을 동그랗게 만듦 */
+    background-color: #f0f0f0;
+    /* 버튼의 배경 이미지 */
+    background-size: cover;
+    /* 이미지의 위치를 조정하기 위해 relative 설정 */
+    overflow: hidden;
     /* 오른쪽 마진으로 버튼 간격 조절 */
     flex-shrink: 0;
-    /* 여기 추가 */
+    background-image: url('/public/images/place4.png');
+    /* 이미지를 버튼에 맞게 크기 조절 */
+    background-position: center;
+    /* 이미지를 중앙에 위치시킴 */
+    background-repeat: no-repeat;
+    /* 이미지 반복 없음 */
 }
 
 .button-round img {
@@ -155,9 +199,9 @@
     /* 이미지 위치를 절대적으로 조정 */
     width: 60px;
     height: 60px;
-    object-fit: cover;
     /* 이미지 크기를 버튼에 맞춤 */
     cursor: pointer;
+    object-fit: cover;
 }
 
 .button-round span {
@@ -171,27 +215,27 @@
 }
 
 .macha-place-button {
-    border: none;
-    /* 테두리선 없애기 */
-    border-radius: 20px;
-    /* 테두리 둥글게 만들기 */
-    width: 180px;
-    /* 버튼 너비 설정 (원하는 크기로 조정) */
-    height: 180px;
     /* 버튼 높이 설정 (원하는 크기로 조정) */
     display: flex;
     /* 플렉스 박스로 설정 */
     justify-content: center;
     /* 가운데 정렬 */
     align-items: center;
+    /* 테두리 둥글게 만들기 */
+    width: 180px;
+    /* 버튼 너비 설정 (원하는 크기로 조정) */
+    height: 180px;
+    /* 포커스 아웃라인 제거 */
+    margin-right: 20px;
+    border: none;
+    /* 테두리선 없애기 */
+    border-radius: 20px;
     /* 가운데 정렬 */
     background: transparent;
     /* 배경 투명하게 */
     cursor: pointer;
     /* 마우스 커서를 포인터로 변경 */
     outline: none;
-    /* 포커스 아웃라인 제거 */
-    margin-right: 20px;
     /* 버튼 사이의 여백 설정 */
 }
 
@@ -219,21 +263,12 @@
 
 .macha-container {
     width: 480px;
+    /* 세로 스크롤 숨기기 */
+    white-space: nowrap;
     /* 원하는 너비 설정 */
     overflow-x: scroll;
     /* 가로 스크롤 허용 */
     overflow-y: hidden;
-    /* 세로 스크롤 숨기기 */
-    white-space: nowrap;
-
-    /* 한 줄에 모든 요소 배치 */
-    /* Chrome, Safari and Opera */
-    ::-webkit-scrollbar {
-        width: 0;
-        /* 가로 스크롤바 숨기기 */
-        height: 0;
-        /* 세로 스크롤바 숨기기 */
-    }
 
     /* Firefox */
     scrollbar-width: none;
@@ -242,36 +277,34 @@
     -ms-overflow-style: none;
 }
 
+.macha-container::-webkit-scrollbar {
+    display: none !important;
+}
+
+
 /* inner-container에 가로 정렬 및 간격 설정 */
 .macha-inner-container {
-    padding-left: 20px;
     display: flex;
     justify-content: space-between;
+    padding-left: 20px;
 
     /* 버튼 간 일정한 간격 유지 */
 }
 
-.custom-text {
-    padding-left: 20px;
-    margin-top: -20px;
-    font-size: 14px;
-    /* 텍스트 크기 조정 */
-    color: #939393;
-    /* 텍스트 색상 조정 */
-}
+
 
 .footer-text-container {
-    width: 480px;
-    margin-right: 3px;
-    margin-top: 50px;
+    width: 100%;
     height: 110px;
+    margin-top: 50px;
+    margin-right: 3px;
     background-color: #d0d0d0;
 }
 
 .footer-text-container-text {
-    text-align: center;
-    font-size: 8px;
     color: #777777;
+    font-size: 8px;
+    text-align: center;
     /* 텍스트 가운데 정렬 */
 }
 
@@ -287,24 +320,24 @@
 }
 
 .hashtag-container button {
-    border-color: #ff813d;
-    margin: 0 10px;
     /* 좌우 간격을 10px로 설정 */
     width: 70px;
     /* 버튼의 너비를 100px로 설정 */
     height: 30px;
-    /* 버튼의 높이를 40px로 설정 */
-    background-color: #ffffff;
-    /* 배경색을 주황색으로 설정 */
-    color: #000000;
+    margin: 0 10px;
     /* 글자색을 하얀색으로 설정 */
     border: none;
     /* 테두리 제거 */
     border-radius: 20px;
-    /* 모서리 둥글게 */
-    cursor: pointer;
+    /* 버튼의 높이를 40px로 설정 */
+    background-color: #ffffff;
+    /* 배경색을 주황색으로 설정 */
+    color: #000000;
     /* 마우스 오버시 포인터로 변경 */
     font-size: 8px;
+    /* 모서리 둥글게 */
+    cursor: pointer;
+    border-color: #ff813d;
     /* 글자 크기 조절 */
     transition: background 0.3s;
     /* 배경색 변경 효과 */
@@ -316,48 +349,63 @@
 }
 
 .hashtag-link {
-    background-color: #f2f2f2;
-    padding: 5px 10px;
-    border-radius: 4px;
-    text-decoration: none;
-    color: black;
-    margin-right: 10px;
     display: inline-block;
+    padding: 5px 10px;
+    margin-right: 10px;
+    border-radius: 4px;
+    background-color: #f2f2f2;
+    color: black;
+    text-decoration: none;
 }
 
 .macha-button-container {
     display: flex;
+    width: 95%;
+    height: 30vh;
+    margin: auto;
+    white-space: nowrap;
     flex-wrap: nowrap;
     overflow-x: auto;
-    white-space: nowrap;
-    /* 한 줄에 항목들이 유지되게 함 */
-    width: 480px;
-    height: 150px;
-    /* 컨테이너의 폭을 조절 가능 */
+    transition: filter 0.3s;
+
 }
 
+.macha-button-container::-webkit-scrollbar {
+    display: none !important;
+}
+
+
+.macha-button-container:hover .macha-button:not(:hover) {
+    filter: brightness(0.7);
+    /* 호버되지 않은 버튼의 밝기를 줄입니다 */
+    transition: filter 0.3s;
+    /* 부드럽게 필터 효과가 나타나게 합니다 */
+}
+
+
 .macha-button {
-    flex: 0 0 auto;
-    /* 항목들이 줄바꿈 없이 배치되도록 */
-    margin-right: 10px;
-    /* 오른쪽 여백 추가 */
-    width: 120px;
-    height: 120px;
+    width: 45%;
+    height: 140%;
     padding: 0;
-    /* 버튼 내부의 패딩을 0으로 설정 */
+    margin-right: 10px;
     border: none;
-    /* 필요한 경우 버튼의 테두리 제거 */
+    border-radius: 10px;
+    border-radius: 10px;
     background: none;
-    /* 필요한 경우 버튼의 배경 제거 */
+    flex: 0 0 auto;
     overflow: hidden;
-    /* 이미지가 버튼을 벗어나지 않게 함 */
+    transition: transform 0.3s;
+}
+
+.macha-button:hover {
+    z-index: 10;
+    transform: scale(1.1);
+    filter: brightness(1);
 }
 
 .macha-button img {
     width: 100%;
-    /* 이미지 폭을 버튼 폭에 맞춤 */
     height: 100%;
-    /* 이미지 높이를 버튼 높이에 맞춤 */
+    border-radius: 10px;
     object-fit: cover;
-    /* 이미지 비율 유지하면서 꽉 차게 표시 */
 }

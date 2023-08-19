@@ -1,7 +1,7 @@
 .waiting-detail-container {
-    padding: 20px;
     width: 480px;
     height: 550px;
+    padding: 20px;
 }
 
 .left-text {
@@ -15,10 +15,10 @@
 
 .minus-button,
 .plus-button {
-    cursor: pointer;
     border: none;
     background-color: transparent;
     color: black;
+    cursor: pointer;
     /* 초기 색상 */
 }
 
@@ -36,10 +36,10 @@
 /* 전체 container 스타일 */
 .number-count-container {
     display: flex;
-    /* Flexbox를 활용해 가로열에 배치 */
-    align-items: center;
     /* 세로 중앙 정렬 */
     justify-content: space-between;
+    /* Flexbox를 활용해 가로열에 배치 */
+    align-items: center;
     /* 요소들 사이의 공간 최대화 */
     padding: 10px;
     /* 안쪽 여백 추가 */
@@ -47,11 +47,11 @@
 
 /* "인원 수" 텍스트 스타일 */
 .left-text {
-    font-size: 20px;
-    /* 글자 크기 조절 */
-    color: #333;
     /* 글자 색상 */
     margin-right: 20px;
+    /* 글자 크기 조절 */
+    color: #333;
+    font-size: 20px;
     /* 오른쪽 여백 */
 }
 
@@ -65,11 +65,11 @@
     /* 버튼 스타일 */
     .plus-button,
     .minus-button {
+        /* 마우스 커서를 손가락 모양으로 */
+        color: #555;
         font-size: 30px;
         /* 아이콘 크기 */
         cursor: pointer;
-        /* 마우스 커서를 손가락 모양으로 */
-        color: #555;
         /* 아이콘 색상 */
     }
 
@@ -81,9 +81,9 @@
 
     /* 숫자 스타일 */
     .count-text {
-        font-size: 24px;
         /* 글자 크기 */
         margin: 0 10px;
+        font-size: 24px;
         /* 양 옆 여백 */
     }
 }
@@ -91,18 +91,18 @@
 .people-count-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     padding: 20px;
 }
 
 .info-box {
-    background-color: #f2f2f2;
+    /* 둥근 모서리를 원한다면 */
+    width: 200px;
     /* 원하는 배경색으로 변경 */
     padding: 10px;
     border-radius: 5px;
-    /* 둥근 모서리를 원한다면 */
-    width: 200px;
+    background-color: #f2f2f2;
     /* 원하는 너비로 변경 */
 }
 
