@@ -20,7 +20,7 @@ function MenuSeeMore() {
       mx: 'auto',
     }} component="nav" aria-label="mailbox folders">
       <ListItem>
-        <ListItemText primary="메뉴" primaryTypographyProps={{sx: {fontSize: 'inherit'}}} />
+        <ListItemText primary="메뉴" primaryTypographyProps={{sx: {fontSize: 'inherit',  fontWeight: 'bold'}}}/>
         <KeyboardArrowRightIcon />
       </ListItem>
       <Divider />
@@ -37,9 +37,10 @@ function MenuSeeMore() {
         <Button
           variant="outlined"
           sx={{
-            width: '70vw',
+            width: '80vw',
             borderColor: '#000000',
             borderWidth: '1px',
+            height: '6vh',
             color: '#000000',
             fontSize: 'inherit',
           }}
