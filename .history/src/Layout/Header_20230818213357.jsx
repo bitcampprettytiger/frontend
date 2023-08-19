@@ -56,7 +56,6 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
     const renderHomeHeader = () => (
         <div className="App-header">
             <div className="Home-header-left-section">
-                {/* 메뉴 아이콘 부분 */}
                 <MenuIcon className="Home-menu-icon" onClick={handleMenuClick} />
             </div>
             <div className="Home-header-center-section">
@@ -68,7 +67,6 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
             </div>
         </div>
     );
-
 
     const renderOtherHeader = (content) => (
         <div className="App-header">

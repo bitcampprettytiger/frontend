@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, convertCoordsToAddress } from '../../../Utils/kakaoUtils';  // 수정된 부분
+import useLocation, { convertCoordsToAddress } from '../../../Utils/kakaoUtils';
 
 function GeolocationComponent() {
     const location = useLocation();
