@@ -1,3 +1,4 @@
+/*global kakao*/
 import { useCallback } from 'react';
 
 const useUpdateMarkers = (map, markers, selectedVendorTypes, vendorInfo) => {
