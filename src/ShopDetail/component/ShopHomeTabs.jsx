@@ -1,24 +1,23 @@
 import * as React from 'react';
+import { useContext } from 'react';
 import PropTypes from 'prop-types';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import AirIcon from '@mui/icons-material/Air';
-import WcIcon from '@mui/icons-material/Wc';
+import { Box, Typography } from '@mui/material';
+import ShopFacilities from './ShopFacilities';
 import MenuSeeMore from './MenuSeeMore';
 import PhotoSeeMore from './PhotoSeeMore';
-import MenuOrderPage from './PackagingOrder/MenuOrderPage';
-import ReviewDetail from './Review/ReviewDetail';
+import Location from './Location';
+import ShopHomeTabsContext from '../SDCustomHooks/SHTContext';
+import { InView } from 'react-intersection-observer';
+import { StyledAppBar, StyledTab } from './ShopHomeTabsStyle';
+
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
-
   return (
     <div
       role="tabpanel"
       hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
+      id={`simple-tabpanel-${index}`} 
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
@@ -31,12 +30,6 @@ function CustomTabPanel(props) {
   );
 }
 
-CustomTabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.number.isRequired,
-  value: PropTypes.number.isRequired,
-};
-
 function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
@@ -45,73 +38,36 @@ function a11yProps(index) {
 }
 
 export default function ShopHomeTabs({images}) {
-  const [value, setValue] = React.useState(0);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  const { value, setValue, handleChange, handleVisibilityChange } = useContext(ShopHomeTabsContext);
 
   return (
     <Box sx={{ width: '100%' }}>
-    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-      <Tabs
-        value={value}
-        onChange={handleChange}
-        aria-label="ShophHomeTabs"
-        sx={{
-          '& .Mui-selected': {
-            fontWeight: 'bold',
-            color: 'black',
-          },
-          '& .MuiTabs-indicator': {
-            bgcolor: '#FF745A',
-          },
-        }}
-      >
-        <Tab
-          label="홈"
-          {...a11yProps(0)}
-          sx={{ fontSize: '18px' }}
-        />
-        <Tab
-          label="메뉴"
-          {...a11yProps(1)}
-          sx={{ fontSize: '18px' }}
-        />
-        <Tab
-          label="리뷰"
-          {...a11yProps(2)}
-          sx={{ fontSize: '18px' }}
-        />
-        </Tabs>
-      </Box>
-      <CustomTabPanel value={value} index={0}>
-        <div>
-          <h2>편의시설</h2>
-          <h6>선풍기 & 가까운 화장실 정보</h6>
-          <div>
-          <AirIcon/>
-          <p>있음</p>
-          </div>
-          <div>
-          <WcIcon/>
-          <p>강남역 공영화장실</p>
-          <p>150m</p>
-          </div>
-        </div>
-        <div>
-          <MenuSeeMore/>
-        </div>
-        <div>
-            <PhotoSeeMore images={images}/>
-        </div>
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={1}>
-        <MenuOrderPage></MenuOrderPage>
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={2}>
-        <ReviewDetail/>
-      </CustomTabPanel>
-    </Box>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <StyledAppBar
+          value={value}
+          onChange={handleChange}
+          aria-label="ShophHomeTabs"
+          variant="fullWidth"
+        >
+          <StyledTab label="홈" {...a11yProps(0)} />
+          <StyledTab label="메뉴" {...a11yProps(1)} />
+          <StyledTab label="리뷰" {...a11yProps(2)} />
+        </StyledAppBar>
+        </Box>
+        <CustomTabPanel value={value} index={0}>
+        <ShopFacilities/>
+        <MenuSeeMore/>
+        <InView as="div" onChange={handleVisibilityChange}>
+        <PhotoSeeMore images={images}/>
+        <Location/>
+        </InView>
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={1}>
+        full modal or 중첩 라우트
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={2}>
+        full modal or 중첩 라우트
+        </CustomTabPanel>
+        </Box>
   );
 }
