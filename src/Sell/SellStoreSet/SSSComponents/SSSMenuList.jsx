@@ -1,13 +1,19 @@
 import React from 'react';
 import { Box, Grid, Button } from '@mui/material';
-
+import '../../../Global.css';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 const SSSMenuList = ({ menus, onDeleteMenu }) => {
   // 금액을 쉼표로 구분하고 "원"을 붙이는 함수
   const formatPrice = (price) => {
     return `${parseInt(price, 10).toLocaleString('ko-KR')}원`;
   };
-
+  const theme = createTheme({
+    typography: {
+      fontFamily: 'NanumSquareRound, Arial, sans-serif',
+    },
+  });
   return (
+    <ThemeProvider theme={theme}>
     <Box
       sx={{
         display: 'flex',
@@ -18,6 +24,7 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
         margin: 'auto',
         marginTop: '5%',
         border: '1px solid black',
+        fontFamily:'NanumSquareRound, Arial, sans-serif'
       }}
     >
       <Grid container spacing={2} justifyContent="center" sx={{marginBottom:'5%'}}>
@@ -62,6 +69,7 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
         </Grid>
       </Box>
     </Box>
+    </ThemeProvider>
   );
 };
 

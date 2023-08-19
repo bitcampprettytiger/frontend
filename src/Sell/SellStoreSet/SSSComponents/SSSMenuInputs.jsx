@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
 import { Button, TextField, Box, Grid, Typography } from '@mui/material';
-
 const SSSMenuInput = ({ onAddMenu }) => {
   const [menu, setMenu] = useState('');
   const [price, setPrice] = useState('');
   const isValid = menu.trim() !== '' && price.trim() !== '';
+
+  const handlePriceChange = (e) => {
+    const value = e.target.value;
+    if (value === '' || /^[0-9]+$/.test(value)) {
+      // 입력값이 비어 있거나 숫자로만 구성되어 있으면 값을 업데이트합니다.
+      setPrice(value);
+    }
+  };
 
   const addMenu = () => {
     if (isValid) {
@@ -26,6 +33,7 @@ const SSSMenuInput = ({ onAddMenu }) => {
         width: '100%',
         maxWidth: '400px',
         margin: 'auto',
+        marginTop:'10%'
       }}
     >
       <Typography variant="h5" sx={{ marginTop: '5%' }}>
@@ -56,7 +64,7 @@ const SSSMenuInput = ({ onAddMenu }) => {
           <TextField
             variant="outlined"
             value={price}
-            onChange={(e) => setPrice(e.target.value)}
+            onChange={handlePriceChange}
             fullWidth
             sx={{ width: '80%', marginLeft: '10%' }} // 입력창 크기 조정
           />

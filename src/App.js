@@ -24,6 +24,14 @@ import ShopMain from './ShopDetails/ShopMain';
 import SellFooter from './Sell/SellLayout/SellFooter';
 import SellHeader from './Sell/SellLayout/SellHeader';
 import SellStoreSet from './Sell/SellStoreSet/SellStroreSet';
+import './Global.css';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const theme = createTheme({
+  typography: {
+    fontFamily: 'NanumSquareRound, Arial, sans-serif',
+  },
+});
 
 function App() {
   const data = [
@@ -64,18 +72,18 @@ function App() {
   ];
   return (
     <>
-      <div className="BV"></div>
-
-      <BrowserView className='BV'>
-        <SellHeader></SellHeader>
-        <SellStoreSet></SellStoreSet>
-        <SellFooter></SellFooter>
-      </BrowserView>
-      <MobileView className='MV'>
-        <SellHeader></SellHeader>
-        <SellStoreSet></SellStoreSet>
-        <SellFooter></SellFooter>
-      </MobileView>
+      <ThemeProvider theme={theme}>
+        <BrowserView className="BV">
+          <SellHeader></SellHeader>
+          <SellStoreSet></SellStoreSet>
+          <SellFooter></SellFooter>
+        </BrowserView>
+        <MobileView className="MV">
+          <SellHeader></SellHeader>
+          <SellStoreSet></SellStoreSet>
+          <SellFooter></SellFooter>
+        </MobileView>
+      </ThemeProvider>
       {/* <BrowserView className='BV'>
 
         <Router>

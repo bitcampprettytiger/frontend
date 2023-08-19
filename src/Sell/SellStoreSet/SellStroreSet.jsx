@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import SSSMenuInput from './SSSComponents/SSSMenuInput.jsx';
 import SSSMenuList from './SSSComponents/SSSMenuList.jsx';
 import SSSUseLists from './SSSComponents/SSSUseLists.jsx';
 import SSSReserveBtn from './SSSComponents/SSSReserveBtn.jsx';
-
+import SSSMenuInputs from './SSSComponents/SSSMenuInputs.jsx';
 const SellStoreSet = () => {
   const [menus, setMenus] = useState([]);
 
@@ -19,11 +18,10 @@ const SellStoreSet = () => {
 
   return (
     <div style={{ height: '100vh', overflowY: 'scroll', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-      {/* 스크롤 바 숨기기를 위한 Chrome, Safari, Firefox, IE 스타일 */}
       <style>
         {`::-webkit-scrollbar { display: none; }`}
       </style>
-      <SSSMenuInput onAddMenu={handleAddMenu}></SSSMenuInput>
+      <SSSMenuInputs onAddMenu={handleAddMenu}></SSSMenuInputs>
       <SSSMenuList menus={menus} onDeleteMenu={handleDeleteMenu}></SSSMenuList>
       <SSSUseLists></SSSUseLists>
       <SSSReserveBtn></SSSReserveBtn>
