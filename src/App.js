@@ -20,6 +20,7 @@ import MyEdit from './Menu/MyPage/MyPageComponents/MyEdit';
 import { BrowserView, MobileView } from 'react-device-detect';
 import LoginRoute from '../src/Login,Join/LoginRoute'
 import ShopMain from './ShopDetails/ShopMain'
+import MyTakeoutDetail from './Menu/MyPage/MyPageComponents/MyTakeoutDetail';
 
 function App() {
 
@@ -103,6 +104,7 @@ function App() {
                 <Route path="/myfavorite" element={<MyFavorite />} />
                 <Route path="/mytakeout" element={<MyTakeout />} />
                 <Route path="/myedit" element={<MyEdit />} />
+                <Route path="/mytakeoutdetail" element={<MyTakeoutDetail />}/>
 
 
               </Routes>
