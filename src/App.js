@@ -18,10 +18,12 @@ import MyFavorite from './Menu/MyPage/MyPageComponents/MyFavorite';
 import MyTakeout from './Menu/MyPage/MyPageComponents/MyTakeout';
 import GeolocationComponent from './Menu/Home/HomeComponents/GeolocationComponent';
 import MyEdit from './Menu/MyPage/MyPageComponents/MyEdit';
-import { BrowserView, MobileView } from 'react-device-detect';
+import { BrowserView, MobileOnlyView, MobileView } from 'react-device-detect';
 import LoginRoute from '../src/Login,Join/LoginRoute';
 import ShopMain from './ShopDetails/ShopMain';
 import SellFooter from './Sell/SellLayout/SellFooter';
+import SellHeader from './Sell/SellLayout/SellHeader';
+import SellStoreSet from './Sell/SellStoreSet/SellStroreSet';
 
 function App() {
   const data = [
@@ -62,9 +64,19 @@ function App() {
   ];
   return (
     <>
-      <SellFooter></SellFooter>
+      <div className="BV"></div>
 
-      {/* <BrowserView className='ssBV'>
+      <BrowserView className='BV'>
+        <SellHeader></SellHeader>
+        <SellStoreSet></SellStoreSet>
+        <SellFooter></SellFooter>
+      </BrowserView>
+      <MobileView className='MV'>
+        <SellHeader></SellHeader>
+        <SellStoreSet></SellStoreSet>
+        <SellFooter></SellFooter>
+      </MobileView>
+      {/* <BrowserView className='BV'>
 
         <Router>
 
