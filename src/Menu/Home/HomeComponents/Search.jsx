@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import Header from '../../../Layout/Header.jsx';
-import Header from '../../../Layout/Footer.jsx';
 import './Search.css';
 import { Star as StarIcon } from '@mui/icons-material';
 import { Favorite as FavoriteIcon, FavoriteBorder as FavoriteBorderIcon } from '@mui/icons-material';
