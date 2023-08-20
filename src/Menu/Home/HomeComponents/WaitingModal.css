@@ -1,0 +1,30 @@
+.modal-container {
+    position: absolute;
+    /* 수정된 부분 */
+    top: 50%;
+    /* 중앙에 위치시키기 위한 설정 */
+    left: 10%;
+    transform: translate(-50%, -50%);
+    /* 중앙에 위치시키기 위한 설정 */
+    width: 500px;
+    max-width: 80%;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    padding: 20px;
+    z-index: 1000;
+    transition: transform 0.3s ease-out;
+}
+
+.modal-container.show {
+    transform: translateY(0);
+
+}
+
+.close-btn {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
