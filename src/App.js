@@ -20,6 +20,12 @@ import MyEdit from './Menu/MyPage/MyPageComponents/MyEdit';
 import { BrowserView, MobileView } from 'react-device-detect';
 import LoginRoute from '../src/Login,Join/LoginRoute'
 import ShopMain from './ShopDetails/ShopMain'
+import { Sell } from '@mui/icons-material';
+import SellJoin from './Sell/Join/SellJoin';
+import SellSignUp from './Sell/SignUp/SellSiginUp';
+import SellSignUp2 from './Sell/SignUp/SellSignUp2';
+import SellSignUp3 from './Sell/SignUp/SellSignUp3';
+import SellSignUp4 from './Sell/SignUp/SellSignUp4';
 
 function App() {
 
@@ -74,6 +80,11 @@ function App() {
             <Route path="/trfood" element={<TrFood></TrFood>}></Route>
             <Route path="/mypage" element={<Mypage></Mypage>}></Route>
             <Route path='/shophome' element={<ShopMain />}></Route>
+            <Route path='/selljoin' element={<SellJoin></SellJoin>}></Route>
+            <Route path='/SellSignUp' element={<SellSignUp></SellSignUp>}></Route>
+            <Route path='/SellSignUp2' element={<SellSignUp2></SellSignUp2>}></Route>
+            <Route path='/SellSignUp3' element={<SellSignUp3></SellSignUp3>}></Route>
+            <Route path='/SellSignUp4' element={<SellSignUp4></SellSignUp4>}></Route>
 
           </Routes>
 
