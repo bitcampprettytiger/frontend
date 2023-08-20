@@ -22,7 +22,7 @@ import { BrowserView, MobileView } from 'react-device-detect';
 import LoginRoute from '../src/Login,Join/LoginRoute';
 import ShopMain from './ShopDetails/ShopMain';
 import SellFooter from './Sell/SellLayout/SellFooter';
-
+import Seller from './Pages/seller/seller';
 function App() {
   const data = [
     {
@@ -62,8 +62,7 @@ function App() {
   ];
   return (
     <>
-      <SellFooter></SellFooter>
-
+    <Seller></Seller>
       {/* <BrowserView className='ssBV'>
 
         <Router>
