@@ -10,12 +10,13 @@ import ShareIcon from '@mui/icons-material/Share';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import SettingsIcon from '@mui/icons-material/Settings';
 import HomeIcon from '@mui/icons-material/Home';
+import { convertCoordsToAddress } from '../Utils/kakaoUtils';
 
 
 
 
 
-function Header({ page, searchInput, handleSearchChange, handleDeleteClick, handleSearchClick }) {
+function Header({ page, searchInput, handleSearchChange, handleDeleteClick, handleSearchClick, setAddressToHome }) {
     const navigate = useNavigate(); // react-router의 navigate 함수를 사용
     const handleBackButtonClick = () => {
         navigate('/'); // Home 페이지로 직접 이동
@@ -34,6 +35,8 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
         latitude: null,
         longitude: null
     });
+    const [address, setAddress] = useState("");
+
     const [error, setError] = useState(null);
 
     useEffect(() => {
@@ -51,7 +54,23 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
             setError("Geolocation은 이 브라우저에서 지원되지 않습니다.");
         }
     }, []);
+    useEffect(() => {
+        if (location.latitude && location.longitude) {
+            convertCoordsToAddress(location.latitude, location.longitude, (result, status) => {
+                // console.error(result)
+                if (status === window.kakao.maps.services.Status.OK) {
+                    setAddress(result[0].address.address_name);
+                    console.log(address);
+                    setAddressToHome(result[0].address.address_name, location);
+                } else {
+                    setAddress("주소를 가져오는 중 에러 발생");
+                    console.error("Error fetching address from coordinates");
+                }
 
+                // setAddressToHome(result[0].address.address_name);
+            });
+        }
+    }, [location]);
 
     const renderHomeHeader = () => (
         <div className="App-header">
@@ -60,11 +79,9 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
                 <MenuIcon className="Home-menu-icon" onClick={handleMenuClick} />
             </div>
             <div className="Home-header-center-section">
-                {location.latitude && location.longitude
-                    ? `Latitude: ${location.latitude}, Longitude: ${location.longitude}`
-                    : error
-                        ? `Error: ${error}`
-                        : "위치 안뜸"}
+                {location && location.latitude && location.longitude
+                    ? `주소: ${address}`
+                    : "위치 정보를 가져오는 중..."}
             </div>
         </div>
     );

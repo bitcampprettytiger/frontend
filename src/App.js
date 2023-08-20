@@ -50,7 +50,7 @@ function App() {
 
     <Router>
       <BrowserView className='BV'>
-        <SellHeader />
+
         <Routes>
           <Route path="/home" element={<Home />} />
           <Route path="/trfood" element={<TrFood />} />
@@ -77,7 +77,7 @@ function App() {
           <Route path="/sellhome" element={<SellHome />} />
           <Route path="/sellmyset" element={<SellMySet />} />
         </Routes>
-        <SellFooter />
+
       </BrowserView>
 
       <MobileView className='MV'>

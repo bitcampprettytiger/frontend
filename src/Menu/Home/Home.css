@@ -6,7 +6,6 @@
 .App-main2 {
     width: 100%;
     border: 1px solid #ff0000;
-    width: 480px;
 }
 
 .Home-search-container {
@@ -28,16 +27,13 @@
     flex-grow: 1;
     border: none;
     outline: none;
-    border: 1px solid #ff0000;
     background-color: #ffffff;
     padding: 5px;
     border-radius: 15px;
     margin: 10px;
-    width: 350px;
+    
     height: auto;
-    margin-left: 66px;
-    margin-bottom: 10px;
-    margin-top: -5px;
+    
 }
 
 .Home-search-button {
@@ -169,9 +165,9 @@
 .macha-place-button {
     border: none;
     border-radius: 20px;
-    width: 180px;
-    height: 180px;
-    display: flex;
+    width: 40%;        /* 기존의 40%에서 조정 */
+    height: 60%;       /* 기존의 50%에서 조정 */
+    display: inline-block;  /* 수평으로 배열하기 위해 변경 */
     justify-content: center;
     align-items: center;
     background: transparent;
@@ -181,8 +177,8 @@
 }
 
 .macha-place-button img {
-    width: 180px;
-    height: 180px;
+    width: 100%;      /* 이미지가 버튼 크기에 맞게 확장되도록 조정 */
+    height: auto;     /* 이미지 비율을 유지 */
     border-radius: 20px;
 }
 
@@ -196,8 +192,8 @@
     align-items: center;
 }
 
-.macha-container {
-    width: 480px;
+.macha-button-container {
+    width: 100%;
     overflow-x: scroll;
     overflow-y: hidden;
     white-space: nowrap;
@@ -209,4 +205,32 @@
 
     scrollbar-width: none;
     -ms-overflow-style: none;
+}
+.footer-text-container {
+    background-color: #f7f7f7; /* 배경색 */
+    padding: 20px 0; /* 상하 패딩 */
+    text-align: center; /* 내용 중앙 정렬 */
+    border-top: 1px solid #e0e0e0; /* 상단 경계선 */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.footer-text-container-text {
+    display: inline-block; /* 내부 div 정렬을 위해 */
+    width: 80%; /* 전체 너비의 80%만큼 사용 */
+    max-width: 800px; /* 최대 너비 제한 */
+    margin: 0 auto; /* 중앙 정렬 */
+}
+
+.footer-text-container-text p {
+    font-size: 12px; /* 폰트 크기 */
+    color: #555; /* 글자색 */
+    line-height: 1.5; /* 줄 간격 */
+    margin: 0; /* margin 제거 */
+}
+
+/* 각각의 내용들 간에 간격 추가 (예: 팀명, 소속 등) */
+.footer-text-container-text p br {
+    margin-bottom: 8px;
+    display: block;
 }
