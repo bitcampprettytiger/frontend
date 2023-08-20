@@ -5,7 +5,6 @@ import Header from '../../Layout/Header';
 import '../../App.css';
 import './Home.css';
 import Footer from '../../Layout/Footer';
-import MachaSection from '../Home/HomeComponents/MachaSection';
 
 
 function Home() {
