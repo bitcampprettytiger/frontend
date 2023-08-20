@@ -10,6 +10,7 @@ import './App.css';
 // import Footer from './Layout/Footer.jsx';
 import Search from './Menu/Home/HomeComponents/Search';
 import Hotplace from './Menu/Home/HomeComponents/Hotplace';
+import MachaSection from './Menu/Home/HomeComponents/MachaSection';
 import Waiting from './Menu/Home/HomeComponents/Waiting';
 import WaitingDetail from './Menu/Home/HomeComponents/WaitingDetail';
 import MyReview from './Menu/MyPage/MyPageComponents/MyReview';
@@ -17,6 +18,10 @@ import MyFavorite from './Menu/MyPage/MyPageComponents/MyFavorite';
 import MyTakeout from './Menu/MyPage/MyPageComponents/MyTakeout';
 import GeolocationComponent from './Menu/Home/HomeComponents/GeolocationComponent';
 import MyEdit from './Menu/MyPage/MyPageComponents/MyEdit';
+import { BrowserView, MobileView } from 'react-device-detect';
+import LoginRoute from '../src/Login,Join/LoginRoute'
+import ShopMain from './ShopDetails/ShopMain'
+
 function App() {
 
   const data = [
@@ -38,6 +43,53 @@ function App() {
   ];
   return (
     <>
+      <BrowserView className='BV'>
+
+        <Router>
+
+          <Routes>
+
+            <Route path="/home" element={<Home />} />
+            <Route path="/trfood" element={<TrFood />} />
+            <Route path="/stfood" element={<StFood />} />
+            <Route path="/geolocationcomponent" element={<GeolocationComponent />} />
+            <Route path="/mypage" element={<Mypage />} />
+            <Route path="/search" element={<Search />} />
+            <Route path="/waiting" element={<Waiting />} />
+            <Route path="/myreview" element={<MyReview />} />
+            <Route path="/myfavorite" element={<MyFavorite />} />
+            <Route path="/mytakeout" element={<MyTakeout />} />
+            <Route path="/waitingDetail" element={<WaitingDetail />} />
+            <Route path="/myedit" element={<MyEdit />} />
+            <Route path="/hotplace" element={
+              <div>
+                <Hotplace />
+                {data.map((section, index) => (
+                  <MachaSection key={index} {...section} />
+                ))}
+              </div>
+            } />
+
+
+            <Route path="/home" element={<Home></Home>}></Route>
+            <Route path="/stfood" element={<StFood></StFood>}></Route>
+            <Route path="/trfood" element={<TrFood></TrFood>}></Route>
+            <Route path="/mypage" element={<Mypage></Mypage>}></Route>
+            <Route path='/shophome' element={<ShopMain />}></Route>
+          </Routes>
+
+        </Router>
+
+      </BrowserView >
+
+      <MobileView className='MV'>
+        <Router>
+
+          <div className="App wrapper">
+
+            <div className="App-main">
+
+              {/* <Content> */}
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/trfood" element={<TrFood />} />
@@ -54,8 +106,17 @@ function App() {
                 <Route path="/myedit" element={<MyEdit />} />
                 <Route path="/geolocationcomponent" element={<GeolocationComponent />} />
 
-              </Routes>
 
+
+              </Routes>
+              {/* </Content> */}
+
+            </div>
+
+
+          </div>
+        </Router>
+      </MobileView>
     </>
   );
 }

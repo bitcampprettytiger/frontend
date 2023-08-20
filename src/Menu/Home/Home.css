@@ -1,0 +1,259 @@
+* {
+    font-family: 'NanumSquareNeo-Variable', sans-serif;
+    box-sizing: border-box;
+}
+
+.App-main2 {
+    width: 100%;
+    border: 1px solid #ff0000;
+}
+
+.Home-search-container {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    border: 1px solid #ff0000;
+    border-radius: 20px;
+    margin: auto;
+    margin-bottom: 10%;
+    width: 90%;
+    height: 10%;
+    padding: 0%;
+}
+
+.Home-search-input {
+    margin-left: 3%;
+    border-radius: 10px;
+    flex-grow: 1;
+    border: none;
+    outline: none;
+}
+
+.Home-search-button {
+    cursor: pointer;
+    background: transparent;
+    border: none;
+}
+
+.Home-search-button img {
+    width: 15px;
+    height: 15px;
+    margin-top: 3px;
+}
+
+.custom-text-container,
+.custom-text-container2,
+.custom-text-container3 {
+    padding-left: 5%;
+    width: 95%;
+}
+
+.custom-text-container2 {
+    margin-bottom: -1%;
+}
+
+.custom-text-container3 {
+    margin-top: -1%;
+}
+
+.custom-text,
+.custom-text2,
+.custom-text3 {
+    font-size: 130%;
+    font-weight: bold;
+    font-family: 'NanumSquareNeo-Variable', sans-serif;
+}
+
+.custom-text3 {
+    font-size: 80%;
+    color: #070707;
+}
+
+.slider {
+    position: relative;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 1px;
+}
+
+.slide-image {
+    width: 100%;
+    height: 90%;
+    display: block;
+    margin: auto;
+}
+
+.dots {
+    text-align: center;
+    position: relative;
+    bottom: 30px;
+}
+
+.dot {
+    height: 8px;
+    width: 8px;
+    margin: 0 4px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.dot.active {
+    background-color: #717171;
+}
+
+.outer-container,
+.macha-container {
+    margin: auto;
+    width: 90%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    ::-webkit-scrollbar {
+        display: none;
+    }
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.inner-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.button-round {
+    position: relative;
+    width: 100px;  
+    height: 100px;
+    border-radius: 50%;  
+    border: none;
+    cursor: pointer;
+    margin: 10px;
+  }
+
+.button-round img,
+.macha-button img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.button-round span {
+    position: relative;
+    z-index: 1;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.macha-place-button {
+    border: none;
+    border-radius: 20px;
+    width: 180px;
+    height: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: transparent;
+    cursor: pointer;
+    outline: none;
+    margin-right: 20px;
+}
+
+.footer-text-container {
+    width: 100%;
+    margin-right: 3px;
+    margin-top: 50px;
+    height: 110px;
+    background-color: #d0d0d0;
+}
+
+.footer-text-container-text {
+    text-align: center;
+    font-size: 8px;
+    color: #777777;
+}
+
+.hashtag-container {
+    margin-left: 15px;
+}
+
+.hashtag-container button {
+    border-color: #ff813d;
+    margin: 0 10px;
+    width: 70px;
+    height: 30px;
+    background-color: #ffffff;
+    color: #000000;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 8px;
+    transition: background 0.3s;
+}
+
+.hashtag-container button:hover {
+    background-color: #ffccb1;
+}
+
+.hashtag-link {
+    background-color: #f2f2f2;
+    padding: 5px 10px;
+    border-radius: 4px;
+    text-decoration: none;
+    color: black;
+    margin-right: 10px;
+    display: inline-block;
+}
+
+.macha-button-container {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    white-space: nowrap;
+    margin: auto;
+    width: 95%;
+    height: 30vh;
+    transition: filter 0.3s;
+}
+
+.macha-button-container::-webkit-scrollbar {
+    display: none !important;
+}
+
+
+.macha-button-container:hover .macha-button:not(:hover) {
+    filter: brightness(0.7);
+    /* 호버되지 않은 버튼의 밝기를 줄입니다 */
+    transition: filter 0.3s;
+    /* 부드럽게 필터 효과가 나타나게 합니다 */
+}
+
+
+.macha-button {
+    flex: 0 0 auto;
+    margin-right: 10px;
+    width: 45%;
+    height: 140%;
+    padding: 0;
+    border: none;
+    background: none;
+    overflow: hidden;
+    border-radius: 10px;
+    transition: transform 0.3s;
+    border-radius: 10px;
+}
+
+.macha-button:hover {
+    transform: scale(1.1);
+    filter: brightness(1);
+    z-index: 10;
+}
+
+.macha-button img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
