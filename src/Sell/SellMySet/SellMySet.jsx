@@ -1,7 +1,9 @@
 import React from 'react'
 
-export const SellMySet = () => {
+const SellMySet = () => {
   return (
     <div>SellMySet</div>
   )
 }
+
+export default SellMySet

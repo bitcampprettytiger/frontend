@@ -24,6 +24,8 @@ import ShopMain from './ShopDetails/ShopMain';
 import SellFooter from './Sell/SellLayout/SellFooter';
 import SellHeader from './Sell/SellLayout/SellHeader';
 import SellStoreSet from './Sell/SellStoreSet/SellStroreSet';
+import SellHome from './Sell/SellHome/SellHome';
+import SellMySet from './Sell/SellMySet/SellMySet'
 import './Global.css';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
@@ -74,16 +76,28 @@ function App() {
     <>
       <ThemeProvider theme={theme}>
         <BrowserView className="BV">
-          <SellHeader></SellHeader>
-          <SellStoreSet></SellStoreSet>
-          <SellFooter></SellFooter>
+          <Router>
+            <SellHeader></SellHeader>
+            <Routes>
+              <Route
+                path="/sellSet"
+                element={<SellStoreSet></SellStoreSet>}
+              ></Route>
+              <Route
+                path="/sellhome"
+                element={<SellHome></SellHome>}
+              ></Route>
+              <Route
+                path="/sellmyset"
+                element={<SellMySet></SellMySet>}
+              ></Route>
+            </Routes>
+            <SellFooter></SellFooter>
+
+          </Router>
         </BrowserView>
-        <MobileView className="MV">
-          <SellHeader></SellHeader>
-          <SellStoreSet></SellStoreSet>
-          <SellFooter></SellFooter>
-        </MobileView>
       </ThemeProvider>
+
       {/* <BrowserView className='BV'>
 
         <Router>
