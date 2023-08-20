@@ -9,43 +9,48 @@ import Footer from '../../Layout/Footer';
 
 function Home() {
   const navigate = useNavigate();
-  const [searchinput, setSearchInput] = useState('');
+  const [searchInput, setSearchInput] = useState('');
   const [hotPlaces, setHotPlaces] = useState([]);
   const [nearbyStations, setNearbyStations] = useState([]);
   const [showStations, setShowStations] = useState(false);
   const [popularPlaces, setPopularPlaces] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const images = [
+    '/images/slide-4.png',
+    '/images/slide-2.png',
+    '/images/slide-3.png'
+  ];
 
   useEffect(() => {
     const testData = {
-      address: "서울 송파구 오금로 420" // 이 부분을 원하는 테스트 주소로 변경하실 수 있습니다.
+      address: "서울 송파구 오금로 420"
     };
 
-
-
-    axios.post('http://localhost/search', testData,
+    axios.post('http://localhost/vendor/search', testData,
       {
         headers: {
           'Content-Type': 'application/json'
         }
       }) // 실제 api 엔드포인트로 변경할 것
       .then(response => {
-        console.log(response);
+        console.log(response)
         setPopularPlaces(response.data);
       })
       .catch(error => {
         console.error("Error fetching popular places", error);
       });
-  }, []);
+
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [images.length]);
 
   const handleSearch = () => {
-    navigate('/search', { state: { query: searchinput } });
+    navigate('/search', { state: { query: searchInput } });
   };
 
   const navigateToSearch = () => {
-    navigate('/search');
-  };
-
-  const navigateToHotPlace = (placeName) => {
     navigate('/search');
   };
 
@@ -55,24 +60,10 @@ function Home() {
     }
   };
 
-
-  const images = [
-    '/images/slide-4.png',
-    '/images/slide-2.png',
-    '/images/slide-3.png'
-  ];
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [images.length]);
-
   return (
     <div className='App-main2'>
       <Header page="home" />
+
       <div className="slider">
         <img src={images[currentIndex]} alt="슬라이드 이미지" className="slide-image" />
         <div className="dots">
@@ -85,12 +76,13 @@ function Home() {
           ))}
         </div>
       </div>
+
       <div className="Home-search-container">
         <input
           className="Home-search-input"
           type="text"
           placeholder="지역, 음식, 가게명을 검색해보세요"
-          value={searchinput}
+          value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
           onClick={handleSearch}
         />
@@ -98,10 +90,8 @@ function Home() {
           <img src="images/inputsearch.png" alt="Search" />
         </button>
       </div>
-      <div className='custom-text-container2'>
-        <p className='custom-text'>오늘 이곳은 어때요?</p>
-      </div>
 
+      <h3>오늘 이곳은 어때요?</h3>
       <div className="outer-container">
         <div className="inner-container">
           {popularPlaces.map((place) => (
@@ -113,19 +103,16 @@ function Home() {
         </div>
       </div>
 
-      <div className='custom-text-container2'>
-        <p className='custom-text2'>포장마차거리 핫플레이스 BEST</p>
-      </div>
-      <div className='custom-text-container3'>
-        <p className='custom-text3'>지금은 야장이 가장 인기! 먹고가꼬에서 포장마차거리를 확인하세요!</p>
-      </div>
+      <h3>포장마차거리 핫플레이스 BEST</h3>
+      <p>지금은 야장이 가장 인기! 먹고가꼬에서 포장마차거리를 확인하세요!</p>
       <div className="macha-button-container">
         {["/images/place1.png", "/images/place2.png", "/images/place3.png", "/images/place4.png", "/images/place5.png"].map((image, index) => (
-          <button key={image} className="macha-button" onClick={navigateToSearch}>
+          <button key={index} className="macha-button" onClick={navigateToSearch}>
             <img src={image} alt={`Place ${index + 1}`} />
           </button>
         ))}
       </div>
+
       <div className='footer-text-container'>
         <div className='footer-text-container-text'>
           <p>

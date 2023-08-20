@@ -1,13 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-// import Content from './components/Content';
 import Home from './Menu/Home/Home';
 import StFood from './Menu/StFood/StFood';
 import TrFood from './Menu/TrFood/TrFood';
 import Mypage from './Menu/MyPage/Mypage';
 import './App.css';
-// import Header from './Layout/Header.jsx';
-// import Footer from './Layout/Footer.jsx';
 import Search from './Menu/Home/HomeComponents/Search';
 import Hotplace from './Menu/Home/HomeComponents/Hotplace';
 import MachaSection from './Menu/Home/HomeComponents/MachaSection';
@@ -19,9 +16,15 @@ import MyTakeout from './Menu/MyPage/MyPageComponents/MyTakeout';
 import GeolocationComponent from './Menu/Home/HomeComponents/GeolocationComponent';
 import MyEdit from './Menu/MyPage/MyPageComponents/MyEdit';
 import { BrowserView, MobileView } from 'react-device-detect';
-// import LoginRoute from '../src/Login,Join/LoginRoute';
-import ShopMain from './ShopDetails/ShopMain';
-// import SellFooter from './Sell/SellLayout/SellFooter';
+import LoginRoute from '../src/Login,Join/LoginRoute'
+import ShopMain from './ShopDetails/ShopMain'
+import { ThemeProvider } from 'styled-components';
+import SellHeader from './Sell/SellLayout/SellHeader';
+import SellStoreSet from './Sell/SellStoreSet/SellStroreSet';
+import SellHome from './Sell/SellHome/SellHome';
+import SellMySet from './Sell/SellMySet/SellMySet';
+import SellFooter from './Sell/SellLayout/SellFooter';
+
 
 function App() {
   const data = [
@@ -61,83 +64,72 @@ function App() {
     },
   ];
   return (
-    <>
-      
-      {/* <seller></seller> */}
 
-      <BrowserView className='ssBV'>
-
-        <Router>
-
-          <Routes>
-
-            <Route path="/home" element={<Home />} />
-            <Route path="/trfood" element={<TrFood />} />
-            <Route path="/stfood" element={<StFood />} />
-            <Route path="/geolocationcomponent" element={<GeolocationComponent />} />
-            <Route path="/mypage" element={<Mypage />} />
-            <Route path="/search" element={<Search />} />
-            <Route path="/waiting" element={<Waiting />} />
-            <Route path="/myreview" element={<MyReview />} />
-            <Route path="/myfavorite" element={<MyFavorite />} />
-            <Route path="/mytakeout" element={<MyTakeout />} />
-            <Route path="/waitingDetail" element={<WaitingDetail />} />
-            <Route path="/myedit" element={<MyEdit />} />
-            <Route path="/hotplace" element={
-              <div>
-                <Hotplace />
-                {data.map((section, index) => (
-                  <MachaSection key={index} {...section} />
-                ))}
-              </div>
-            } />
-
-
-            <Route path="/home" element={<Home></Home>}></Route>
-            <Route path="/stfood" element={<StFood></StFood>}></Route>
-            <Route path="/trfood" element={<TrFood></TrFood>}></Route>
-            <Route path="/mypage" element={<Mypage></Mypage>}></Route>
-            <Route path='/shophome' element={<ShopMain />}></Route>
-          </Routes>
-
-        </Router>
-
-      </BrowserView >
+    <Router>
+      <BrowserView className='BV'>
+        <Routes>
+          <Route path="/home" element={<Home />} />
+          <Route path="/trfood" element={<TrFood />} />
+          <Route path="/stfood" element={<StFood />} />
+          <Route path="/geolocationcomponent" element={<GeolocationComponent />} />
+          <Route path="/mypage" element={<Mypage />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="/waiting" element={<Waiting />} />
+          <Route path="/myreview" element={<MyReview />} />
+          <Route path="/myfavorite" element={<MyFavorite />} />
+          <Route path="/mytakeout" element={<MyTakeout />} />
+          <Route path="/waitingDetail" element={<WaitingDetail />} />
+          <Route path="/myedit" element={<MyEdit />} />
+          <Route path="/hotplace" element={
+            <div>
+              <Hotplace />
+              {data.map((section, index) => (
+                <MachaSection key={index} {...section} />
+              ))}
+            </div>
+          } />
+          <Route path="/shophome" element={<ShopMain />} />
+          <Route path="/sellSet" element={<SellStoreSet />} />
+          <Route path="/sellhome" element={<SellHome />} />
+          <Route path="/sellmyset" element={<SellMySet />} />
+        </Routes>
+        <SellFooter />
+      </BrowserView>
 
       <MobileView className='MV'>
-        <Router>
-
-          <div className="App wrapper">
-
-            <div className="App-main">
-
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/trfood" element={<TrFood />} />
-                <Route path="/stfood" element={<StFood />} />
-                <Route path="/mypage" element={<Mypage />} />
-                <Route path="/search" element={<Search />} />
-                <Route path="/hotplace" element={<Hotplace />} />
-                <Route path="/hotplace/:placeId" element={<Hotplace />} />
-                <Route path="/waiting" exact component={<Waiting />} />
-                <Route path="/waitingDetail" element={<WaitingDetail />} />
-                <Route path="/myreview" element={<MyReview />} />
-                <Route path="/myfavorite" element={<MyFavorite />} />
-                <Route path="/mytakeout" element={<MyTakeout />} />
-                <Route path="/myedit" element={<MyEdit />} />
-                <Route path="/geolocationcomponent" element={<GeolocationComponent />} />
-
-
-
-              </Routes>
-
-            </div>
-
-
+        <div className="App wrapper">
+          <div className="App-main">
+            <Routes>
+              <Route path="/home" element={<Home />} />
+              <Route path="/trfood" element={<TrFood />} />
+              <Route path="/stfood" element={<StFood />} />
+              <Route path="/geolocationcomponent" element={<GeolocationComponent />} />
+              <Route path="/mypage" element={<Mypage />} />
+              <Route path="/search" element={<Search />} />
+              <Route path="/waiting" element={<Waiting />} />
+              <Route path="/myreview" element={<MyReview />} />
+              <Route path="/myfavorite" element={<MyFavorite />} />
+              <Route path="/mytakeout" element={<MyTakeout />} />
+              <Route path="/waitingDetail" element={<WaitingDetail />} />
+              <Route path="/myedit" element={<MyEdit />} />
+              <Route path="/hotplace" element={
+                <div>
+                  <Hotplace />
+                  {data.map((section, index) => (
+                    <MachaSection key={index} {...section} />
+                  ))}
+                </div>
+              } />
+            </Routes>
+            <Route path="/shophome" element={<ShopMain />} />
+            <Route path="/sellSet" element={<SellStoreSet />} />
+            <Route path="/sellhome" element={<SellHome />} />
+            <Route path="/sellmyset" element={<SellMySet />} />
           </div>
-        </Router>
+        </div>
       </MobileView>
-    </>
+    </Router>
+
   );
 }
 
