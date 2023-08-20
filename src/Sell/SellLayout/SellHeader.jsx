@@ -3,7 +3,7 @@ import { AppBar, Toolbar, Typography, Box, Grid, Avatar } from '@mui/material';
 
 const Header = () => {
   return (
-    <AppBar position='static' color="default">
+    <AppBar position='static' color="default" sx={{marginBottom:'5%'}}>
       <Toolbar sx={{ backgroundColor: '#ffffff' }}>
         <Grid container alignItems="center" justifyContent="space-between">
           <Grid item xs={1}>
@@ -15,7 +15,7 @@ const Header = () => {
           </Grid>
           <Grid item xs={10}>
             <Typography variant="h6" align="center" color="text.primary">
-              가게정보
+              판매자 페이지
             </Typography>
           </Grid>
           <Grid item xs={1}></Grid> {/* 오른쪽 공간 확보 */}
