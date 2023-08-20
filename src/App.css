@@ -6,7 +6,7 @@
   width: 100%;
   margin: 0 auto;
 }
->>>>>>> parent of b7c803e (Merge branch 'XFVI-67-FE-UI-ShopDetail' of https://github.com/bitcampprettytiger/frontend into XFVI-67-FE-UI-ShopDetail)
+
 .MV {
   width: 100%;
   margin: 0 auto;
@@ -25,11 +25,8 @@ html a {
   margin: 0 auto;
   background-color: #fff;
   box-shadow: 0 0 20px #0000000d;
-<<<<<<< HEAD
-=======
 }
 
 body::-webkit-scrollbar {
   display: none; 
->>>>>>> parent of b7c803e (Merge branch 'XFVI-67-FE-UI-ShopDetail' of https://github.com/bitcampprettytiger/frontend into XFVI-67-FE-UI-ShopDetail)
 }
