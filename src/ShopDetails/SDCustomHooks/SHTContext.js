@@ -9,7 +9,6 @@ const ShopHomeTabsContext = createContext({
 
 export const ShopHomeTabsProvider = ({ children }) => {
   const [value, setValue] = useState(0);
-  
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
