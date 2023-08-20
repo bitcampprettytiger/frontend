@@ -44,8 +44,8 @@ function Location({ address }) {
           borderRadius: '10px',
           borderColor: 'black',
           borderWidth: '0.8px',
-          width: '70vw',
-          height: '40px',
+          width: '80vw',
+          height: '50px',
         }}
       >
         매장 길찾기
