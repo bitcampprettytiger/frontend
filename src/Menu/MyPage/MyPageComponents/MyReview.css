@@ -1,18 +1,18 @@
 .myreview-container {
+    padding: 20px;
     width: 480px;
     height: 550px;
-    padding: 20px;
 }
 
 /* 구분선 스타일 */
 .review-divider {
     width: 100%;
-    height: 2px;
-    /* 구분선 색상 */
-    margin: 20px 0;
     border: 0;
+    height: 2px;
     /* 구분선 높이 */
     background-color: #ccc;
+    /* 구분선 색상 */
+    margin: 20px 0;
     /* 위 아래 여백 */
 }
 
@@ -30,34 +30,34 @@
 }
 
 .store-name {
+    font-size: 16px;
+    font-weight: bold;
     display: inline-block;
     margin-right: 10px;
-    font-weight: bold;
-    font-size: 16px;
 }
 
 .navigate-btn {
-    /* 버튼 클릭 시 색상 변화 속도 */
-    display: inline-block;
-    padding: 5px;
 
     margin-left: -350px;
-    border: none;
     background: none;
+    border: none;
     cursor: pointer;
+    padding: 5px;
     outline: none;
     transition: color 0.3s;
+    /* 버튼 클릭 시 색상 변화 속도 */
+    display: inline-block;
 }
 
 .delete-btn {
-    /* 버튼 클릭 시 색상 변화 속도 */
-    display: inline-block;
-    padding: 5px;
-    border: none;
     background: none;
+    border: none;
     cursor: pointer;
+    padding: 5px;
     outline: none;
     transition: color 0.3s;
+    /* 버튼 클릭 시 색상 변화 속도 */
+    display: inline-block;
 }
 
 .navigate-btn:hover .navigate-icon {
@@ -81,23 +81,23 @@
 }
 
 .star-container {
+    margin-top: 5px;
     display: flex;
     align-items: flex-start;
-    margin-top: 5px;
     /* 왼쪽 정렬 */
 }
 
 .star-icon {
-    margin-right: 5px;
     color: yellow;
+    margin-right: 5px;
 }
 
 .images-container {
     display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
     max-width: 100%;
     margin-top: 5px;
-    white-space: nowrap;
-    overflow-x: auto;
 }
 
 .review-image {
@@ -108,36 +108,36 @@
 }
 
 .more-images {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     width: 100px;
     height: 100px;
     background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    font-size: 24px;
-}
-
-.modal-background {
-    /* 배경 어둡게 */
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 24px;
+    color: white;
+}
+
+.modal-background {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.7);
+    /* 배경 어둡게 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .modal {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
     width: 80%;
     /* 원하는 대로 조절 */
     max-height: 80%;
-    padding: 20px;
-    border-radius: 5px;
-    background-color: #fff;
     overflow-y: auto;
 }
 
@@ -147,18 +147,18 @@
 }
 
 .close-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    padding: 5px;
     border: none;
     background: transparent;
+    position: absolute;
+    right: 10px;
+    top: 10px;
     cursor: pointer;
+    padding: 5px;
 }
 
 .close-icon {
-    color: #333;
     font-size: 1.5rem;
+    color: #333;
     transition: color 0.3s;
 }
 

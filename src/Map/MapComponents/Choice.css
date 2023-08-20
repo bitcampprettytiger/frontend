@@ -1,14 +1,14 @@
 /* 전체 화면을 차지하는 클래스 */
 .full {
+    margin: 0 auto; /* 중앙 정렬 */
+    pointer-events: none; /* 포인터 이벤트 비활성화 */
+    width: 100%; /* 너비 100% */
+    height: 80%; /* 높이 80% */
     align-items: center; /* 센터에 아이템 정렬 */
     position: absolute; /* 절대 위치 */
     top: 0; /* 상단에서 0 */
     left: 0; /* 좌측에서 0 */
-    width: 100%; /* 너비 100% */
-    height: 80%; /* 높이 80% */
     z-index: 1; /* 다른 요소들 위에 위치하도록 설정 */
-    margin: 0 auto; /* 중앙 정렬 */
-    pointer-events: none; /* 포인터 이벤트 비활성화 */
 }
 
 /* 상단 메뉴 2개를 담는 컨테이너 */
@@ -20,11 +20,11 @@
 
 /* 각 카테고리 스타일링 */
 .cate {
-    width: 15%; /* 너비 15% */
     margin: 0 auto; /* 중앙 정렬 */
+    background-color: red; /* 배경색은 빨강 */
+    width: 15%; /* 너비 15% */
     margin-left: 25px; /* 왼쪽에서 25px 마진 */
     border-radius: 20px; /* 모서리 둥글게 */
-    background-color: red; /* 배경색은 빨강 */
 }
 
 /* 카테고리 내 이미지 스타일링 */
@@ -37,37 +37,37 @@
 /* 입력 필드 스타일링 */
 .input {
     width: 60%;
-    margin: 0 auto;
     border: 1px solid black; /* 검은색 1px 테두리 */
-    border-radius: 20px; /* 모서리 둥글게 */
     font-size: 100%; /* 글자 크기 50px */
+    border-radius: 20px; /* 모서리 둥글게 */
     text-align: center; /* 텍스트 중앙 정렬 */
     pointer-events: auto;
+    margin: 0 auto;
 }
 
 /* 카테고리 버튼 레이아웃 */
 .flex-wrap {
     display: flex; /* 플렉스박스 사용 */
-    justify-content: center; /* 가운데 정렬 */
     margin-top: 5%; /* 상단에서 5% 마진 */
     gap: 30px; /* 아이템 간의 간격 */
+    justify-content: center; /* 가운데 정렬 */
 }
 
 /* 카테고리 버튼 스타일링 */
 .flex-wrap button {
-    display: flex; /* 플렉스박스 사용 */
-    justify-content: center; /* 가운데 정렬 */
-    align-items: center; /* 센터에 아이템 정렬 */
-    width: 20%; /* 너비 20% */
-    height: 30%; /* 높이 30% */
+    pointer-events: auto; /* 포인터 이벤트 활성화 */
+    color: #C47BFD; /* 글자 색상 */
     border: 1px solid gray; /* 회색 1px 테두리 */
     border-radius: 10px; /* 모서리 둥글게 */
     background-color: white; /* 배경색은 흰색 */
-    color: #C47BFD; /* 글자 색상 */
-    font-weight: 700; /* 글자 두께 */
+    width: 20%; /* 너비 20% */
+    height: 30%; /* 높이 30% */
     font-size: 27px; /* 글자 크기 27px */
+    font-weight: 700; /* 글자 두께 */
     text-align: center; /* 텍스트 중앙 정렬 */
-    pointer-events: auto; /* 포인터 이벤트 활성화 */
+    justify-content: center; /* 가운데 정렬 */
+    align-items: center; /* 센터에 아이템 정렬 */
+    display: flex; /* 플렉스박스 사용 */
 }
 
 .selected {

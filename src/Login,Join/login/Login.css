@@ -24,11 +24,11 @@
 }
 
 .header .logo-name {
+    width: 70%;
+    font-size: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 70%;
-    font-size: 40px;
 }
 
 input {
@@ -38,12 +38,12 @@ input {
 }
 
 .sub-button {
-    border: none;
     background: none;
+    border: none;
     color: grey;
     font-size: 16px;
-    text-decoration: none;
     cursor: pointer;
+    text-decoration: none;
 }
 
 .sub-button:hover {
@@ -51,13 +51,13 @@ input {
 }
 
 .login-btn {
-    margin-bottom: 30px;
-    border: none;
+    text-decoration: none;
     background: none;
+    border: none;
     color: red;
     font-size: 16px;
-    text-decoration: none;
     cursor: pointer;
+    margin-bottom: 30px;
 }
 
 .login-btn:hover {
@@ -87,9 +87,9 @@ input {
 .sns-1,
 .sns-2,
 .sns-3 {
+    margin-top: 10px;
     width: 30%;
     height: 40px;
-    margin-top: 10px;
 }
 
 .sns-1 {
@@ -109,12 +109,12 @@ input {
 }
 
 .password-field button {
-    position: absolute;
-    top: 35%;
-    right: 30px;
-    border: none;
     background: none;
+    border: none;
     cursor: pointer;
+    position: absolute;
+    right: 30px;
+    top: 35%;
     transform: translateY(-50%);
 }
 
