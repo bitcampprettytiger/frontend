@@ -76,7 +76,7 @@ function SellFooter() {
         </Link>
 
 
-        
+        <Link to={'/sellmyset'}>
         <IconButton
           color={activeButton === 'myPage' ? 'primary' : 'default'}
           onClick={() => handleButtonClick('myPage')}
@@ -101,6 +101,7 @@ function SellFooter() {
             마이페이지
           </Box>
         </IconButton>
+        </Link>
       </Toolbar>
     </AppBar>
   );
