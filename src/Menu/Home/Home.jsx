@@ -22,7 +22,7 @@ function Home() {
 
 
 
-    axios.post('http://192.168.100.233/search', testData,
+    axios.post('http://localhost/search', testData,
       {
         headers: {
           'Content-Type': 'application/json'
