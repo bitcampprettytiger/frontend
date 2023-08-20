@@ -43,4 +43,3 @@ const ShopImage = ({ shop }) => {
 };
 
 export default ShopImage;
-

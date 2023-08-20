@@ -24,7 +24,7 @@ function ScrollTop(props) {
     disableHysteresis: true,
     threshold: 0,
   });
-  
+
 
   const handleClick = (event) => {
     const anchor = (event.target.ownerDocument || document).querySelector(

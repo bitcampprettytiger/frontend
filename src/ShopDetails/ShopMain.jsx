@@ -1,13 +1,12 @@
 import React from "react";
 import ShopAppBar from './SDComponents/ShopAppBar';
 import ShopImage from "./SDComponents/ShopSwiper";
+import shopList from "../DataEx/shop";
 import { useParams } from "react-router-dom";
 import ShopHomeTabs from "./SDComponents/ShopHomeTabs";
+import review from "../DataEx/review"
 import './ShopMain.css';
 import { ShopHomeTabsProvider } from "./SDCustomHooks/SHTContext";
-import shopList from "../DataEx/shop";
-import review from '../DataEx/review'
-import ShopInfo from "./SDComponents/ShopInfo";
 
 const ShopMain = () => {
     const { shopId } = useParams();
@@ -17,8 +16,6 @@ const ShopMain = () => {
     return (
         <>
             <ShopAppBar />
-            <ShopInfo/>
-            <hr/>
             {shop && <ShopImage shop={shop} />}
             <ShopHomeTabsProvider>
             <ShopHomeTabs images={imagesFromReviews} />

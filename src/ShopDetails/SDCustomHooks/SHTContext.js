@@ -9,22 +9,15 @@ const ShopHomeTabsContext = createContext({
 
 export const ShopHomeTabsProvider = ({ children }) => {
   const [value, setValue] = useState(0);
-
+  
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
   const loadMoreData = useCallback(() => {
-  // const newImages = await api.getImages();
-  // const newMenus = await api.getMenus();
-  // const newLocation = await api.getLocation();
-  // setValue({
-  //   images: images.concat(newImages),
-  //   menus: menus.concat(newMenus),
-  //   location: newLocation,
-  });
-}, []);
+    // 데이터 추가 로직
+  }, []);
 
   const handleVisibilityChange = (inView, entry) => {
     if (inView) {

@@ -1,9 +1,11 @@
-import React from 'react'
+import React from 'react';
 
 const SellHome = () => {
-  return (
-    <div>SellHome</div>
+  return(
+    <div></div>
+    
   )
-}
+};
 
-export default SellHome
+export default SellHome;
+

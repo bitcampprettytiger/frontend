@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useContext } from 'react';
-import PropTypes from 'prop-types';
 import { Box, Typography } from '@mui/material';
 import ShopFacilities from './ShopFacilities';
 import MenuSeeMore from './MenuSeeMore';

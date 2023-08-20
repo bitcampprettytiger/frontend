@@ -88,17 +88,17 @@ function Footer({ type, activeButton, handleButtonClick, isWaitingDetailFooterTy
           </span>
         </button>
       </Link>
-      <Link to="/stfood">
-        <button className="image-button" onClick={() => handleButtonClick && handleButtonClick('stfood')}>
+      <Link to="/streetFood">
+        <button className="image-button" onClick={() => handleButtonClick && handleButtonClick('streetFood')}>
           <img
-            src={activeButton === 'stfood' ? '/images/spoonfork.png' : '/images/graySpoon.png'}
+            src={activeButton === 'streetFood' ? '/images/spoonfork.png' : '/images/graySpoon.png'}
             alt="길거리음식아이콘"
           />
           <span
             style={{
               fontSize: '16px',
-              color: activeButton === 'stfood' ? '#FF745A' : 'gray',
-              fontWeight: activeButton === 'stfood' ? 'bold' : 'normal',
+              color: activeButton === 'streetFood' ? '#FF745A' : 'gray',
+              fontWeight: activeButton === 'streetFood' ? 'bold' : 'normal',
             }}
           >
             길거리음식

@@ -1,6 +1,4 @@
 // useMapAPI.js
-/*global kakao*/
-
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 

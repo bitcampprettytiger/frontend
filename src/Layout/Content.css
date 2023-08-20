@@ -1,9 +1,9 @@
 .App-main {
+    flex: 1;
+    background: #fff;
     padding-top: 0vh;
     /* adjust this value to avoid overlap with header */
     padding-bottom: 0vh;
-    background: #fff;
-    flex: 1;
     /* adjust this value to avoid overlap with footer */
     overflow-y: auto;
     /* /* scroll inside content */

@@ -56,6 +56,7 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
     const renderHomeHeader = () => (
         <div className="App-header">
             <div className="Home-header-left-section">
+                {/* 메뉴 아이콘 부분 */}
                 <MenuIcon className="Home-menu-icon" onClick={handleMenuClick} />
             </div>
             <div className="Home-header-center-section">
@@ -67,6 +68,7 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
             </div>
         </div>
     );
+
 
     const renderOtherHeader = (content) => (
         <div className="App-header">
@@ -106,7 +108,7 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
                     <ArrowBackIcon style={{ color: 'black' }} />
                 </button>
             </div>
-            <div className="header-center-section">
+            <div className="search-header-center-section">
                 <div className="search-container">
                     <button className="search-button" onClick={handleSearchClick}>
                         <img src="/images/inputsearch.png" alt="검색아이콘" />
@@ -123,10 +125,9 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
                     </button>
                 </div>
             </div>
-            <div className="header-right-section"></div>
+
         </div>
     );
-
     const renderHotplaceHeader = (content) => (
         <div className="App-header">
             <div className="header-left-section">
