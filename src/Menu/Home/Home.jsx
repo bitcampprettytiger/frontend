@@ -20,31 +20,49 @@ function Home() {
     '/images/slide-2.png',
     '/images/slide-3.png'
   ];
+  const [address, setAddress] = useState("");
+  const [location, setLocation] = useState({
+    latitude: "",
+    longitude: ""
+});
+  const setAddressToHome = (newAddress,newlocation) => {
+    console.log(newlocation)
+    setAddress(newAddress);
+    setLocation({
+      latitude: newlocation.latitude,
+      longitude: newlocation.longitude
+  });  };
 
   useEffect(() => {
-    const testData = {
-      address: "서울 송파구 오금로 420"
-    };
+  
+  // Function to set the address received from the useEffect
 
-    axios.post('http://localhost/vendor/search', testData,
-      {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }) // 실제 api 엔드포인트로 변경할 것
-      .then(response => {
-        console.log(response)
-        setPopularPlaces(response.data);
-      })
-      .catch(error => {
-        console.error("Error fetching popular places", error);
-      });
+  if(address){
+    console.log(location.latitude);
+    console.log(location.longitude)
+    console.log(address)
+    axios.post('http://localhost/vendor/search', { address: address,
+    latitude: location.latitude,
+    hardness: location.longitude },
+    {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }) // 실제 api 엔드포인트로 변경할 것a
+    .then(response => {
+      console.log(response.data.result.itemlist)
+      setPopularPlaces(response.data.result.itemlist);
+    })
+    .catch(error => {
+      console.error("Error fetching popular places", error);
+    });
+  }
 
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
     }, 3000);
     return () => clearInterval(interval);
-  }, [images.length]);
+  }, [address,images.length]);
 
   const handleSearch = () => {
     navigate('/search', { state: { query: searchInput } });
@@ -62,7 +80,7 @@ function Home() {
 
   return (
     <div className='App-main2'>
-      <Header page="home" />
+      <Header page="home" setAddressToHome={setAddressToHome} /> {/* setAddress 함수를 props로 전달 */}
 
       <div className="slider">
         <img src={images[currentIndex]} alt="슬라이드 이미지" className="slide-image" />
@@ -97,7 +115,7 @@ function Home() {
           {popularPlaces.map((place) => (
             <button key={place.id} className="button-round">
               <img src={place.imageUrl} alt={place.name} className="button-image" />
-              <span className="button-text">{place.name}</span>
+              <span className="button-text">{place.location}</span>
             </button>
           ))}
         </div>

@@ -8,8 +8,10 @@ function GeolocationComponent() {
     const [address, setAddress] = useState("");
 
     useEffect(() => {
+        console.log("이게돼?")
         if (location.latitude && location.longitude) {
             convertCoordsToAddress(location.latitude, location.longitude, (result, status) => {
+                console.log(result[0].address.address_name);
                 if (status === window.kakao.maps.services.Status.OK) {
                     setAddress(result[0].address.address_name);
                 }

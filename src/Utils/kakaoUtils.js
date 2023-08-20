@@ -6,6 +6,7 @@ export function useLocation() {
     const [location, setLocation] = useState(null);
 
     useEffect(() => {
+        console.log(KAKAO_API_KEY)
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 const coords = {
@@ -15,6 +16,7 @@ export function useLocation() {
                 setLocation(coords);
             },
             (error) => {
+                console.log("에러다!!")
                 console.error("Error fetching location", error);
             }
         );
