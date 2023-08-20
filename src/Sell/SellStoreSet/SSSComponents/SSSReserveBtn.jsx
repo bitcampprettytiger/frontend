@@ -71,7 +71,7 @@ const ReservationSection = () => {
           marginTop: '5%',
         }}
       >
-        <Button variant="contained" color="primary" sx={{marginBottom:'20%'}}>
+        <Button variant="contained" color="primary">
           수정완료
         </Button>
       </Box>

@@ -33,10 +33,9 @@ const SSSMenuInput = ({ onAddMenu }) => {
         width: '100%',
         maxWidth: '400px',
         margin: 'auto',
-        marginTop:'10%'
       }}
     >
-      <Typography variant="h5" sx={{ marginTop: '5%' }}>
+      <Typography variant="h5" >
         메뉴 정보 입력
       </Typography>
       <Grid

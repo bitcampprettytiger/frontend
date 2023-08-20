@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button, IconButton, AppBar, Toolbar } from '@mui/material';
+import { Box, IconButton, AppBar, Toolbar } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 function SellFooter() {
@@ -17,6 +17,7 @@ function SellFooter() {
         bottom: 0,
         background: '#ffffff',
         borderTop: '1px solid #e7e7e7',
+        marginTop: '5%',
       }}
     >
       <Toolbar sx={{ justifyContent: 'space-around', alignItems: 'center' }}>
@@ -25,82 +26,104 @@ function SellFooter() {
             color={activeButton === 'streetFood' ? 'primary' : 'default'}
             onClick={() => handleButtonClick('streetFood')}
           >
-            <img
-              src={
-                activeButton === 'streetFood'
-                  ? '/images/spoonfork.png'
-                  : '/images/graySpoon.png'
-              }
-              alt="길거리음식아이콘"
-              width="25px"
-              height="25px"
-            />
             <Box
               sx={{
-                fontSize: '16px',
-                color: activeButton === 'streetFood' ? '#FF745A' : 'gray',
-                fontWeight: activeButton === 'streetFood' ? 'bold' : 'normal',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
               }}
             >
-              가게 설정
+              <img
+                src={
+                  activeButton === 'streetFood'
+                    ? '/images/spoonfork.png'
+                    : '/images/graySpoon.png'
+                }
+                alt="길거리음식아이콘"
+                width="25px"
+                height="25px"
+              />
+              <Box
+                sx={{
+                  fontSize: '16px',
+                  color: activeButton === 'streetFood' ? '#FF745A' : 'gray',
+                  fontWeight: activeButton === 'streetFood' ? 'bold' : 'normal',
+                }}
+              >
+                가게 설정
+              </Box>
             </Box>
           </IconButton>
         </Link>
 
-
         <Link to={'/sellhome'}>
-        <IconButton
-          color={activeButton === 'home' ? 'primary' : 'default'}
-          onClick={() => handleButtonClick('home')}
-        >
-          <img
-            src={
-              activeButton === 'home'
-                ? '/images/home.png'
-                : '/images/grayHome.png'
-            }
-            alt="홈아이콘"
-            width="25px"
-            height="25px"
-          />
-          <Box
-            sx={{
-              fontSize: '16px',
-              color: activeButton === 'home' ? '#FF745A' : 'gray',
-              fontWeight: activeButton === 'home' ? 'bold' : 'normal',
-            }}
+          <IconButton
+            color={activeButton === 'home' ? 'primary' : 'default'}
+            onClick={() => handleButtonClick('home')}
           >
-            홈
-          </Box>
-        </IconButton>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }}
+            >
+              <img
+                src={
+                  activeButton === 'home'
+                    ? '/images/home.png'
+                    : '/images/grayHome.png'
+                }
+                alt="홈아이콘"
+                width="25px"
+                height="25px"
+              />
+              <Box
+                sx={{
+                  fontSize: '16px',
+                  color: activeButton === 'home' ? '#FF745A' : 'gray',
+                  fontWeight: activeButton === 'home' ? 'bold' : 'normal',
+                }}
+              >
+                홈
+              </Box>
+            </Box>
+          </IconButton>
         </Link>
 
-
         <Link to={'/sellmyset'}>
-        <IconButton
-          color={activeButton === 'myPage' ? 'primary' : 'default'}
-          onClick={() => handleButtonClick('myPage')}
-        >
-          <img
-            src={
-              activeButton === 'myPage'
-                ? '/images/mypage.png'
-                : '/images/grayMypage.png'
-            }
-            alt="마이페이지아이콘"
-            width="25px"
-            height="25px"
-          />
-          <Box
-            sx={{
-              fontSize: '16px',
-              color: activeButton === 'myPage' ? '#FF745A' : 'gray',
-              fontWeight: activeButton === 'myPage' ? 'bold' : 'normal',
-            }}
+          <IconButton
+            color={activeButton === 'myPage' ? 'primary' : 'default'}
+            onClick={() => handleButtonClick('myPage')}
           >
-            마이페이지
-          </Box>
-        </IconButton>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }}
+            >
+              <img
+                src={
+                  activeButton === 'myPage'
+                    ? '/images/mypage.png'
+                    : '/images/grayMypage.png'
+                }
+                alt="마이페이지아이콘"
+                width="25px"
+                height="25px"
+              />
+              <Box
+                sx={{
+                  fontSize: '16px',
+                  color: activeButton === 'myPage' ? '#FF745A' : 'gray',
+                  fontWeight: activeButton === 'myPage' ? 'bold' : 'normal',
+                }}
+              >
+                마이페이지
+              </Box>
+            </Box>
+          </IconButton>
         </Link>
       </Toolbar>
     </AppBar>

@@ -21,7 +21,7 @@ const SellMySet = () => {
       <Typography variant="h5" align="center" sx={{ marginBottom: '5%', color: '#333' }}>
         가게정보
       </Typography>
-      <Grid container spacing={2}>
+      <Grid container spacing={2} sx={{textAlign:'center'}}>
         <Grid item xs={6} sx={{ fontWeight: 'bold', color: '#555' }}>구분</Grid>
         <Grid item xs={6} sx={{ color: '#555' }}>111</Grid>
         <Grid item xs={6} sx={{ fontWeight: 'bold', color: '#555' }}>대표메뉴</Grid>
