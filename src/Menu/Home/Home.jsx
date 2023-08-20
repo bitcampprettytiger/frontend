@@ -1,70 +1,78 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // useLocation은 사용하지 않아 제거
+import { useNavigate } from 'react-router-dom';
 import Header from '../../Layout/Header';
 import '../../App.css';
 import './Home.css';
 import Footer from '../../Layout/Footer';
-import MachaSection from '../Home/HomeComponents/MachaSection';
-import { BrowserView, MobileView } from 'react-device-detect'
-
-
+import { BrowserView, MobileView } from 'react-device-detect';
 
 function Home() {
-
   const navigate = useNavigate();
   const [searchinput, setSearchInput] = useState('');
   const [hotPlaces, setHotPlaces] = useState([]);
   const [nearbyStations, setNearbyStations] = useState([]);
   const [showStations, setShowStations] = useState(false);
+  const [popularPlaces, setPopularPlaces] = useState([]);
 
-  // 검색창 이동 로직
+  useEffect(() => {
+    const testData = {
+      address: "서울 송파구 오금로 420" // 이 부분을 원하는 테스트 주소로 변경하실 수 있습니다.
+    };
+
+
+
+    axios.post('http://192.168.100.233/search', testData,
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }) // 실제 api 엔드포인트로 변경할 것
+      .then(response => {
+        console.log(response);
+        setPopularPlaces(response.data);
+      })
+      .catch(error => {
+        console.error("Error fetching popular places", error);
+      });
+  }, []);
+
   const handleSearch = () => {
     navigate('/search', { state: { query: searchinput } });
   };
-
 
   const navigateToSearch = () => {
     navigate('/search');
   };
 
   const navigateToHotPlace = (placeName) => {
-
     navigate('/search');
   };
 
-
   const handleButtonClick = (url) => {
     if (url) {
-      window.location.href = url; // 해당 URL로 이동
+      window.location.href = url;
     }
   };
 
 
-
-  // 슬라이드 이미지 로직
   const images = [
     '/images/slide-4.png',
     '/images/slide-2.png',
     '/images/slide-3.png'
   ];
-
   const [currentIndex, setCurrentIndex] = useState(0);
+
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 3000); // 3초마다 이미지 변경
+    }, 3000);
     return () => clearInterval(interval);
   }, [images.length]);
 
-
-
   return (
-
     <div className='App-main2'>
-
       <Header page="home" />
-
       <div className="slider">
         <img src={images[currentIndex]} alt="슬라이드 이미지" className="slide-image" />
         <div className="dots">
@@ -77,7 +85,6 @@ function Home() {
           ))}
         </div>
       </div>
-
       <div className="Home-search-container">
         <input
           className="Home-search-input"
@@ -95,19 +102,17 @@ function Home() {
         <p className='custom-text'>오늘 이곳은 어때요?</p>
       </div>
 
-      {/*지역별 인기 장소*/}
       <div className="outer-container">
         <div className="inner-container">
-          {/* <button onClick={ } className="button-round">
-            <span>내주변</span>
-          </button>
-          {showStations && nearbyStations.slice(0, 10).map((station) => (
-            <button key={station.name} className="button-round" style={{ backgroundImage: `url(${station.img})` }}>
-              <span>{station.name}</span>
-            </button> */}
-          {/* ))} */}
+          {popularPlaces.map((place) => (
+            <button key={place.id} className="button-round">
+              <img src={place.imageUrl} alt={place.name} className="button-image" />
+              <span className="button-text">{place.name}</span>
+            </button>
+          ))}
         </div>
       </div>
+
       <div className='custom-text-container2'>
         <p className='custom-text2'>포장마차거리 핫플레이스 BEST</p>
       </div>
@@ -120,7 +125,6 @@ function Home() {
             <img src={image} alt={`Place ${index + 1}`} />
           </button>
         ))}
-
       </div>
       <div className='footer-text-container'>
         <div className='footer-text-container-text'>
@@ -132,17 +136,11 @@ function Home() {
             개인정보담당 : 안알랴줌<br />
             대표번호 : 000-000-000
           </p>
-
         </div>
       </div>
-
       <Footer type="home" />
-
-
-    </div >
-
+    </div>
   );
 }
 
 export default Home;
-

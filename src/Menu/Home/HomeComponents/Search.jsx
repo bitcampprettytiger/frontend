@@ -6,6 +6,7 @@ import { Star as StarIcon } from '@mui/icons-material';
 import { Favorite as FavoriteIcon, FavoriteBorder as FavoriteBorderIcon } from '@mui/icons-material';
 import { yellow } from '@mui/material/colors';
 import axios from 'axios';
+import Footer from '../../../Layout/Footer.jsx';
 
 
 
@@ -97,10 +98,12 @@ function Search() {
                 handleSearchClick={handleSearchClick} />
 
             {/* 해시태그 버튼들 */}
-            <div className="hashtag-buttons">
-                <button onClick={() => handleHashTagClick('#분식')}>#분식</button>
-                <button onClick={() => handleHashTagClick('#피자')}>#피자</button>
-                {/* 다른 해시태그 버튼들도 추가 가능 */}
+            <div className='hashtag-container'>
+                <div className="hashtag-buttons">
+                    <button onClick={() => handleHashTagClick('#분식')}>#분식</button>
+                    <button onClick={() => handleHashTagClick('#피자')}>#피자</button>
+                    {/* 다른 해시태그 버튼들도 추가 가능 */}
+                </div>
             </div>
 
             {searchResults.length > 0 ? (
@@ -132,6 +135,7 @@ function Search() {
             ) : (
                 <h2>{`'${searchInput}'에 대한 검색 결과가 없습니다.`}</h2>
             )}
+            <Footer type="search" />
         </div>
     );
 }

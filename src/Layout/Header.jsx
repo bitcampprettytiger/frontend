@@ -17,6 +17,8 @@ import HomeIcon from '@mui/icons-material/Home';
 
 function Header({ page, searchInput, handleSearchChange, handleDeleteClick, handleSearchClick }) {
     const navigate = useNavigate(); // react-router의 navigate 함수를 사용
+    const [address, setAddress] = useState("");
+
     const handleBackButtonClick = () => {
         navigate('/'); // Home 페이지로 직접 이동
     };
@@ -60,14 +62,15 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
                 <MenuIcon className="Home-menu-icon" onClick={handleMenuClick} />
             </div>
             <div className="Home-header-center-section">
-                {location.latitude && location.longitude
+                {address ? address : (location.latitude && location.longitude
                     ? `Latitude: ${location.latitude}, Longitude: ${location.longitude}`
                     : error
                         ? `Error: ${error}`
-                        : "위치 안뜸"}
+                        : "위치 안뜸")}
             </div>
         </div>
     );
+
 
 
     const renderOtherHeader = (content) => (
@@ -108,7 +111,7 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
                     <ArrowBackIcon style={{ color: 'black' }} />
                 </button>
             </div>
-            <div className="header-center-section">
+            <div className="search-header-center-section">
                 <div className="search-container">
                     <button className="search-button" onClick={handleSearchClick}>
                         <img src="/images/inputsearch.png" alt="검색아이콘" />
@@ -125,7 +128,7 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
                     </button>
                 </div>
             </div>
-            <div className="header-right-section"></div>
+
         </div>
     );
 
