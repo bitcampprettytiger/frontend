@@ -3,7 +3,9 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './App.css';
 import { BrowserView, MobileView } from 'react-device-detect';
 import { ThemeProvider } from 'styled-components';
+
 import { browserRoutes, mobileRoutes } from './AppRoute';
+
 
 function App() {
 
