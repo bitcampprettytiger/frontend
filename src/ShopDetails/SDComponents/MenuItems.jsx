@@ -1,4 +1,4 @@
-import React,{useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
@@ -7,17 +7,17 @@ import axios from 'axios';
 function MenuItem({ menu, isLast, viewType, fontSize }) {
   const [menuData, setMenuData] = useState(null);
 
-  useEffect(() => {
-    if (viewType === 'MenuOrderPage' || viewType === 'MenuSeeMore') {
-      axios.get(`http://27.96.135.75/infoDetail/${menu.id}`)
-        .then(response => {
-          setMenuData(response.data); // 받아온 데이터를 menuData에 저장
-        })
-        .catch(error => {
-          console.error('메뉴 데이터가 없습니다.', error);
-        });
-    }
-  }, [menu.vendor.id, viewType]);
+  // useEffect(() => {
+  //   if (viewType === 'MenuOrderPage' || viewType === 'MenuSeeMore') {
+  //     // axios.get(`http://27.96.135.75/menu/info/${menu.id}`)
+  //       .then(response => {
+  //     setMenuData(response.data); // 받아온 데이터를 menuData에 저장
+  //   })
+  //       .catch(error => {
+  //         console.error('메뉴 데이터가 없습니다.', error);
+  //       });
+  //   }
+  // }, [menu.vendor.id, viewType]);
 
   const renderContent = () => {
     if (viewType === 'MenuOrderPage' && menuData) {
@@ -35,10 +35,10 @@ function MenuItem({ menu, isLast, viewType, fontSize }) {
       );
     } else if (viewType === 'MenuSeeMore') {
       return (
-      <>
-      <ListItemText primary={menu.name}
-      primaryTypographyProps={{ sx: { fontSize, fontWeight: 'bold' } }} />
-       <ListItemText
+        <>
+          <ListItemText primary={menu.name}
+            primaryTypographyProps={{ sx: { fontSize, fontWeight: 'bold' } }} />
+          <ListItemText
             primary={menu.price}
             primaryTypographyProps={{
               sx: {
@@ -47,7 +47,7 @@ function MenuItem({ menu, isLast, viewType, fontSize }) {
               },
             }}
           />
-      </>
+        </>
       );
     } else {
       return null;

@@ -11,6 +11,21 @@ import axios from 'axios';
 
 
 function Search() {
+
+    const [address, setAddress] = useState("");
+    const [location2, setLocation] = useState({
+        latitude: "",
+        longitude: ""
+    });
+    const setAddressToHome = (newAddress, newlocation) => {
+        console.log(newlocation)
+        setAddress(newAddress);
+        setLocation({
+            latitude: newlocation.latitude,
+            longitude: newlocation.longitude
+        });
+    };
+
     const location = useLocation();
     const query = location.state?.query || '';
     const [searchResults, setSearchResults] = useState([]);
@@ -18,6 +33,7 @@ function Search() {
     const defaultImage = '/images/roopy.png';
     const [hasSearched, setHasSearched] = useState(false);
     const [favorites, setFavorites] = useState(JSON.parse(localStorage.getItem('favorites')) || {});
+
 
     const toggleFavorite = (index) => {
         const newFavorites = { ...favorites };
@@ -95,7 +111,8 @@ function Search() {
                 searchInput={searchInput}
                 handleSearchChange={handleSearchChange}
                 handleDeleteClick={handleDeleteClick}
-                handleSearchClick={handleSearchClick} />
+                handleSearchClick={handleSearchClick}
+                setAddressToHome={setAddressToHome} />
 
             <div className='hashtag-container'>
                 {/* 해시태그 버튼들 */}
