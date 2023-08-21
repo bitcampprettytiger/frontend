@@ -15,14 +15,11 @@ import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import Notice from '../Menu/Home/HomeComponents/Notice';
 
 function Header({ page, searchInput, handleSearchChange, handleDeleteClick, handleSearchClick, setAddressToHome }) {
-    Header.defaultProps = {
-        setAddressToHome: () => { }  // 기본 빈 함수 설정
-    };
 
 
     const navigate = useNavigate();
     const [notifications, setNotifications] = useState([]);
-
+    const [fetchedAddress, setFetchedAddress] = useState(null);
     const [location, setLocation] = useState({ latitude: null, longitude: null });
     const [address, setAddress] = useState("");
     const [error, setError] = useState(null);
@@ -61,12 +58,12 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
         if (location.latitude && location.longitude) {
             convertCoordsToAddress(location.latitude, location.longitude, (result, status) => {
                 // console.error(result)
-                console.log(setAddressToHome);
-
                 if (status === window.kakao.maps.services.Status.OK) {
                     setAddress(result[0].address.address_name);
                     console.log(address);
-                    setAddressToHome(result[0].address.address_name, location);
+                    setAddressToHome && setAddressToHome(result[0].address.address_name, location);
+                    // setFetchedAddress({ address: result[0].address.address_name, location });
+
                 } else {
                     setAddress("주소를 가져오는 중 에러 발생");
                     console.error("Error fetching address from coordinates");
@@ -77,12 +74,21 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
         }
     }, [location]);
 
+    // useEffect(() => {
+    //     if (fetchedAddress) {
+    //         setAddressToHome(fetchedAddress.address, fetchedAddress.location);
+    //     }
+    // }, [fetchedAddress]);
+
+
     const toggleNotificationPanel = () => {
         setShowNotificationPanel(!showNotificationPanel);
     };
     const clearNotifications = () => {
         setNotifications([]);
     };
+
+
 
     const renderHomeHeader = () => (
         <div className="App-header">

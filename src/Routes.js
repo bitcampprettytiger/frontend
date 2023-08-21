@@ -7,12 +7,12 @@ import Search from './Menu/Home/HomeComponents/Search';
 import Waiting from './Menu/Home/HomeComponents/Waiting';
 import WaitingDetail from './Menu/Home/HomeComponents/WaitingDetail';
 import MyReview from './Menu/MyPage/MyPageComponents/MyReview';
-import MyPage from './Menu/MyPage/Mypage';
 import MyFavorite from './Menu/MyPage/MyPageComponents/MyFavorite';
 import MyTakeout from './Menu/MyPage/MyPageComponents/MyTakeout';
 import GeolocationComponent from './Menu/Home/HomeComponents/GeolocationComponent';
 import MyEdit from './Menu/MyPage/MyPageComponents/MyEdit';
 import ShopMain from './ShopDetails/ShopMain';
+import ReviewForm from './ShopDetails/Review/ReviewForm';
 
 export const browserRoutes = [
     { path: '/home', element: <Home /> },
@@ -28,6 +28,9 @@ export const browserRoutes = [
     { path: '/waitingDetail', element: <WaitingDetail /> },
     { path: '/myedit', element: <MyEdit /> },
     { path: '/shopmain', element: <ShopMain /> },
+    { path: '/reviewform', element: <ReviewForm /> },
+
+
 
 ];
 
@@ -45,4 +48,5 @@ export const mobileRoutes = [
     { path: '/waitingDetail', element: <WaitingDetail /> },
     { path: '/myedit', element: <MyEdit /> },
     { path: '/shopmain', element: <ShopMain /> },
+    { path: '/reviewform', element: <ReviewForm /> },
 ];
