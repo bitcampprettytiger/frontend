@@ -1,3 +1,4 @@
+
 * {
   box-sizing: border-box;
 }
@@ -6,16 +7,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 48px;
-  max-width: 480px;
   width: 100%;
   background: #ffffff;
   border-bottom: 1px solid #e7e7e7;
-  padding: 0 10px;
   box-sizing: border-box;
   flex-shrink: 0;
   overflow: hidden;
   border: none;
+  
 
   /* 추가 */
   /* 헤더 크기 고정 */
@@ -95,12 +94,11 @@
   background-color: #ffffff;
   /* 배경색 하양으로 변경 */
   display: flex;
-  margin-left: -40%;
   border: 1px solid #ff813d;
   /* 테두리 색상 변경 */
   border-radius: 20px;
-  width: 190%;
-  height: 190%;
+  width: 100%;
+  height: auto;
 }
 
 /* 검색 버튼의 스타일 */
@@ -138,6 +136,13 @@
   outline: none;
   /* 활성화된 테두리 제거 */
 }
+.search-header-center-section{
+  flex: 1;  /* 이 속성은 해당 요소가 사용 가능한 남은 공간을 모두 차지하도록 합니다. */
+  display: flex;  /* flex를 추가하여 내부 요소들이 좌우로 정렬되게 합니다. */
+  align-items: center;  /* vertical center alignment */
+  justify-content: center;  /* horizontal center alignment */
+  padding: 0 10px;  /* 좌우 패딩 추가, 필요에 따라 조정 가능 */
+}
 
 /*HotPlace.js*/
 /* ArrowBackIcon 아이콘에 대한 스타일 */
@@ -156,9 +161,6 @@
   /* 중앙 정렬 */
 }
 
-/* .hotplace-header-right-section {
-  /* 필요한 스타일링을 여기에 추가 */
-/* } */
 /* Waiting 페이지 헤더 */
 .waiting-header-center-section {
   text-align: center;
@@ -213,3 +215,35 @@
   /* 원하는 색상 */
 
 }
+.App-header {
+    height: 10vh;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #e7e7e7;
+    padding: 0 10px;
+  }
+  
+  .App-header-logo {
+    width: 130px;
+    height: 40px;
+  }
+  
+  .header-right-section {
+    display: flex;
+    align-items: center;
+  }
+  
+  .header-button2 {
+    border: none;
+    background: none;
+    height: 20px;
+    padding: 0;
+    margin-top: -6px;
+  }
+  .header-button2 img {
+    width: 27px;
+    height: 27px;
+  }
+

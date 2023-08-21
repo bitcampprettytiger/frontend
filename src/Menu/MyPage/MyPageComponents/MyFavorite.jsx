@@ -1,6 +1,7 @@
 import React from 'react'
 import Header from '../../../Layout/Header.jsx';
 import Footer from '../../../Layout/Footer.jsx';
+
 import './MyFavorite.css';
 function MyFavorite() {
     return (

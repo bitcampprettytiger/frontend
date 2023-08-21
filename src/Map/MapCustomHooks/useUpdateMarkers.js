@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
-
 const useUpdateMarkers = (map, markers, selectedVendorTypes, vendorInfo) => {
-  return useCallback(() => {
+  return () => {
+
     if (!map) return;
 
     const bounds = map.getBounds();
@@ -34,7 +34,8 @@ const useUpdateMarkers = (map, markers, selectedVendorTypes, vendorInfo) => {
 
     console.log('총 마커: ', markers.length);
     console.log('화면에 나와있는 마커: ', newDisplayedMarkers.length);
-  }, [map, markers, selectedVendorTypes, vendorInfo]); // 의존성 배열 추가
+
+  }, [map, markers, selectedVendorTypes, vendorInfo]; // 의존성 배열 추가
 };
 
 export default useUpdateMarkers;

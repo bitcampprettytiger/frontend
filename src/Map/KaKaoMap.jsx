@@ -4,7 +4,11 @@ import { useMapAPI } from './MapCustomHooks/useMapAPI';
 import { useCreateMarkers } from './MapCustomHooks/useCreateMarker';
 import useUpdateMarkers from './MapCustomHooks/useUpdateMarkers';
 import useInitMap from './MapCustomHooks/useInitMap';
-import ModalWindos from './MapComponents/ModalWindos';
+import Modal from './MapComponents/Modal';
+import SellHeader from '../Sell/SellLayout/SellHeader';
+import SellHome from '../Sell/SellHome/SellHome';
+import SellMySet from '../Sell/SellMySet/SellMySet';
+import SellFooter from '../Sell/SellLayout/SellFooter';
 
 const KaKaoMap = (props) => {
   const [markers, setMarkers] = useState([]);
@@ -12,6 +16,7 @@ const KaKaoMap = (props) => {
   const { data, loading } = useMapAPI('http://27.96.135.75/vendor/info');
   const [selectedVendorTypes, setSelectedVendorTypes] = useState([]);
   const [selectedVendor, setSelectedVendor] = useState(null);
+
   const vendorInfo = useMemo(() => {
     if (data) {
       return data.map((vendor) => ({
@@ -32,6 +37,7 @@ const KaKaoMap = (props) => {
   const map = useInitMap();
 
   const newMarkers = useCreateMarkers(map, data);
+
   useEffect(() => {
     setMarkers(newMarkers);
   }, [newMarkers]);
@@ -109,6 +115,7 @@ const KaKaoMap = (props) => {
       });
     }
   };
+
   useEffect(() => {
     markers.forEach((marker, index) => {
       kakao.maps.event.addListener(marker, 'click', () => {
@@ -116,6 +123,9 @@ const KaKaoMap = (props) => {
       });
     });
   }, [markers, vendorInfo]);
+
+  console.log(selectedVendor);
+
   const handleCloseModal = () => {
     setSelectedVendor(null);
   };
@@ -129,14 +139,16 @@ const KaKaoMap = (props) => {
       selectedVendorTypes,
     })
   );
+
   return (
     <div style={{ position: 'relative' }}>
       <div id="map" style={{ width: '100%', height: '80vh' }} />
       {selectedVendor && (
-        <ModalWindos info={selectedVendor} onClose={handleCloseModal} />
+        <Modal info={selectedVendor} onClose={handleCloseModal} />
       )}
       {childrenWithProps}
     </div>
   );
 };
+
 export default KaKaoMap;

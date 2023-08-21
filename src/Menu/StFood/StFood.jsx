@@ -3,7 +3,9 @@ import KaKaoMap from '../../Map/KaKaoMap';
 import Choice from '../../Map/MapComponents/Choice';
 import MapList from '../../Map/MapComponents/MapList';
 
+
 function StFood() {
+
   return (
     <>
       <div className="App">
@@ -16,4 +18,6 @@ function StFood() {
   );
 }
 
+
 export default StFood;
+
