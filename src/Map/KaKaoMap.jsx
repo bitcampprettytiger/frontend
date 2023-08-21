@@ -133,7 +133,7 @@ const KaKaoMap = (props) => {
   );
   return (
     <div style={{ position: 'relative' }}>
-      <div id="map" style={{ width: '100%', height: '80vh' }} />
+      <div id="map" style={{ width: '100%', height: '90vh' }} />
       {selectedVendor && (
         <ModalWindos info={selectedVendor} onClose={handleCloseModal} />
       )}
