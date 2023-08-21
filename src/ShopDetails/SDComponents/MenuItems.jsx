@@ -3,33 +3,26 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
 function MenuItem({ menu, isLast, viewType, fontSize }) {
   const [menuDataList, setMenuDataList] = useState([]);
   const [data, setData] = useState();
-  // useEffect(() => {
-  //   if (viewType === 'MenuOrderPage' || viewType === 'MenuSeeMore') {
-  //     axios.get(`http://27.96.135.75/menu/info/${menu.id}`)
-  //       .then(response => {
-  //         const menuDTOList = response.data.itemlist;
-  //         setMenuDataList(menuDTOList);
-  //       })
-  //       .catch(error => {
-  //         console.error('메뉴 데이터가 없습니다.', error);
-  //       });
-  //     console.log(response)
-  //   }
-  // }, [menu.vendor.id, viewType]);
-  const test = async () => {
+  const { vendorId } = useParams();
 
-    try {
-      const response = axios.get('http://27.96.135.75/menu/info')
-      setData(response)
-      console.log(response)
-    } catch (e){
-      console.log(e);
+  useEffect(() => {  
+    if (menu.vendor && viewType === 'MenuOrderPage' || viewType === 'MenuSeeMore') {
+      axios.get(`http://27.96.135.75/vendor/info/${vendorId}`)
+        .then(response => {
+          const menuDTOList = response.data.itemlist;
+          setMenuDataList(menuDTOList);
+        })
+        .catch(error => {
+          console.error('메뉴 데이터가 없습니다.', error);
+        });
     }
-}
+  }, [menu.vendor,vendorId, viewType]); 
+  
 
   const renderContent = () => {
     if (viewType === 'MenuOrderPage' && menuDataList) {
