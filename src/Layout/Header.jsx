@@ -19,7 +19,7 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
 
     const navigate = useNavigate();
     const [notifications, setNotifications] = useState([]);
-
+    const [fetchedAddress, setFetchedAddress] = useState(null);
     const [location, setLocation] = useState({ latitude: null, longitude: null });
     const [address, setAddress] = useState("");
     const [error, setError] = useState(null);
@@ -38,9 +38,6 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
     const handleMenuClick = () => {
         navigate('/waiting'); // 여기서 '/waiting'은 Waiting.jsx 임시이동
     };
-
-
-
 
     useEffect(() => {
         if (navigator.geolocation) {
@@ -64,7 +61,9 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
                 if (status === window.kakao.maps.services.Status.OK) {
                     setAddress(result[0].address.address_name);
                     console.log(address);
-                    setAddressToHome(result[0].address.address_name, location);
+                    setAddressToHome && setAddressToHome(result[0].address.address_name, location);
+                    // setFetchedAddress({ address: result[0].address.address_name, location });
+
                 } else {
                     setAddress("주소를 가져오는 중 에러 발생");
                     console.error("Error fetching address from coordinates");
@@ -75,12 +74,21 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
         }
     }, [location]);
 
+    // useEffect(() => {
+    //     if (fetchedAddress) {
+    //         setAddressToHome(fetchedAddress.address, fetchedAddress.location);
+    //     }
+    // }, [fetchedAddress]);
+
+
     const toggleNotificationPanel = () => {
         setShowNotificationPanel(!showNotificationPanel);
     };
     const clearNotifications = () => {
         setNotifications([]);
     };
+
+
 
     const renderHomeHeader = () => (
         <div className="App-header">

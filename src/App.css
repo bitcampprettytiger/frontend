@@ -1,3 +1,8 @@
+* {
+  font-family: 'NanumSquareNeo-Variable', sans-serif;
+  box-sizing: border-box;
+}
+
 .BV {
   width: 30%;
   margin: 0 auto;
@@ -29,4 +34,9 @@ html a {
 
 body::-webkit-scrollbar {
   display: none; 
+}
+
+.App-main2 {
+  width: 100%;
+  border: 1px solid #ff0000;
 }

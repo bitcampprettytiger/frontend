@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -76,60 +76,60 @@ function ReviewForm() {
           위생은 어떠셨나요?
         </Typography>
         <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        gap: '10vw',
-      }}
-    >
-      <Button
-        variant={likeBtnSelected ? "contained" : "outlined"}
-        startIcon={
-          likeBtnSelected ? (
-            <SentimentSatisfiedAltIcon sx={{ color: "white" }} />
-          ) : (
-            <SentimentSatisfiedAltIcon />
-          )
-        }
-        onClick={handleLikeBtnClick}
-        sx={{
-          borderRadius: "20px",
-          borderColor: !likeBtnSelected && "#D9D9D9",
-          backgroundColor: likeBtnSelected ? "#FF745A" : "white",
-          color: likeBtnSelected ? "white" : "black",
-          "&:hover": {
-            borderWidth: "1.5px",
-            borderColor: "#FF745A",
-          },
-        }}
-      >
-        좋아요
-      </Button>
-      <Button
-        variant={dislikeBtnSelected ? "contained" : "outlined"}
-        startIcon={
-          dislikeBtnSelected ? (
-            <SentimentDissatisfiedIcon sx={{ color: "white" }} />
-          ) : (
-            <SentimentDissatisfiedIcon />
-          )
-        }
-        onClick={handleDislikeBtnClick}
-        sx={{
-          borderRadius: "20px",
-          borderColor: !dislikeBtnSelected && "#D9D9D9",
-          backgroundColor: dislikeBtnSelected ? "#FF745A" : "white",
-          color: dislikeBtnSelected ? "white" : "black", // 이 부분이 추가됩니다.
-          "&:hover": {
-            borderWidth: "1.5px",
-            borderColor: "#FF745A",
-          },
-        }}
-      >
-        아쉬워요
-      </Button>
-    </div>
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: '10vw',
+          }}
+        >
+          <Button
+            variant={likeBtnSelected ? "contained" : "outlined"}
+            startIcon={
+              likeBtnSelected ? (
+                <SentimentSatisfiedAltIcon sx={{ color: "white" }} />
+              ) : (
+                <SentimentSatisfiedAltIcon />
+              )
+            }
+            onClick={handleLikeBtnClick}
+            sx={{
+              borderRadius: "20px",
+              borderColor: !likeBtnSelected && "#D9D9D9",
+              backgroundColor: likeBtnSelected ? "#FF745A" : "white",
+              color: likeBtnSelected ? "white" : "black",
+              "&:hover": {
+                borderWidth: "1.5px",
+                borderColor: "#FF745A",
+              },
+            }}
+          >
+            좋아요
+          </Button>
+          <Button
+            variant={dislikeBtnSelected ? "contained" : "outlined"}
+            startIcon={
+              dislikeBtnSelected ? (
+                <SentimentDissatisfiedIcon sx={{ color: "white" }} />
+              ) : (
+                <SentimentDissatisfiedIcon />
+              )
+            }
+            onClick={handleDislikeBtnClick}
+            sx={{
+              borderRadius: "20px",
+              borderColor: !dislikeBtnSelected && "#D9D9D9",
+              backgroundColor: dislikeBtnSelected ? "#FF745A" : "white",
+              color: dislikeBtnSelected ? "white" : "black", // 이 부분이 추가됩니다.
+              "&:hover": {
+                borderWidth: "1.5px",
+                borderColor: "#FF745A",
+              },
+            }}
+          >
+            아쉬워요
+          </Button>
+        </div>
       </div>
       <div style={{ textAlign: 'center', paddingTop: '20px' }}>
         <TextField
@@ -141,7 +141,7 @@ function ReviewForm() {
           fullWidth
           sx={{ borderColor: '#D9D9D9' }}
         />
-         <Button
+        <Button
           variant="outlined"
           sx={{
             width: '80vw',
