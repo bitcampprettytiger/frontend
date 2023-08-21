@@ -88,7 +88,7 @@ function Footer({ type, activeButton, handleButtonClick, isWaitingDetailFooterTy
           </span>
         </button>
       </Link>
-      <Link to="/streetFood">
+      <Link to="/stfood">
         <button className="image-button" onClick={() => handleButtonClick && handleButtonClick('stfood')}>
           <img
             src={activeButton === 'stfood' ? '/images/spoonfork.png' : '/images/graySpoon.png'}

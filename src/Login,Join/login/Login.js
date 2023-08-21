@@ -38,7 +38,7 @@ const Login = () => {
 
       if (accessToken) {
         console.log('로그인 성공! 토큰이 존재합니다.');
-        navigate('/hello'); // 로그인 성공 시 '/hello'로 리다이렉트
+        navigate('/home'); // 로그인 성공 시 '/hello'로 리다이렉트
       } else {
         console.log('로그인 실패! 토큰이 존재하지 않습니다.');
       }
