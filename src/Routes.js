@@ -23,15 +23,12 @@ export const browserRoutes = [
     { path: '/search', element: <Search /> },
     { path: '/waiting', element: <Waiting /> },
     { path: '/myreview', element: <MyReview /> },
-    { path: '/myfavorite', element: <MyFavorite /> },
+    { path: '/myfavorite', element: <MyFavorite /> },                                                                                                                                                                                                                                                                                   
     { path: '/mytakeout', element: <MyTakeout /> },
     { path: '/waitingDetail', element: <WaitingDetail /> },
     { path: '/myedit', element: <MyEdit /> },
-    { path: '/shopmain', element: <ShopMain /> },
-    { path: '/reviewform', element: <ReviewForm /> },
-
-
-
+    { path: '/shophome/:vendorId', element: <ShopMain /> },
+    { path: '/reviewform', element: <ReviewForm/>}
 ];
 
 export const mobileRoutes = [
@@ -47,6 +44,6 @@ export const mobileRoutes = [
     { path: '/mytakeout', element: <MyTakeout /> },
     { path: '/waitingDetail', element: <WaitingDetail /> },
     { path: '/myedit', element: <MyEdit /> },
-    { path: '/shopmain', element: <ShopMain /> },
+    { path: '/shophome/:vendorId', element: <ShopMain /> },
     { path: '/reviewform', element: <ReviewForm /> },
 ];
