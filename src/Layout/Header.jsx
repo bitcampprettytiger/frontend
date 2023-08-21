@@ -15,6 +15,9 @@ import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import Notice from '../Menu/Home/HomeComponents/Notice';
 
 function Header({ page, searchInput, handleSearchChange, handleDeleteClick, handleSearchClick, setAddressToHome }) {
+    Header.defaultProps = {
+        setAddressToHome: () => { }  // 기본 빈 함수 설정
+    };
 
 
     const navigate = useNavigate();
@@ -39,9 +42,6 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
         navigate('/waiting'); // 여기서 '/waiting'은 Waiting.jsx 임시이동
     };
 
-
-
-
     useEffect(() => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(position => {
@@ -61,6 +61,8 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
         if (location.latitude && location.longitude) {
             convertCoordsToAddress(location.latitude, location.longitude, (result, status) => {
                 // console.error(result)
+                console.log(setAddressToHome);
+
                 if (status === window.kakao.maps.services.Status.OK) {
                     setAddress(result[0].address.address_name);
                     console.log(address);
