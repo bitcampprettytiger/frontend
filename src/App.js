@@ -16,8 +16,8 @@ import MyTakeout from './Menu/MyPage/MyPageComponents/MyTakeout';
 import GeolocationComponent from './Menu/Home/HomeComponents/GeolocationComponent';
 import MyEdit from './Menu/MyPage/MyPageComponents/MyEdit';
 import { BrowserView, MobileView } from 'react-device-detect';
-import LoginRoute from '../src/Login,Join/LoginRoute'
-import ShopMain from './ShopDetails/ShopMain'
+import LoginRoute from '../src/Login,Join/LoginRoute';
+import ShopMain from './ShopDetails/ShopMain';
 import { ThemeProvider } from 'styled-components';
 import SellHeader from './Sell/SellLayout/SellHeader';
 import SellStoreSet from './Sell/SellStoreSet/SellStroreSet';
@@ -26,72 +26,11 @@ import SellMySet from './Sell/SellMySet/SellMySet';
 import SellFooter from './Sell/SellLayout/SellFooter';
 import Notice from './Menu/Home/HomeComponents/Notice';
 import { NoticeProvider } from './Menu/Home/HomeComponents/NoticeContext';
-
-
-
+import Header from './Layout/Header';
+import Footer from './Layout/Footer';
 
 function App() {
-
-
-  return (
-    <NoticeProvider>
-      <Router>
-        <BrowserView className='BV'>
-
-          <Routes>
-            <Route path="/home" element={<Home />} />
-            <Route path="/trfood" element={<TrFood />} />
-            <Route path="/stfood" element={<StFood />} />
-            <Route path="/geolocationcomponent" element={<GeolocationComponent />} />
-            <Route path="/mypage" element={<Mypage />} />
-            <Route path="/search" element={<Search />} />
-            <Route path="/waiting" element={<Waiting />} />
-            <Route path="/myreview" element={<MyReview />} />
-            <Route path="/myfavorite" element={<MyFavorite />} />
-            <Route path="/mytakeout" element={<MyTakeout />} />
-            <Route path="/waitingDetail" element={<WaitingDetail />} />
-            <Route path="/myedit" element={<MyEdit />} />
-            <Route path="/notice" element={<Notice />} />
-
-
-            <Route path="/shophome" element={<ShopMain />} />
-            <Route path="/sellSet" element={<SellStoreSet />} />
-            <Route path="/sellhome" element={<SellHome />} />
-            <Route path="/sellmyset" element={<SellMySet />} />
-          </Routes>
-
-        </BrowserView>
-
-        <MobileView className='MV'>
-          <div className="App wrapper">
-            <div className="App-main">
-              <Routes>
-                <Route path="/home" element={<Home />} />
-                <Route path="/trfood" element={<TrFood />} />
-                <Route path="/stfood" element={<StFood />} />
-                <Route path="/geolocationcomponent" element={<GeolocationComponent />} />
-                <Route path="/mypage" element={<Mypage />} />
-                <Route path="/search" element={<Search />} />
-                <Route path="/waiting" element={<Waiting />} />
-                <Route path="/myreview" element={<MyReview />} />
-                <Route path="/myfavorite" element={<MyFavorite />} />
-                <Route path="/mytakeout" element={<MyTakeout />} />
-                <Route path="/waitingDetail" element={<WaitingDetail />} />
-                <Route path="/notice" element={<Notice />} />
-
-                <Route path="/myedit" element={<MyEdit />} />
-
-                <Route path="/shophome" element={<ShopMain />} />
-                <Route path="/sellSet" element={<SellStoreSet />} />
-                <Route path="/sellhome" element={<SellHome />} />
-                <Route path="/sellmyset" element={<SellMySet />} />
-              </Routes>
-            </div>
-          </div>
-        </MobileView>
-      </Router>
-    </NoticeProvider>
-  );
+  return ;
 }
 
 export default App;
