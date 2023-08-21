@@ -83,7 +83,7 @@ function Home() {
 
   return (
     <div className='App-main2'>
-      <Header page="home" setAddressToHome={setAddressToHome} /> {/* setAddress 함수를 props로 전달 */}
+      <Header page="home" setAddressToHome={setAddressToHome} />
 
       <div className="slider">
         <img src={images[currentIndex]} alt="슬라이드 이미지" className="slide-image" />
@@ -112,7 +112,7 @@ function Home() {
         </button>
       </div>
 
-      <h3>오늘 이곳은 어때요?</h3>
+      <p>오늘 이곳은 어때요?</p>
       <div className="outer-container">
         <div className="inner-container">
           {popularPlaces.map((place) => (
@@ -124,8 +124,8 @@ function Home() {
         </div>
       </div>
 
-      <h3>포장마차거리 핫플레이스 BEST</h3>
-      <p>지금은 야장이 가장 인기! 먹고가꼬에서 포장마차거리를 확인하세요!</p>
+      <p>포장마차거리 핫플레이스 BEST</p>
+      <p className="small-text">지금은 야장이 가장 인기! 먹고가꼬에서 포장마차거리를 확인하세요!</p>
       <div className="macha-button-container">
         {["/images/place1.png", "/images/place2.png", "/images/place3.png", "/images/place4.png", "/images/place5.png"].map((image, index) => (
           <button key={index} className="macha-button" onClick={navigateToSearch}>

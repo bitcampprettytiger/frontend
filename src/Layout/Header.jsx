@@ -2,24 +2,33 @@ import React, { useState, useEffect } from 'react';
 import '../App.css';
 import './Header.css';
 import MenuIcon from '@mui/icons-material/Menu';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack'; // 뒤로 가기 아이콘 임포트
-import SearchIcon from '@mui/icons-material/Search'; // 검색 아이콘 임포트
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';// 삭제 아이콘 임포트
-import { useNavigate } from 'react-router-dom'; // 이동 기능을 위해 사용
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import SearchIcon from '@mui/icons-material/Search';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import { useNavigate } from 'react-router-dom';
+import { useNavigation } from '@react-navigation/native';
 import ShareIcon from '@mui/icons-material/Share';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import SettingsIcon from '@mui/icons-material/Settings';
 import HomeIcon from '@mui/icons-material/Home';
 import { convertCoordsToAddress } from '../Utils/kakaoUtils';
-
-
-
-
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import Notice from '../Menu/Home/HomeComponents/Notice';
 
 function Header({ page, searchInput, handleSearchChange, handleDeleteClick, handleSearchClick, setAddressToHome }) {
-    const navigate = useNavigate(); // react-router의 navigate 함수를 사용
+    const navigate = useNavigate();
+    const [notifications, setNotifications] = useState([]);
+
+    const [location, setLocation] = useState({ latitude: null, longitude: null });
+    const [address, setAddress] = useState("");
+    const [error, setError] = useState(null);
+
+    const [showNotificationPanel, setShowNotificationPanel] = useState(false);
+    const navigateToNotificationPage = () => {
+        navigation.navigate('/notice'); // 여기에 알림 페이지의 경로를 입력하세요.
+    };
     const handleBackButtonClick = () => {
-        navigate('/'); // Home 페이지로 직접 이동
+        navigate('/home'); // Home 페이지로 직접 이동
     };
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
@@ -30,14 +39,8 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
         navigate('/waiting'); // 여기서 '/waiting'은 Waiting.jsx 임시이동
     };
 
-    // 위치 정보를 저장할 state를 추가
-    const [location, setLocation] = useState({
-        latitude: null,
-        longitude: null
-    });
-    const [address, setAddress] = useState("");
 
-    const [error, setError] = useState(null);
+
 
     useEffect(() => {
         if (navigator.geolocation) {
@@ -72,19 +75,38 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
         }
     }, [location]);
 
+    const toggleNotificationPanel = () => {
+        setShowNotificationPanel(!showNotificationPanel);
+    };
+    const clearNotifications = () => {
+        setNotifications([]);
+    };
+
     const renderHomeHeader = () => (
         <div className="App-header">
             <div className="Home-header-left-section">
-                {/* 메뉴 아이콘 부분 */}
                 <MenuIcon className="Home-menu-icon" onClick={handleMenuClick} />
             </div>
             <div className="Home-header-center-section">
                 {location && location.latitude && location.longitude
-                    ? `주소: ${address}`
+                    ? `${address}`
                     : "위치 정보를 가져오는 중..."}
+            </div>
+            <div className="Home-header-right-section">
+                <div className="notification-container">
+                    <NotificationsNoneIcon onClick={navigateToNotificationPage} />
+                    {notifications.length > 0 && (
+                        <div className="notification-count">
+                            {notifications.length}
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );
+
+
+
 
 
     const renderOtherHeader = (content) => (
@@ -313,31 +335,35 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
         </div>
     );
 
+    const headers = {
+        'home': renderHomeHeader,
+        'trfood': () => renderOtherHeader('Food Truck Header Content'),
+        'pojangmacha': () => renderOtherHeader('Pojangmacha Header Content'),
+        'stfood': () => renderOtherHeader('Street Food Header Content'),
+        'mypage': renderMypageHeader,
+        'takeout': renderTakeoutHeader,
+        'search': renderSearchHeader,
+        'hotplace': () => renderHotplaceHeader("Hotplace Header Content"),
+        'waiting': renderWaitingHeader,
+        'waitingDetail': renderWaitingDetailHeader,
+        'myreview': renderMyReviewHeader,
+        'myfavorite': renderMyFavoriteHeader,
+        'mytakeout': renderMyTakeoutHeader,
+        'myedit': renderMyEditHeader
+    };
+
+
+
+
 
 
     return (
         <div className="header">
-            {page === 'home' && renderHomeHeader()}
-            {page === 'trfood' && renderOtherHeader('Food Truck Header Content')}
-            {page === 'pojangmacha' && renderOtherHeader('Pojangmacha Header Content')}
-            {page === 'stfood' && renderOtherHeader('Street Food Header Content')}
-            {page === 'mypage' && renderMypageHeader()}
-            {page === 'takeout' && renderTakeoutHeader()}
-            {page === 'search' && renderSearchHeader()}
-            {page === 'hotplace' && renderHotplaceHeader("Hotplace Header Content")}
-            {page === 'waiting' && renderWaitingHeader()}
-            {page === 'waitingDetail' && renderWaitingDetailHeader()}
-            {page === 'myreview' && renderMyReviewHeader()}
-            {page === 'myfavorite' && renderMyFavoriteHeader()}
-            {page === 'mytakeout' && renderMyTakeoutHeader()}
-            {page === 'myedit' && renderMyEditHeader()}
-
-
-
-
+            {headers[page] && headers[page]()}
         </div>
-
     );
+
+
 }
 
 export default Header;
