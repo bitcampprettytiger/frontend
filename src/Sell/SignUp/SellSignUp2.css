@@ -1,0 +1,158 @@
+.SellSignUp2 {
+    background-color:whitesmoke;
+    width: 100%;
+    height: 100vh; 
+}
+
+.JoinBody2 {
+    width: 25%;
+    height: 70%;
+    background-color: lightpink;
+    opacity: 0.9;
+    position: absolute;
+    top: 50%; /* 중앙으로 정렬하기 위한 조정 */
+    left: 50%; /* 중앙으로 정렬하기 위한 조정 */
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px; /* 내용과 테두리 간 여백 설정 */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
+}
+
+.nextBtn:hover {
+    background-color: #e75613;
+    color: white;
+    transform: scale(1.05);
+  }
+
+.nextBtn{
+    margin-top: 10px;
+    display: inline-block;
+    padding: 8px 18px;
+    font-size: 10px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+  }
+
+ /*회원가입순서바*/
+
+  .stepContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    
+  }
+  
+  .step {
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+  
+  .circle {
+    width: 60px;
+    height: 60px;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    
+  }
+  
+  .stepText {
+    text-align: center;
+    font-size: 11px;
+  }
+  
+  .arrow {
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-left: 8px solid #e0e5eb;
+    margin-left: 10px;
+    transition: border-color 0.3s ease;
+  }
+
+  #pointArrow {
+    border-left: 8px solid #16110f; /* 변경된 색상 */
+    transition: border-color 0.3s ease;
+  }
+
+  
+
+
+  .CheckForm {
+    /* display: flex;
+    flex-direction: column;
+    align-items: center; */
+    
+    background-color: white;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 390px; /* 너비를 더 넓게 조정 */
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 20px;
+  }
+  
+  .BuisnessNum, .roadOccuNum{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 20px;
+  }
+  
+  .FormField {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .FormField label {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .FormField input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  .roadOccuNum{
+    margin-top: 20%;
+  }
+
+
+  .BuisnessformCheck:hover ,.roadOcuuformCheck:hover{
+    background-color: #e75613;
+    color: white;
+    transform: scale(1.05);
+  }
+
+    .BuisnessformCheck, .roadOcuuformCheck{
+    display: inline-block;
+    padding: 8px 18px;
+    font-size: 14px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+  }
+  
