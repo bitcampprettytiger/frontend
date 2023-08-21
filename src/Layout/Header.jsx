@@ -6,7 +6,6 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SearchIcon from '@mui/icons-material/Search';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { useNavigate } from 'react-router-dom';
-import { useNavigation } from '@react-navigation/native';
 import ShareIcon from '@mui/icons-material/Share';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -25,7 +24,7 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
 
     const [showNotificationPanel, setShowNotificationPanel] = useState(false);
     const navigateToNotificationPage = () => {
-        navigation.navigate('/notice'); // 여기에 알림 페이지의 경로를 입력하세요.
+        navigate('/notice'); // 여기에 알림 페이지의 경로를 입력하세요.
     };
     const handleBackButtonClick = () => {
         navigate('/home'); // Home 페이지로 직접 이동
