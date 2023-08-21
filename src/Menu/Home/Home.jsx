@@ -35,12 +35,13 @@ function Home() {
   };
 
   useEffect(() => {
-
-    // Function to set the address received from the useEffect
-
     if (address) {
+      // Function to set the address received from the useEffect
+      console.log("여기만실행돠면돼!!")
+      console.log("ㅇㅇㄴㅇㄴㅁㅇㅁㄴ" + address);
       console.log(location.latitude);
       console.log(location.longitude)
+
       console.log(address)
       axios.post('http://27.96.135.75/vendor/search', {
         address: address,
@@ -53,18 +54,25 @@ function Home() {
           }
         }) // 실제 api 엔드포인트로 변경할 것a
         .then(response => {
+          console.log(response)
           console.log(response.data.result.itemlist)
           setPopularPlaces(response.data.result.itemlist);
         })
+        // .then(response => {
+        //   const itemList = Array.isArray(response.data.result.itemlist) ? response.data.result.itemlist : [];
+        //   console.log(itemList);
+        //   setPopularPlaces(itemList);
+        //  })
+
         .catch(error => {
           console.error("Error fetching popular places", error);
         });
-    }
 
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 3000);
-    return () => clearInterval(interval);
+      const interval = setInterval(() => {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+      }, 3000);
+      return () => clearInterval(interval);
+    }
   }, [address, images.length]);
 
   const handleSearch = () => {
