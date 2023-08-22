@@ -15,6 +15,7 @@ import ShopMain from './ShopDetails/ShopMain';
 import ReviewForm from './ShopDetails/Review/ReviewForm';
 import MyTakeoutDetail from './Menu/MyPage/MyPageComponents/MyTakeoutDetail';
 
+
 export const browserRoutes = [
     { path: '/home', element: <Home /> },
     { path: '/trfood', element: <TrFood /> },
@@ -31,6 +32,7 @@ export const browserRoutes = [
     { path: '/myedit', element: <MyEdit /> },
     { path: '/reviewform', element: <ReviewForm /> },
     { path: '/shopHome/vendor:Id', element: <ShopMain /> },
+
 
 
 ];
@@ -51,4 +53,5 @@ export const mobileRoutes = [
     { path: '/myedit', element: <MyEdit /> },
     { path: '/reviewform', element: <ReviewForm /> },
     { path: '/shopHome/vendor:Id', element: <ShopMain /> },
+
 ];
