@@ -10,6 +10,7 @@ import {
 
 const SSUsaup = () => {
   return (
+    
     <Container
       style={{
         display: 'flex',
@@ -48,7 +49,7 @@ const SSUsaup = () => {
           </Grid>
         </div>
         <div className="sub-fun">
-          <Button  variant="contained" color="primary" style={{margin:'5% auto'}}>
+          <Button  variant="contained" color="primary" style={{margin:'5%'}}>
             조회
           </Button>
         </div>

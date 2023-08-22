@@ -3,12 +3,12 @@ import './Login.css';
 import Logo from './login-component/Logo';
 import InputField from './login-component/InputField';
 import instance from './instance';
+import { Link } from 'react-router-dom';
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -65,7 +65,9 @@ const Login = () => {
           />
         </div>
         <div className="sub-fun">
+          <Link to={'/sellsign1'}>
             <button className="sub-button">회원가입</button>
+          </Link>
           <button className="sub-button">비밀번호 찾기</button>
         </div>
         <br />
