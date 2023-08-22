@@ -2,23 +2,33 @@ import React, { useState, useEffect } from 'react';
 import '../App.css';
 import './Header.css';
 import MenuIcon from '@mui/icons-material/Menu';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack'; // 뒤로 가기 아이콘 임포트
-import SearchIcon from '@mui/icons-material/Search'; // 검색 아이콘 임포트
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';// 삭제 아이콘 임포트
-import { useNavigate } from 'react-router-dom'; // 이동 기능을 위해 사용
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import SearchIcon from '@mui/icons-material/Search';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import { useNavigate } from 'react-router-dom';
 import ShareIcon from '@mui/icons-material/Share';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import SettingsIcon from '@mui/icons-material/Settings';
 import HomeIcon from '@mui/icons-material/Home';
+import { convertCoordsToAddress } from '../Utils/kakaoUtils';
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import Notice from '../Menu/Home/HomeComponents/Notice';
+
+function Header({ page, searchInput, handleSearchChange, handleDeleteClick, handleSearchClick, setAddressToHome }) {
 
 
-
-
-
-function Header({ page, searchInput, handleSearchChange, handleDeleteClick, handleSearchClick }) {
-    const navigate = useNavigate(); // react-router의 navigate 함수를 사용
+    const navigate = useNavigate();
+    const [notifications, setNotifications] = useState([]);
+    const [fetchedAddress, setFetchedAddress] = useState(null);
+    const [location, setLocation] = useState({ latitude: null, longitude: null });
+    const [address, setAddress] = useState("");
+    const [error, setError] = useState(null);
+    const [showNotificationPanel, setShowNotificationPanel] = useState(false);
+    const navigateToNotificationPage = () => {
+        navigate('/notice'); // 여기에 알림 페이지의 경로를 입력하세요.
+    };
     const handleBackButtonClick = () => {
-        navigate('/'); // Home 페이지로 직접 이동
+        navigate('/home'); // Home 페이지로 직접 이동
     };
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
@@ -28,13 +38,6 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
     const handleMenuClick = () => {
         navigate('/waiting'); // 여기서 '/waiting'은 Waiting.jsx 임시이동
     };
-
-    // 위치 정보를 저장할 state를 추가
-    const [location, setLocation] = useState({
-        latitude: null,
-        longitude: null
-    });
-    const [error, setError] = useState(null);
 
     useEffect(() => {
         if (navigator.geolocation) {
@@ -51,23 +54,67 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
             setError("Geolocation은 이 브라우저에서 지원되지 않습니다.");
         }
     }, []);
+    useEffect(() => {
+        if (location.latitude && location.longitude) {
+            convertCoordsToAddress(location.latitude, location.longitude, (result, status) => {
+                // console.error(result)
+                if (status === window.kakao.maps.services.Status.OK) {
+                    setAddress(result[0].address.address_name);
+                    console.log(address);
+                    setAddressToHome && setAddressToHome(result[0].address.address_name, location);
+                    // setFetchedAddress({ address: result[0].address.address_name, location });
+
+                } else {
+                    setAddress("주소를 가져오는 중 에러 발생");
+                    console.error("Error fetching address from coordinates");
+                }
+
+                // setAddressToHome(result[0].address.address_name);
+            });
+        }
+    }, [location]);
+
+    // useEffect(() => {
+    //     if (fetchedAddress) {
+    //         setAddressToHome(fetchedAddress.address, fetchedAddress.location);
+    //     }
+    // }, [fetchedAddress]);
+
+
+    const toggleNotificationPanel = () => {
+        setShowNotificationPanel(!showNotificationPanel);
+    };
+    const clearNotifications = () => {
+        setNotifications([]);
+    };
+
 
 
     const renderHomeHeader = () => (
         <div className="App-header">
             <div className="Home-header-left-section">
-                {/* 메뉴 아이콘 부분 */}
                 <MenuIcon className="Home-menu-icon" onClick={handleMenuClick} />
             </div>
             <div className="Home-header-center-section">
-                {location.latitude && location.longitude
-                    ? `Latitude: ${location.latitude}, Longitude: ${location.longitude}`
-                    : error
-                        ? `Error: ${error}`
-                        : "위치 안뜸"}
+                {location && location.latitude && location.longitude
+                    ? `${address}`
+                    : "위치 정보를 가져오는 중..."}
+            </div>
+            <div className="Home-header-right-section">
+                <div className="notification-container">
+                    <NotificationsNoneIcon onClick={navigateToNotificationPage} />
+                    {notifications.length > 0 && (
+                        <div className="notification-count">
+                            {notifications.length}
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );
+
+
+
 
 
     const renderOtherHeader = (content) => (
@@ -108,7 +155,7 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
                     <ArrowBackIcon style={{ color: 'black' }} />
                 </button>
             </div>
-            <div className="header-center-section">
+            <div className="search-header-center-section">
                 <div className="search-container">
                     <button className="search-button" onClick={handleSearchClick}>
                         <img src="/images/inputsearch.png" alt="검색아이콘" />
@@ -125,10 +172,9 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
                     </button>
                 </div>
             </div>
-            <div className="header-right-section"></div>
+
         </div>
     );
-
     const renderHotplaceHeader = (content) => (
         <div className="App-header">
             <div className="header-left-section">
@@ -296,12 +342,15 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
             </div>
         </div>
     );
-
-
+    const IconButton = ({ onClick, children }) => (
+        <button style={{ border: 'none', background: 'none' }} onClick={onClick}>
+            {children}
+        </button>
+    );
 
     return (
         <div className="header">
-            {page === 'home' && renderHomeHeader()}
+            {page === 'home' && renderHomeHeader(setAddressToHome)}
             {page === 'trfood' && renderOtherHeader('Food Truck Header Content')}
             {page === 'pojangmacha' && renderOtherHeader('Pojangmacha Header Content')}
             {page === 'stfood' && renderOtherHeader('Street Food Header Content')}
@@ -315,13 +364,18 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
             {page === 'myfavorite' && renderMyFavoriteHeader()}
             {page === 'mytakeout' && renderMyTakeoutHeader()}
             {page === 'myedit' && renderMyEditHeader()}
-
-
-
-
         </div>
 
     );
+
+
+
+
+
+
+
+
+
 }
 
 export default Header;

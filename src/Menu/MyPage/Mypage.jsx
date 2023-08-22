@@ -78,17 +78,22 @@ function Mypage() {
             }}
           >
             {/* 리뷰 버튼 및 카운트 */}
-            <div onClick={() => window.location.href = '/reviews'} style={{ cursor: 'pointer' }}>
-              <Button sx={{ border: 'none', textTransform: 'none' }}>리뷰</Button>
-              <div>{reviewCount}</div>
+            <div style={{ cursor: 'pointer' }}>
+              <Link to="/myreview">
+                <Button sx={{ border: 'none', textTransform: 'none' }}>리뷰</Button>
+                <div>{reviewCount}</div>
+              </Link>
             </div>
 
             {/* 찜해찜 버튼 및 카운트 */}
-            <div onClick={() => window.location.href = '/favorites'} style={{ cursor: 'pointer' }}>
-              <Button sx={{ border: 'none', textTransform: 'none' }}>찜해찜</Button>
-              <div>{favoriteCount}</div>
+            <div style={{ cursor: 'pointer' }}>
+              <Link to="/myfavorite">
+                <Button sx={{ border: 'none', textTransform: 'none' }}>찜해찜</Button>
+                <div>{favoriteCount}</div>
+              </Link>
             </div>
           </Box>
+
 
           <div className="button-group">
             <Link to="/myreview">

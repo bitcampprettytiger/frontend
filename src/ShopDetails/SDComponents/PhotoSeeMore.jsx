@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 const ImageGrid = ({ imageUrls }) => (
   <Grid container spacing={2}>
     {imageUrls.map((imageUrl, index) => (
-      <Grid item xs={6} key={index}>
+      <Grid item xs={4} key={index}>
         <Paper component="img" src={imageUrl} alt={`리뷰 이미지 - ${index}`} sx={{ width: '100%', height: 'auto' }} />
       </Grid>
     ))}

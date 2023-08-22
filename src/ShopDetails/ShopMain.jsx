@@ -3,29 +3,37 @@ import ShopAppBar from './SDComponents/ShopAppBar';
 import ShopImage from "./SDComponents/ShopSwiper";
 import { useParams } from "react-router-dom";
 import ShopHomeTabs from "./SDComponents/ShopHomeTabs";
+import review from "../DataEx/review"
 import './ShopMain.css';
 import { ShopHomeTabsProvider } from "./SDCustomHooks/SHTContext";
-import shopList from "../DataEx/shop";
-import review from '../DataEx/review'
 import ShopInfo from "./SDComponents/ShopInfo";
+import CircularProgress from '@mui/material/CircularProgress';
+import { Stack } from "@mui/material";
+import useVendor from "./SDCustomHooks/useVendor";
 
 const ShopMain = () => {
-    const { shopId } = useParams();
-    const shop = shopList.find((shop) => shop.id === parseInt(shopId));
+    const { vendorId } = useParams();
+  const { vendor, error, loading } = useVendor(vendorId);
+
+  if (loading) return 
+    <Stack sx={{ color: 'grey.500' }} spacing={2} direction="row">
+    <CircularProgress color="inherit" />
+    </Stack>;
+  if (error) return <div>Error: {error.message}</div>;
+  if (!vendor) return <div>No vendor data available</div>;
+
     const imagesFromReviews = review.slice(0, 6).map(review => review.img);
 
     return (
         <>
             <ShopAppBar />
-            <ShopInfo />
-            <hr />
-            {shop && <ShopImage shop={shop} />}
+            <ShopInfo vendor={vendor} />
+            {vendor && <ShopImage vendor={vendor} />}
             <ShopHomeTabsProvider>
                 <ShopHomeTabs images={imagesFromReviews} />
             </ShopHomeTabsProvider>
-
         </>
-    )
+    );
 }
 
 export default ShopMain;

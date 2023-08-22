@@ -5,7 +5,6 @@ import { useCreateMarkers } from './MapCustomHooks/useCreateMarker';
 import useUpdateMarkers from './MapCustomHooks/useUpdateMarkers';
 import useInitMap from './MapCustomHooks/useInitMap';
 import ModalWindos from './MapComponents/ModalWindos';
-
 const KaKaoMap = (props) => {
   const [markers, setMarkers] = useState([]);
   const [currentPosition, setCurrentPosition] = useState(null);
@@ -26,8 +25,9 @@ const KaKaoMap = (props) => {
     }
     return [];
   }, [data]);
-
+   
   console.log(vendorInfo);
+
 
   const map = useInitMap();
 
@@ -109,6 +109,7 @@ const KaKaoMap = (props) => {
       });
     }
   };
+
   useEffect(() => {
     markers.forEach((marker, index) => {
       kakao.maps.event.addListener(marker, 'click', () => {
@@ -116,6 +117,7 @@ const KaKaoMap = (props) => {
       });
     });
   }, [markers, vendorInfo]);
+  console.log(selectedVendor);
   const handleCloseModal = () => {
     setSelectedVendor(null);
   };
@@ -131,7 +133,7 @@ const KaKaoMap = (props) => {
   );
   return (
     <div style={{ position: 'relative' }}>
-      <div id="map" style={{ width: '100%', height: '80vh' }} />
+      <div id="map" style={{ width: '100%', height: '90vh' }} />
       {selectedVendor && (
         <ModalWindos info={selectedVendor} onClose={handleCloseModal} />
       )}

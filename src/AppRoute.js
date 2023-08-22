@@ -13,6 +13,8 @@ import GeolocationComponent from './Menu/Home/HomeComponents/GeolocationComponen
 import MyEdit from './Menu/MyPage/MyPageComponents/MyEdit';
 import ShopMain from './ShopDetails/ShopMain';
 import ReviewForm from './ShopDetails/Review/ReviewForm';
+import MyTakeoutDetail from './Menu/MyPage/MyPageComponents/MyTakeoutDetail';
+
 
 export const browserRoutes = [
     { path: '/home', element: <Home /> },
@@ -25,10 +27,11 @@ export const browserRoutes = [
     { path: '/myreview', element: <MyReview /> },
     { path: '/myfavorite', element: <MyFavorite /> },
     { path: '/mytakeout', element: <MyTakeout /> },
+    { path: '/mytakeoutdetail', element: <MyTakeoutDetail /> },
     { path: '/waitingDetail', element: <WaitingDetail /> },
     { path: '/myedit', element: <MyEdit /> },
-    { path: '/shopmain', element: <ShopMain /> },
     { path: '/reviewform', element: <ReviewForm /> },
+    { path: '/shopHome/vendor:Id', element: <ShopMain /> },
 
 
 
@@ -45,8 +48,10 @@ export const mobileRoutes = [
     { path: '/myreview', element: <MyReview /> },
     { path: '/myfavorite', element: <MyFavorite /> },
     { path: '/mytakeout', element: <MyTakeout /> },
+    { path: '/mytakeoutdetail', element: <MyTakeoutDetail /> },
     { path: '/waitingDetail', element: <WaitingDetail /> },
     { path: '/myedit', element: <MyEdit /> },
-    { path: '/shopmain', element: <ShopMain /> },
     { path: '/reviewform', element: <ReviewForm /> },
+    { path: '/shopHome/vendor:Id', element: <ShopMain /> },
+
 ];

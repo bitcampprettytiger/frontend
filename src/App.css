@@ -1,7 +1,17 @@
+* {
+  font-family: 'NanumSquareNeo-Variable', sans-serif;
+  box-sizing: border-box;
+}
+
 .BV {
-  width: 50%;
+  width: 30%;
   margin: 0 auto;
 }
+.view{
+  width: 100%;
+  margin: 0 auto;
+}
+
 .MV {
   width: 100%;
   margin: 0 auto;
@@ -20,4 +30,13 @@ html a {
   margin: 0 auto;
   background-color: #fff;
   box-shadow: 0 0 20px #0000000d;
+}
+
+body::-webkit-scrollbar {
+  display: none; 
+}
+
+.App-main2 {
+  width: 100%;
+  border: 1px solid #ff0000;
 }
