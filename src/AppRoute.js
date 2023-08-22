@@ -12,13 +12,10 @@ import MyTakeout from './Menu/MyPage/MyPageComponents/MyTakeout';
 import GeolocationComponent from './Menu/Home/HomeComponents/GeolocationComponent';
 import MyEdit from './Menu/MyPage/MyPageComponents/MyEdit';
 import ShopMain from './ShopDetails/ShopMain';
-import AppLogin from './Login,Join/login/Login'
-import AppSignup from './Login,Join/join/Register'
+import ReviewForm from './ShopDetails/Review/ReviewForm';
+import MyTakeoutDetail from './Menu/MyPage/MyPageComponents/MyTakeoutDetail';
+
 export const browserRoutes = [
-
-
-    { path: '/', element: <AppLogin /> },
-    { path: '/signup', element: <AppSignup /> },
     { path: '/home', element: <Home /> },
     { path: '/trfood', element: <TrFood /> },
     { path: '/stfood', element: <StFood /> },
@@ -29,9 +26,12 @@ export const browserRoutes = [
     { path: '/myreview', element: <MyReview /> },
     { path: '/myfavorite', element: <MyFavorite /> },
     { path: '/mytakeout', element: <MyTakeout /> },
+    { path: '/mytakeoutdetail', element: <MyTakeoutDetail /> },
     { path: '/waitingDetail', element: <WaitingDetail /> },
     { path: '/myedit', element: <MyEdit /> },
-    { path: '/shopmain', element: <ShopMain /> },
+    { path: '/reviewform', element: <ReviewForm /> },
+    { path: '/shopHome/vendor:Id', element: <ShopMain /> },
+
 
 ];
 
@@ -46,7 +46,9 @@ export const mobileRoutes = [
     { path: '/myreview', element: <MyReview /> },
     { path: '/myfavorite', element: <MyFavorite /> },
     { path: '/mytakeout', element: <MyTakeout /> },
+    { path: '/mytakeoutdetail', element: <MyTakeoutDetail /> },
     { path: '/waitingDetail', element: <WaitingDetail /> },
     { path: '/myedit', element: <MyEdit /> },
-    { path: '/shopmain', element: <ShopMain /> },
+    { path: '/reviewform', element: <ReviewForm /> },
+    { path: '/shopHome/vendor:Id', element: <ShopMain /> },
 ];
