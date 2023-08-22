@@ -9,15 +9,16 @@ const SellSignUp1 = () => {
   const [businessNumber, setBusinessNumber] = useState('');
   const [roadNumber, setRoadNumber] = useState('');
   const navigate = useNavigate(); // useNavigate hook을 사용합니다.
-
+  const [activeStep, setActiveStep] = useState(0);
   const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
     navigate('/sellsign2', { state: { businessNumber, roadNumber } });
   };
 
   return (
     <>
       <Container style={{ padding: '20px', border: '1px solid #ccc' }}>
-        <SSUHeader></SSUHeader>
+        <SSUHeader activeStep={activeStep}></SSUHeader>
         <Typography
           variant="h5"
           style={{ textAlign: 'center', margin: '5% auto' }}

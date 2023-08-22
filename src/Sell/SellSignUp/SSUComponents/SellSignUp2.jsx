@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { TextField, Button, Container, Grid, Typography } from '@mui/material';
-import { useNavigate, useLocation } from 'react-router-dom'; // useNavigate hook을 import합니다.
+import { useNavigate, useLocation } from 'react-router-dom';
 import SSUHeader from './SSUHeader';
 
 const SellSignUp2 = () => {
+  const [userId, setUserId] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [businessNumber, setBusinessNumber] = useState('');
   const [roadNumber, setRoadNumber] = useState('');
+  const [activeStep, setActiveStep] = useState(1);
+
   const navigate = useNavigate();
-  const location = useLocation(); // useLocation hook을 사용합
+  const location = useLocation();
+
   useEffect(() => {
     if (location.state) {
       setBusinessNumber(location.state.businessNumber);
@@ -16,44 +23,48 @@ const SellSignUp2 = () => {
   }, [location.state]);
 
   const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
     navigate('/sellsign3', { state: { businessNumber, roadNumber } });
   };
+
   return (
     <>
       <Container style={{ padding: '20px', border: '1px solid #ccc' }}>
-        <SSUHeader></SSUHeader>
+        <SSUHeader activeStep={activeStep}></SSUHeader>
         <div style={{ textAlign: 'center', margin: '5% auto' }}>
           <Typography variant="h5">회원가입</Typography>
         </div>
         <form>
           <Grid container spacing={2}>
             {[
-              '아이디',
-              '비밀번호',
-              '비밀번호 확인',
-              '가게 주소',
-              '전화번호',
-              '사업자',
-              '도로점유',
-            ].map((label, index) => (
+              { label: '아이디', value: userId, onChange: setUserId },
+              { label: '비밀번호', value: password, onChange: setPassword },
+              {
+                label: '비밀번호 확인',
+                value: confirmPassword,
+                onChange: setConfirmPassword,
+              },
+              {
+                label: '핸드폰번호',
+                value: phoneNumber,
+                onChange: setPhoneNumber,
+              },
+              { label: '사업자등록번호', value: businessNumber },
+              { label: '도로점유허가번호', value: roadNumber },
+            ].map((field, index) => (
               <Grid item xs={12} container alignItems="center">
-                <Typography variant="body1">{label}</Typography>
+                <Typography variant="body1">{field.label}</Typography>
                 <TextField
                   fullWidth
                   variant="outlined"
+                  placeholder={field.label} // 플레이스 홀더를 제목과 동일하게 설정
                   type={index === 1 || index === 2 ? 'password' : 'text'}
-                  value={
-                    label === '도로점유'
-                      ? roadNumber
-                      : label === '사업자'
-                      ? businessNumber
-                      : ''
+                  value={field.value}
+                  disabled={
+                    field.label === '도로점유허가번호' ||
+                    field.label === '사업자등록번호'
                   }
-                  disabled={label === '도로점유' || label === '사업자'} // 여기에 disabled 속성을 추가
-                  onChange={(e) => {
-                    if (label === '도로점유') setRoadNumber(e.target.value);
-                    if (label === '사업자') setBusinessNumber(e.target.value);
-                  }}
+                  onChange={(e) => field.onChange?.(e.target.value)}
                 />
               </Grid>
             ))}

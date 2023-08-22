@@ -20,13 +20,14 @@ const SSUsaup = ({ businessNumber, setBusinessNumber }) => {
     >
       <Box className="login-form">
         <div className="input-field">
-          <Typography variant="body1">사업자 등록번호</Typography>
+          <Typography variant="body1" >사업자등록번호</Typography>
           <TextField
             fullWidth
             variant="outlined"
             style={{ backgroundColor: 'white' }}
             value={businessNumber} // 여기에 value 속성을 추가
             onChange={(e) => setBusinessNumber(e.target.value)} // 여기에 onChange 속성을 추가
+            placeholder="사업자등록번호 번호 입력"
           />
         </div>
         <div className="input-field">
