@@ -8,15 +8,14 @@ import {
   Grid,
 } from '@mui/material';
 
-const SSUsaup = () => {
+const SSUsaup = ({ businessNumber, setBusinessNumber }) => {
   return (
-    
     <Container
       style={{
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        marginBottom:'5%'
+        marginBottom: '5%',
       }}
     >
       <Box className="login-form">
@@ -26,6 +25,8 @@ const SSUsaup = () => {
             fullWidth
             variant="outlined"
             style={{ backgroundColor: 'white' }}
+            value={businessNumber} // 여기에 value 속성을 추가
+            onChange={(e) => setBusinessNumber(e.target.value)} // 여기에 onChange 속성을 추가
           />
         </div>
         <div className="input-field">
@@ -49,7 +50,7 @@ const SSUsaup = () => {
           </Grid>
         </div>
         <div className="sub-fun">
-          <Button  variant="contained" color="primary" style={{margin:'5%'}}>
+          <Button variant="contained" color="primary" style={{ margin: '5%' }}>
             조회
           </Button>
         </div>
