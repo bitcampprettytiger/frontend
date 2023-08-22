@@ -40,6 +40,7 @@ function MyTakeout() {
                                     주문 상세
                                 </Link>
 
+
                             </div>
                             <div className='mytakeout-store'>
                                 <img src="/images/roopy.png" />
@@ -51,11 +52,12 @@ function MyTakeout() {
                                     </div>
                                 </div>
                             </div>
-                            <button
-                                onClick={() => navigate('/reviewform')}
-                                className='mytakeout-review-button'>
-                                리뷰 작성하기
-                            </button>
+                            <Link to="/reviewform" className='mytakeout-review-button'>
+                                <button>
+                                    리뷰 작성하기
+                                </button>
+                            </Link>
+
 
                         </div>
                     ))}

@@ -31,7 +31,7 @@ export const browserRoutes = [
     { path: '/waitingDetail', element: <WaitingDetail /> },
     { path: '/myedit', element: <MyEdit /> },
     { path: '/reviewform', element: <ReviewForm /> },
-    { path: '/shopHome/vendor:Id', element: <ShopMain /> },
+    { path: '/shophome/:vendorId', element: <ShopMain /> },
 
 
 
@@ -52,6 +52,6 @@ export const mobileRoutes = [
     { path: '/waitingDetail', element: <WaitingDetail /> },
     { path: '/myedit', element: <MyEdit /> },
     { path: '/reviewform', element: <ReviewForm /> },
-    { path: '/shopHome/vendor:Id', element: <ShopMain /> },
+    { path: '/shophome/:vendorId', element: <ShopMain /> },
 
 ];
