@@ -54,8 +54,8 @@ function MenuOrderPage() {
                     <img src={menu.image} alt={menu.name} />
                   </div>
                   <div className="menu-info">
-                    <h3>{menu.name}</h3>
-                    <p className="menu-description">{menu.description}</p>
+                    <h3>{menu.menuName}</h3>
+                    <p className="menu-description">{menu.menuContent}</p>
                     <p className="menu-price">가격: {menu.price}원</p>
                   </div>
                 </StyledMenuItem>
