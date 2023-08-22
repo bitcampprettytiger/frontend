@@ -19,7 +19,7 @@ import useVendor from '../SDCustomHooks/useVendor';
 function ShopAppBar(props) {
     let navigate = useNavigate();
     const [liked, setLiked] = React.useState(false);
-    const { vendorId } = useParams
+    const { vendorId } = useParams();
     const { vendor, error, loading } = useVendor(vendorId);
 
     const handleLike = () => {

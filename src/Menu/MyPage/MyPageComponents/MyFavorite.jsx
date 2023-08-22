@@ -4,11 +4,19 @@ import './MyFavorite.css';
 
 function MyFavorite() {
     // 임시데이터
-    const store = {
-        image: null, // 가게 이미지가 없으면 null로 둡니다.
-        name: "금문도",
-        address: "비트캠프앞어쩌구"
-    }
+    const store = [
+        {
+            image: null, // 가게 이미지가 없으면 null로 둡니다.
+            name: "금문도",
+            address: "비트캠프앞어쩌구"
+        },
+        {
+            image: null, // 가게 이미지가 없으면 null로 둡니다.
+            name: "브롱스",
+            address: "비트캠프앞어쩌구"
+        }
+    ]
+
 
     return (
         <div className='App-main2'>

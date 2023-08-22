@@ -1,10 +1,12 @@
-import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../Layout/Header';
+import Footer from '../../Layout/Footer';
 import '../../App.css';
 import './Home.css';
-import Footer from '../../Layout/Footer';
+import useSlider from '../HomeCustomHooks/useSlider';
+import usePopularPlaces from '../HomeCustomHooks/usePopularPlaces';
 // import { BrowserView, MobileView } from 'react-device-detect';
 
 function Home() {
@@ -15,55 +17,45 @@ function Home() {
   const [showStations, setShowStations] = useState(false);
   const [popularPlaces, setPopularPlaces] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  // 슬라이더 로직
+
   const images = [
     '/images/slide-4.png',
     '/images/slide-2.png',
     '/images/slide-3.png'
   ];
+
+  // 주소 및 인기 장소 검색 로직.
+
   const [address, setAddress] = useState("");
   const [location, setLocation] = useState({
     latitude: "",
     longitude: ""
   });
+
+
   const setAddressToHome = (newAddress, newlocation) => {
-    console.log(newlocation)
-    setAddress(newAddress);
+    setAddress(newAddress)
     setLocation({
       latitude: newlocation.latitude,
       longitude: newlocation.longitude
     });
   };
-
   useEffect(() => {
     if (address) {
-      // Function to set the address received from the useEffect
-      console.log("여기만실행돠면돼!!")
-      console.log("ㅇㅇㄴㅇㄴㅁㅇㅁㄴ" + address);
-      console.log(location.latitude);
-      console.log(location.longitude)
-
-      console.log(address)
       axios.post('http://27.96.135.75/vendor/search', {
         address: address,
         latitude: location.latitude,
         hardness: location.longitude
-      },
-        {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        }) // 실제 api 엔드포인트로 변경할 것a
+      }, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
         .then(response => {
-          console.log(response)
-          console.log(response.data.result.itemlist)
           setPopularPlaces(response.data.result.itemlist);
         })
-        // .then(response => {
-        //   const itemList = Array.isArray(response.data.result.itemlist) ? response.data.result.itemlist : [];
-        //   console.log(itemList);
-        //   setPopularPlaces(itemList);
-        //  })
-
         .catch(error => {
           console.error("Error fetching popular places", error);
         });
@@ -73,7 +65,7 @@ function Home() {
       }, 3000);
       return () => clearInterval(interval);
     }
-  }, [address, images.length]);
+  }, [address, images.length, location.latitude, location.longitude]);
 
   const handleSearch = () => {
     navigate('/search', { state: { query: searchInput } });
@@ -82,6 +74,7 @@ function Home() {
   const navigateToSearch = () => {
     navigate('/search');
   };
+
 
   const handleButtonClick = (url) => {
     if (url) {
@@ -113,7 +106,6 @@ function Home() {
           placeholder="지역, 음식, 가게명을 검색해보세요"
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
-          onClick={handleSearch}
         />
         <button className="Home-search-button" onClick={handleSearch}>
           <img src="images/inputsearch.png" alt="Search" />
@@ -157,6 +149,6 @@ function Home() {
       <Footer type="home" />
     </div>
   );
-}
 
+}
 export default Home;
