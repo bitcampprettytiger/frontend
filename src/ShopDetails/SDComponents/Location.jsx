@@ -3,19 +3,20 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import useCopyPaste from '../SDCustomHooks/useCopyPaste';
+import useVendor from '../SDCustomHooks/useVendor';
+import { useParams } from 'react-router-dom';
 
-//주소 복사하기 기능
-function Location({ address }) {
-  const copyToClipboard = () => {
-    navigator.clipboard
-      .writeText(address)
-      .then(() => {
-        console.log('Text copied to clipboard...');
-      })
-      .catch((err) => {
-        console.log('Something went wrong', err);
-      });
-  };
+function Location() {
+  const [isCopied, copyToClipboard] = useCopyPaste();
+  const {vendorId} = useParams();
+  const { vendor, error, loading } = useVendor(vendorId);
+
+  if (loading) return <div>로딩 중</div>;
+  if (error) return <div>Error: {error.message}</div>;
+  if (!vendor) return <div>없는 가게 입니다.</div>; 
+  
+  const address = vendor.address;
 
   return (
     <Box>
@@ -29,7 +30,7 @@ function Location({ address }) {
       <Box sx={{ width: '80vw', height: '20vh', marginBottom: '1vh' }}>
         {/* 지도 추가할 곳,,, */}
       </Box>
-      <Box sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={copyToClipboard}>
+      <Box sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={() => copyToClipboard(address)}>
         <ContentCopyIcon sx={{ color: 'black', fontSize: '90%' }} />
         <Typography variant="body2" sx={{ marginLeft: '1vw', fontSize: '90%', color: 'black' }}>
           주소 복사하기
