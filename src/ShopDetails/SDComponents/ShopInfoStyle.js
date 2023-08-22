@@ -46,4 +46,5 @@ export const ReviewCountTypography = styled(Typography)`
   margin-left: 1;
   font-size: 90%;
   color: #ababab;
+
 `;

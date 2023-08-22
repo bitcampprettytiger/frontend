@@ -17,7 +17,7 @@ const SellStoreSet = () => {
   };
 
   return (
-    <div style={{ height: '100vh', overflowY: 'scroll', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+    <div style={{  overflowY: 'scroll', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
       <style>
         {`::-webkit-scrollbar { display: none; }`}
       </style>

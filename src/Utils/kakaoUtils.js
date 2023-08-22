@@ -25,6 +25,8 @@ export function useLocation() {
     return location;
 }
 
+
+
 export const loadKakaoMapsScript = (callback) => {
     const existingScript = document.getElementById('kakaoMapsScript');
     if (!existingScript) {

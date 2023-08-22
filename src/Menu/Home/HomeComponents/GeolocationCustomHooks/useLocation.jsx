@@ -4,6 +4,7 @@ function useLocation() {
     const [location, setLocation] = useState(null);
 
     useEffect(() => {
+        console.log(location);
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 const coords = {

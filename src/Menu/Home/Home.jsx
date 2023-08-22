@@ -24,45 +24,56 @@ function Home() {
   const [location, setLocation] = useState({
     latitude: "",
     longitude: ""
-});
-  const setAddressToHome = (newAddress,newlocation) => {
+  });
+  const setAddressToHome = (newAddress, newlocation) => {
     console.log(newlocation)
     setAddress(newAddress);
     setLocation({
       latitude: newlocation.latitude,
       longitude: newlocation.longitude
-  });  };
+    });
+  };
 
   useEffect(() => {
-  
-  // Function to set the address received from the useEffect
+    if (address) {
+      // Function to set the address received from the useEffect
+      console.log("여기만실행돠면돼!!")
+      console.log("ㅇㅇㄴㅇㄴㅁㅇㅁㄴ" + address);
+      console.log(location.latitude);
+      console.log(location.longitude)
 
-  if(address){
-    console.log(location.latitude);
-    console.log(location.longitude)
-    console.log(address)
-    axios.post('http://localhost/vendor/search', { address: address,
-    latitude: location.latitude,
-    hardness: location.longitude },
-    {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }) // 실제 api 엔드포인트로 변경할 것a
-    .then(response => {
-      console.log(response.data.result.itemlist)
-      setPopularPlaces(response.data.result.itemlist);
-    })
-    .catch(error => {
-      console.error("Error fetching popular places", error);
-    });
-  }
+      console.log(address)
+      axios.post('http://27.96.135.75/vendor/search', {
+        address: address,
+        latitude: location.latitude,
+        hardness: location.longitude
+      },
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }) // 실제 api 엔드포인트로 변경할 것a
+        .then(response => {
+          console.log(response)
+          console.log(response.data.result.itemlist)
+          setPopularPlaces(response.data.result.itemlist);
+        })
+        // .then(response => {
+        //   const itemList = Array.isArray(response.data.result.itemlist) ? response.data.result.itemlist : [];
+        //   console.log(itemList);
+        //   setPopularPlaces(itemList);
+        //  })
 
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [address,images.length]);
+        .catch(error => {
+          console.error("Error fetching popular places", error);
+        });
+
+      const interval = setInterval(() => {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+      }, 3000);
+      return () => clearInterval(interval);
+    }
+  }, [address, images.length]);
 
   const handleSearch = () => {
     navigate('/search', { state: { query: searchInput } });
@@ -80,8 +91,7 @@ function Home() {
 
   return (
     <div className='App-main2'>
-      <Header page="home" setAddressToHome={setAddressToHome} /> {/* setAddress 함수를 props로 전달 */}
-
+      <Header page="home" setAddressToHome={setAddressToHome} />
       <div className="slider">
         <img src={images[currentIndex]} alt="슬라이드 이미지" className="slide-image" />
         <div className="dots">
@@ -109,7 +119,7 @@ function Home() {
         </button>
       </div>
 
-      <h3>오늘 이곳은 어때요?</h3>
+      <p>오늘 이곳은 어때요?</p>
       <div className="outer-container">
         <div className="inner-container">
           {popularPlaces.map((place) => (
@@ -121,8 +131,8 @@ function Home() {
         </div>
       </div>
 
-      <h3>포장마차거리 핫플레이스 BEST</h3>
-      <p>지금은 야장이 가장 인기! 먹고가꼬에서 포장마차거리를 확인하세요!</p>
+      <p>포장마차거리 핫플레이스 BEST</p>
+      <p className="small-text">지금은 야장이 가장 인기! 먹고가꼬에서 포장마차거리를 확인하세요!</p>
       <div className="macha-button-container">
         {["/images/place1.png", "/images/place2.png", "/images/place3.png", "/images/place4.png", "/images/place5.png"].map((image, index) => (
           <button key={index} className="macha-button" onClick={navigateToSearch}>
