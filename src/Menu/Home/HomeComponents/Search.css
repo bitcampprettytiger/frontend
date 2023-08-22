@@ -1,6 +1,11 @@
-/* .App-main2 {
-    width: 480px;
-} */
+.App-main2 {
+
+    width: 100%;
+    min-height: calc(100vh - 10vh); /* 푸터 높이(10vh)를 고려하여 App-main2의 최소 높이 설정 */
+    
+    flex-direction: column;
+    justify-content: space-between;
+}
 
 .Search-border {
     border: 10px;
@@ -89,6 +94,10 @@
     /* 즐겨찾기 아이콘 색상 변경 */
 }
 
+.hashtag-container{
+
+width: 100%;
+}
 
 .hashtag-buttons button {
     margin: 0 10px;

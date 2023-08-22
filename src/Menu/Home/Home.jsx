@@ -1,69 +1,97 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // useLocation은 사용하지 않아 제거
+import { useNavigate } from 'react-router-dom';
 import Header from '../../Layout/Header';
 import '../../App.css';
 import './Home.css';
 import Footer from '../../Layout/Footer';
-import MachaSection from '../Home/HomeComponents/MachaSection';
-import { BrowserView, MobileView } from 'react-device-detect'
-
-
+// import { BrowserView, MobileView } from 'react-device-detect';
 
 function Home() {
-
   const navigate = useNavigate();
-  const [searchinput, setSearchInput] = useState('');
+  const [searchInput, setSearchInput] = useState('');
   const [hotPlaces, setHotPlaces] = useState([]);
   const [nearbyStations, setNearbyStations] = useState([]);
   const [showStations, setShowStations] = useState(false);
-
-  // 검색창 이동 로직
-  const handleSearch = () => {
-    navigate('/search', { state: { query: searchinput } });
-  };
-
-
-  const navigateToSearch = () => {
-    navigate('/search');
-  };
-
-  const navigateToHotPlace = (placeName) => {
-
-    navigate('/search');
-  };
-
-
-  const handleButtonClick = (url) => {
-    if (url) {
-      window.location.href = url; // 해당 URL로 이동
-    }
-  };
-
-
-
-  // 슬라이드 이미지 로직
+  const [popularPlaces, setPopularPlaces] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const images = [
     '/images/slide-4.png',
     '/images/slide-2.png',
     '/images/slide-3.png'
   ];
+  const [address, setAddress] = useState("");
+  const [location, setLocation] = useState({
+    latitude: "",
+    longitude: ""
+  });
+  const setAddressToHome = (newAddress, newlocation) => {
+    console.log(newlocation)
+    setAddress(newAddress);
+    setLocation({
+      latitude: newlocation.latitude,
+      longitude: newlocation.longitude
+    });
+  };
 
-  const [currentIndex, setCurrentIndex] = useState(0);
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 3000); // 3초마다 이미지 변경
-    return () => clearInterval(interval);
-  }, [images.length]);
+    if (address) {
+      // Function to set the address received from the useEffect
+      console.log("여기만실행돠면돼!!")
+      console.log("ㅇㅇㄴㅇㄴㅁㅇㅁㄴ" + address);
+      console.log(location.latitude);
+      console.log(location.longitude)
 
+      console.log(address)
+      axios.post('http://27.96.135.75/vendor/search', {
+        address: address,
+        latitude: location.latitude,
+        hardness: location.longitude
+      },
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }) // 실제 api 엔드포인트로 변경할 것a
+        .then(response => {
+          console.log(response)
+          console.log(response.data.result.itemlist)
+          setPopularPlaces(response.data.result.itemlist);
+        })
+        // .then(response => {
+        //   const itemList = Array.isArray(response.data.result.itemlist) ? response.data.result.itemlist : [];
+        //   console.log(itemList);
+        //   setPopularPlaces(itemList);
+        //  })
 
+        .catch(error => {
+          console.error("Error fetching popular places", error);
+        });
+
+      const interval = setInterval(() => {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+      }, 3000);
+      return () => clearInterval(interval);
+    }
+  }, [address, images.length]);
+
+  const handleSearch = () => {
+    navigate('/search', { state: { query: searchInput } });
+  };
+
+  const navigateToSearch = () => {
+    navigate('/search');
+  };
+
+  const handleButtonClick = (url) => {
+    if (url) {
+      window.location.href = url;
+    }
+  };
 
   return (
-
     <div className='App-main2'>
-
-      <Header page="home" />
+      <Header page="home" setAddressToHome={setAddressToHome} />
 
       <div className="slider">
         <img src={images[currentIndex]} alt="슬라이드 이미지" className="slide-image" />
@@ -83,7 +111,7 @@ function Home() {
           className="Home-search-input"
           type="text"
           placeholder="지역, 음식, 가게명을 검색해보세요"
-          value={searchinput}
+          value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
           onClick={handleSearch}
         />
@@ -91,37 +119,29 @@ function Home() {
           <img src="images/inputsearch.png" alt="Search" />
         </button>
       </div>
-      <div className='custom-text-container2'>
-        <p className='custom-text'>오늘 이곳은 어때요?</p>
-      </div>
 
-      {/*지역별 인기 장소*/}
+      <p>오늘 이곳은 어때요?</p>
       <div className="outer-container">
         <div className="inner-container">
-          {/* <button onClick={ } className="button-round">
-            <span>내주변</span>
-          </button>
-          {showStations && nearbyStations.slice(0, 10).map((station) => (
-            <button key={station.name} className="button-round" style={{ backgroundImage: `url(${station.img})` }}>
-              <span>{station.name}</span>
-            </button> */}
-          {/* ))} */}
+          {popularPlaces.map((place) => (
+            <button key={place.id} className="button-round">
+              <img src={place.imageUrl} alt={place.name} className="button-image" />
+              <span className="button-text">{place.location}</span>
+            </button>
+          ))}
         </div>
       </div>
-      <div className='custom-text-container2'>
-        <p className='custom-text2'>포장마차거리 핫플레이스 BEST</p>
-      </div>
-      <div className='custom-text-container3'>
-        <p className='custom-text3'>지금은 야장이 가장 인기! 먹고가꼬에서 포장마차거리를 확인하세요!</p>
-      </div>
+
+      <p>포장마차거리 핫플레이스 BEST</p>
+      <p className="small-text">지금은 야장이 가장 인기! 먹고가꼬에서 포장마차거리를 확인하세요!</p>
       <div className="macha-button-container">
         {["/images/place1.png", "/images/place2.png", "/images/place3.png", "/images/place4.png", "/images/place5.png"].map((image, index) => (
-          <button key={image} className="macha-button" onClick={navigateToSearch}>
+          <button key={index} className="macha-button" onClick={navigateToSearch}>
             <img src={image} alt={`Place ${index + 1}`} />
           </button>
         ))}
-
       </div>
+
       <div className='footer-text-container'>
         <div className='footer-text-container-text'>
           <p>
@@ -132,17 +152,11 @@ function Home() {
             개인정보담당 : 안알랴줌<br />
             대표번호 : 000-000-000
           </p>
-
         </div>
       </div>
-
       <Footer type="home" />
-
-
-    </div >
-
+    </div>
   );
 }
 
 export default Home;
-
