@@ -24,8 +24,7 @@ import SellStoreSet from './Sell/SellStoreSet/SellStroreSet';
 import SellHome from './Sell/SellHome/SellHome';
 import SellMySet from './Sell/SellMySet/SellMySet';
 import SellFooter from './Sell/SellLayout/SellFooter';
-import ReservationSystem from './Seller/Seller';
-import Chat from './Seller/chat';
+import CustomerPage from './Seller/CustomerPage';
 
 function App() {
   const data = [
@@ -81,7 +80,7 @@ function App() {
           <Route path="/mytakeout" element={<MyTakeout />} />
           <Route path="/waitingDetail" element={<WaitingDetail />} />
           <Route path="/myedit" element={<MyEdit />} />
-          <Route path='/chat' element={<Chat></Chat>}/>
+          <Route path='/customerlist' element={<CustomerPage></CustomerPage>}/>
           <Route path="/hotplace" element={
             <div>
               <Hotplace />
@@ -94,7 +93,6 @@ function App() {
           <Route path="/sellSet" element={<SellStoreSet />} />
           <Route path="/sellhome" element={<SellHome />} />
           <Route path="/sellmyset" element={<SellMySet />} />
-          <Route path="/seller" element={<ReservationSystem />}/>
         </Routes>
         <SellFooter />
       </BrowserView>
