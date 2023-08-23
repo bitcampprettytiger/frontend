@@ -31,7 +31,7 @@ export const browserRoutes = [
     { path: '/mytakeout', element: <MyTakeout /> },
     { path: '/waitingDetail', element: <WaitingDetail /> },
     { path: '/myedit', element: <MyEdit /> },
-    { path: '/shopmain', element: <ShopMain /> },
+    { path: '/shopHome/:vendorId', element: <ShopMain /> },
 
 ];
 
@@ -48,5 +48,5 @@ export const mobileRoutes = [
     { path: '/mytakeout', element: <MyTakeout /> },
     { path: '/waitingDetail', element: <WaitingDetail /> },
     { path: '/myedit', element: <MyEdit /> },
-    { path: '/shopmain', element: <ShopMain /> },
+    { path: '/shopHome/:vendorId', element: <ShopMain /> },
 ];
