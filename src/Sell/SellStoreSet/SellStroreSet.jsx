@@ -3,6 +3,8 @@ import SSSMenuList from './SSSComponents/SSSMenuList.jsx';
 import SSSUseLists from './SSSComponents/SSSUseLists.jsx';
 import SSSReserveBtn from './SSSComponents/SSSReserveBtn.jsx';
 import SSSMenuInputs from './SSSComponents/SSSMenuInputs.jsx';
+import SellHeader from '../SellLayout/SellHeader.jsx'
+import SellFooter from '../SellLayout/SellFooter.jsx'
 const SellStoreSet = () => {
   const [menus, setMenus] = useState([]);
 
@@ -21,10 +23,12 @@ const SellStoreSet = () => {
       <style>
         {`::-webkit-scrollbar { display: none; }`}
       </style>
+      <SellHeader></SellHeader>
       <SSSMenuInputs onAddMenu={handleAddMenu}></SSSMenuInputs>
       <SSSMenuList menus={menus} onDeleteMenu={handleDeleteMenu}></SSSMenuList>
       <SSSUseLists></SSSUseLists>
       <SSSReserveBtn></SSSReserveBtn>
+      <SellFooter></SellFooter>
     </div>
   );
 };

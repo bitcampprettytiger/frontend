@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 
 const SHWaiting = ({ onClick }) => {
   return (
@@ -18,6 +18,13 @@ const SHWaiting = ({ onClick }) => {
         marginBottom: '10px',
       }}
     >
+      <Typography
+        variant="h6"
+        align="center"
+        sx={{ marginBottom: '2%', color: '#333' }}
+      >
+        줄서기 목록
+      </Typography>
       <Grid container spacing={1} className="줄서기">
         <Grid item xs={4} sx={{ fontWeight: 'bold', color: '#555' }}>
           대기번호
