@@ -8,6 +8,7 @@ const useAddress = () => {
     });
 
 
+
     const extractDistrict = (fullAddress) => {
         const splitAddress = fullAddress.split(' ');
         if (splitAddress.length > 1 && splitAddress[1].endsWith('구')) {
