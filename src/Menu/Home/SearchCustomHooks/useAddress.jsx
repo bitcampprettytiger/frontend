@@ -7,8 +7,17 @@ const useAddress = () => {
         longitude: ""
     });
 
+    const extractDistrict = (fullAddress) => {
+        const splitAddress = fullAddress.split(' ');
+        if (splitAddress.length > 1 && splitAddress[1].endsWith('구')) {
+            return splitAddress[1];
+        }
+        return fullAddress; // 원래 주소 반환 (예외 처리)
+    };
+
     const setAddressToHome = (newAddress, newLocation) => {
-        setAddress(newAddress);
+        const district = extractDistrict(newAddress);
+        setAddress(district);
         setLocation(newLocation);
     };
 

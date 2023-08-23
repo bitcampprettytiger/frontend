@@ -77,33 +77,36 @@ function Search() {
                 <>
                     {searchInput && <h2>{`'${searchInput}'에 대한 결과`}</h2>}
                     <div className="results-container">
-                        {searchResults.map((shop, index) => ( // searchResults를 직접 사용
-                            <Link to={`/shop/${shop.name}`} key={index}>
-                                <div className="result-item">
-                                    <img src={shop.imageURL ? shop.imageURL : defaultImage} alt={`${shop.name}의 이미지`} />
-                                    <div className="result-info">
-                                        <h3>{shop.name}</h3>
-                                        <div className="rating">
-                                            <StarIcon style={{ color: yellow[700], fontSize: 20 }} />
-                                            <span>{shop.rating !== null && shop.rating !== undefined ? shop.rating : "등록된 점수가 없습니다"}</span>
+                        {searchResults.map((shop, index) => (
+                            shop.name && shop.category && shop.neighborhood ? ( // 데이터의 유효성을 확인합니다.
+                                <Link to={`/shop/${shop.name}`} key={index}>
+                                    <div className="result-item">
+                                        <img src={shop.imageURL ? shop.imageURL : defaultImage} alt={`${shop.name}의 이미지`} />
+                                        <div className="result-info">
+                                            <h3>{shop.name}</h3>
+                                            <div className="rating">
+                                                <StarIcon style={{ color: yellow[700], fontSize: 20 }} />
+                                                <span>{shop.rating !== null && shop.rating !== undefined ? shop.rating : "등록된 점수가 없습니다"}</span>
+                                            </div>
+                                            <p>{shop.category} / {shop.neighborhood}</p>
                                         </div>
-                                        <p>{shop.category || "분식"} / {shop.neighborhood || "송파동"}</p>
+                                        <div className="result-favorite">
+                                            {favorites[index] ? (
+                                                <FavoriteIcon onClick={(e) => { e.stopPropagation(); toggleFavorite(index); }} />
+                                            ) : (
+                                                <FavoriteBorderIcon onClick={(e) => { e.stopPropagation(); toggleFavorite(index); }} />
+                                            )}
+                                        </div>
                                     </div>
-                                    <div className="result-favorite">
-                                        {favorites[index] ? (
-                                            <FavoriteIcon onClick={(e) => { e.stopPropagation(); toggleFavorite(index); }} />
-                                        ) : (
-                                            <FavoriteBorderIcon onClick={(e) => { e.stopPropagation(); toggleFavorite(index); }} />
-                                        )}
-                                    </div>
-                                </div>
-                            </Link>
+                                </Link>
+                            ) : null // 유효하지 않은 데이터일 경우 아무것도 렌더링하지 않습니다.
                         ))}
                     </div>
                 </>
             ) : (
                 hasSearched && <h2>{`'${searchInput}'에 대한 검색 결과가 없습니다.`}</h2>
             )}
+
 
             <Footer type="search" />
         </div>
