@@ -7,6 +7,7 @@ const useAddress = () => {
         longitude: ""
     });
 
+
     const extractDistrict = (fullAddress) => {
         const splitAddress = fullAddress.split(' ');
         if (splitAddress.length > 1 && splitAddress[1].endsWith('구')) {
@@ -18,6 +19,8 @@ const useAddress = () => {
     const setAddressToHome = (newAddress, newLocation) => {
         const district = extractDistrict(newAddress);
         setAddress(district);
+
+
         setLocation(newLocation);
     };
 

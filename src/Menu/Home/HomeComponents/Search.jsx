@@ -77,6 +77,7 @@ function Search() {
                 <>
                     {searchInput && <h2>{`'${searchInput}'에 대한 결과`}</h2>}
                     <div className="results-container">
+
                         {searchResults.map((shop, index) => (
                             shop.name && shop.category && shop.neighborhood ? ( // 데이터의 유효성을 확인합니다.
                                 <Link to={`/shop/${shop.name}`} key={index}>
@@ -100,6 +101,7 @@ function Search() {
                                     </div>
                                 </Link>
                             ) : null // 유효하지 않은 데이터일 경우 아무것도 렌더링하지 않습니다.
+
                         ))}
                     </div>
                 </>

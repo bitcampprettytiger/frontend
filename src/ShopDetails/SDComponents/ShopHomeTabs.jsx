@@ -9,6 +9,10 @@ import Location from './Location';
 import ShopHomeTabsContext from '../SDCustomHooks/SHTContext';
 import { InView } from 'react-intersection-observer';
 import { StyledAppBar, StyledTab } from './ShopHomeTabsStyle';
+import MenuOrderPage from '../PackagingOrder/MenuOrderPage';
+import ReviewDetail from '../Review/ReviewDetail';
+import RatingAvg from '../Review/RatingAvg';
+import HygieneStatic from '../Review/HygieneStatic';
 
 
 function CustomTabPanel(props) {
@@ -63,10 +67,12 @@ export default function ShopHomeTabs({images}) {
         </InView>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-        full modal or 중첩 라우트
+          <MenuOrderPage/>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
-        full modal or 중첩 라우트
+          <RatingAvg/>
+          <HygieneStatic/>
+          <ReviewDetail/>
         </CustomTabPanel>
         </Box>
   );

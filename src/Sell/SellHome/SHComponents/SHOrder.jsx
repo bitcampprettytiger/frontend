@@ -1,10 +1,30 @@
-import React from 'react';
-import { Box, Typography, Grid, Button } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import {
+  Box,
+  Typography,
+  Grid,
+  Button,
+  Dialog,
+  DialogTitle,
+} from '@mui/material';
 
 const OrderDetail = ({ onClick }) => {
-  // 버튼 클릭 이벤트 핸들러
+  const [openDialog, setOpenDialog] = useState(false);
+
+  useEffect(() => {
+    if (openDialog) {
+      const timer = setTimeout(() => {
+        setOpenDialog(false);
+      }, 3000);
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [openDialog]);
+
+  // 주문 반려 버튼 클릭 이벤트 핸들러
   const handleOrderBack = () => {
-    // 주문반력 버튼 클릭 시 로직을 여기에 작성
+    setOpenDialog(true);
   };
 
   const handleOrderDetail = () => {
@@ -13,7 +33,11 @@ const OrderDetail = ({ onClick }) => {
 
   return (
     <Box
-      onClick={onClick} // 여기에 onClick 추가
+      onClick={(e) => {
+        if (!e.target.closest('button')) {
+          onClick();
+        }
+      }} // 버튼 제외하고 클릭 시 onClick 호출
       sx={{
         display: 'flex',
         flexDirection: 'column',
@@ -57,6 +81,9 @@ const OrderDetail = ({ onClick }) => {
           </Button>
         </Grid>
       </Grid>
+      <Dialog open={openDialog}>
+        <DialogTitle>반려되었습니다.</DialogTitle>
+      </Dialog>
     </Box>
   );
 };

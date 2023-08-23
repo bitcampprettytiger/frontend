@@ -7,12 +7,11 @@ import { useParams } from 'react-router-dom';
 
 function MenuItem({ menu, isLast, viewType, fontSize }) {
   const [menuDataList, setMenuDataList] = useState([]);
-  const [data, setData] = useState();
   const { vendorId } = useParams();
 
   useEffect(() => {  
-    if (menu.vendor && viewType === 'MenuOrderPage' || viewType === 'MenuSeeMore') {
-      axios.get(`http://27.96.135.75/vendor/info/${vendorId}`)
+    if (menu.vendor && (viewType === 'MenuOrderPage' || viewType === 'MenuSeeMore')) {
+      axios.get(`http://27.96.135.75/vendor/infoDetail/${vendorId}`)
         .then(response => {
           const menuDTOList = response.data.itemlist;
           setMenuDataList(menuDTOList);
@@ -21,30 +20,29 @@ function MenuItem({ menu, isLast, viewType, fontSize }) {
           console.error('메뉴 데이터가 없습니다.', error);
         });
     }
-  }, [menu.vendor,vendorId, viewType]); 
-  
+  }, [menu.vendor, vendorId, viewType]);
 
-  const renderContent = () => {
-    if (viewType === 'MenuOrderPage' && menuDataList) {
+  const renderContent = (menuDataItem) => {
+    if (viewType === 'MenuOrderPage' && menuDataItem) {
       return (
         <>
           <div className="menu-image">
-            <img src={menuDataList.menuImageList[0]?.url} alt={menuDataList.menuName} />
+            <img src={menuDataItem.menuImageList[0]?.url} alt={menuDataItem.menuName} />
           </div>
           <div className="menu-info">
-            <h3>{menuDataList.menuName}</h3>
-            <p className="menu-description">{menuDataList.menuContent}</p>
-            <p className="menu-price">가격: {menuDataList.price}원</p>
+            <h3>{menuDataItem.menuName}</h3>
+            <p className="menu-description">{menuDataItem.menuContent}</p>
+            <p className="menu-price">가격: {menuDataItem.price}원</p>
           </div>
         </>
       );
     } else if (viewType === 'MenuSeeMore') {
       return (
         <>
-          <ListItemText primary={menuDataList.menuName}
+          <ListItemText primary={menuDataItem.menuName}
             primaryTypographyProps={{ sx: { fontSize, fontWeight: 'bold' } }} />
           <ListItemText
-            primary={menuDataList.price}
+            primary={menuDataItem.price}
             primaryTypographyProps={{
               sx: {
                 fontSize,

@@ -18,7 +18,7 @@ const Header = () => {
               판매자 페이지
             </Typography>
           </Grid>
-          <Grid item xs={1}></Grid> {/* 오른쪽 공간 확보 */}
+          <Grid item xs={1}></Grid> 
         </Grid>
       </Toolbar>
     </AppBar>
