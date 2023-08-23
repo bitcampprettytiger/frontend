@@ -15,13 +15,13 @@ const SellMySet = () => {
         borderRadius: '10px',
         backgroundColor: '#f5f5f5',
         boxShadow: '0 3px 5px 2px rgba(0, 0, 0, 0.1)',
-        margin:'5% auto'
+        margin: '5% auto'
       }}
     >
       <Typography variant="h5" align="center" sx={{ marginBottom: '5%', color: '#333' }}>
         가게정보
       </Typography>
-      <Grid container spacing={2} sx={{textAlign:'center'}}>
+      <Grid container spacing={2} sx={{ textAlign: 'center' }}>
         <Grid item xs={6} sx={{ fontWeight: 'bold', color: '#555' }}>구분</Grid>
         <Grid item xs={6} sx={{ color: '#555' }}>111</Grid>
         <Grid item xs={6} sx={{ fontWeight: 'bold', color: '#555' }}>대표메뉴</Grid>

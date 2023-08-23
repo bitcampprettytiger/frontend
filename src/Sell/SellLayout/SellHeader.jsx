@@ -3,7 +3,7 @@ import { AppBar, Toolbar, Typography, Box, Grid, Avatar } from '@mui/material';
 
 const Header = () => {
   return (
-    <AppBar position='static' color="default" sx={{marginBottom:'5%'}}>
+    <AppBar position='static' color="default" sx={{ marginBottom: '5%' }}>
       <Toolbar sx={{ backgroundColor: '#ffffff' }}>
         <Grid container alignItems="center" justifyContent="space-between">
           <Grid item xs={1}>
