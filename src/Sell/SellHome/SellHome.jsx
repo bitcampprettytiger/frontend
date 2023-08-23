@@ -64,14 +64,14 @@ const SellHome = () => {
             }}
           >
             <Typography variant="h6" align="center">
-              {message}
-              <br />
+              {message}<br />
               3초 후 사라집니다.
             </Typography>
           </Box>
         </Modal>
       </Box>
       <SellFooter></SellFooter>
+
     </>
   );
 };
