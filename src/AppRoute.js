@@ -61,3 +61,4 @@ export const browserRoutes = [
   ...mapRoutes,
   ...sellRoutes,
 ];
+
