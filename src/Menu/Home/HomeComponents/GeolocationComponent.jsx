@@ -13,7 +13,6 @@ function GeolocationComponent() {
                 if (status === window.kakao.maps.services.Status.OK) {
                     setAddress(result[0].address.address_name);
                 }
-
                 setIsLoading(false);  // 로딩 상태 업데이트
             });
         }

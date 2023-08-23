@@ -7,7 +7,7 @@ const SellerPage = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
 
   useEffect(() => {
-    const socket = io('ws://localhost:8081/socket.io'); // 서버 주소
+    const socket = io('http://localhost:8081'); // 판매자 엔드포인트로 연결
 
     socket.addEventListener('open', () => {
       console.log('Connected to server');

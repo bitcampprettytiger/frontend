@@ -3,7 +3,7 @@ import { io } from 'socket.io-client';
 
 const CustomerPage = () => {
   const [position, setPosition] = useState(0);
-  const socket = io('ws://localhost:8081'); // 서버 주소
+  const socket = io('http://localhost:8081'); // 서버 주소
 
   useEffect(() => {
     socket.on('message', message => {

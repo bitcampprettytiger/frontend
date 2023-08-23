@@ -124,7 +124,7 @@ function Home() {
         <div className="inner-container">
           {popularPlaces.map((place) => (
             <button key={place.id} className="button-round">
-              <img src={place.imageUrl} alt={place.name} className="button-image" />
+              <img src="{place.imageUrl}" alt={place.name} className="button-image" />
               <span className="button-text">{place.location}</span>
             </button>
           ))}

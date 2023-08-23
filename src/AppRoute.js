@@ -14,6 +14,8 @@ import MyEdit from './Menu/MyPage/MyPageComponents/MyEdit';
 import ShopMain from './ShopDetails/ShopMain';
 import AppLogin from './Login,Join/login/Login'
 import AppSignup from './Login,Join/join/Register'
+import SellerPage from './Seller/SellerPage '
+import CustomerPage from './Seller/CustomerPage'
 export const browserRoutes = [
 
 
@@ -32,6 +34,8 @@ export const browserRoutes = [
     { path: '/waitingDetail', element: <WaitingDetail /> },
     { path: '/myedit', element: <MyEdit /> },
     { path: '/shopmain', element: <ShopMain /> },
+    { path: '/sellerpage', element: <SellerPage/>},
+    { path: '/CustomerPage', element: <CustomerPage />}
 
 ];
 
