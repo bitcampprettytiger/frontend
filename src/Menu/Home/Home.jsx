@@ -11,21 +11,28 @@ import usePopularPlaces from '../HomeCustomHooks/usePopularPlaces';
 
 function Home() {
   const navigate = useNavigate();
+  const [searchInput, setSearchInput] = useState('');
+  const [hotPlaces, setHotPlaces] = useState([]);
+  const [nearbyStations, setNearbyStations] = useState([]);
+  const [showStations, setShowStations] = useState(false);
+  const [popularPlaces, setPopularPlaces] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
   // 슬라이더 로직
+
   const images = [
     '/images/slide-4.png',
     '/images/slide-2.png',
     '/images/slide-3.png'
   ];
-  const [currentIndex, setCurrentIndex] = useSlider(images);
-  const [searchInput, setSearchInput] = useState('');
+
   // 주소 및 인기 장소 검색 로직.
+
   const [address, setAddress] = useState("");
   const [location, setLocation] = useState({
     latitude: "",
     longitude: ""
   });
-  const popularPlaces = usePopularPlaces(address, location);  // custom hook 사용
 
 
   const setAddressToHome = (newAddress, newlocation) => {
@@ -35,16 +42,30 @@ function Home() {
       longitude: newlocation.longitude
     });
   };
-
   useEffect(() => {
     if (address) {
-      // Function to set the address received from the useEffec
+      axios.post('http://27.96.135.75/vendor/search', {
+        address: address,
+        latitude: location.latitude,
+        hardness: location.longitude
+      }, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+        .then(response => {
+          setPopularPlaces(response.data.result.itemlist);
+        })
+        .catch(error => {
+          console.error("Error fetching popular places", error);
+        });
+
       const interval = setInterval(() => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
       }, 3000);
       return () => clearInterval(interval);
     }
-  }, [address, images.length]);
+  }, [address, images.length, location.latitude, location.longitude]);
 
   const handleSearch = () => {
     navigate('/search', { state: { query: searchInput } });
@@ -53,6 +74,7 @@ function Home() {
   const navigateToSearch = () => {
     navigate('/search');
   };
+
 
   const handleButtonClick = (url) => {
     if (url) {
@@ -127,6 +149,6 @@ function Home() {
       <Footer type="home" />
     </div>
   );
-}
 
+}
 export default Home;
