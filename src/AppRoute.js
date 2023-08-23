@@ -34,7 +34,7 @@ const commonRoutes = [
     { path: '/mytakeout', element: <MyTakeout /> },
     { path: '/waitingDetail', element: <WaitingDetail /> },
     { path: '/myedit', element: <MyEdit /> },
-    { path: '/shopHome/vendor:Id', element: <ShopMain /> },
+    { path: '/shopHome/:vendorId', element: <ShopMain /> },
     // 기타 공통 라우트
   ];
   
@@ -54,4 +54,3 @@ const commonRoutes = [
     { path: '/reviewform', element: <ReviewForm /> },
     ...commonRoutes, // 공통 라우트 추가
   ];
-  

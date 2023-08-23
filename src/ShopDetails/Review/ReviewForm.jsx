@@ -144,7 +144,7 @@ function ReviewForm() {
         <Button
           variant="outlined"
           sx={{
-            width: '80vw',
+            width: '80%',
             height: '50px',
             backgroundColor: 'white',
             borderColor: '#D9D9D9',
@@ -159,7 +159,7 @@ function ReviewForm() {
         <Button
           variant="contained"
           sx={{
-            width: '80vw',
+            width: '80%',
             height: '48px',
             backgroundColor: '#FF745A',
             color: 'white',
