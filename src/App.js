@@ -44,7 +44,7 @@ function App() {
             </Routes>
           </Router>
         </BrowserView>
-
+{/* 
         <MobileView className='MV'>
           <Router>
             <Routes>
@@ -53,7 +53,7 @@ function App() {
               ))}
             </Routes>
           </Router>
-        </MobileView>
+        </MobileView> */}
       </>
     </ThemeProvider>
   );
