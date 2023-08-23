@@ -14,4 +14,5 @@ export const StyledAppBar = styled(Tabs)`
 
 export const StyledTab = styled(Tab)`
   font-size: 115%;
+  color: black;
 `;

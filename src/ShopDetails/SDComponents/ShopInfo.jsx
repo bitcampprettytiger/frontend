@@ -36,10 +36,13 @@ function ShopInfo({ onCall, onViewLocation }) {
         </ReviewCountTypography>
       </StarBox>
       <ButtonBox>
-      <CallButton as="a" href={`tel:${vendor.tel}`} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-        <IconButton color="default" size="small" sx={{ marginRight: 1 }}>
-          <CallIcon />
-        </IconButton>
+      <CallButton
+        variant="outlined"
+        color="primary"
+        component="a"
+        href={`tel:${vendor.tel}`}
+        startIcon={<CallIcon />}
+      >
         전화 걸기
       </CallButton>
         <LocationButton onClick={onViewLocation}>

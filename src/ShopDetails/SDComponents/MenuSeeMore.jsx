@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useContext} from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import MenuItem from './MenuItems';
 import shopList from '../../DataEx/shop'
+import ShopHomeTabsContext from '../SDCustomHooks/SHTContext';
 
 const style = {
     width: '100%',
@@ -15,7 +16,12 @@ const style = {
 };
 
 function MenuSeeMore() {
+    const { setValue } = useContext(ShopHomeTabsContext);
     const menuItems = shopList.slice(0, 3);
+
+    const handleMenuClick = () => {
+        setValue(1); //메뉴 탭 이동
+      };
 
     return (
         <List sx={style} component="nav" aria-label="mailbox folders">
@@ -35,8 +41,9 @@ function MenuSeeMore() {
             <ListItem sx={{ justifyContent: 'center' }}>
                 <Button
                     variant="outlined"
+                    onClick={handleMenuClick}
                     sx={{
-                        width: '70vw',
+                        width: '80vw',
                         borderColor: '#000000',
                         borderWidth: '1px',
                         color: '#000000',

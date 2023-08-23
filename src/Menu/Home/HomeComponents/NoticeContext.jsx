@@ -19,4 +19,7 @@ export const useNotice = () => {
         throw new Error('useNotice must be used within a NoticeProvider');
     }
     return context;
+
 };
+
+
