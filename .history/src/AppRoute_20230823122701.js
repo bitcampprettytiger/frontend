@@ -68,7 +68,7 @@ export const browserRoutes = [
   ...authRoutes,    // 인증 관련 경로 추가
   ...menuRoutes,    // 메뉴 관련 경로 추가
   ...mapRoutes,     // 맵 관련 경로 추가
-
+  ...commonRoutes, // 공통 라우트 추가
 ];
 
 export const mobileRoutes = [
@@ -78,5 +78,5 @@ export const mobileRoutes = [
   ...authRoutes,    // 인증 관련 경로 추가
   ...menuRoutes,    // 메뉴 관련 경로 추가
   ...mapRoutes,     // 맵 관련 경로 추가
-
+  ...commonRoutes, // 공통 라우트 추가
 ];
