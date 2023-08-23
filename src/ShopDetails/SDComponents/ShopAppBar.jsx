@@ -55,6 +55,7 @@ function ShopAppBar(props) {
                         sx={{
                             color: 'black',
                             fontSize: '115%',
+                            verticalAlign: 'middle',
                             marginTop: 'auto',
                             marginBottom: 'auto',
                         }}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import menuList from '../../../DataEx/menuList';
+import menuList from '../../DataEx/menuList';
 import Divider from '@mui/material/Divider';
 import { StyledMenuItem, StyledMenuList } from './MenuOrderStyle';
 import MenuOptionalPage from './MenuOptionalPage';
@@ -54,8 +54,8 @@ function MenuOrderPage() {
                     <img src={menu.image} alt={menu.name} />
                   </div>
                   <div className="menu-info">
-                    <h3>{menu.menuName}</h3>
-                    <p className="menu-description">{menu.menuContent}</p>
+                    <h3>{menu.name}</h3>
+                    <p className="menu-description">{menu.description}</p>
                     <p className="menu-price">가격: {menu.price}원</p>
                   </div>
                 </StyledMenuItem>
@@ -67,7 +67,7 @@ function MenuOrderPage() {
       </StyledMenuList>
       {isModalVisible && (
         <MenuOptionalPage
-          selectedMenu={selectedMenu}
+          selectedMenu={selectedMenu} 
           onClose={handleClose}
           onMenuAdd={handleMenuAdd}
         />

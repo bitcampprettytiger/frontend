@@ -1,13 +1,11 @@
 import React from "react";
 import { Box, Card, CardContent, CardMedia, Typography } from "@mui/material";
 import Rating from "@mui/material/Rating";
-import RatingAvg from "./RatingAvg";
 import reviewData from "../../DataEx/review"; 
 
 const ReviewDetail = () => {
   return (
-    <Box padding={5} textAlign={'left'}>
-      <RatingAvg/>
+    <Box padding={2} textAlign={'left'}>
       {reviewData.map(({ id, nickname, img, altText, comment, rating }) => (
         <Card key={id} sx={{ marginBottom: 2 }}>
           <CardContent>
