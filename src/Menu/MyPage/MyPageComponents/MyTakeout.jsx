@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React from 'react';
+import useOrders from '../../MyPageCustomHooks/useOrders.jsx';
 import Header from '../../../Layout/Header.jsx';
 import Footer from '../../../Layout/Footer.jsx';
 import { useNavigate, Link } from 'react-router-dom';
@@ -8,15 +9,13 @@ function MyTakeout() {
 
     const navigate = useNavigate();
 
-    // 예시 주문 데이터, 실제 코드에서는 서버로부터 가져온 데이터 사용
-    const [orders, setOrders] = useState([
+    const initialOrders = [
         {
             orderDate: '2023-08-20',
             orderNumber: 'A1111',
             storeName: '탕후루후루',
             orderMenu: '딸기',
             totalPrice: 30000
-
         },
         {
             orderDate: '2023-08-19',
@@ -24,9 +23,10 @@ function MyTakeout() {
             storeName: '강남역 포장마차',
             orderMenu: '떡볶이',
             totalPrice: 15000
-
         }
-    ]);
+    ];
+    const [orders, setOrders] = useOrders(initialOrders);
+
 
     return (
         <div className='App-main2'>
@@ -39,6 +39,7 @@ function MyTakeout() {
                                 <Link to={`/order/${order.orderNumber}`} className='mytakeout-detail-button'>
                                     주문 상세
                                 </Link>
+
                             </div>
                             <div className='mytakeout-store'>
                                 <img src="/images/roopy.png" />
