@@ -3,12 +3,14 @@ import './Login.css';
 import Logo from './login-component/Logo';
 import InputField from './login-component/InputField';
 import instance from './instance';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate(); // useNavigate hook을 사용합니다.
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,9 +33,9 @@ const Login = () => {
       const { accessToken, refreshToken } = response.data.item;
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('refreshToken', refreshToken);
-
       if (accessToken) {
         console.log('로그인 성공! 토큰이 존재합니다.');
+        navigate('/sellhome');
       } else {
         console.log('로그인 실패! 토큰이 존재하지 않습니다.');
       }

@@ -8,6 +8,7 @@ import './Home.css';
 import useSlider from '../HomeCustomHooks/useSlider';
 import usePopularPlaces from '../HomeCustomHooks/usePopularPlaces';
 import useFetchData from '../HomeCustomHooks/useFetchData';
+import useMostFavorited from '../HomeCustomHooks/useMostFavorited';
 import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -26,15 +27,14 @@ function Home() {
 
   const images = ['/images/slide-4.png', '/images/slide-2.png', '/images/slide-3.png'];
   const [currentIndex, setCurrentIndex] = useSlider(images);
-
   const popularPlaces = usePopularPlaces(address, location);
-
   const [page, setPage] = useState(1);
   const [fetchedData, setFetchedData] = useState([]);
   const fetchResult = useFetchData(`http://27.96.135.75/vendor/search`, 'post', []);
   const bestReviewsResult = useFetchData('http://27.96.135.75/vendor/review/weightedAverageScore', 'get', []);
   const bestReviews = Array.isArray(bestReviewsResult.data) ? bestReviewsResult.data : [];
   const [isLoading, setIsLoading] = useState(false);
+  const [mostFavorited, setMostFavorited] = useState([]);
 
   useEffect(() => {
     if (fetchResult.data) {
@@ -75,12 +75,10 @@ function Home() {
         console.error("Error fetching image URL:", error);
       }
     }
-
     fetchImageUrl();
   }, []);
 
   const [value, setValue] = useState(0);
-
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -106,7 +104,6 @@ function Home() {
     };
 
     window.addEventListener('scroll', handleScroll);
-
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
@@ -114,7 +111,6 @@ function Home() {
 
   function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;
-
     return (
       <div
         role="tabpanel"
@@ -140,22 +136,19 @@ function Home() {
         console.error(`Error fetching ${category} data:`, error);
       }
     }
-
     fetchDataByCategory('streetfoods', setStreetFoods);
     fetchDataByCategory('foodstalls', setFoodStalls);
   }, []);
 
-  const [mostFavorited, setMostFavorited] = useState([]);
   useEffect(() => {
     async function fetchMostFavorited() {
       try {
         const response = await axios.get('http://27.96.135.75/api/favoritePick/top8Favorites');
-        setMostFavorited(response.data.slice(0, 5)); // 상위 5개만 가져옵니다.
+        setMostFavorited(response.data.slice(0, 5));
       } catch (error) {
         console.error("Error fetching most favorited vendors:", error);
       }
     }
-
     fetchMostFavorited();
   }, []);
 
@@ -218,12 +211,12 @@ function Home() {
       <p>먹자취가 이번달 추천하는 장소들</p>
       <p className="small-text">이번달 추천 장소는 어디일까? 확인해보세요!</p>
       <div className="macha-button-container">
-        {/* {mostFavorited.map((store) => (
+        {mostFavorited.map((store) => (
 
           <button key={store.id} className="macha-button" onClick={() => navigateToDetail(store.id)}>
             <img src={store.imageUrl} alt={store.name} />
           </button>
-        ))} */}
+        ))}
       </div>
 
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>

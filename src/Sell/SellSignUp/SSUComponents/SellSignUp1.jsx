@@ -23,14 +23,13 @@ const SellSignUp1 = () => {
           variant="h5"
           style={{ textAlign: 'center', margin: '5% auto' }}
         >
-          정보 작성
+          정보 조회
         </Typography>
         <SSUsaup
           businessNumber={businessNumber}
           setBusinessNumber={setBusinessNumber}
         />
 
-        <SSUdoro roadNumber={roadNumber} setRoadNumber={setRoadNumber} />
         <div style={{ textAlign: 'center', marginTop: '20px' }}>
           <Button variant="contained" color="primary" onClick={handleNext}>
             다음
