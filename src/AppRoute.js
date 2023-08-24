@@ -9,6 +9,7 @@ import WaitingDetail from './Menu/Home/HomeComponents/WaitingDetail';
 import MyReview from './Menu/MyPage/MyPageComponents/MyReview';
 import MyFavorite from './Menu/MyPage/MyPageComponents/MyFavorite';
 import MyTakeout from './Menu/MyPage/MyPageComponents/MyTakeout';
+import Notice from './Menu/Home/HomeComponents/Notice';
 import GeolocationComponent from './Menu/Home/HomeComponents/GeolocationComponent';
 import MyEdit from './Menu/MyPage/MyPageComponents/MyEdit';
 import ShopMain from './ShopDetails/ShopMain';
@@ -20,37 +21,47 @@ import SellSignUp3 from './Sell/SellSignUp/SSUComponents/SellSignUp3';
 import SellSignUp2 from './Sell/SellSignUp/SSUComponents/SellSignUp2';
 import SellSignUp1 from './Sell/SellSignUp/SSUComponents/SellSignUp1';
 import SellLogin from './Sell/SellJoin/SellLogin';
+import SellStoreSet from './Sell/SellStoreSet/SellStroreSet';
+import SellHome from './Sell/SellHome/SellHome';
+import SellMySet from './Sell/SellMySet/SellMySet';
+const menuRoutes = [
+  { path: '/home', element: <Home /> },
+  { path: '/geolocationcomponent', element: <GeolocationComponent /> },
+  { path: '/mypage', element: <Mypage /> },
+  { path: '/search', element: <Search /> },
+  { path: '/waiting', element: <Waiting /> },
+  { path: '/myreview', element: <MyReview /> },
+  { path: '/myfavorite', element: <MyFavorite /> },
+  { path: '/mytakeout', element: <MyTakeout /> },
+  { path: '/waitingDetail', element: <WaitingDetail /> },
+  { path: '/myedit', element: <MyEdit /> },
+  { path: '/shopHome/:vendorId', element: <ShopMain /> },
+  { path: '/reviewform', element: <ReviewForm /> },
+  { path: '/notice', element: <Notice /> },
+];
 
-const commonRoutes = [
-    { path: '/home', element: <Home /> },
-    { path: '/trfood', element: <TrFood /> },
-    { path: '/stfood', element: <StFood /> },
-    { path: '/geolocationcomponent', element: <GeolocationComponent /> },
-    { path: '/mypage', element: <Mypage /> },
-    { path: '/search', element: <Search /> },
-    { path: '/waiting', element: <Waiting /> },
-    { path: '/myreview', element: <MyReview /> },
-    { path: '/myfavorite', element: <MyFavorite /> },
-    { path: '/mytakeout', element: <MyTakeout /> },
-    { path: '/waitingDetail', element: <WaitingDetail /> },
-    { path: '/myedit', element: <MyEdit /> },
-    { path: '/shopHome/:vendorId', element: <ShopMain /> },
-    // 기타 공통 라우트
-  ];
-  
-  export const browserRoutes = [
-    { path: '/', element: <AppLogin /> },
-    { path: '/signup', element: <AppSignup /> },
-    { path: '/sellsign1', element: <SellSignUp1 /> },
-    { path: '/sellsign2', element: <SellSignUp2 /> },
-    { path: '/sellsign3', element: <SellSignUp3 /> },
-    { path: '/selllogin', element: <SellLogin /> },
-    ...commonRoutes, // 공통 라우트 추가
-  ];
-  
-  export const mobileRoutes = [
-    { path: '/', element: <Home /> },
-    { path: '/mytakeoutdetail', element: <MyTakeoutDetail /> },
-    { path: '/reviewform', element: <ReviewForm /> },
-    ...commonRoutes, // 공통 라우트 추가
-  ];
+
+const authRoutes = [
+  { path: '/', element: <AppLogin /> },
+  { path: '/signup', element: <AppSignup /> },
+  { path: '/selllogin', element: <SellLogin /> },
+  { path: '/sellsign1', element: <SellSignUp1 /> },
+  { path: '/sellsign2', element: <SellSignUp2 /> },
+  { path: '/sellsign3', element: <SellSignUp3 /> },
+];
+const sellRoutes = [
+  { path: '/sellset', element: <SellStoreSet /> },
+  { path: '/sellhome', element: <SellHome /> },
+  { path: '/sellmyset', element: <SellMySet /> },
+];
+const mapRoutes = [
+  { path: '/trfood', element: <TrFood /> },
+  { path: '/stfood', element: <StFood /> },
+];
+
+export const browserRoutes = [
+  ...authRoutes,
+  ...menuRoutes,
+  ...mapRoutes,
+  ...sellRoutes,
+];

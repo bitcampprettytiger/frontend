@@ -14,7 +14,7 @@ import { convertCoordsToAddress } from '../Utils/kakaoUtils';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import Notice from '../Menu/Home/HomeComponents/Notice';
 
-function Header({ page, searchInput, handleSearchChange, handleDeleteClick, handleSearchClick, setAddressToHome }) {
+function Header({ page, searchInput, handleSearchChange, handleDeleteClick, handleSearchClick, setAddressToHome, handleKeyUp }) {
 
 
     const navigate = useNavigate();
@@ -166,6 +166,8 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
                         value={searchInput}
                         onChange={handleSearchChange}
                         onKeyDown={handleKeyDown}
+                        onKeyUp={handleKeyUp}  // 이렇게 handleKeyUp를 추가합니다.
+
                     />
                     <button style={{ border: 'none', background: 'none' }} onClick={handleDeleteClick}>
                         <HighlightOffIcon style={{ color: '#ff813d' }} />

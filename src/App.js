@@ -4,7 +4,7 @@ import './App.css';
 import { BrowserView, MobileView } from 'react-device-detect';
 import { ThemeProvider } from 'styled-components';
 import { browserRoutes, mobileRoutes } from './AppRoute';
-
+import { NoticeProvider } from './Menu/Home/HomeComponents/NoticeContext';
 
 function App() {
 
@@ -34,7 +34,7 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <>
+      <NoticeProvider>
         <BrowserView className='BV'>
           <Router>
             <Routes>
@@ -44,7 +44,7 @@ function App() {
             </Routes>
           </Router>
         </BrowserView>
-
+        {/* 
         <MobileView className='MV'>
           <Router>
             <Routes>
@@ -53,8 +53,8 @@ function App() {
               ))}
             </Routes>
           </Router>
-        </MobileView>
-      </>
+        </MobileView> */}
+      </NoticeProvider>
     </ThemeProvider>
   );
 }

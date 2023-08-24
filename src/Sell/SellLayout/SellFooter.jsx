@@ -131,4 +131,3 @@ function SellFooter() {
 }
 
 export default SellFooter;
-
