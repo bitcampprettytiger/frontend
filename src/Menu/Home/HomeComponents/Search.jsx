@@ -13,7 +13,7 @@ import useSearch from '../SearchCustomHooks/useSearch.jsx';
 function Search() {
 
 
-    const API_URL = "http://172.30.1.96/vendor/category";
+    const API_URL = "http://27.96.135.75/vendor/category";
     const { address, location, setAddressToHome } = useAddress();
     const [shops, setShops] = useState([]);
     const [favorites, setFavorites] = useState(() => {
@@ -34,7 +34,7 @@ function Search() {
     useEffect(() => {
         console.log(searchInput);
 
-        axios.get(`http://172.30.1.96/vendor/category?address=${searchInput}&menuName=${searchInput}&vendorName=${searchInput}`)
+        axios.get(`http://27.96.135.75/vendor/category?address=${searchInput}&menuName=${searchInput}&vendorName=${searchInput}`)
             .then(response => {
                 console.log(response);
                 setShops(response.data.itemlist); // response 자체를 저장하는 대신 response.data를 저장해야 합니다.
