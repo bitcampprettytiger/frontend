@@ -9,10 +9,11 @@ import WaitingDetail from './Menu/Home/HomeComponents/WaitingDetail';
 import MyReview from './Menu/MyPage/MyPageComponents/MyReview';
 import MyFavorite from './Menu/MyPage/MyPageComponents/MyFavorite';
 import MyTakeout from './Menu/MyPage/MyPageComponents/MyTakeout';
+import Notice from './Menu/Home/HomeComponents/Notice';
 import GeolocationComponent from './Menu/Home/HomeComponents/GeolocationComponent';
 import MyEdit from './Menu/MyPage/MyPageComponents/MyEdit';
 import ShopMain from './ShopDetails/ShopMain';
-import ReviewForm from './ShopDetails/Review/ReviewForm';
+import ReviewForm from './ShopDetails/Review/ReviewComponents/ReviewForm';
 import MyTakeoutDetail from './Menu/MyPage/MyPageComponents/MyTakeoutDetail';
 import AppLogin from './Login,Join/login/Login';
 import AppSignup from './Login,Join/join/Register';
@@ -35,6 +36,8 @@ const menuRoutes = [
   { path: '/waitingDetail', element: <WaitingDetail /> },
   { path: '/myedit', element: <MyEdit /> },
   { path: '/shopHome/:vendorId', element: <ShopMain /> },
+  { path: '/reviewform', element: <ReviewForm /> },
+  { path: '/notice', element: <Notice /> },
 ];
 
 
