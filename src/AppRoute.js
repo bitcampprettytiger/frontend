@@ -15,6 +15,7 @@ import MyEdit from './Menu/MyPage/MyPageComponents/MyEdit';
 import ShopMain from './ShopDetails/ShopMain';
 import ReviewForm from './ShopDetails/Review/ReviewComponents/ReviewForm';
 import MyTakeoutDetail from './Menu/MyPage/MyPageComponents/MyTakeoutDetail';
+import Cart from './ShopDetails/PackagingOrder/POComponents/Cart'
 import AppLogin from './Login,Join/login/Login';
 import AppSignup from './Login,Join/join/Register';
 import SellSignUp3 from './Sell/SellSignUp/SSUComponents/SellSignUp3';
@@ -39,6 +40,7 @@ const menuRoutes = [
   { path: '/mytakeout', element: <MyTakeout /> },
   { path: '/order/:orderNumber', element: <MyTakeoutDetail /> },
   { path: '/myedit', element: <MyEdit /> },
+  { path: '/cart', element: <Cart/> }
 ];
 
 const authRoutes = [

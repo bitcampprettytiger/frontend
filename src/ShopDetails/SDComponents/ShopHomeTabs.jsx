@@ -70,9 +70,9 @@ export default function ShopHomeTabs({images}) {
           <MenuOrderPage/>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
-          <RatingAvg/>
+          {/* <RatingAvg/>
           <HygieneStatic/>
-          <ReviewDetail/>
+          <ReviewDetail/> */}
         </CustomTabPanel>
         </Box>
   );

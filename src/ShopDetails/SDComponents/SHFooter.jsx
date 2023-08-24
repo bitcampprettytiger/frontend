@@ -1,4 +1,4 @@
-import { AppBar, Box, Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import ShopHomeTabsContext from '../SDCustomHooks/SHTContext';
@@ -17,11 +17,9 @@ const SHFooter = () => {
   };
 
   return (
-    <AppBar>
     <ButtonBox 
         position="fixed"
         sx={{ 
-            width: '100%', 
             top: 'auto',
             bottom: 0, 
             height: '8%', 
@@ -60,7 +58,6 @@ const SHFooter = () => {
             포장하기
         </Button>
         </ButtonBox>
-        </AppBar>
 
   );
 }
