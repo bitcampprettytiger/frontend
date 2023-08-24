@@ -9,7 +9,7 @@ function useSearch(initialShops) {
     const [data, setData] = useState([]); // 백엔드에서 가져온 데이터를 저장하기 위한 상태
 
     useEffect(() => {
-        const API_URL = "http://172.30.1.96/vendor/category"; // 예시 API URL
+        const API_URL = "http://27.96.135.75/vendor/category"; // 예시 API URL
         axios.get(API_URL)
             .then(response => {
                 setData(response.data);
@@ -41,7 +41,7 @@ function useSearch(initialShops) {
 
     const handleSearchClick = () => {
         setHasSearched(true);
-        axios.get(`http://172.30.1.96/vendor/category?address=${searchInput}&menuName=${searchInput}&vendorName=${searchInput}`)
+        axios.get(`http://27.96.135.75/vendor/category?address=${searchInput}&menuName=${searchInput}&vendorName=${searchInput}`)
             .then(response => {
                 setSearchResults(response.data.itemlist); // setShops -> setSearchResults로 변경
             })
