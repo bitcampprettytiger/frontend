@@ -57,30 +57,44 @@ function Search() {
     const defaultImage = '/images/roopy.png';
 
     function toggleFavorite(shop) {
-        let storedFavorites = localStorage.getItem("favorites");
-        let currentFavorites;
+        // 현재 즐겨찾기 상태 확인
+        const isCurrentlyFavorite = isFavorite(shop);
 
-        if (!storedFavorites || !Array.isArray(JSON.parse(storedFavorites))) {
-            currentFavorites = [];
-        } else {
-            currentFavorites = JSON.parse(storedFavorites);
-        }
+        const url = isCurrentlyFavorite ?
+            `http://172.30.1.96/api/favoritePick/${USER_ID}/remove/${shop.id}` :
+            `http://172.30.1.96/api/favoritePick/${USER_ID}/add/${shop.id}`;
 
-        let newFavorites;
-        // 현재 즐겨찾기 목록에 해당 상품이 있는지 확인
-        if (currentFavorites.some(item => item.name === shop.name)) {
-            // 있다면 목록에서 제거
-            newFavorites = currentFavorites.filter(item => item.name !== shop.name);
-        } else {
-            // 없다면 목록에 추가
-            newFavorites = [...currentFavorites, shop];
-        }
-
-        localStorage.setItem("favorites", JSON.stringify(newFavorites));
-        setFavorites(newFavorites);
+        axios.post(url) // post 방식 호출
+            .then(response => {
+                if (isCurrentlyFavorite) {
+                    // 즐겨찾기에서 제거된 경우 로컬 상태 업데이트
+                    const newFavorites = favorites.filter(item => item.id !== shop.id);
+                    setFavorites(newFavorites);
+                } else {
+                    // 즐겨찾기에 추가된 경우 로컬 상태 업데이트
+                    setFavorites([...favorites, shop]);
+                }
+            })
+            .catch(error => {
+                console.error("즐겨찾기 상태 변경 중 오류 발생:", error);
+            });
     }
 
+    function parseJwt(token) {
+        try {
+            // JWT 토큰의 Payload 부분을 디코딩합니다.
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace('-', '+').replace('_', '/');
+            return JSON.parse(window.atob(base64));
+        } catch (error) {
+            console.error("Error parsing JWT:", error);
+            return null;
+        }
+    }
 
+    const token = localStorage.getItem('jwtToken');
+    const payload = parseJwt(token);
+    const USER_ID = payload?.userId;
 
 
 

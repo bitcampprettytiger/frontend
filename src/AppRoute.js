@@ -27,19 +27,19 @@ import SellMySet from './Sell/SellMySet/SellMySet';
 const menuRoutes = [
   { path: '/home', element: <Home /> },
   { path: '/geolocationcomponent', element: <GeolocationComponent /> },
-  { path: '/mypage', element: <Mypage /> },
   { path: '/search', element: <Search /> },
   { path: '/waiting', element: <Waiting /> },
   { path: '/myreview', element: <MyReview /> },
-  { path: '/myfavorite', element: <MyFavorite /> },
-  { path: '/mytakeout', element: <MyTakeout /> },
   { path: '/waitingDetail', element: <WaitingDetail /> },
-  { path: '/myedit', element: <MyEdit /> },
   { path: '/shopHome/:vendorId', element: <ShopMain /> },
   { path: '/reviewform', element: <ReviewForm /> },
   { path: '/notice', element: <Notice /> },
+  { path: '/mypage', element: <Mypage /> },
+  { path: '/myfavorite', element: <MyFavorite /> },
+  { path: '/mytakeout', element: <MyTakeout /> },
+  { path: '/order/:orderNumber', element: <MyTakeoutDetail /> },
+  { path: '/myedit', element: <MyEdit /> },
 ];
-
 
 const authRoutes = [
   { path: '/', element: <AppLogin /> },
