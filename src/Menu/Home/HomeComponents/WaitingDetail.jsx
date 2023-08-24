@@ -64,6 +64,7 @@ function WaitingDetail() {
                 type={screenState}
                 handleNextClick={handleNextClick}
                 handleNavigateToHome={handleNavigateToHome}
+                waitingDetail
             />
         </div>
     );

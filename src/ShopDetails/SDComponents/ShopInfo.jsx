@@ -19,9 +19,11 @@ function ShopInfo({ onCall, onViewLocation }) {
   const { vendorId } = useParams();
   const { vendor, error, loading } = useVendor(vendorId);
 
+  console.log(vendorId);
+
   if (loading) return <div>로딩 중</div>;
   if (error) return <div>Error: {error.message}</div>;
-  if (!vendor) return <div>No vendor data available</div>;  
+  if (!vendor) return <div>No vendor data available</div>;
 
   return (
     <Container>
@@ -30,21 +32,21 @@ function ShopInfo({ onCall, onViewLocation }) {
       </Typography>
       <StarBox>
         <StarIcon sx={{ color: '#FFC700', marginRight: 1 }} />
-        <StarTypography>평점 {(vendor.weightedAverageScore || 0).toFixed(1) } </StarTypography>
+        <StarTypography>평점 {(vendor.weightedAverageScore || 0).toFixed(1)} </StarTypography>
         <ReviewCountTypography>
           ({vendor.reviewCount || 0})
         </ReviewCountTypography>
       </StarBox>
       <ButtonBox>
-      <CallButton
-        variant="outlined"
-        color="primary"
-        component="a"
-        href={`tel:${vendor.tel}`}
-        startIcon={<CallIcon />}
-      >
-        전화 걸기
-      </CallButton>
+        <CallButton
+          variant="outlined"
+          color="primary"
+          component="a"
+          href={`tel:${vendor.tel}`}
+          startIcon={<CallIcon />}
+        >
+          전화 걸기
+        </CallButton>
         <LocationButton onClick={onViewLocation}>
           <IconButton color="default" size="small" sx={{ marginRight: 1 }}>
             <PlaceIcon />

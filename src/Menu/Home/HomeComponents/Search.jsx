@@ -11,20 +11,15 @@ import useAddress from '../SearchCustomHooks/useAddress.jsx';
 import useSearch from '../SearchCustomHooks/useSearch.jsx';
 
 function Search() {
-    const API_URL = "http://27.96.135.75/info/vendorId";
+
+
+    const API_URL = "http://172.30.1.96/vendor/category";
     const { address, location, setAddressToHome } = useAddress();
     const [shops, setShops] = useState([]);
-    const [favorites, setFavorites] = useState(JSON.parse(localStorage.getItem('favorites')) || {});
-
-    useEffect(() => {
-        axios.get(API_URL)
-            .then(response => {
-                setShops(response.data);
-            })
-            .catch(error => {
-                console.error("데이터를 불러오는 데 실패했습니다.", error);
-            });
-    }, []);
+    const [favorites, setFavorites] = useState(() => {
+        const storedFavorites = JSON.parse(localStorage.getItem('favorites'));
+        return Array.isArray(storedFavorites) ? storedFavorites : [];
+    });
 
     const {
         searchResults,
@@ -36,20 +31,62 @@ function Search() {
         handleSearchClick
     } = useSearch(shops); // shops를 직접 전달
 
+    useEffect(() => {
+        console.log(searchInput);
+
+        axios.get(`http://172.30.1.96/vendor/category?address=${searchInput}&menuName=${searchInput}&vendorName=${searchInput}`)
+            .then(response => {
+                console.log(response);
+                setShops(response.data.itemlist); // response 자체를 저장하는 대신 response.data를 저장해야 합니다.
+            })
+            .catch(error => {
+                console.error("데이터를 불러오는 데 실패했습니다.", error);
+            });
+    }, [searchInput]);  // searchInput 추가
+
+
+    const handleKeyUp = (e) => {
+        if (e.keyCode === 46 && !searchInput) { // keyCode 46은 Delete 키에 해당합니다.
+            // 원하는 액션을 여기에 수행하세요.
+            // 예: 검색 결과가 없음을 나타내는 문구를 숨기기 위해 상태를 업데이트하는 로직
+        }
+    };
+
     const locationRouter = useLocation();
     const query = locationRouter.state?.query || '';
     const defaultImage = '/images/roopy.png';
 
-    const toggleFavorite = (index) => {
-        const newFavorites = { ...favorites };
-        newFavorites[index] = !newFavorites[index];
-        setFavorites(newFavorites);
-        localStorage.setItem('favorites', JSON.stringify(newFavorites));
-    };
+    function toggleFavorite(shop) {
+        let storedFavorites = localStorage.getItem("favorites");
+        let currentFavorites;
 
-    useEffect(() => {
-        // 필요한 로직이 있다면 이곳에 추가
-    }, [query]);
+        if (!storedFavorites || !Array.isArray(JSON.parse(storedFavorites))) {
+            currentFavorites = [];
+        } else {
+            currentFavorites = JSON.parse(storedFavorites);
+        }
+
+        let newFavorites;
+        // 현재 즐겨찾기 목록에 해당 상품이 있는지 확인
+        if (currentFavorites.some(item => item.name === shop.name)) {
+            // 있다면 목록에서 제거
+            newFavorites = currentFavorites.filter(item => item.name !== shop.name);
+        } else {
+            // 없다면 목록에 추가
+            newFavorites = [...currentFavorites, shop];
+        }
+
+        localStorage.setItem("favorites", JSON.stringify(newFavorites));
+        setFavorites(newFavorites);
+    }
+
+
+
+
+
+    function isFavorite(shop) {
+        return favorites.some(item => item.id === shop.id); // shop의 id로 즐겨찾기 체크
+    }
 
     return (
         <div className='App-main2'>
@@ -60,6 +97,9 @@ function Search() {
                 handleDeleteClick={handleDeleteClick}
                 handleSearchClick={handleSearchClick}
                 setAddressToHome={setAddressToHome}
+                handleKeyUp={handleKeyUp}  // 이렇게 handleKeyUp를 추가합니다.
+
+
             />
 
             <div className='hashtag-container'>
@@ -73,45 +113,36 @@ function Search() {
                 </div>
             </div>
 
-            {searchResults.length > 0 ? (
+            {searchResults.length > 0 && (
                 <>
                     {searchInput && <h2>{`'${searchInput}'에 대한 결과`}</h2>}
                     <div className="results-container">
-
-
-
                         {searchResults.map((shop, index) => (
-                            shop.name && shop.category && shop.neighborhood ? ( // 데이터의 유효성을 확인합니다.
-                                <Link to={`/shop/${shop.name}`} key={index}>
-                                    <div className="result-item">
-                                        <img src={shop.imageURL ? shop.imageURL : defaultImage} alt={`${shop.name}의 이미지`} />
-                                        <div className="result-info">
-                                            <h3>{shop.name}</h3>
-                                            <div className="rating">
-                                                <StarIcon style={{ color: yellow[700], fontSize: 20 }} />
-                                                <span>{shop.rating !== null && shop.rating !== undefined ? shop.rating : "등록된 점수가 없습니다"}</span>
-                                            </div>
-                                            <p>{shop.category} / {shop.neighborhood}</p>
+                            shop.vendorName && shop.vendorType && shop.location ? (
+                                <div className="result-item" key={index} onClick={() => window.location.href = `/shopHome/${shop.id}`}>
+                                    <img src={shop.primaryimgurl ? shop.primaryimgurl : defaultImage} alt={`${shop.vendorName}의 이미지`} />
+                                    <div className="result-info">
+                                        <p className="shop-name">{shop.vendorName}</p>
+                                        <div className="rating">
+                                            <StarIcon style={{ color: yellow[700], fontSize: 20 }} />
+                                            <span>{shop.totalReviewScore !== null && shop.totalReviewScore !== undefined ? shop.totalReviewScore : "등록된 점수가 없습니다"}</span>
                                         </div>
-                                        <div className="result-favorite">
-                                            {favorites[index] ? (
-                                                <FavoriteIcon onClick={(e) => { e.stopPropagation(); toggleFavorite(index); }} />
-                                            ) : (
-                                                <FavoriteBorderIcon onClick={(e) => { e.stopPropagation(); toggleFavorite(index); }} />
-                                            )}
-                                        </div>
+                                        <p>{shop.vendorType} / {shop.location}</p>
                                     </div>
-                                </Link>
-                            ) : null // 유효하지 않은 데이터일 경우 아무것도 렌더링하지 않습니다.
+                                    <div className="favorite-container">
+                                        {isFavorite(shop) ? (
+                                            <FavoriteIcon onClick={(e) => { e.stopPropagation(); toggleFavorite(shop); }} />
+                                        ) : (
+                                            <FavoriteBorderIcon onClick={(e) => { e.stopPropagation(); toggleFavorite(shop); }} />
+                                        )}
 
+                                    </div>
+                                </div>
+                            ) : null
                         ))}
                     </div>
                 </>
-            ) : (
-                hasSearched && <h2>{`'${searchInput}'에 대한 검색 결과가 없습니다.`}</h2>
             )}
-
-
             <Footer type="search" />
         </div>
     );
