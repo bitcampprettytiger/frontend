@@ -1,9 +1,11 @@
 import React from "react";
 import { Box, Card, CardContent, CardMedia, Typography } from "@mui/material";
 import Rating from "@mui/material/Rating";
-import reviewData from "../../DataEx/review"; 
+import reviewData from "../../../DataEx/review";
+import useReview from "../ReviewCustomHook/useReview";
 
 const ReviewDetail = () => {
+
   return (
     <Box padding={2} textAlign={'left'}>
       {reviewData.map(({ id, nickname, img, altText, comment, rating }) => (
