@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Divider from '@mui/material/Divider';
 import { StyledMenuItem, StyledMenuList } from './MenuOrderStyle';
-import MenuOptionalPage from './MenuOptionalPage';
+import MenuOptionalModal from './MenuOptionalModal';
 import Button from '@mui/material/Button';
 import { useNavigate, useParams } from 'react-router-dom';
 import useMenuData from '../../SDCustomHooks/useMenuData';
@@ -34,7 +34,9 @@ function MenuOrderPage() {
   };
 
   const handleMenuAdd = (menu) => {
-    setAddedMenus([...addedMenus, menu]);
+    const updatedMenu = { ...menu, quantity: 1 };
+    setAddedMenus([...addedMenus, updatedMenu]);
+    setIsModalVisible(false); 
   };
 
   const handleMenuClick = (menu) => {
@@ -67,9 +69,10 @@ function MenuOrderPage() {
         ))}
       </StyledMenuList>
       {isModalVisible && (
-        <MenuOptionalPage
-          selectedMenu={selectedMenu} 
+          <MenuOptionalModal 
+          open={isModalVisible} 
           onClose={handleClose}
+          selectedMenu={selectedMenu}
           onMenuAdd={handleMenuAdd}
         />
       )}
