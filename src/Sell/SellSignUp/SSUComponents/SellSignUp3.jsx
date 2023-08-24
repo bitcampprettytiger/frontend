@@ -29,7 +29,7 @@ const SellSignUp3 = () => {
   const [vendorName, setVendorName] = useState('');
   const [SIGMenu, setSIGMenu] = useState('');
   const [tel, setTel] = useState('');
-  const [businessDays, setBusinessDays] = useState({
+  const [businessDay, setBusinessDay] = useState({
     월: false,
     화: false,
     수: false,
@@ -82,9 +82,9 @@ const SellSignUp3 = () => {
     setShowPostcode(false);
   };
 
-  const handleBusinessDaysChange = (event) => {
-    setBusinessDays({
-      ...businessDays,
+  const handleBusinessDayChange = (event) => {
+    setBusinessDay({
+      ...businessDay,
       [event.target.name]: event.target.checked,
     });
   };
@@ -103,7 +103,7 @@ const SellSignUp3 = () => {
       SIGMenu,
       address,
       tel,
-      businessDays,
+      businessDay,
       businessHours.시작,
       businessHours.마감
     );
@@ -249,12 +249,12 @@ const SellSignUp3 = () => {
               영업일
             </Typography>
             <FormGroup row>
-              {Object.keys(businessDays).map((day) => (
+              {Object.keys(businessDay).map((day) => (
                 <FormControlLabel
                   control={
                     <Checkbox
-                      checked={businessDays[day]}
-                      onChange={handleBusinessDaysChange}
+                      checked={businessDay[day]}
+                      onChange={handleBusinessDayChange}
                       name={day}
                     />
                   }

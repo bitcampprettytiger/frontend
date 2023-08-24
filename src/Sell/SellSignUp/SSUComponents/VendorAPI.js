@@ -5,12 +5,12 @@ const VendorAPI = async (
   SIGMenu,
   address,
   tel,
-  businessDays,
+  businessDay,
   open, // businessHours.시작
   close // businessHours.마감
 ) => {
   try {
-    const selectedDays = Object.entries(businessDays)
+    const selectedDays = Object.entries(businessDay)
       .filter(([, checked]) => checked)
       .map(([day]) => day)
       .join(',');
@@ -19,7 +19,7 @@ const VendorAPI = async (
     const data = {
       vendorType: vendorType,
       vendorName: vendorName, // 여기에 가게이름 값을 삽입
-      businessDays: selectedDays,
+      businessDay: selectedDays,
       SIGMenu: SIGMenu, // 여기에 대표메뉴 값을 삽입
       address: address, // 여기에 주소 값을 삽입
       tel: tel, // 여기에 전화번호 값을 삽입
@@ -28,11 +28,12 @@ const VendorAPI = async (
     };
     console.log('에이피', data);
     // Axios 요청에서 'Content-Type': 'application/json' 헤더를 사용합니다.
-    const response = await axios.post('http://27.96.135.75/vendor/info', data, {
+    const response = await axios.post('http://192.168.0.77/vendor/info', data, {
       headers: {
         'Content-Type': 'application/json',
       },
     });
+    console.log('에이피11', data);
 
     if (response.status === 200) {
       alert('성공');
