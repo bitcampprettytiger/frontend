@@ -15,15 +15,25 @@ import ShareIcon from '@mui/icons-material/Share';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ScrollTop from './ScrollTop';
 import useVendor from '../SDCustomHooks/useVendor';
+import ShareModal from './ShareModal';
 
 function ShopAppBar(props) {
     let navigate = useNavigate();
     const [liked, setLiked] = React.useState(false);
     const { vendorId } = useParams();
     const { vendor, error, loading } = useVendor(vendorId);
+    const [open, setOpen] = React.useState(false);
 
     const handleLike = () => {
         setLiked(!liked);
+    };
+    
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
     };
 
     const vendorName = vendor?.vendorName || "가게 이름 없음";
@@ -31,7 +41,7 @@ function ShopAppBar(props) {
     return (
         <React.Fragment>
             <CssBaseline />
-            <AppBar sx={{ backgroundColor: 'white', width: '100%', height: '70px', position: 'fixed', zIndex: 1000 }}>
+            <AppBar sx={{ backgroundColor: 'white', width: '100%', height: '8%', position: 'fixed', zIndex: 1000 }}>
                 <Toolbar sx={{ minHeight: '0', display: 'flex' }}>
                     <Box sx={{
                         height: '50%',
@@ -93,12 +103,15 @@ function ShopAppBar(props) {
                             justifyContent: 'center',
                             marginRight: '2vw'
                         }}>
-                            <IconButton edge="end" aria-label="share" sx={{
+                            <div>
+                            <IconButton edge="end" aria-label="share" onClick={handleClickOpen} sx={{
                                 marginRight: '1vw', marginTop: 'auto',
                                 marginBottom: 'auto',
                             }}>
                                 <ShareIcon />
                             </IconButton>
+                            <ShareModal open={open} handleClose={handleClose} />
+                            </div>
                         </Box>
                     </Box>
                 </Toolbar>

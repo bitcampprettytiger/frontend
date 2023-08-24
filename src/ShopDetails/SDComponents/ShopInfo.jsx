@@ -37,7 +37,6 @@ function ShopInfo({ onCall, onViewLocation }) {
       </StarBox>
       <ButtonBox>
       <CallButton
-        variant="outlined"
         color="primary"
         component="a"
         href={`tel:${vendor.tel}`}
