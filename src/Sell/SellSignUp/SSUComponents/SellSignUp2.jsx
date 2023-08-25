@@ -22,8 +22,8 @@ const SellSignUp2 = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [tel, settel] = useState('');
-  const [businessNumber, setBusinessNumber] = useState('');
-  const [roadNumber, setRoadNumber] = useState('');
+  const [accName, setAccName] = useState('');
+  const [accNum, setAccNum] = useState('');
   const [activeStep, setActiveStep] = useState(1);
   const [privacy, setPrivacy] = useState(false);
   const [open, setOpen] = useState(false);
@@ -86,14 +86,6 @@ const SellSignUp2 = () => {
 
   };
 
-  const previousData = location.state;
-
-  useEffect(() => {
-    if (previousData) {
-      setBusinessNumber(previousData.businessNumber);
-      setRoadNumber(previousData.roadNumber);
-    }
-  }, [previousData]);
 
   return (
     <>
@@ -177,25 +169,23 @@ const SellSignUp2 = () => {
               />
             </Grid>
             <Grid item xs={12} container alignItems="center">
-              <Typography variant="body1">사업자번호</Typography>
+              <Typography variant="body1">계좌명</Typography>
               <TextField
                 fullWidth
                 variant="outlined"
-                placeholder="사업자번호"
-                value={businessNumber}
-                disabled={!!previousData} // 이전 데이터가 있으면 수정 못하게 함
-                onChange={(e) => setBusinessNumber(e.target.value)}
+                placeholder="계좌명"
+                value={accName}
+                onChange={(e) => setAccName(e.target.value)}
               />
             </Grid>
             <Grid item xs={12} container alignItems="center">
-              <Typography variant="body1">도로점유번호</Typography>
+              <Typography variant="body1">계좌번호</Typography>
               <TextField
                 fullWidth
                 variant="outlined"
-                placeholder="도로점유번호"
-                value={roadNumber}
-                disabled={!!previousData} // 이전 데이터가 있으면 수정 못하게 함
-                onChange={(e) => setRoadNumber(e.target.value)}
+                placeholder="계좌번호"
+                value={accNum}
+                onChange={(e) => setAccNum(e.target.value)}
               />
             </Grid>
             <div onClick={handleOpen}>
