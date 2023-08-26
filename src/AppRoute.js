@@ -9,6 +9,7 @@ import WaitingDetail from './Menu/Home/HomeComponents/WaitingDetail';
 import MyReview from './Menu/MyPage/MyPageComponents/MyReview';
 import MyFavorite from './Menu/MyPage/MyPageComponents/MyFavorite';
 import MyTakeout from './Menu/MyPage/MyPageComponents/MyTakeout';
+import Notice from './Menu/Home/HomeComponents/Notice';
 import GeolocationComponent from './Menu/Home/HomeComponents/GeolocationComponent';
 import MyEdit from './Menu/MyPage/MyPageComponents/MyEdit';
 import ShopMain from './ShopDetails/ShopMain';
@@ -53,4 +54,5 @@ export const mobileRoutes = [
     { path: '/waitingDetail', element: <WaitingDetail /> },
     { path: '/myedit', element: <MyEdit /> },
     { path: '/shopmain', element: <ShopMain /> },
+
 ];

@@ -25,7 +25,7 @@ const KaKaoMap = (props) => {
     }
     return [];
   }, [data]);
-   
+
   console.log(vendorInfo);
 
 

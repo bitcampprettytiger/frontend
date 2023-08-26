@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNotice } from './NoticeContext';
-
+import './NotificationPanel.css';
 
 // 임시 데이터
 const notificationsData = [

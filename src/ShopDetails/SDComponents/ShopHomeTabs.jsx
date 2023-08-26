@@ -7,8 +7,13 @@ import MenuSeeMore from './MenuSeeMore';
 import PhotoSeeMore from './PhotoSeeMore';
 import Location from './Location';
 import ShopHomeTabsContext from '../SDCustomHooks/SHTContext';
-import { InView } from 'react-intersection-observer';
 import { StyledAppBar, StyledTab } from './ShopHomeTabsStyle';
+import MenuOrderPage from '../PackagingOrder/POComponents/MenuOrderPage';
+import ReviewDetail from '../Review/ReviewComponents/ReviewDetail';
+import RatingAvg from '../Review/ReviewComponents/RatingAvg';
+import HygieneStatic from '../Review/ReviewComponents/HygieneStatic';
+import SHFooter from './SHFooter';
+import { WrapBox } from './ShopHomeTabsStyle';
 
 
 function CustomTabPanel(props) {
@@ -42,31 +47,32 @@ export default function ShopHomeTabs({images}) {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+      <WrapBox>
         <StyledAppBar
           value={value}
           onChange={handleChange}
           aria-label="ShophHomeTabs"
-          variant="fullWidth"
+          variant="Header"
         >
           <StyledTab label="홈" {...a11yProps(0)} />
           <StyledTab label="메뉴" {...a11yProps(1)} />
           <StyledTab label="리뷰" {...a11yProps(2)} />
         </StyledAppBar>
-        </Box>
+        </WrapBox>
         <CustomTabPanel value={value} index={0}>
         <ShopFacilities/>
         <MenuSeeMore/>
-        <InView as="div" onChange={handleVisibilityChange}>
         <PhotoSeeMore images={images}/>
         <Location/>
-        </InView>
+        <SHFooter/>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-        full modal or 중첩 라우트
+          <MenuOrderPage/>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
-        full modal or 중첩 라우트
+          {/* <RatingAvg/>
+          <HygieneStatic/>
+          <ReviewDetail/> */}
         </CustomTabPanel>
         </Box>
   );
