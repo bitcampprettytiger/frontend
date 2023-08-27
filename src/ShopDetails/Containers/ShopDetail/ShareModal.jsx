@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Dialog, DialogContent, DialogContentText, Button, DialogTitle } from '@mui/material';
 import Slide from '@mui/material/Slide';
-import useShare from '../SDCustomHooks/useShare';
+import useShare from '../../SDCustomHooks/useShare';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;

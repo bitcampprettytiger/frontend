@@ -1,5 +1,6 @@
 import React from 'react';
-import AirIcon from '@mui/icons-material/Air';
+import { BsFan } from 'react-icons/bs';
+import {ImManWoman} from 'react-icons/im'
 import WcIcon from '@mui/icons-material/Wc';
 import { Grid, Typography, Box } from '@mui/material';
 import { styled } from '@mui/system';
@@ -24,13 +25,13 @@ const ShopFacilities = () => {
       <Grid container alignItems="flex-start" >
         <Grid item xs={6} textAlign="center">
           <Box display="flex" flexDirection="column" alignItems="center">
-            <AirIcon fontSize="large"/>
+            <BsFan size='30%'/>
             <CommonTypography variant="body1">{fanAvailable}</CommonTypography>
           </Box>
         </Grid>
         <Grid item xs={6} textAlign="center">
           <Box display="flex" flexDirection="column" alignItems="center">
-            <WcIcon fontSize="large"/>
+            <ImManWoman size='30%'/>
             <CommonTypography variant="body1">{restroomLocation}</CommonTypography>
           </Box>
         </Grid>

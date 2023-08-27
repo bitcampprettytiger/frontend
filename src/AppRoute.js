@@ -13,9 +13,9 @@ import Notice from './Menu/Home/HomeComponents/Notice';
 import GeolocationComponent from './Menu/Home/HomeComponents/GeolocationComponent';
 import MyEdit from './Menu/MyPage/MyPageComponents/MyEdit';
 import ShopMain from './ShopDetails/ShopMain';
-import ReviewForm from './ShopDetails/Review/ReviewComponents/ReviewForm';
+import ReviewForm from './ShopDetails/Containers/Review/ReviewComponents/ReviewForm';
 import MyTakeoutDetail from './Menu/MyPage/MyPageComponents/MyTakeoutDetail';
-import Cart from './ShopDetails/PackagingOrder/POComponents/Cart'
+import Cart from './ShopDetails/Containers/Menu/MenuComponents/Cart'
 import AppLogin from './Login,Join/login/Login';
 import AppSignup from './Login,Join/join/Register';
 import SellSignUp3 from './Sell/SellSignUp/SSUComponents/SellSignUp3';
@@ -25,6 +25,7 @@ import SellLogin from './Sell/SellJoin/SellLogin';
 import SellStoreSet from './Sell/SellStoreSet/SellStroreSet';
 import SellHome from './Sell/SellHome/SellHome';
 import SellMySet from './Sell/SellMySet/SellMySet';
+
 const menuRoutes = [
   { path: '/home', element: <Home /> },
   { path: '/geolocationcomponent', element: <GeolocationComponent /> },
