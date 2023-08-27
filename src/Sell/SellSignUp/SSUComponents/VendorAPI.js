@@ -25,15 +25,14 @@ const VendorAPI = async (
       tel: tel, // 여기에 전화번호 값을 삽입
       open: JSON.stringify(open), // 영업 시작 시간
       close: close, // 영업 마감 시간 시간을 가져옵니다.
+
     };
-    console.log('에이피', data);
     // Axios 요청에서 'Content-Type': 'application/json' 헤더를 사용합니다.
     const response = await axios.post('http://27.96.135.75/vendor/info', data, {
       headers: {
         'Content-Type': 'application/json',
       },
     });
-    console.log('에이피11', data);
 
     if (response.status === 200) {
       alert('성공');

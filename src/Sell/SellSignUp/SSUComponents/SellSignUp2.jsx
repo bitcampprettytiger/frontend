@@ -22,8 +22,6 @@ const SellSignUp2 = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [tel, settel] = useState('');
-  const [businessNumber, setBusinessNumber] = useState('');
-  const [roadNumber, setRoadNumber] = useState('');
   const [activeStep, setActiveStep] = useState(1);
   const [privacy, setPrivacy] = useState(false);
   const [open, setOpen] = useState(false);
@@ -83,17 +81,7 @@ const SellSignUp2 = () => {
     } else {
       alert(result); // 에러 메시지 출력
     }
-
   };
-
-  const previousData = location.state;
-
-  useEffect(() => {
-    if (previousData) {
-      setBusinessNumber(previousData.businessNumber);
-      setRoadNumber(previousData.roadNumber);
-    }
-  }, [previousData]);
 
   return (
     <>
@@ -176,35 +164,19 @@ const SellSignUp2 = () => {
                 }}
               />
             </Grid>
-            <Grid item xs={12} container alignItems="center">
-              <Typography variant="body1">사업자번호</Typography>
-              <TextField
-                fullWidth
-                variant="outlined"
-                placeholder="사업자번호"
-                value={businessNumber}
-                disabled={!!previousData} // 이전 데이터가 있으면 수정 못하게 함
-                onChange={(e) => setBusinessNumber(e.target.value)}
-              />
-            </Grid>
-            <Grid item xs={12} container alignItems="center">
-              <Typography variant="body1">도로점유번호</Typography>
-              <TextField
-                fullWidth
-                variant="outlined"
-                placeholder="도로점유번호"
-                value={roadNumber}
-                disabled={!!previousData} // 이전 데이터가 있으면 수정 못하게 함
-                onChange={(e) => setRoadNumber(e.target.value)}
-              />
-            </Grid>
-            <div onClick={handleOpen}>
+            <Grid
+              item
+              xs={12}
+              style={{ textAlign: 'right', marginTop: '20px' }}
+              onClick={handleOpen}
+            >
               <FormControlLabel
                 control={<Checkbox checked={privacy} />}
                 label="개인정보 동의서"
                 value={privacy}
               />
-            </div>
+            </Grid>
+
             <Grid
               item
               xs={12}
@@ -238,7 +210,10 @@ const SellSignUp2 = () => {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            여기에 개인정보 처리방침의 내용을 입력해주세요.
+            「개인정보보호법 제15조(개인정보의 수집․이용), 제17조(개인정보의
+            제공), 제18조(개인정보의 이용․제공 제한, 제22조(동의를 받는
+            방법)」에 의거 개인정보처리에 관하여 고지를 받았으며 본인은 위와
+            같이 개인정보 수집 및 이용․제공에 동의합니다.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
