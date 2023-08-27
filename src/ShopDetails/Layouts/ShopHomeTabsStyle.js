@@ -22,11 +22,6 @@ export const StyledTab = styled(Tab)`
   font-size: 115%;
   color: black;
 
-  &:active {
-    background-color: #FF745A;
-    transition: background-color 0.3s ease;
-  }
-
   &.Mui-selected {
     background-color: white;
     font-weight: bold;

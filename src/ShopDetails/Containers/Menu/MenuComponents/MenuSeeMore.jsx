@@ -5,9 +5,9 @@ import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import useMenuData from '../SDCustomHooks/useMenuData';
-import useVendor from '../SDCustomHooks/useVendor';
-import ShopHomeTabsContext from '../SDCustomHooks/SHTContext';
+import useMenuData from '../MenuCustomHook/useMenuData';
+import useVendor from '../../../SDCustomHooks/useVendor';
+import ShopHomeTabsContext from '../../../SDCustomHooks/SHTContext';
 import { useParams } from 'react-router-dom';
 
 const style = {

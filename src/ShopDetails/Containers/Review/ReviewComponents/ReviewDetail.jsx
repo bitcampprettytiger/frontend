@@ -5,7 +5,7 @@ import useReview from "../ReviewCustomHook/useReview";
 import { useParams } from "react-router-dom";
 
 const ReviewDetail = () => {
-  const vendorId = useParams();
+  const { vendorId } = useParams();
   const { reviews, error, loading } = useReview(vendorId);
 
   return (
@@ -29,20 +29,20 @@ const ReviewDetail = () => {
                 mt: 2
               }}
             >
-              {review.reviewFiles.map(file => (
-                <CardMedia 
-                  key={file.id} 
-                  component="img" 
-                  image={file.imageUrl} 
-                  alt="Review image"
-                  sx={{ 
-                    width: 150, 
-                    height: 150, 
-                    display: 'inline-block',
-                    marginX: 1
-                  }}
-                />
-              ))}
+              {(review.reviewFileList || [review.reviewFile]).map(file => (
+              file && <CardMedia 
+                key={file.id} 
+                component="img" 
+                image={file.reviewFilePath + file.reviewFileName} 
+                alt="Review image"
+                sx={{ 
+                  width: '20%', 
+                  height: '20%', 
+                  display: 'inline-block',
+                  marginX: 1
+                }}
+              />
+            ))}
             </Box>
             <Box mt={2}>
               <Typography variant="body1">{review.reviewContent}</Typography>

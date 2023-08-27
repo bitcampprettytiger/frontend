@@ -3,10 +3,10 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import useVendor from '../SDCustomHooks/useVendor';
+import useVendor from '../../SDCustomHooks/useVendor';
 import { useParams } from 'react-router-dom';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import useCopyToClipboard from '../SDCustomHooks/useCopyToClipboard';
+import useCopyToClipboard from '../../SDCustomHooks/useCopyToClipboard';
 
 function Location() {
   const {vendorId} = useParams();

@@ -13,10 +13,11 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ScrollTop from './ScrollTop';
+import ScrollTop from '../Components/ScrollTop';
 import useVendor from '../SDCustomHooks/useVendor';
-import ShareModal from './ShareModal';
+import ShareModal from '../Containers/ShopDetail/ShareModal';
 import useFavoritePick from '../SDCustomHooks/useFavoritePick';
+import useResponsive from '../SDCustomHooks/useResponsive';
 
 function ShopAppBar(props) {
     let navigate = useNavigate();
@@ -24,7 +25,8 @@ function ShopAppBar(props) {
     const { vendorId, memberId } = useParams();
     const { vendor, error, loading } = useVendor(vendorId);
     const [open, setOpen] = React.useState(false);
-    
+    const { width } = useResponsive();
+
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -42,12 +44,21 @@ function ShopAppBar(props) {
         }
     };
 
+
     const vendorName = vendor?.vendorName || "가게 이름 없음";
 
     return (
         <React.Fragment>
             <CssBaseline />
-            <AppBar sx={{ backgroundColor: 'white', height: '8%', position: 'fixed', zIndex: 1000 }}>
+            <AppBar sx={{
+                width: width,
+                left: `calc((100% - ${width}) / 2)`,
+                right: `calc((100% - ${width}) / 2)`,
+                backgroundColor: 'white', 
+                height: '8%', 
+                position: 'fixed', 
+                top : 0,
+            }}>
                 <Toolbar sx={{ minHeight: '0', display: 'flex' }}>
                     <Box sx={{
                         height: '50%',
@@ -86,7 +97,7 @@ function ShopAppBar(props) {
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            marginRight: '2vw'
+                            marginRight: '1vw'
                         }}>
                             <IconButton
                                 edge="end"
@@ -107,11 +118,11 @@ function ShopAppBar(props) {
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            marginRight: '2vw'
+                            marginRight: '1vw'
                         }}>
                             <div>
                             <IconButton edge="end" aria-label="share" onClick={handleClickOpen} sx={{
-                                marginRight: '1vw', marginTop: 'auto',
+                                marginRight: '0', marginTop: 'auto',
                                 marginBottom: 'auto',
                             }}>
                                 <ShareIcon />

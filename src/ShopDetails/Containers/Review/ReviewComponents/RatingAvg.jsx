@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { Rating, Box, Typography, Grid } from "@mui/material";
-import useReview from "../ReviewCustomHook/useReview";
+import useReview from '../ReviewCustomHook/useReview';
 import {
   BarChart,
   Bar,
@@ -13,24 +13,35 @@ import { useParams } from "react-router-dom";
 
 const RatingAvg = () => {
   const {vendorId} = useParams();
-  const reviews = useReview();
+  const { reviews } = useReview(vendorId);
 
-  const calculateAverageRating = (reviews) => {
-    if (reviews.length === 0) {
-      return 0;
-    }
+const calculateAverageRating = (reviews) => {
+  console.log(reviews + '리뷰 배열로 출력 됨?');
 
-    const totalRating = reviews.reduce(
-      (accumulator, currentValue) => accumulator + currentValue.rating,
-      0
-    );
-    return totalRating / reviews.length;
-  };
+  if (!Array.isArray(reviews) || reviews.length === 0) {
+    return 0;
+  }  
+
+  const totalRating = reviews.reduce(
+    (accumulator, currentValue) => {
+      console.log(currentValue.reviewScore + '점수 출력 됨?');
+      return accumulator + currentValue.reviewScore;
+    },
+    0
+  );
+
+  console.log(totalRating + '총 명수는? ');
+
+  return totalRating / reviews.length;
+};
 
   const averageRating = calculateAverageRating(reviews);
 
   const calculateRatingCounts = (reviews, rating) => {
-    return reviews.filter((review) => review.rating === rating).length;
+    if (!Array.isArray(reviews)) {
+      return 0;
+    }
+    return reviews.filter((review) => review.reviewscore === rating).length;
   };
 
   const ratingCounts = [

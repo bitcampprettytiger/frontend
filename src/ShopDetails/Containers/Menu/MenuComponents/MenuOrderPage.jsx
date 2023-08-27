@@ -4,7 +4,7 @@ import { StyledMenuItem, StyledMenuList } from './MenuOrderStyle';
 import MenuOptionalModal from './MenuOptionalModal';
 import Button from '@mui/material/Button';
 import { useNavigate, useParams } from 'react-router-dom';
-import useMenuData from '../../SDCustomHooks/useMenuData';
+import useMenuData from '../MenuCustomHook/useMenuData';
 
 function groupByMenuType(menuDataList) {
   const menuGroups = {};
