@@ -14,6 +14,8 @@ body {
     width: 100%;
     border: 1px solid #ff0000;
     overflow: auto;
+    height: 170vh; /* 뷰포트의 높이를 기준으로 100% */
+   
 }
 
 p {

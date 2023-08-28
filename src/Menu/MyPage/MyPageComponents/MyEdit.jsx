@@ -157,18 +157,7 @@ function MyEdit() {
                 </div>
                 <hr style={{ borderTop: '2px solid black', width: '100%', margin: '20px 0' }} /> {/* 구분선 추가 */}
 
-                <div className="button-wrapper">
-                    <div className="left-button-container">
-                        {/* 이미지와 텍스트를 포함하는 버튼입니다. */}
-                        <Button>
-                            <img src="path_to_your_image.jpg" alt="button-icon" style={{ marginRight: '10px' }} />
-                            버튼 텍스트
-                        </Button>
-                    </div>
-                    <div className="right-button-container">
-                        <Button>로그아웃</Button>
-                    </div>
-                </div>
+
                 <Modal
                     open={showPrivacyModal}
                     onClose={handlePrivacyClose}

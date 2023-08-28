@@ -1,3 +1,4 @@
+/* Main Content Area */
 .App-main2 {
     width: 100%;
     min-height: calc(100vh - 10vh);
@@ -5,15 +6,13 @@
     justify-content: space-between;
 }
 
-.header-container {
-    border-bottom: 5px solid #ff5733;
-}
-
+/* Padding for Result Containers */
 .result-container,
 .results-container {
     padding: 20px;
 }
 
+/* Result Item Area */
 .result-item {
     position: relative;
     align-items: center;
@@ -23,6 +22,7 @@
     border-bottom: 0.2px solid rgb(206, 206, 206);
 }
 
+/* Result Image */
 .result-item img {
     width: 100px;
     height: 100px;
@@ -30,6 +30,7 @@
     margin-right: 15px;
 }
 
+/* Favorite Icon Container */
 .favorite-container {
     position: absolute;
     top: 0;
@@ -42,15 +43,18 @@
     padding: 8px;
 }
 
+/* Hover effect for Favorite Icon */
 .result-item:hover .favorite-container {
     background: rgba(255, 255, 255, 0.7);
 }
 
+/* Text and Rating Info Area */
 .result-info {
     display: flex;
     flex-direction: column;
 }
 
+/* Shop Name Styling */
 .result-info .shop-name {
     margin: 0;
     font-size: 16px;
@@ -58,15 +62,18 @@
     line-height: 24px;
 }
 
+/* General Text Styling */
 .result-info p {
     margin: 5px 0;
 }
 
+/* Rating Area */
 .rating {
     display: flex;
     align-items: center;
 }
 
+/* Star Image */
 .rating img,
 .star-image {
     width: 20px;
@@ -74,11 +81,13 @@
     margin-right: 5px;
 }
 
+/* Favorite Icon Styling */
 .results-container .result-favorite svg {
     font-size: 24px;
     color: #FF745A;
 }
 
+/* Hashtag Container */
 .hashtag-container {
     width: 100%;
     height: 50%;
@@ -88,15 +97,18 @@
     scrollbar-width: none;
 }
 
+/* Removing Scrollbar for Webkit browsers */
 .hashtag-container::-webkit-scrollbar {
     display: none;
 }
 
+/* Hashtag Buttons */
 .hashtag-buttons {
     display: flex;
     gap: 2%;
 }
 
+/* Hashtag Button Hover Effect */
 .hashtag-buttons button:hover {
     background-color: #ffccb1;
 }

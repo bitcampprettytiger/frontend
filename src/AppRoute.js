@@ -24,6 +24,7 @@ import SellLogin from './Sell/SellJoin/SellLogin';
 import SellStoreSet from './Sell/SellStoreSet/SellStroreSet';
 import SellHome from './Sell/SellHome/SellHome';
 import SellMySet from './Sell/SellMySet/SellMySet';
+import PopularResult from './Menu/Home/HomeComponents/PopularResult';
 const menuRoutes = [
   { path: '/home', element: <Home /> },
   { path: '/geolocationcomponent', element: <GeolocationComponent /> },
@@ -39,6 +40,7 @@ const menuRoutes = [
   { path: '/mytakeout', element: <MyTakeout /> },
   { path: '/order/:orderNumber', element: <MyTakeoutDetail /> },
   { path: '/myedit', element: <MyEdit /> },
+  { path: '/popularresult', element: <PopularResult /> },
 ];
 
 const authRoutes = [
