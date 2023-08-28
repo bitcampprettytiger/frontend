@@ -32,14 +32,14 @@ function ReviewForm() {
             <ArrowBackIcon />
           </IconButton>
           <Typography
-            sx={{ ml: 2, flex: 1, color: 'black', fontSize: '17px' }}
+            sx={{ ml: 2, flex: 1, color: 'black', fontSize: '110%' }}
             component="div"
           >
             리뷰 작성
           </Typography>
         </Toolbar>
       </AppBar>
-      <div style={{ textAlign: 'left', paddingLeft: '10px' }}>
+      <div style={{ textAlign: 'left', paddingLeft: '10%' }}>
         <Typography
           variant="h6"
           component="div"

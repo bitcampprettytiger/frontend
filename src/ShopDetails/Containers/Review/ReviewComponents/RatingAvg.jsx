@@ -16,7 +16,6 @@ const RatingAvg = () => {
   const { reviews } = useReview(vendorId);
 
 const calculateAverageRating = (reviews) => {
-  console.log(reviews + '리뷰 배열로 출력 됨?');
 
   if (!Array.isArray(reviews) || reviews.length === 0) {
     return 0;
@@ -24,13 +23,10 @@ const calculateAverageRating = (reviews) => {
 
   const totalRating = reviews.reduce(
     (accumulator, currentValue) => {
-      console.log(currentValue.reviewScore + '점수 출력 됨?');
       return accumulator + currentValue.reviewScore;
     },
     0
   );
-
-  console.log(totalRating + '총 명수는? ');
 
   return totalRating / reviews.length;
 };
