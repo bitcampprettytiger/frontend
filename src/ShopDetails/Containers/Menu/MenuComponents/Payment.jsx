@@ -1,69 +1,30 @@
 import React from 'react';
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  IconButton,
-  CssBaseline,
-  Divider,
-  Container,
-  Box,
-} from '@mui/material';
-import { useNavigate,  useLocation } from 'react-router-dom';
-import CloseIcon from '@mui/icons-material/Close';
+import { useLocation } from 'react-router-dom';
 
-function PaymentPage() {
-  const navigate = useNavigate();
-  const { state } = useLocation();
-  const totalAmount = state?.totalAmount || 0;
+const RequestPay = () => {
+  const location = useLocation();
+  const totalAmount = location.state?.totalAmount;
+  const orderMenus = location.state?.orderedMenus;
 
-  return (
-    <>
-      <CssBaseline />
-      <AppBar position="static" sx={{ backgroundColor: 'white' }}>
-        <Toolbar>
-          <Typography
-            sx={{ flex: 1, color: 'black', fontWeight: 'bold', fontSize: '18px' }}
-            component="div"
-          >
-            가게 이름
-          </Typography>
-          <IconButton edge="end" aria-label="close" onClick={() => navigate('/shophome')}>
-            <CloseIcon sx={{ color: 'black', width: '18px', height: '18px' }} />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
-      <Divider sx={{ my: 0, height: '0.2px', bgcolor: '#E7E3E3' }} />
-      <Container>
-        <Box sx={{ my: 2 }}>
-          <Typography
-            variant="h6"
-            sx={{ fontSize: '18px', color: 'black', fontWeight: 'normal' }}
-            gutterBottom
-            component="div"
-          >
-            사장님 이름
-          </Typography>
-          <Typography
-            variant="body1"
-            sx={{ fontSize: '18px', color: 'black', textAlign: 'center' }}
-            gutterBottom
-            component="div"
-          >
-            계좌
-          </Typography>
-          <Divider sx={{ my: 0, height: '0.2px', bgcolor: '#E7E3E3' }} />
-          <Typography
-                variant="h6"
-                sx={{ mt: 2, fontSize: '18px', color: 'black' }}
-                component="div"
-            >
-        총 금액: {totalAmount} 원
-      </Typography>
-        </Box>
-      </Container>
-    </>
-  );
-}
+    IMP.request_pay({
+      pg: "html5_inicis",
+      pay_method: "card",
+      merchant_uid: "ORD20180131-0000011",
+      name: "노르웨이 회전 의자",
+      amount: 64900,
+      buyer_email: "gildong@gmail.com",
+      buyer_name: "홍길동",
+      buyer_tel: "010-4242-4242",
+      buyer_addr: "서울특별시 강남구 신사동",
+      buyer_postcode: "01181"
+    }, rsp => {
+      if (rsp.success) {
+        alert('결제가 성공적으로 완료되었습니다.');
+      } else {
+        alert(`결제 실패: ${rsp.error_msg}`);
+      }
+    });
+  }
 
-export default PaymentPage;
+
+export default RequestPay;

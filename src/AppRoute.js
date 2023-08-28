@@ -15,7 +15,6 @@ import MyEdit from './Menu/MyPage/MyPageComponents/MyEdit';
 import ShopMain from './ShopDetails/ShopMain';
 import ReviewForm from './ShopDetails/Containers/Review/ReviewComponents/ReviewForm';
 import MyTakeoutDetail from './Menu/MyPage/MyPageComponents/MyTakeoutDetail';
-import Cart from './ShopDetails/Containers/Menu/MenuComponents/Cart'
 import AppLogin from './Login,Join/login/Login';
 import AppSignup from './Login,Join/join/Register';
 import SellSignUp3 from './Sell/SellSignUp/SSUComponents/SellSignUp3';
@@ -25,6 +24,8 @@ import SellLogin from './Sell/SellJoin/SellLogin';
 import SellStoreSet from './Sell/SellStoreSet/SellStroreSet';
 import SellHome from './Sell/SellHome/SellHome';
 import SellMySet from './Sell/SellMySet/SellMySet';
+import CartPage from './ShopDetails/Containers/Menu/MenuComponents/Cart';
+import { Payment } from '@mui/icons-material';
 
 const menuRoutes = [
   { path: '/home', element: <Home /> },
@@ -41,7 +42,8 @@ const menuRoutes = [
   { path: '/mytakeout', element: <MyTakeout /> },
   { path: '/order/:orderNumber', element: <MyTakeoutDetail /> },
   { path: '/myedit', element: <MyEdit /> },
-  { path: '/cart', element: <Cart/> }
+  { path: '/cart/:memberId', element: <CartPage/> },
+  { path : '/payment', element: <Payment/> }
 ];
 
 const authRoutes = [

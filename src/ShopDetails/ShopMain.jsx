@@ -26,8 +26,8 @@ const ShopMain = () => {
     return (
         <>
             <ShopAppBar/>
-            <ShopInfo vendor={vendor} />
             {vendor && <ShopImage vendor={vendor} />}
+            <ShopInfo vendor={vendor} />
             <ShopHomeTabsProvider>
                 <ShopHomeTabs images={imagesFromReviews} />
             </ShopHomeTabsProvider>
