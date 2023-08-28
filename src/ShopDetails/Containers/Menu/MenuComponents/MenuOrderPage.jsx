@@ -5,6 +5,7 @@ import MenuOptionalModal from './MenuOptionalModal';
 import Button from '@mui/material/Button';
 import { useNavigate, useParams } from 'react-router-dom';
 import useMenuData from '../MenuCustomHook/useMenuData';
+import useCart from '../MenuCustomHook/useCart';
 
 function groupByMenuType(menuDataList) {
   const menuGroups = {};
@@ -28,14 +29,14 @@ function MenuOrderPage() {
   const navigate = useNavigate();
   const menuDataList = useMenuData();
   const menuGroups = groupByMenuType(menuDataList);
+  const { addMenuItem } = useCart();
 
   const handleClose = () => {
     setIsModalVisible(false);
   };
 
   const handleMenuAdd = (menu) => {
-    const updatedMenu = { ...menu, quantity: 1 };
-    setAddedMenus([...addedMenus, updatedMenu]);
+    addMenuItem(menu);
     setIsModalVisible(false); 
   };
 
