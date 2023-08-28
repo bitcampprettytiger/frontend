@@ -1,19 +1,20 @@
 import * as React from 'react';
 import { useContext } from 'react';
-import PropTypes from 'prop-types';
 import { Box, Typography } from '@mui/material';
-import ShopFacilities from './ShopFacilities';
-import MenuSeeMore from './MenuSeeMore';
-import PhotoSeeMore from './PhotoSeeMore';
-import Location from './Location';
+import ShopFacilities from '../Containers/ShopDetail/ShopFacilities';
+import Location from '../Containers/ShopDetail/Location';
 import ShopHomeTabsContext from '../SDCustomHooks/SHTContext';
-import { StyledAppBar, StyledTab } from './ShopHomeTabsStyle';
-import MenuOrderPage from '../PackagingOrder/POComponents/MenuOrderPage';
-import ReviewDetail from '../Review/ReviewComponents/ReviewDetail';
-import RatingAvg from '../Review/ReviewComponents/RatingAvg';
-import HygieneStatic from '../Review/ReviewComponents/HygieneStatic';
+import { StyledAppBar, StyledTab } from '../Layouts/ShopHomeTabsStyle';
+import MenuOrderPage from '../Containers/Menu/MenuComponents/MenuOrderPage'
+import ReviewDetail from '../Containers/Review/ReviewComponents/ReviewDetail'
+import RatingAvg from '../Containers/Review/ReviewComponents/RatingAvg';
+import HygieneStatic from '../Containers/Review/ReviewComponents/HygieneStatic';
 import SHFooter from './SHFooter';
 import { WrapBox } from './ShopHomeTabsStyle';
+import useResponsive from '../SDCustomHooks/useResponsive';
+import MenuSeeMore from '../Containers/Menu/MenuComponents/MenuSeeMore';
+import PhotoSeeMore from '../Containers/Review/ReviewComponents/PhotoSeeMore';
+import review from '../../DataEx/review';
 
 
 function CustomTabPanel(props) {
@@ -42,8 +43,10 @@ function a11yProps(index) {
   };
 }
 
+
 export default function ShopHomeTabs({images}) {
   const { value, setValue, handleChange, handleVisibilityChange } = useContext(ShopHomeTabsContext);
+  const viewType = useResponsive();
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -52,19 +55,18 @@ export default function ShopHomeTabs({images}) {
           value={value}
           onChange={handleChange}
           aria-label="ShophHomeTabs"
-          variant="Header"
+          variant="sticky"
         >
           <StyledTab label="홈" {...a11yProps(0)} />
           <StyledTab label="메뉴" {...a11yProps(1)} />
           <StyledTab label="리뷰" {...a11yProps(2)} />
         </StyledAppBar>
-        </WrapBox>
+      </WrapBox>
         <CustomTabPanel value={value} index={0}>
         <ShopFacilities/>
         <MenuSeeMore/>
         <PhotoSeeMore images={images}/>
         <Location/>
-        <SHFooter/>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
           <MenuOrderPage/>
@@ -72,8 +74,9 @@ export default function ShopHomeTabs({images}) {
         <CustomTabPanel value={value} index={2}>
           <RatingAvg/>
           <HygieneStatic/>
-          <ReviewDetail/>
+          <ReviewDetail/> 
         </CustomTabPanel>
+        {value === 0 && <SHFooter viewType={viewType}/>}
         </Box>
   );
 }

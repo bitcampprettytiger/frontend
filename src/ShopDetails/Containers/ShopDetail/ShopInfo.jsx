@@ -12,14 +12,12 @@ import {
   StarTypography,
   ReviewCountTypography,
 } from './ShopInfoStyle';
-import useVendor from '../SDCustomHooks/useVendor';
+import useVendor from '../../SDCustomHooks/useVendor';
 import { useParams } from 'react-router-dom';
 
 function ShopInfo({ onCall, onViewLocation }) {
   const { vendorId } = useParams();
   const { vendor, error, loading } = useVendor(vendorId);
-
-  console.log(vendorId);
 
   if (loading) return <div>로딩 중</div>;
   if (error) return <div>Error: {error.message}</div>;

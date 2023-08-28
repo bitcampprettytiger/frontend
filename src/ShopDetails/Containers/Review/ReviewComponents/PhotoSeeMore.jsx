@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import ShopHomeTabsContext from '../SDCustomHooks/SHTContext';
+import ShopHomeTabsContext from '../../../SDCustomHooks/SHTContext';
 
 const ImageGrid = ({ imageUrls }) => (
   <Grid container spacing={2}>

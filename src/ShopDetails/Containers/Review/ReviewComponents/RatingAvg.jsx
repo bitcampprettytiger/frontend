@@ -1,43 +1,51 @@
-import React, { useState } from "react";
+import React from "react";
 import { Rating, Box, Typography, Grid } from "@mui/material";
-import review from "../../../DataEx/review"; 
+import useReview from '../ReviewCustomHook/useReview';
 import {
   BarChart,
   Bar,
   XAxis,
   YAxis,
-  Tooltip,
   CartesianGrid,
   ResponsiveContainer,
-  LabelList, 
-  Cell
 } from "recharts";
+import { useParams } from "react-router-dom";
 
 const RatingAvg = () => {
-  const calculateAverageRating = (review) => {
-    if (review.length === 0) {
-      return 0;
-    }
+  const {vendorId} = useParams();
+  const { reviews } = useReview(vendorId);
 
-    const totalRating = review.reduce(
-      (accumulator, currentValue) => accumulator + currentValue.rating,
-      0
-    );
-    return totalRating / review.length;
-  };
+const calculateAverageRating = (reviews) => {
 
-  const averageRating = calculateAverageRating(review);
+  if (!Array.isArray(reviews) || reviews.length === 0) {
+    return 0;
+  }  
+
+  const totalRating = reviews.reduce(
+    (accumulator, currentValue) => {
+      return accumulator + currentValue.reviewScore;
+    },
+    0
+  );
+
+  return totalRating / reviews.length;
+};
+
+  const averageRating = calculateAverageRating(reviews);
 
   const calculateRatingCounts = (reviews, rating) => {
-    return reviews.filter((review) => review.rating === rating).length;
+    if (!Array.isArray(reviews)) {
+      return 0;
+    }
+    return reviews.filter((review) => review.reviewscore === rating).length;
   };
 
   const ratingCounts = [
-    { rating: 5, count: calculateRatingCounts(review, 5) },
-    { rating: 4, count: calculateRatingCounts(review, 4) },
-    { rating: 3, count: calculateRatingCounts(review, 3) },
-    { rating: 2, count: calculateRatingCounts(review, 2) },
-    { rating: 1, count: calculateRatingCounts(review, 1) },
+    { rating: 5, count: calculateRatingCounts(reviews, 5) },
+    { rating: 4, count: calculateRatingCounts(reviews, 4) },
+    { rating: 3, count: calculateRatingCounts(reviews, 3) },
+    { rating: 2, count: calculateRatingCounts(reviews, 2) },
+    { rating: 1, count: calculateRatingCounts(reviews, 1) },
   ];
 
   const CustomLabel = (props, color) => {

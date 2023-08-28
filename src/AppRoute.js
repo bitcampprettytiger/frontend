@@ -13,7 +13,7 @@ import Notice from './Menu/Home/HomeComponents/Notice';
 import GeolocationComponent from './Menu/Home/HomeComponents/GeolocationComponent';
 import MyEdit from './Menu/MyPage/MyPageComponents/MyEdit';
 import ShopMain from './ShopDetails/ShopMain';
-import ReviewForm from './ShopDetails/Review/ReviewComponents/ReviewForm';
+import ReviewForm from './ShopDetails/Containers/Review/ReviewComponents/ReviewForm';
 import MyTakeoutDetail from './Menu/MyPage/MyPageComponents/MyTakeoutDetail';
 import AppLogin from './Login,Join/login/Login';
 import AppSignup from './Login,Join/join/Register';
@@ -25,6 +25,10 @@ import SellStoreSet from './Sell/SellStoreSet/SellStroreSet';
 import SellHome from './Sell/SellHome/SellHome';
 import SellMySet from './Sell/SellMySet/SellMySet';
 import PopularResult from './Menu/Home/HomeComponents/PopularResult';
+import CartPage from './ShopDetails/Containers/Menu/MenuComponents/Cart';
+import { Payment } from '@mui/icons-material';
+
+
 const menuRoutes = [
   { path: '/home', element: <Home /> },
   { path: '/geolocationcomponent', element: <GeolocationComponent /> },
@@ -41,6 +45,9 @@ const menuRoutes = [
   { path: '/order/:orderNumber', element: <MyTakeoutDetail /> },
   { path: '/myedit', element: <MyEdit /> },
   { path: '/popularresult', element: <PopularResult /> },
+  { path: '/cart/:memberId', element: <CartPage /> },
+  { path: '/payment', element: <Payment /> }
+
 ];
 
 const authRoutes = [

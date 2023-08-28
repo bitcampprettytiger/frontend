@@ -6,33 +6,40 @@ export const StyledMenuList = styled.div`
 
 export const StyledMenuItem = styled.div`
   display: flex;
-  justify-content: flex-start;
+  align-items: center;
   cursor: pointer;
-  border-bottom: 0.2px solid #E7E3E3;
+  padding: 10px;
+
   .menu-image {
+    width: 20%;
+    height: 20%;
+    margin-right: 20%; 
+
     img {
-      width: 100px;
-      height: 100px;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
-      border-radius: 5px;
+      border-radius: 5px; 
     }
   }
+
   .menu-info {
-    margin-left: 2vw;
+    text-align: left;
+
     h3 {
-      font-size: 17px;
-      font-weight: bold;
-      margin-top: 0;
+      margin: 0;
+      margin-bottom: 10%;
     }
+
     .menu-description {
-      font-size: 13px;
-      margin-top : 2;
-      margin-bottom: 0;
-      color: #9A9696;
+      margin: 0;
+      margin-bottom: 10%;
+      color: grey;  
     }
+
     .menu-price {
+      margin: 0;
       color: #FF745A;
-      font-size: 14px;
     }
   }
 `;

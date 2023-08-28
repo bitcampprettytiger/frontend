@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import {
   TextField,
   Select,
@@ -9,59 +10,147 @@ import {
   Grid,
 } from '@mui/material';
 
-const SSUsaup = ({ businessNumber, setBusinessNumber }) => {
+const SSUsaup = ({setNextButtonEnabled }) => {
   const [region, setRegion] = useState('');
+  const [value1, setValue1] = useState('');
+  const [value2, setValue2] = useState('');
+  const [responseMessage, setResponseMessage] = useState(''); // 응답 메시지 상태
+
+  const handleSubmit = async () => {
+    const payload = {
+      region,
+      value1,
+      value2: value2 || null,
+    };
+
+    try {
+      console.log(value1);
+      console.log(value2);
+      console.log(region);
+      const response = await axios.post(
+        'http://27.96.135.75/API/validateByRegion',
+        payload
+      );
+      // 성공적으로 응답을 받은 경우 처리 로직
+      console.log(response.data);
+      // 응답에서 일치 여부 확인 (서버 응답 형식에 따라 수정 필요)
+      setResponseMessage('정보가 일치합니다.');
+      setNextButtonEnabled(true); // 정보 일치시 버튼 활성화
+    } catch (error) {
+      setResponseMessage('정보가 일치하지 않습니다.');
+      setNextButtonEnabled(false); // 정보 불일치시 버튼 활성화
+      // 에러 발생 시 처리 로직
+      console.error(error);
+    }
+  };
 
   const renderFields = () => {
     switch (region) {
       case '경기도':
-        return <TextField label="허가번호(PRMSN_NM)" fullWidth />;
-      case '노량진(동작구)':
-        return <TextField label="?호점인지만 확인하는 로직" fullWidth />;
-      case '동작':
+        return (
+          <>
+            <TextField
+              label="정보1"
+              value={value1}
+              onChange={(e) => setValue1(e.target.value)}
+              fullWidth
+            />
+            <TextField
+              label="정보2"
+              value={value2}
+              onChange={(e) => setValue2(e.target.value)}
+              fullWidth
+            />
+          </>
+        );
+      case '노량진':
+        return (
+          <TextField
+            label="정보1"
+            value={value1}
+            onChange={(e) => setValue1(e.target.value)}
+            fullWidth
+          />
+        );
+      case '동작구':
         return (
           <div>
             <TextField
-              label="거리가게명"
+              label="value1"
+              value={value1}
+              onChange={(e) => setValue1(e.target.value)}
               fullWidth
-              style={{ marginBottom: '5%' }}
             />
-            <TextField label="위치" fullWidth />
-          </div>
-        );
-      case '동대문':
-        return (
-          <div>
             <TextField
-              label="거리가게명"
+              label="value2"
+              value={value2}
+              onChange={(e) => setValue2(e.target.value)}
               fullWidth
-              style={{ marginBottom: '5%' }}
             />
-            <TextField label="주소" fullWidth />
           </div>
         );
-      case '강남구':
-        return <TextField label="도로명 주소" fullWidth />;
       case '강서구':
         return (
           <div>
-            <TextField label="위치" fullWidth style={{ marginBottom: '5%' }} />
-            <TextField label="판매품목?" fullWidth />
+            <TextField
+              label="value1"
+              value={value1}
+              onChange={(e) => setValue1(e.target.value)}
+              fullWidth
+            />
+            <TextField
+              label="value2"
+              value={value2}
+              onChange={(e) => setValue2(e.target.value)}
+              fullWidth
+            />
+          </div>
+        );
+      case '강남구':
+        return (
+          <div>
+            <TextField
+              label="value1"
+              value={value1}
+              onChange={(e) => setValue1(e.target.value)}
+              fullWidth
+            />
           </div>
         );
       case '도봉구':
         return (
           <div>
             <TextField
-              label="도로주소"
+              label="value1"
+              value={value1}
+              onChange={(e) => setValue1(e.target.value)}
               fullWidth
-              style={{ marginBottom: '5%' }}
             />
-            <TextField label="지정번호" fullWidth />
+            <TextField
+              label="value2"
+              value={value2}
+              onChange={(e) => setValue2(e.target.value)}
+              fullWidth
+            />
           </div>
         );
-      default:
-        return null;
+      case '동대문':
+        return (
+          <div>
+            <TextField
+              label="value1"
+              value={value1}
+              onChange={(e) => setValue1(e.target.value)}
+              fullWidth
+            />
+            <TextField
+              label="value2"
+              value={value2}
+              onChange={(e) => setValue2(e.target.value)}
+              fullWidth
+            />
+          </div>
+        );
     }
   };
 
@@ -77,20 +166,34 @@ const SSUsaup = ({ businessNumber, setBusinessNumber }) => {
               onChange={(e) => setRegion(e.target.value)}
             >
               <MenuItem value="경기도">경기도</MenuItem>
-              <MenuItem value="동작">동작</MenuItem>
-              <MenuItem value="노량진(동작구)">노량진(동작구)</MenuItem>
+              <MenuItem value="노량진">노량진</MenuItem>
+              <MenuItem value="동작구">동작구</MenuItem>
               <MenuItem value="동대문">동대문</MenuItem>
               <MenuItem value="강남구">강남구</MenuItem>
               <MenuItem value="강서구">강서구</MenuItem>
               <MenuItem value="도봉구">도봉구</MenuItem>
-              {/* 필요한 만큼 다른 지역 옵션 추가 */}
             </Select>
           </FormControl>
         </Grid>
         <Grid item xs={12} style={{ marginTop: '20px' }}>
           {renderFields()}
         </Grid>
-        {/* 나머지 폼 요소들 */}
+        <Grid item xs={12} style={{ textAlign: 'center' }}>
+          {/* 버튼 중앙 배치 */}
+          <button onClick={handleSubmit}>전송</button>
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          style={{
+            textAlign: 'center',
+            color: responseMessage === '정보가 일치합니다.' ? 'blue' : 'red',
+          }}
+        >
+          {' '}
+          {/* 응답 메시지에 따른 색상 변경 */}
+          <p>{responseMessage}</p>
+        </Grid>
       </Grid>
     </Container>
   );

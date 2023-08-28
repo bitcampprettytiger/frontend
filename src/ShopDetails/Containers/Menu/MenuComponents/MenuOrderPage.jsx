@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import Divider from '@mui/material/Divider';
 import { StyledMenuItem, StyledMenuList } from './MenuOrderStyle';
-import MenuOptionalPage from './MenuOptionalPage';
+import MenuOptionalModal from './MenuOptionalModal';
 import Button from '@mui/material/Button';
 import { useNavigate, useParams } from 'react-router-dom';
-import useMenuData from '../../SDCustomHooks/useMenuData';
+import useMenuData from '../MenuCustomHook/useMenuData';
+import useCart from '../MenuCustomHook/useCart';
 
 function groupByMenuType(menuDataList) {
   const menuGroups = {};
@@ -28,13 +29,15 @@ function MenuOrderPage() {
   const navigate = useNavigate();
   const menuDataList = useMenuData();
   const menuGroups = groupByMenuType(menuDataList);
+  const { addMenuItem } = useCart();
 
   const handleClose = () => {
     setIsModalVisible(false);
   };
 
   const handleMenuAdd = (menu) => {
-    setAddedMenus([...addedMenus, menu]);
+    addMenuItem(menu);
+    setIsModalVisible(false); 
   };
 
   const handleMenuClick = (menu) => {
@@ -67,9 +70,10 @@ function MenuOrderPage() {
         ))}
       </StyledMenuList>
       {isModalVisible && (
-        <MenuOptionalPage
-          selectedMenu={selectedMenu} 
+          <MenuOptionalModal 
+          open={isModalVisible} 
           onClose={handleClose}
+          selectedMenu={selectedMenu}
           onMenuAdd={handleMenuAdd}
         />
       )}
