@@ -9,7 +9,6 @@ const SellerPage = () => {
   });
   useEffect(() => {
     // const socket = io('http://localhost:8081'); // 판매자 엔드포인트로 연결
-
     socket.on('customerMatched', data => {
       // data에는 { socketId, position }가 포함되어 있음
       console.log('Customer matched:', data);
@@ -24,7 +23,21 @@ const SellerPage = () => {
     // return () => {
     //   socket.disconnect(); // 컴포넌트 언마운트 시 소켓 연결 해제
     // };
-  }, []);
+  }, [socket]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   const updateReservationList = newReservation => {
     setReservationList(prevList => [...prevList, newReservation]); // 새로운 예약 정보를 기존 목록에 추가하여 갱신

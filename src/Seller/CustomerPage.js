@@ -23,6 +23,27 @@ const CustomerPage = () => {
     console.log(position);
   };
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
   return (
     <div>
       <button onClick={reserveQueue}>예약하기</button>
