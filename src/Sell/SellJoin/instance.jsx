@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // 인스턴스 생성
 const instance = axios.create({
-  baseURL: 'http://27.96.135.75',
+  baseURL: 'http://localhost',
 });
 console.log(instance.interceptors.response);
 

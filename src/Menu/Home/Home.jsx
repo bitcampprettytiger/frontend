@@ -7,53 +7,35 @@ import '../../App.css';
 import './Home.css';
 import useSlider from '../HomeCustomHooks/useSlider';
 import usePopularPlaces from '../HomeCustomHooks/usePopularPlaces';
-import useFetchData from '../HomeCustomHooks/useFetchData';
-import useMostFavorited from '../HomeCustomHooks/useMostFavorited';
-import Box from '@mui/material/Box';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import InputBase from '@mui/material/InputBase';
-import IconButton from '@mui/material/IconButton';
-import SearchIcon from '@mui/icons-material/Search';
+import {
+  fetchPopularPlaces,
+  fetchTop5Vendors,
+  fetchMostFavoritedVendors,
+  fetchTop5RecommendedMenus,
+  fetchTop5ReviewVendors
+} from '../Home/HomeComponents/HomeApi';
 
 function Home() {
-  const navigate = useNavigate();
-  const [searchInput, setSearchInput] = useState('');
-  const [address, setAddress] = useState("");
-  const [location, setLocation] = useState({
-    latitude: "",
-    longitude: ""
-  });
 
-  const images = ['/images/slide-4.png', '/images/slide-2.png', '/images/slide-3.png'];
-  const [currentIndex, setCurrentIndex] = useSlider(images);
-  const popularPlaces = usePopularPlaces(address, location);
-  const [page, setPage] = useState(1);
-  const [fetchedData, setFetchedData] = useState([]);
-  const fetchResult = useFetchData(`http://27.96.135.75/vendor/search`, 'post', []);
-  const bestReviewsResult = useFetchData('http://27.96.135.75/vendor/review/weightedAverageScore', 'get', []);
-  const bestReviews = Array.isArray(bestReviewsResult.data) ? bestReviewsResult.data : [];
-  const [isLoading, setIsLoading] = useState(false);
-  const [mostFavorited, setMostFavorited] = useState([]);
+  const navigate = useNavigate(); // 페이지 이동을 위한 훅
+  const [searchInput, setSearchInput] = useState(''); // 검색 인풋 관리
+  const [popularPlaces, setPopularPlaces] = useState([]); // 인기 장소 관리
+  const [top5Vendors, setTop5Vendors] = useState([]); // Top 5 판매자 관리
+  const [mostFavoritedVendors, setMostFavoritedVendors] = useState([]); // 가장 많이 즐겨찾기 된 판매자 관리
+  const [top5Menus, setTop5Menus] = useState([]); // Top 5 메뉴 관리
+  const [currentIndex, setCurrentIndex] = useState(0); // 현재 이미지 슬라이더의 인덱스
+  const [address, setAddress] = useState(""); // 사용자의 주소
+  const [location, setLocation] = useState({ latitude: "", longitude: "" }); // 사용자의 위치 (위도, 경도)
+  const [top5ReviewVendors, setTop5ReviewVendors] = useState([]); // 이달의 유저 픽 BEST NO.5 판매자 관리
 
-  useEffect(() => {
-    if (fetchResult.data) {
-      setFetchedData(prevData => [...prevData, ...fetchResult.data]);
-      setPage(prevPage => prevPage + 1);
-    }
-    if (fetchResult.error) {
-      console.error("Error fetching data:", fetchResult.error);
-    }
-  }, [fetchResult]);
+  const images = ['/images/slide-4.png', '/images/slide-2.png', '/images/slide-3.png']; // 이미지 슬라이더에 사용될 이미지들
 
-  const navigateToDetail = (storeId) => {
-    navigate(`/store/${storeId}`);
+  // 판매자 상세 페이지로 이동
+  const navigateToVendorDetail = (vendorId) => {
+    navigate(`/shophome/${vendorId}`);
   };
 
-  const handleSearch = () => {
-    navigate('/search', { state: { query: searchInput } });
-  };
-
+  // 주소와 위치 정보를 상태에 저장
   const setAddressToHome = (newAddress, newlocation) => {
     setAddress(newAddress);
     setLocation({
@@ -62,97 +44,99 @@ function Home() {
     });
   };
 
-  const [imageURL, setImageURL] = useState('https://springboot.kr.object.ncloudstorage.com/%EA%B3%A0%EC%95%88.JPG');
 
-  useEffect(() => {
-    async function fetchImageUrl() {
-      try {
-        const response = await axios.get('http://27.96.135.75/vendor/review/weightedAverageScore');
-        if (response.data && response.data.url) {
-          setImageURL(response.data.url);
-        }
-      } catch (error) {
-        console.error("Error fetching image URL:", error);
+
+  // 데이터를 가져와서 상태 설정
+  const fetchAndSet = async (fetchFunction, setStateFunction, sliceAmount) => {
+    try {
+      const response = await fetchFunction();
+      console.log(response);
+      if (response && response.data && response.data.length > 0) {
+        setStateFunction(sliceAmount ? response.data.slice(0, sliceAmount) : response.data);
       }
+    } catch (error) {
+      console.error(`Error fetching data: ${error}`);
     }
-    fetchImageUrl();
-  }, []);
-
-  const [value, setValue] = useState(0);
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
   };
 
-  function a11yProps(index) {
-    return {
-      id: `simple-tab-${index}`,
-      'aria-controls': `simple-tabpanel-${index}`,
-    };
-  }
 
   useEffect(() => {
-    const handleScroll = () => {
-      if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 500 && !isLoading) {
-        setIsLoading(true);
+    // 처음에 이달의 유저 픽 BEST NO.5 판매자 데이터를 가져옴
+    const fetchDataForReviewVendors = async () => {
+      const data = await fetchTop5ReviewVendors();
+      if (data) {
+        setTop5ReviewVendors(data);
       }
+    };
+    fetchDataForReviewVendors();
+  }, []);
 
-      if ((window.innerHeight + window.scrollY) < document.body.offsetHeight - 100) {
-        document.querySelector('.footer-text-container').style.display = 'none';
-      } else {
-        document.querySelector('.footer-text-container').style.display = 'block';
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await fetchTop5Vendors();
+      console.log("Top 5 Vendors:", data);
+
+
+      if (data) {
+        setTop5Vendors(data);
+      }
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    // 처음에 Top 5 메뉴 데이터를 가져옴
+    const fetchDataForMenus = async () => {
+      const data = await fetchTop5RecommendedMenus();
+      if (data) {
+        setTop5Menus(data);
+      }
+    };
+    fetchDataForMenus();
+
+    // 주소나 위치가 변경되면 여러 데이터를 새로 가져옴
+    let isMounted = true;
+
+    fetchAndSet(() => fetchPopularPlaces(address, location.latitude, location.longitude), setPopularPlaces);
+    const fetchAndSetData = async () => {
+      if (address && address !== '') {  // address가 undefined나 빈 문자열이 아닐 경우에만 API 호출
+        await fetchAndSet(() => fetchPopularPlaces(address, location.latitude, location.longitude), setPopularPlaces);
+        await fetchAndSet(fetchPopularPlaces, setPopularPlaces);
+        await fetchAndSet(fetchTop5Vendors, setTop5Vendors);
+        await fetchAndSet(fetchMostFavoritedVendors, setMostFavoritedVendors, 5);
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    fetchAndSetData();
+
+    const interval = setInterval(() => {
+      if (isMounted) {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+      }
+    }, 3000);
+
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      isMounted = false;
+      clearInterval(interval);
     };
-  }, [isLoading]);
+  }, [address, location.latitude, location.longitude]);
 
-  function CustomTabPanel(props) {
-    const { children, value, index, ...other } = props;
-    return (
-      <div
-        role="tabpanel"
-        hidden={value !== index}
-        id={`simple-tabpanel-${index}`}
-        aria-labelledby={`simple-tab-${index}`}
-        {...other}
-      >
-        {value === index && children}
-      </div>
-    );
-  }
+  // 검색 이벤트 핸들러
+  const handleSearch = () => {
+    navigate('/search', { state: { query: searchInput } });
+  };
 
-  const [streetFoods, setStreetFoods] = useState([]);
-  const [foodStalls, setFoodStalls] = useState([]);
+  // 검색 페이지로 이동
+  const navigateToSearch = () => {
+    navigate('/search');
+  };
 
-  useEffect(() => {
-    async function fetchDataByCategory(category, setStateFunction) {
-      try {
-        const response = await axios.get(`http://27.96.135.75/vendor/search/${category}`);
-        setStateFunction(response.data);
-      } catch (error) {
-        console.error(`Error fetching ${category} data:`, error);
-      }
+  // 버튼 클릭 이벤트 핸들러
+  const handleButtonClick = (url) => {
+    if (url) {
+      window.location.href = url;
     }
-    fetchDataByCategory('streetfoods', setStreetFoods);
-    fetchDataByCategory('foodstalls', setFoodStalls);
-  }, []);
-
-  useEffect(() => {
-    async function fetchMostFavorited() {
-      try {
-        const response = await axios.get('http://27.96.135.75/api/favoritePick/top8Favorites');
-        setMostFavorited(response.data.slice(0, 5));
-      } catch (error) {
-        console.error("Error fetching most favorited vendors:", error);
-      }
-    }
-    fetchMostFavorited();
-  }, []);
-
-
+  };
   return (
     <div className='App-main2'>
       <Header page="home" setAddressToHome={setAddressToHome} />
@@ -162,7 +146,7 @@ function Home() {
           {images.map((image, index) => (
             <span
               key={index}
-              className={`dot ${currentIndex === index ? 'active' : ''} `}
+              className={`dot ${currentIndex === index ? 'active' : ''}`}
               onClick={() => setCurrentIndex(index)}
             />
           ))}
@@ -170,19 +154,17 @@ function Home() {
       </div>
 
       <div className="Home-search-container">
-        <InputBase
+        <input
           className="Home-search-input"
+          type="text"
           placeholder="지역, 음식, 가게명을 검색해보세요"
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
-          endAdornment={
-            <IconButton onClick={handleSearch}>
-              <SearchIcon />
-            </IconButton>
-          }
         />
+        <button className="Home-search-button" onClick={handleSearch}>
+          <img src="images/inputsearch.png" alt="Search" />
+        </button>
       </div>
-
 
       <p>오늘 이곳은 어때요?</p>
       <div className="outer-container">
@@ -196,49 +178,41 @@ function Home() {
         </div>
       </div>
 
-      <p>이달의 먹자취 리뷰 BEST NO.5</p>
-      <p className="small-text">유저들이 추천하는 장소! 생생한 먹자취 후기</p>
+      <p>이달의 유저 픽 BEST NO.5</p>
       <div className="macha-button-container">
-        {mostFavorited.map((store) => (
-          <button key={store.id} className="macha-button" onClick={() => navigateToDetail(store.id)}>
-            <img src={store.imageUrl} alt={store.name} />
+        {top5ReviewVendors.map((vendor) => (
+          <button
+            key={vendor.id}
+            className="macha-button"
+            onClick={() => navigateToVendorDetail(vendor.id)}
+          >
+            <img src={vendor.imageUrl} alt={vendor.name} />
           </button>
         ))}
       </div>
 
-
-      <p>먹자취가 이번달 추천하는 장소들</p>
-      <p className="small-text">이번달 추천 장소는 어디일까? 확인해보세요!</p>
+      <p>먹자취 추천 어쩌구 NO.5</p>
       <div className="macha-button-container">
-        {mostFavorited.map((store) => (
-
-          <button key={store.id} className="macha-button" onClick={() => navigateToDetail(store.id)}>
-            <img src={store.imageUrl} alt={store.name} />
+        {mostFavoritedVendors.map((vendor) => (
+          <button
+            key={vendor.id}
+            className="macha-button"
+            onClick={() => navigateToVendorDetail(vendor.id)}
+          >
+            <img src={vendor.primaryimgurl} alt={vendor.name} />
           </button>
         ))}
       </div>
 
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="길거리음식" {...a11yProps(0)} />
-          <Tab label="포장마차" {...a11yProps(1)} />
-        </Tabs>
-      </Box>
-      <CustomTabPanel value={value} index={0}>
+      <h3>먹자취에서 즐겨 찾는 메뉴</h3>
+      <div className="favorite-menu-container">
         <ul>
-          {streetFoods.map(food => (
-            <li key={food.id}>{food.name}</li>
+          {top5Menus.map((menu, index) => (
+            <li key={index}>{menu.name}</li>  // Replace 'name' with the actual property you're expecting from the API
           ))}
         </ul>
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={1}>
-        <ul>
-          {foodStalls.map(stall => (
-            <li key={stall.id}>{stall.name}</li>
-          ))}
-        </ul>
-      </CustomTabPanel>
 
+      </div>
       <div className='footer-text-container'>
         <div className='footer-text-container-text'>
           <p>

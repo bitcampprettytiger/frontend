@@ -5,10 +5,10 @@ function useCopyToClipboard() {
     if (navigator.clipboard) {
       navigator.clipboard.writeText(text).then(
         function () {
-          console.log('Successfully copied to clipboard');
+          console.log('복사 성공');
         },
         function (err) {
-          console.error('Failed to copy to clipboard:', err);
+          console.error('클립보드 복사 실패', err);
         }
       );
     }

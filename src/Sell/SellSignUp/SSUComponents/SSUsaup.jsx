@@ -28,7 +28,7 @@ const SSUsaup = ({setNextButtonEnabled }) => {
       console.log(value2);
       console.log(region);
       const response = await axios.post(
-        'http://27.96.135.75/API/validateByRegion',
+        'http://localhost/API/validateByRegion',
         payload
       );
       // 성공적으로 응답을 받은 경우 처리 로직
