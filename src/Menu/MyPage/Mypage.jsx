@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import './Mypage.css';
@@ -35,8 +35,56 @@ function Mypage() {
     setNewNickname(e.target.value);
   };
 
-  const reviewCount = 10; // 예시로 사용한 리뷰 수
-  const favoriteCount = 5; // 예시로 사용한 찜해찜 수
+  const [reviewCount, setReviewCount] = useState(0);
+  const [favoriteCount, setFavoriteCount] = useState(0);
+
+  useEffect(() => {
+    // 예: API 호출을 사용하여 리뷰와 찜해찜의 게시물 수를 가져옵니다.
+    // 이 부분은 실제 백엔드 서비스와의 통신을 기반으로 작성해야 합니다.
+    fetch('/api/user/reviews/count')
+      .then(res => res.json())
+      .then(data => setReviewCount(data.count));
+
+    fetch('/api/user/favorites/count')
+      .then(res => res.json())
+      .then(data => setFavoriteCount(data.count));
+  }, []); // 컴포넌트가 마운트될 때만 API 호출을 수행합니다.
+  //찜하기추가
+  const addFavorite = (memberId, vendorId) => {
+    fetch(`/api/favoritePick/${memberId}/add/${vendorId}`, {
+      method: 'POST',
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to add favorite');
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log("Favorite added:", data);
+      })
+      .catch(error => {
+        console.error("Error:", error);
+      });
+  }
+  //찜하기 삭제
+  const removeFavorite = (memberId, vendorId) => {
+    fetch(`/api/favoritePick/${memberId}/remove/${vendorId}`, {
+      method: 'POST',
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to remove favorite');
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log("Favorite removed:", data);
+      })
+      .catch(error => {
+        console.error("Error:", error);
+      });
+  }
 
 
   return (
