@@ -15,24 +15,30 @@ const AppBarWithTitle = ({ title }) => {
   return (
     <React.Fragment>
       <CssBaseline />
-      <AppBar sx={{ position: 'relative',backgroundColor: 'white', width: '100%', height: '20vh' }}>
-        <Toolbar sx={{ minHeight: '100%' }}>
-        <Box sx={{
-              height: '50%', 
-              width: 'auto', 
-              display: 'flex',
-              alignItems: 'center', 
-              justifyContent: 'center',
-              marginRight: '1vw',
-              marginLeft: '1vw',
+      <AppBar sx={{
+                width: '100%',
+                backgroundColor: 'white', 
+                height: '8%', 
+                position: 'fixed', 
+                top : 0,
             }}>
-          <IconButton edge="start" aria-label="back" onClick={() => {navigate(-1)}}>
-            <ArrowBackIcon sx={{
-                marginTop: 'auto',
-                marginBottom: 'auto',
-              }}/>
-          </IconButton>
-          </Box>
+                <Toolbar sx={{ minHeight: '0', display: 'flex' }}>
+                    <Box sx={{
+                        height: '50%',
+                        width: 'auto',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        marginRight: '1vw',
+                        marginLeft: '1vw',
+                    }}>
+                        <IconButton edge="start" aria-label="back" onClick={() => { navigate(-1) }}>
+                            <ArrowBackIcon sx={{
+                                marginTop: 'auto',
+                                marginBottom: 'auto',
+                            }} />
+                        </IconButton>
+                    </Box>
           <Typography
             variant="h6"
             component="div"

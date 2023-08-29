@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -21,7 +21,6 @@ import useResponsive from '../SDCustomHooks/useResponsive';
 
 function ShopAppBar(props) {
     let navigate = useNavigate();
-    const [liked, setLiked] = React.useState(false);
     const { vendorId, memberId } = useParams();
     const { vendor, error, loading } = useVendor(vendorId);
     const [open, setOpen] = React.useState(false);
@@ -35,15 +34,17 @@ function ShopAppBar(props) {
         setOpen(false);
     };
 
-    const { toggleFavorite, isLoading, err } = useFavoritePick();
+    const { toggleFavorite } = useFavoritePick();
+    const [liked, setLiked] = useState(false);
 
     const handleLike = async () => {
-        if (!isLoading) {
-            setLiked(prevLiked => !prevLiked);
-            await toggleFavorite(memberId, vendorId, liked);
+        try {
+            await toggleFavorite(vendorId, liked);
+            setLiked(!liked);
+        } catch (error) {
+            console.error("Error toggling favorite:", error);
         }
     };
-
 
     const vendorName = vendor?.vendorName || "가게 이름 없음";
 
@@ -100,17 +101,17 @@ function ShopAppBar(props) {
                             marginRight: '1vw'
                         }}>
                             <IconButton
-                                edge="end"
-                                aria-label="like"
-                                onClick={handleLike}
-                                sx={{
-                                    color: liked ? '#FF745A' : 'inherit',
-                                    height: '100%',
-                                    width: 'auto',
-                                }}
-                            >
-                                {liked ? <FavoriteIcon /> : <FavoriteBorderIcon sx={{ color: '#FF745A' }} />}
-                            </IconButton>
+                            edge="end"
+                            aria-label="like"
+                            onClick={handleLike}
+                            sx={{
+                                color: liked ? '#FF745A' : 'inherit',
+                                height: '100%',
+                                width: 'auto',
+                            }}
+                        >
+                            {liked ? <FavoriteIcon /> : <FavoriteBorderIcon sx={{ color: '#FF745A' }} />}
+                        </IconButton>
                         </Box>
                         <Box sx={{
                             height: '50%',

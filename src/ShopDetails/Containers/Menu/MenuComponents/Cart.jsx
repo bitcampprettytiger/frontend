@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react';
 import {
-  AppBar,
-  Toolbar,
   Typography,
   IconButton,
   CssBaseline,
@@ -14,8 +12,6 @@ import {
   Button,
   ListItemSecondaryAction
 } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import CloseIcon from '@mui/icons-material/Close';
@@ -24,7 +20,6 @@ import { useParams } from 'react-router-dom';
 import AppBarWithTitle from '../../../Components/AppBarWithTitle';
 
 function CartPage() {
-  const navigate = useNavigate();
   const memberId = useParams();
   const {
     cartItems,
@@ -66,25 +61,43 @@ function CartPage() {
     clearCart();
   };
 
+  //전체 메뉴
   const getTotalItems = () => {
-    return cartItems.reduce((sum, item) => sum + item.quantity, 0);
+    return cartItems.length > 0 ? cartItems.reduce((sum, item) => sum + item.quantity, 0) : 0;
   };
-
+  //전체 가격
   const getTotalPrice = () => {
-    return cartItems.reduce((sum, item) => {
+    return cartItems.length > 0 ? cartItems.reduce((sum, item) => {
       return sum + item.price * item.quantity;
-    }, 0);
+    }, 0) : 0;
   };
 
+  //아임포트
+  const onClickPayment = () => {
+    const { IMP } = window;
+    IMP.init('imp45381601'); 
+  
+      const data = {
+        pg: 'html5_inicis',
+        pay_method : 'card',
+        murchant_uid: "A0"+ new Date().getTime(),
+        amount: getTotalPrice(),
+        name: "주식회사 먹자취",
+        m_redirect_url : '/Paid'
+      };
+      IMP.request_pay(data, callback);
+    
+    };
 
-  const handleCheckout = () => {
-    navigate('/payment', {
-      state: {
-        totalAmount: getTotalPrice(),
-        orderMenus : cartItems
-      },
-    });
-  };
+    const callback = (rsp) => {
+      const {scuccess, error_msg} = rsp;
+  
+      if (rsp.success) {
+        alert('결제가 성공적으로 완료되었습니다.');
+      } else {
+        alert(`결제 실패: ${rsp.error_msg}`);
+      }
+    }
 
   return (
     <>
@@ -169,13 +182,13 @@ function CartPage() {
           총 금액 {getTotalPrice().toLocaleString()}원
         </Typography>
         <Button
-            onClick={handleCheckout}
+            onClick={onClickPayment}
           sx={{
             backgroundColor: '#FF745A',
             width: '70vw',
-            height: '48px',
+            height: '25%',
             color: 'white',
-            fontSize: '17px',
+            fontSize: '110%',
             position: 'relative',
             marginBottom: '16px',
           }}
