@@ -1,22 +1,30 @@
 import axios from 'axios';
 
+export const getHeaders = () => {
+    const accessToken = localStorage.getItem('accessToken');
+    return {
+        'Content-Type': 'application/json;charset=UTF-8',
+        Authorization: `Bearer ${accessToken}`,
+    };
+};
+
 export const fetchPopularPlaces = (address, latitude, longitude) => {
-    console.log(address)
+    console.log(address, latitude, longitude)
     return axios.post('http://27.96.135.75/vendor/search', {
-        address,
-        latitude,
-        longitude
+        address: address,
+        latitude: latitude,
+        hardness: longitude
     }, {
-        headers: {
-            'Content-Type': 'application/json'
-        }
+        headers: getHeaders(),
     });
 };
 // 상위 8개 가게 중에서 즐겨찾기가 가장 많은 가게들을 가져옴
 
 export const fetchMostFavoritedVendors = () => {
 
-    return axios.get('http://27.96.135.75/api/favoritePick/top8Favorites');
+    return axios.get('http://27.96.135.75/api/favoritePick/top8Favorites', {
+        headers: getHeaders()
+    });
 
 };
 // 즐겨찾기가 가장 많이 된 상위 5개 가게 정보를 가져옴
@@ -51,7 +59,9 @@ export const fetchTop5ReviewVendors = async () => {
         console.log("1111111귀찮거든")
         const url = '/review/averageReviewScore';
         console.log(`Sending request to ${url}`); // 실제로 어떤 URL로 요청이 가는지 출력
-        const response = await axios.get('http://27.96.135.75/vendor/review/averageReviewScore');
+        const response = await axios.get('http://27.96.135.75/vendor/review/averageReviewScore', {
+            headers: getHeaders()
+        });
         console.log(response)  // 백엔드 엔드포인트 주소
         const top5Vendors = response.data.itemlist.slice(0, 5);  // 상위 5개의 vendor만 선택
         return top5Vendors;
@@ -76,9 +86,7 @@ export const createReview = (reviewDto, files) => {
     });
 
     return axios.post('http://27.96.135.75/review', formData, {
-        headers: {
-            'Content-Type': 'multipart/form-data',
-        },
+        headers: getHeaders(),
     });
 };
 //리뷰업데이트
@@ -94,9 +102,7 @@ export const updateReview = (reviewDto, uploadFiles, changeFileList, originFileL
     formData.append('originFileList', JSON.stringify(originFileList));
 
     return axios.put('http://27.96.135.75/review', formData, {
-        headers: {
-            'Content-Type': 'multipart/form-data',
-        },
+        headers: getHeaders(),
     });
 };
 //리뷰삭제
@@ -106,9 +112,7 @@ export const deleteReview = (reviewDto) => {
 //즐겨찾기가 되어 있는 가게리스트
 export const fetchFavoriteShopsByUserId = (memberId, token) => {
     const config = {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
+        headers: getHeaders()
     };
     return axios.get(`http://27.96.135.75/api/favorite/${memberId}`, config);
 };
@@ -119,9 +123,7 @@ export const deleteFavoriteShop = (memberId, vendorId) => {
 //장바구니
 export const getMyCart = (memberId, token) => {
     const config = {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
+        headers: getHeaders(),
     };
     return axios.get(`http://27.96.135.75/cart/member/${memberId}`, config);
 };
@@ -130,25 +132,23 @@ export const getMyCart = (memberId, token) => {
 //장바구니 특정 아이템삭제
 export const deleteCartItem = (cartItemDTO, token) => {
     const config = {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
+        headers: getHeaders(),
     };
     return axios.delete(`http://27.96.135.75/cart/deletecartitem`, { data: cartItemDTO, headers: config.headers });
 };
 //장바구니비우기
 export const deleteCart = (cartItemDTO, token) => {
     const config = {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
+        headers: getHeaders(),
     };
     return axios.delete(`http://27.96.135.75/cart/info`, { data: cartItemDTO, headers: config.headers });
 };
-//조회수가높은5개
-export const fetchTop5RecommendedMenus = async () => {
+//조회수가높은10개
+export const fetchTop10RecommendedMenus = async () => {
     try {
-        const response = await axios.get('http://27.96.135.75/menu/recommendedMenus5');
+        const response = await axios.get('http://27.96.135.75/menu/recommendedMenus10', {
+            headers: getHeaders()
+        });
         if (response.status === 200) {
             return response.data;
         } else {

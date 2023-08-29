@@ -11,7 +11,7 @@ import {
   fetchPopularPlaces,
   fetchTop5Vendors,
   fetchMostFavoritedVendors,
-  fetchTop5RecommendedMenus,
+  fetchTop10RecommendedMenus,
   fetchTop5ReviewVendors
 } from '../Home/HomeComponents/HomeApi';
 
@@ -22,7 +22,7 @@ function Home() {
   const [popularPlaces, setPopularPlaces] = useState([]); // 인기 장소 관리
   const [top5Vendors, setTop5Vendors] = useState([]); // Top 5 판매자 관리
   const [mostFavoritedVendors, setMostFavoritedVendors] = useState([]); // 가장 많이 즐겨찾기 된 판매자 관리
-  const [top5Menus, setTop5Menus] = useState([]); // Top 5 메뉴 관리
+  const [top10Menus, setTop10Menus] = useState([]); // Top 5 메뉴 관리
   const [currentIndex, setCurrentIndex] = useState(0); // 현재 이미지 슬라이더의 인덱스
   const [address, setAddress] = useState(""); // 사용자의 주소
   const [location, setLocation] = useState({ latitude: "", longitude: "" }); // 사용자의 위치 (위도, 경도)
@@ -87,28 +87,37 @@ function Home() {
   useEffect(() => {
     // 처음에 Top 5 메뉴 데이터를 가져옴
     const fetchDataForMenus = async () => {
-      const data = await fetchTop5RecommendedMenus();
+      const data = await fetchTop10RecommendedMenus();
+      console.log(data)
       if (data) {
-        setTop5Menus(data);
+        setTop10Menus(data);
       }
     };
     fetchDataForMenus();
 
     // 주소나 위치가 변경되면 여러 데이터를 새로 가져옴
     let isMounted = true;
-
+    console.log("fetchPopularPlaces");
+    console.log(fetchPopularPlaces(address, location.latitude, location.longitude))
     fetchAndSet(() => fetchPopularPlaces(address, location.latitude, location.longitude), setPopularPlaces);
     const fetchAndSetData = async () => {
       if (address && address !== '') {  // address가 undefined나 빈 문자열이 아닐 경우에만 API 호출
-        await fetchAndSet(() => fetchPopularPlaces(address, location.latitude, location.longitude), setPopularPlaces);
+        await fetchAndSet(async () => {
+          const response = await fetchPopularPlaces(address, location.latitude, location.longitude);
+          setPopularPlaces(response.data.result.itemlist);
+          return response.data.result.itemlist;
+        }, setPopularPlaces);
         await fetchAndSet(fetchPopularPlaces, setPopularPlaces);
         await fetchAndSet(fetchTop5Vendors, setTop5Vendors);
         await fetchAndSet(fetchMostFavoritedVendors, setMostFavoritedVendors, 5);
+        await fetchAndSet(fetchTop10RecommendedMenus, setTop10Menus);
+        console.log("popularPlaces" + popularPlaces)
       }
     };
 
-    fetchAndSetData();
 
+
+    console.log("fetchAndSetData()" + fetchAndSetData());
     const interval = setInterval(() => {
       if (isMounted) {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
@@ -208,8 +217,8 @@ function Home() {
       <h3>먹자취에서 즐겨 찾는 메뉴</h3>
       <div className="favorite-menu-container">
         <ul>
-          {top5Menus.map((menu, index) => (
-            <li key={index}>{menu.name}</li>  // Replace 'name' with the actual property you're expecting from the API
+          {top10Menus.map((menu, index) => (
+            <li key={index}>{menu}</li>  // Replace 'name' with the actual property you're expecting from the API
           ))}
         </ul>
 
