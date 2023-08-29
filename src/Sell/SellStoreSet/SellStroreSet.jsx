@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
 import SSSMenuList from './SSSComponents/SSSMenuList.jsx';
-import SSSUseLists from './SSSComponents/SSSUseLists.jsx';
-import SSSReserveBtn from './SSSComponents/SSSReserveBtn.jsx';
 import SSSMenuInputs from './SSSComponents/SSSMenuInputs.jsx';
 import SellHeader from '../SellLayout/SellHeader.jsx';
 import SellFooter from '../SellLayout/SellFooter.jsx';
+import { Menu } from '@mui/material';
 const SellStoreSet = () => {
   const [menus, setMenus] = useState([]);
 
-  const handleAddMenu = (menuName, menuContent, price) => {
-    setMenus([...menus, { menuName, menuContent, price }]);
+  const handleAddMenu = (menuType, menuName, menuContent, price, menuImage) => {
+    setMenus([...menus, { menuType, menuName, menuContent, price, menuImage }]);
   };
-
   const handleDeleteMenu = (index) => {
     const newMenus = [...menus];
     newMenus.splice(index, 1);
@@ -30,8 +28,7 @@ const SellStoreSet = () => {
       <SellHeader></SellHeader>
       <SSSMenuInputs onAddMenu={handleAddMenu}></SSSMenuInputs>
       <SSSMenuList menus={menus} onDeleteMenu={handleDeleteMenu}></SSSMenuList>
-      <SSSUseLists></SSSUseLists>
-      <SSSReserveBtn></SSSReserveBtn>
+      {/* <SSSReserveBtn></SSSReserveBtn> */}
       <SellFooter></SellFooter>
     </div>
   );

@@ -1,9 +1,32 @@
 import axios from 'axios';
-import React from 'react';
-import { Box, Grid, Button, Typography } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Box, Grid, Button, Typography, Checkbox } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
 const SSSMenuList = ({ menus, onDeleteMenu }) => {
+  
+  console.log('Received menus: ', menus);
+  console.log(
+    'Current menu.menuImage states in menus: ',
+    menus.map((menu) => menu.menuImage)
+  );
+  useEffect(() => {
+    let initialStock = {};
+    menus.forEach((menu, index) => {
+      initialStock[index] = false; // 초기 품절 상태는 false
+    });
+    setOutOfStock(initialStock);
+  }, [menus]);
+
+  const handleStockChange = (e, index) => {
+    setOutOfStock({
+      ...outOfStock,
+      [index]: e.target.checked,
+    });
+  };
+  const [outOfStock, setOutOfStock] = useState({});
+  const handleDelete = (index) => {
+    onDeleteMenu(index);
+  };
   const formatPrice = (price) =>
     `${parseInt(price, 10).toLocaleString('ko-KR')}원`;
 
@@ -12,23 +35,42 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
       fontFamily: 'NanumSquareRound, Arial, sans-serif',
     },
   });
+  const accessToken = localStorage.getItem('accessToken');
 
   const sendMenuInfo = async () => {
     try {
       const formData = new FormData();
-      
+
+      // 메뉴 정보들을 각각 평평하게 (flat) 추가
       menus.forEach((menu, index) => {
-        formData.append(`menus[${index}].menuName`, menu.menuName);
-        formData.append(`menus[${index}].price`, parseInt(menu.price, 10));
-        formData.append(`menus[${index}].menuContent`, menu.menuContent);
+        formData.append('menuName', menu.menuName);
+        formData.append('price', parseInt(menu.price, 10));
+        formData.append('menuContent', menu.menuContent);
+        formData.append('menuType', menu.menuType);
+        formData.append(
+          'menuSellStatus',
+          outOfStock[index] ? 'OUT_OF_STOCK' : 'SELL'
+        );
+
+        if (menu.menuImage) {
+          formData.append('menuImage', menu.menuImage);
+        }
       });
-  
-      const response = await axios.post('http://27.96.135.75/menu/info', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-  
+
+      // vendor.id도 추가한다면
+
+      const response = await axios.post(
+        'http://27.96.135.75/menu/info', // 서버 주소
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${accessToken}`,
+          },
+          
+        }
+      );
+
       if (response.status === 200) {
         alert('메뉴 정보 전송 성공');
       } else {
@@ -39,7 +81,6 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
       console.error('There was an error sending the data', error);
     }
   };
-  
 
   return (
     <ThemeProvider theme={theme}>
@@ -49,11 +90,9 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
           flexDirection: 'column',
           alignItems: 'center',
           width: '100%',
-          maxWidth: '400px',
           margin: 'auto',
           marginTop: '5%',
           border: '1px solid black',
-          fontFamily: 'NanumSquareRound, Arial, sans-serif',
         }}
       >
         <Grid
@@ -62,23 +101,32 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
           justifyContent="center"
           sx={{ marginBottom: '5%' }}
         >
-          <Grid item xs={3} sx={{ textAlign: 'center' }}>
-            메뉴명
+          <Grid item xs={2} sx={{ textAlign: 'center' }}>
+            사진
           </Grid>
-          <Grid item xs={3} sx={{ textAlign: 'center' }}>
-            메뉴 내용
+          <Grid item xs={2} sx={{ textAlign: 'center' }}>
+            종류
           </Grid>
-          <Grid item xs={3} sx={{ textAlign: 'center' }}>
+          <Grid item xs={2} sx={{ textAlign: 'center' }}>
+            이름
+          </Grid>
+          <Grid item xs={2} sx={{ textAlign: 'center' }}>
+            내용
+          </Grid>
+          <Grid item xs={2} sx={{ textAlign: 'center' }}>
             금액
           </Grid>
-          <Grid item xs={3} sx={{ textAlign: 'center' }}>
+          <Grid item xs={1} sx={{ textAlign: 'center' }}>
+            품절
+          </Grid>
+          <Grid item xs={1} sx={{ textAlign: 'center' }}>
             삭제
           </Grid>
         </Grid>
         <Box
           sx={{
-            maxHeight: '180px', // 이 부분을 고정값으로 설정
-            minHeight: '180px', // 최소 높이도 동일하게 설정
+            maxHeight: '180px',
+            minHeight: '180px',
             overflowY: 'scroll',
             width: '100%',
           }}
@@ -86,23 +134,42 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
           <Grid container spacing={3} justifyContent="center">
             {menus.map((menu, index) => (
               <React.Fragment key={index}>
-                <Grid item xs={3} sx={{ textAlign: 'center' }}>
+                <Grid item xs={2} sx={{ textAlign: 'center' }}>
+                  {menu.menuImage ? (
+                    <img
+                      src={URL.createObjectURL(menu.menuImage)}
+                      alt="menu preview"
+                      style={{ width: '50px', height: '50px' }}
+                    />
+                  ) : (
+                    'N/A'
+                  )}
+                </Grid>
+                <Grid item xs={2} sx={{ textAlign: 'center' }}>
+                  {menu.menuType}
+                </Grid>
+                <Grid item xs={2} sx={{ textAlign: 'center' }}>
                   {menu.menuName}
                 </Grid>
-                <Grid item xs={3} sx={{ textAlign: 'center' }}>
+                <Grid item xs={2} sx={{ textAlign: 'center' }}>
                   {menu.menuContent}
                 </Grid>
-                <Grid item xs={3} sx={{ textAlign: 'center' }}>
+                <Grid item xs={2} sx={{ textAlign: 'center' }}>
                   {formatPrice(menu.price)}
                 </Grid>
-                <Grid item xs={3} sx={{ textAlign: 'center' }}>
-                  <Button
-                    variant="outlined"
-                    color="secondary"
-                    onClick={() => onDeleteMenu(index)}
-                  >
-                    삭제
-                  </Button>
+                <Grid item xs={1} sx={{ textAlign: 'center' }}>
+                  <Checkbox
+                    checked={outOfStock[index] || false}
+                    onChange={(e) => handleStockChange(e, index)}
+                  />
+                </Grid>
+                <Grid item xs={1} sx={{ textAlign: 'center' }}>
+                  <img
+                    src="delete-icon-path.jpg" // 삭제 아이콘 이미지 경로
+                    alt="Delete"
+                    style={{ cursor: 'pointer' }}
+                    onClick={() => handleDelete(index)}
+                  />
                 </Grid>
               </React.Fragment>
             ))}

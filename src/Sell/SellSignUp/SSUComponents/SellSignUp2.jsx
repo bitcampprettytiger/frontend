@@ -77,7 +77,7 @@ const SellSignUp2 = () => {
     if (result === '회원가입 성공!') {
       console.log(privacy);
       alert('회원가입 되었습니다.');
-      navigate('/'); // 로그인 페이지로 이동
+      navigate('/sellsign3'); // 로그인 페이지로 이동
     } else {
       alert(result); // 에러 메시지 출력
     }
