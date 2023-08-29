@@ -4,7 +4,8 @@ const useAddress = () => {
     const [address, setAddress] = useState("");
     const [location, setLocation] = useState({
         latitude: "",
-        longitude: ""
+        longitude: "",
+        hardness: ""
     });
 
 

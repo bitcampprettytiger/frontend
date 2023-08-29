@@ -1,6 +1,6 @@
 import axios from 'axios';
 const registerUser = async (username, password, tel, privacy, nickname) => {
-  console.log('엑시오수',privacy);
+  console.log('엑시오수', privacy);
   try {
     // JSON 객체를 생성합니다.
     const data = {

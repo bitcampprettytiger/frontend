@@ -1,66 +1,61 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import { debounce } from 'lodash';
+import { useState } from 'react';
 
-function useSearch(initialShops) {
+export const useSearch = (initialSearchInput, location) => {
+    const [searchInput, setSearchInput] = useState(initialSearchInput || "");
     const [searchResults, setSearchResults] = useState([]);
-    const [searchInput, setSearchInput] = useState('');
-    const [hasSearched, setHasSearched] = useState(false);
-    const [data, setData] = useState([]); // 백엔드에서 가져온 데이터를 저장하기 위한 상태
+    const [recentSearches, setRecentSearches] = useState([]);
+    const [recentShops, setRecentShops] = useState([]);
 
-    useEffect(() => {
-        const API_URL = "http://27.96.135.75/vendor/category"; // 예시 API URL
-        axios.get(API_URL)
-            .then(response => {
-                setData(response.data);
-            })
-            .catch(error => {
-                console.error("데이터를 불러오는 데 실패했습니다.", error);
-            });
-    }, []);
+    const handleSearchClick = async () => {
+        try {
+            // 중복 검색어가 있는지 확인하고, 없으면 추가
+            const existingSearch = recentSearches.find((item) => item.text === searchInput);
+            if (!existingSearch) {
+                const newItem = { text: searchInput, timestamp: new Date().getTime() };
+                const updatedSearches = [...recentSearches, newItem];
+                localStorage.setItem('recentSearches', JSON.stringify(updatedSearches));
+                setRecentSearches(updatedSearches);
+            }
 
-    // const handleSearchChange = debounce((e) => {
-    //     setSearchInput(e.target.value);
-    //     handleSearchClick();
-    // }, 300); // 300ms 동안 아무런 입력이 없으면 검색을 수행합니다.
-    const handleSearchChange = (e) => {
-        setSearchInput(e.target.value);
+            // 백엔드 API를 호출
+            if (location && location.lat && location.lng) {
+                const nowLocationDto = {
+                    latitude: location.lat,
+                    longitude: location.lng,
+                };
+
+                const response = await fetch(`http://27.96.135.75/vendor/search`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(nowLocationDto),
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    setSearchResults(data.results || []);
+                } else {
+                    console.error('API Request Failed:', response);
+                }
+            } else {
+                console.warn("Location information is not available.");
+            }
+
+        } catch (error) {
+            console.error('API Request Error:', error);
+        }
     };
-
-
-    const handleDeleteClick = () => {
-        setSearchInput('');
-        setSearchResults([]);
-        setHasSearched(false);
-    };
-
-    const handleHashTagClick = (tag) => {
-        setSearchInput(tag);
-        handleSearchClick(tag);
-    };
-
-    const handleSearchClick = () => {
-        setHasSearched(true);
-        axios.get(`http://27.96.135.75/vendor/category?address=${searchInput}&menuName=${searchInput}&vendorName=${searchInput}`)
-            .then(response => {
-                setSearchResults(response.data.itemlist); // setShops -> setSearchResults로 변경
-            })
-            .catch(error => {
-                console.error("데이터를 불러오는 데 실패했습니다.", error);
-            });
-    };
-
-
 
     return {
-        searchResults,
         searchInput,
-        hasSearched,
-        handleSearchChange,
-        handleDeleteClick,
-        handleHashTagClick,
-        handleSearchClick
+        setSearchInput,
+        searchResults,
+        setSearchResults,
+        recentSearches,
+        setRecentSearches,
+        recentShops,
+        setRecentShops,
+        handleSearchClick,
     };
 };
-
-export default useSearch;

@@ -9,8 +9,10 @@ const useVendor = (vendorId) => {
   useEffect(() => {
     const getVendor = async () => {
       try {
+        console.log("실행")
         setLoading(true);
         const res = await axios.get(`http://27.96.135.75/vendor/infoDetail/${vendorId}`);
+        console.log(res);
         setVendor(res.data);
       } catch (err) {
         setError(err);
