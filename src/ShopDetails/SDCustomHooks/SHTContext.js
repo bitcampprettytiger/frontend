@@ -17,6 +17,7 @@ export const ShopHomeTabsProvider = ({ children }) => {
     setValue,
     handleChange,
   };
+  
 
   return (
     <ShopHomeTabsContext.Provider value={contextValue}>

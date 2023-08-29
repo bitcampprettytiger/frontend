@@ -4,19 +4,29 @@ import { useParams } from 'react-router-dom';
 
 export default function useCart() {
   const [cartItems, setCartItems] = useState([]);
-  const {memberId} = useParams();
+  const { memberId } = useParams();
+  const accessToken = localStorage.getItem('accessToken');
+  const headers = {
+    'Content-Type' : 'application/json;charset=UTF-8',
+    Authorization: `Bearer ${accessToken}`,
+  };
 
   // 메뉴 추가
   const addMenuItem = async (menu) => {
     try {
-      const response = await axios.post('http://27.96.135.75/cart/info', {
-        menu,
-        member: { id: memberId },
-      });
+      const response = await axios.post(
+        'http://27.96.135.75/cart/info',
+        {
+          menu,
+          member: { id: memberId },
+        },
+        { headers }
+      );
       if (response.status === 200) {
         setCartItems([...cartItems, response.data]);
       }
     } catch (error) {
+      console.log(error.response.data);
       console.error('메뉴 추가 오류', error);
     }
   };
@@ -24,7 +34,7 @@ export default function useCart() {
   // 전체 삭제
   const clearCart = async () => {
     try {
-      await axios.delete(`http://27.96.135.75/cart/info`);
+      await axios.delete(`http://27.96.135.75/cart/info`, { headers });
       setCartItems([]);
     } catch (error) {
       console.error('장바구니 전체 삭제 오류', error);
@@ -47,7 +57,7 @@ export default function useCart() {
     try {
       const response = await axios.get(`http://27.96.135.75/cart/member/${memberId}`);
       if (response.status === 200) {
-        setCartItems(response.data);
+        setCartItems(response.data.itemlist || []); 
       }
     } catch (error) {
       console.error('장바구니 메뉴 가져오기 오류', error);

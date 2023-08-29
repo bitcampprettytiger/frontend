@@ -25,7 +25,6 @@ import SellStoreSet from './Sell/SellStoreSet/SellStroreSet';
 import SellHome from './Sell/SellHome/SellHome';
 import SellMySet from './Sell/SellMySet/SellMySet';
 import CartPage from './ShopDetails/Containers/Menu/MenuComponents/Cart';
-import { Payment } from '@mui/icons-material';
 
 const menuRoutes = [
   { path: '/home', element: <Home /> },
@@ -42,8 +41,7 @@ const menuRoutes = [
   { path: '/mytakeout', element: <MyTakeout /> },
   { path: '/order/:orderNumber', element: <MyTakeoutDetail /> },
   { path: '/myedit', element: <MyEdit /> },
-  { path: '/cart/:memberId', element: <CartPage/> },
-  { path : '/payment', element: <Payment/> }
+  { path: '/cart', element: <CartPage/> },
 ];
 
 const authRoutes = [
