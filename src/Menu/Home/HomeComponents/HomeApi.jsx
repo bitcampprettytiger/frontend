@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+
+
 export const getHeaders = () => {
     const accessToken = localStorage.getItem('accessToken');
     return {
@@ -158,3 +160,5 @@ export const fetchTop10RecommendedMenus = async () => {
         console.error('There was a problem with the fetch operation: ', error);
     }
 };
+
+

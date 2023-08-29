@@ -4,7 +4,7 @@ import Header from '../../../Layout/Header';
 import Footer from '../../../Layout/Footer';
 import './Search.css';
 import { useSearch } from '../SearchCustomHooks/useSearch';
-
+import GeolocationComponent from './GeolocationComponent';
 
 
 const Search = () => {
