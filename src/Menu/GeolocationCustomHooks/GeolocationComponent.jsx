@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, convertCoordsToAddress } from '../../../Utils/kakaoUtils';
+import { useLocation, convertCoordsToAddress } from '../../Utils/kakaoUtils';
 
 function GeolocationComponent() {
     const [isLoading, setIsLoading] = useState(true); // 초기 로딩 상태 설정

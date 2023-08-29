@@ -4,7 +4,7 @@ import Header from '../../../Layout/Header';
 import Footer from '../../../Layout/Footer';
 import './Search.css';
 import { useSearch } from '../SearchCustomHooks/useSearch';
-import GeolocationComponent from './GeolocationComponent';
+import { useGeolocation } from '../../GeolocationCustomHooks/useGeolocation';
 
 
 const Search = () => {
@@ -22,8 +22,8 @@ const Search = () => {
     } = useSearch('');
 
     // 가게를 클릭했을 때 동작하는 함수
-    const handleShopClick = (shopId) => {
-        navigate(`/ShopMain/${shopId}`);
+    const handleShopClick = (vendorId) => {
+        navigate(`/ShopMain/${vendorId}`);
         // 이 부분은 커스텀 훅에서도 처리할 수 있습니다.
     };
     const handleDeleteClick = () => {
@@ -44,10 +44,19 @@ const Search = () => {
     };
 
     // 최근 검색어를 클릭했을 때 동작하는 함수
-    const handleRecentSearchClick = (text) => {
+    const handleRecenthandleSearchClick = (text) => {
         setSearchInput(text);
         handleSearchClick();
     };
+    useEffect(() => {
+        // 로컬 스토리지에서 최근 검색어 가져오기
+        const storedRecentSearches = localStorage.getItem('recentSearches');
+        if (storedRecentSearches) {
+            setRecentSearches(JSON.parse(storedRecentSearches));
+        }
+    }, []);
+
+
     return (
         <div>
             <Header
@@ -68,7 +77,7 @@ const Search = () => {
                             <div className="hashtag-container">
                                 <div className="hashtag-buttons">
                                     {recentSearches.map((item, index) => (
-                                        <button key={index} onClick={() => handleRecentSearchClick(item.text)}>{item.text}</button>
+                                        <button key={index} onClick={() => handleRecenthandleSearchClick(item.text)}>{item.text}</button>
                                     ))}
 
                                 </div>
@@ -80,8 +89,8 @@ const Search = () => {
                                 <div className="hashtag-buttons">
                                     {recentShops.map((shop, index) => (
                                         <button key={index} onClick={() => handleShopClick(shop)}>
-                                            <img src={shop.imgSrc} alt={shop.name} style={{ borderRadius: '50%' }} />
-                                            {shop.name}
+                                            <img src={shop.imgSrc} alt={shop.vendorName} style={{ borderRadius: '50%' }} />
+                                            {shop.vendorName}
                                         </button>
                                     ))}
                                 </div>
@@ -95,9 +104,9 @@ const Search = () => {
                         <div key={result.id} className="result-item"
                             onClick={() => handleShopClick(result.id)} // 클릭 이벤트를 추가
                         >
-                            <img src={result.imgSrc ? result.imgSrc : "/images/roopy.png"} alt={result.name} />
+                            <img src={result.imgSrc ? result.imgSrc : "/images/roopy.png"} alt={result.vendorName} />
                             <div className="result-info">
-                                <p className="shop-name">{result.name}</p>
+                                <p className="shop-name">{result.vendorName}</p>
                                 <div className="rating">
                                     <img className="star-image" src="https://example.com/star.png" alt="star" />
                                     {result.rating}

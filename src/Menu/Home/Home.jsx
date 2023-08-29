@@ -216,12 +216,20 @@ function Home() {
 
       <h3>먹자취에서 즐겨 찾는 메뉴</h3>
       <div className="favorite-menu-container">
-        <ul>
-          {top10Menus.map((menu, index) => (
-            <li key={index}>{menu}</li>  // Replace 'name' with the actual property you're expecting from the API
+        <div className="menu-box">
+          {top10Menus.slice(0, 5).map((menu, index) => (
+            <button className="menu-button" key={index}>
+              {index + 1}위: {menu}
+            </button>
           ))}
-        </ul>
-
+        </div>
+        <div className="menu-box">
+          {top10Menus.slice(5, 10).map((menu, index) => (
+            <button className="menu-button" key={index + 5}>
+              {index + 6}위: {menu}
+            </button>
+          ))}
+        </div>
       </div>
       <div className='footer-text-container'>
         <div className='footer-text-container-text'>
