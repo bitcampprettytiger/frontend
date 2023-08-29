@@ -63,6 +63,7 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
                     console.log(address);
                     setAddressToHome && setAddressToHome(result[0].address.address_name, location);
                     // setFetchedAddress({ address: result[0].address.address_name, location });
+
                 } else {
                     setAddress("주소를 가져오는 중 에러 발생");
                     console.error("Error fetching address from coordinates");

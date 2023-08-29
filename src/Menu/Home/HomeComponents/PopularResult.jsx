@@ -6,7 +6,7 @@ import Footer from '../../../Layout/Footer';
 import './PopularResult.css';
 
 function PopularResult() {
-    const BASE_URL = 'http://localhost';
+    const BASE_URL = 'http://27.96.135.75';
     const [places, setPlaces] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
     const { query } = useParams();

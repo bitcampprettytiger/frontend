@@ -9,7 +9,7 @@ export default function useCart() {
   // 메뉴 추가
   const addMenuItem = async (menu) => {
     try {
-      const response = await axios.post('http://localhost/cart/info', {
+      const response = await axios.post('http://27.96.135.75/cart/info', {
         menu,
         member: { id: memberId },
       });
@@ -24,7 +24,7 @@ export default function useCart() {
   // 전체 삭제
   const clearCart = async () => {
     try {
-      await axios.delete(`http://localhost/cart/info`);
+      await axios.delete(`http://27.96.135.75/cart/info`);
       setCartItems([]);
     } catch (error) {
       console.error('장바구니 전체 삭제 오류', error);
@@ -34,7 +34,7 @@ export default function useCart() {
   // 선택 삭제
   const deleteCartItem = async (menuId) => {
     try {
-      await axios.post('http://localhost/cart/deletecartitem', { id: menuId });
+      await axios.post('http://27.96.135.75/cart/deletecartitem', { id: menuId });
       const updatedItems = cartItems.filter((item) => item.menu.id !== menuId);
       setCartItems(updatedItems);
     } catch (error) {
@@ -45,7 +45,7 @@ export default function useCart() {
   // 사용자 장바구니 확인
   const fetchCartItems = async () => {
     try {
-      const response = await axios.get(`http://localhost/cart/member/${memberId}`);
+      const response = await axios.get(`http://27.96.135.75/cart/member/${memberId}`);
       if (response.status === 200) {
         setCartItems(response.data);
       }

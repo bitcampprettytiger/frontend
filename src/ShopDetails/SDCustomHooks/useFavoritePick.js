@@ -10,7 +10,7 @@ function useFavoritePick() {
         setError(null);
 
         try {
-            await axios.post(`http://localhost//api/favoritePick/${memberId}/${isFavorite ? 'remove' : 'add'}/${vendorId}`);
+            await axios.post(`http://27.96.135.75//api/favoritePick/${memberId}/${isFavorite ? 'remove' : 'add'}/${vendorId}`);
             setLoading(false);
         } catch (err) {
             setError(err);

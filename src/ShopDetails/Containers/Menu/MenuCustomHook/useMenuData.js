@@ -7,7 +7,7 @@ function useMenuData() {
   const { vendorId } = useParams();
 
   useEffect(() => {
-    axios.get(`http://localhost/menu/info/${vendorId}`)
+    axios.get(`http://27.96.135.75/menu/info/${vendorId}`)
       .then(response => {
         const menuDTOList = response.data.itemlist;
         setMenuDataList(menuDTOList);

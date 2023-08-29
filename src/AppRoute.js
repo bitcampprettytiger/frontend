@@ -13,8 +13,6 @@ import Notice from './Menu/Home/HomeComponents/Notice';
 import GeolocationComponent from './Menu/Home/HomeComponents/GeolocationComponent';
 import MyEdit from './Menu/MyPage/MyPageComponents/MyEdit';
 import ShopMain from './ShopDetails/ShopMain';
-import SellerPage from './Seller/SellerPage '
-import CustomerPage from './Seller/CustomerPage'
 import ReviewForm from './ShopDetails/Containers/Review/ReviewComponents/ReviewForm';
 import MyTakeoutDetail from './Menu/MyPage/MyPageComponents/MyTakeoutDetail';
 import AppLogin from './Login,Join/login/Login';
@@ -29,6 +27,7 @@ import SellMySet from './Sell/SellMySet/SellMySet';
 import PopularResult from './Menu/Home/HomeComponents/PopularResult';
 import CartPage from './ShopDetails/Containers/Menu/MenuComponents/Cart';
 import { Payment } from '@mui/icons-material';
+
 
 
 const menuRoutes = [
@@ -49,6 +48,7 @@ const menuRoutes = [
   { path: '/popularresult', element: <PopularResult /> },
   { path: '/cart/:memberId', element: <CartPage /> },
   { path: '/payment', element: <Payment /> }
+
 
 ];
 
@@ -71,41 +71,8 @@ const mapRoutes = [
 ];
 
 export const browserRoutes = [
-
-
-    { path: '/', element: <AppLogin /> },
-    { path: '/signup', element: <AppSignup /> },
-    { path: '/home', element: <Home /> },
-    { path: '/trfood', element: <TrFood /> },
-    { path: '/stfood', element: <StFood /> },
-    { path: '/geolocationcomponent', element: <GeolocationComponent /> },
-    { path: '/mypage', element: <Mypage /> },
-    { path: '/search', element: <Search /> },
-    { path: '/waiting', element: <Waiting /> },
-    { path: '/myreview', element: <MyReview /> },
-    { path: '/myfavorite', element: <MyFavorite /> },
-    { path: '/mytakeout', element: <MyTakeout /> },
-    { path: '/waitingDetail', element: <WaitingDetail /> },
-    { path: '/myedit', element: <MyEdit /> },
-    { path: '/shopmain', element: <ShopMain /> },
-    { path: '/sellerpage', element: <SellerPage/>},
-    { path: '/CustomerPage', element: <CustomerPage />}
-
-];
-
-export const mobileRoutes = [
-    { path: '/', element: <Home /> },
-    { path: '/trfood', element: <TrFood /> },
-    { path: '/stfood', element: <StFood /> },
-    { path: '/geolocationcomponent', element: <GeolocationComponent /> },
-    { path: '/mypage', element: <Mypage /> },
-    { path: '/search', element: <Search /> },
-    { path: '/waiting', element: <Waiting /> },
-    { path: '/myreview', element: <MyReview /> },
-    { path: '/myfavorite', element: <MyFavorite /> },
-    { path: '/mytakeout', element: <MyTakeout /> },
-    { path: '/waitingDetail', element: <WaitingDetail /> },
-    { path: '/myedit', element: <MyEdit /> },
-    { path: '/shopmain', element: <ShopMain /> },
-
+  ...authRoutes,
+  ...menuRoutes,
+  ...mapRoutes,
+  ...sellRoutes,
 ];

@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const fetchPopularPlaces = (address, latitude, longitude) => {
     console.log(address)
-    return axios.post('http://localhost/vendor/search', {
+    return axios.post('http://27.96.135.75/vendor/search', {
         address,
         latitude,
         longitude
@@ -16,7 +16,7 @@ export const fetchPopularPlaces = (address, latitude, longitude) => {
 
 export const fetchMostFavoritedVendors = () => {
 
-    return axios.get('http://localhost/api/favoritePick/top8Favorites');
+    return axios.get('http://27.96.135.75/api/favoritePick/top8Favorites');
 
 };
 // 즐겨찾기가 가장 많이 된 상위 5개 가게 정보를 가져옴
@@ -51,7 +51,7 @@ export const fetchTop5ReviewVendors = async () => {
         console.log("1111111귀찮거든")
         const url = '/review/averageReviewScore';
         console.log(`Sending request to ${url}`); // 실제로 어떤 URL로 요청이 가는지 출력
-        const response = await axios.get('http://localhost/vendor/review/averageReviewScore');
+        const response = await axios.get('http://27.96.135.75/vendor/review/averageReviewScore');
         console.log(response)  // 백엔드 엔드포인트 주소
         const top5Vendors = response.data.itemlist.slice(0, 5);  // 상위 5개의 vendor만 선택
         return top5Vendors;
@@ -64,7 +64,7 @@ export const fetchTop5ReviewVendors = async () => {
 // 가게리뷰를 가져옴
 
 export const fetchReviewsByVendorId = (vendorId) => {
-    return axios.get(`http://localhost/vendor/review-list/${vendorId}`);
+    return axios.get(`http://27.96.135.75/vendor/review-list/${vendorId}`);
 };
 
 //새로운 리뷰를 생성
@@ -75,7 +75,7 @@ export const createReview = (reviewDto, files) => {
         formData.append('uploadFiles', file);
     });
 
-    return axios.post('http://localhost/review', formData, {
+    return axios.post('http://27.96.135.75/review', formData, {
         headers: {
             'Content-Type': 'multipart/form-data',
         },
@@ -93,7 +93,7 @@ export const updateReview = (reviewDto, uploadFiles, changeFileList, originFileL
     });
     formData.append('originFileList', JSON.stringify(originFileList));
 
-    return axios.put('http://localhost/review', formData, {
+    return axios.put('http://27.96.135.75/review', formData, {
         headers: {
             'Content-Type': 'multipart/form-data',
         },
@@ -101,7 +101,7 @@ export const updateReview = (reviewDto, uploadFiles, changeFileList, originFileL
 };
 //리뷰삭제
 export const deleteReview = (reviewDto) => {
-    return axios.delete('http://localhost/review', { data: reviewDto });
+    return axios.delete('http://27.96.135.75/review', { data: reviewDto });
 };
 //즐겨찾기가 되어 있는 가게리스트
 export const fetchFavoriteShopsByUserId = (memberId, token) => {
@@ -110,11 +110,11 @@ export const fetchFavoriteShopsByUserId = (memberId, token) => {
             'Authorization': `Bearer ${token}`
         }
     };
-    return axios.get(`http://localhost/api/favorite/${memberId}`, config);
+    return axios.get(`http://27.96.135.75/api/favorite/${memberId}`, config);
 };
 // 즐겨찾기에서 가게를 삭제
 export const deleteFavoriteShop = (memberId, vendorId) => {
-    return axios.delete(`http:/localhost/api/favoritePick/${memberId}/remove/${vendorId}`);
+    return axios.delete(`http:/27.96.135.75/api/favoritePick/${memberId}/remove/${vendorId}`);
 };
 //장바구니
 export const getMyCart = (memberId, token) => {
@@ -123,7 +123,7 @@ export const getMyCart = (memberId, token) => {
             'Authorization': `Bearer ${token}`
         }
     };
-    return axios.get(`http://localhost/cart/member/${memberId}`, config);
+    return axios.get(`http://27.96.135.75/cart/member/${memberId}`, config);
 };
 
 
@@ -134,7 +134,7 @@ export const deleteCartItem = (cartItemDTO, token) => {
             'Authorization': `Bearer ${token}`
         }
     };
-    return axios.delete(`http://localhost/cart/deletecartitem`, { data: cartItemDTO, headers: config.headers });
+    return axios.delete(`http://27.96.135.75/cart/deletecartitem`, { data: cartItemDTO, headers: config.headers });
 };
 //장바구니비우기
 export const deleteCart = (cartItemDTO, token) => {
@@ -143,12 +143,12 @@ export const deleteCart = (cartItemDTO, token) => {
             'Authorization': `Bearer ${token}`
         }
     };
-    return axios.delete(`http://localhost/cart/info`, { data: cartItemDTO, headers: config.headers });
+    return axios.delete(`http://27.96.135.75/cart/info`, { data: cartItemDTO, headers: config.headers });
 };
 //조회수가높은5개
 export const fetchTop5RecommendedMenus = async () => {
     try {
-        const response = await axios.get('http://localhost/menu/recommendedMenus5');
+        const response = await axios.get('http://27.96.135.75/menu/recommendedMenus5');
         if (response.status === 200) {
             return response.data;
         } else {

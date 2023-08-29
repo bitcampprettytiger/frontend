@@ -24,7 +24,7 @@ export const useSearch = (initialSearchInput, location) => {
                     longitude: location.lng,
                 };
 
-                const response = await fetch(`http://localhost/vendor/search`, {
+                const response = await fetch(`http://27.96.135.75/vendor/search`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

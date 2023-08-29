@@ -8,7 +8,7 @@ import ModalWindos from './MapComponents/ModalWindos';
 const KaKaoMap = (props) => {
   const [markers, setMarkers] = useState([]);
   const [currentPosition, setCurrentPosition] = useState(null);
-  const { data, loading } = useMapAPI('http://localhost/vendor/info');
+  const { data, loading } = useMapAPI('http://27.96.135.75/vendor/info');
   const [selectedVendorTypes, setSelectedVendorTypes] = useState([]);
   const [selectedVendor, setSelectedVendor] = useState(null);
   const vendorInfo = useMemo(() => {

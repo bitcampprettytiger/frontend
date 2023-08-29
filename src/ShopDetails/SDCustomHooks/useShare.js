@@ -10,7 +10,7 @@ const useShare = (vendorId) => {
         navigator.share({
           title: "[먹자취]",
           text: vendor.address,
-          url: "https://localhost/vendor/infoDetail/1",
+          url: "https://27.96.135.75/vendor/infoDetail/1",
         });
       }
     } else {
