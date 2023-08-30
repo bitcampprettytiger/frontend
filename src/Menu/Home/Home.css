@@ -233,3 +233,30 @@ p.small-text {
     margin-bottom: 8px;
     display: block;
 }
+.favorite-menu-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem; 
+  }
+  
+  .menu-box {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .menu-button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    text-align: left;
+  }
+  
+  .menu-button:hover {
+    text-decoration: underline;
+  }
+  
+  
+  
+  
+  
+  

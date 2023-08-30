@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Typography,
   IconButton,
@@ -10,7 +10,7 @@ import {
   ListItem,
   ListItemText,
   Button,
-  ListItemSecondaryAction
+  ListItemSecondaryAction,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
@@ -19,35 +19,43 @@ import useCart from '../MenuCustomHook/useCart';
 import AppBarWithTitle from '../../../Components/AppBarWithTitle';
 import useResponsive from '../../../SDCustomHooks/useResponsive';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-
+import axios from 'axios';
+import { da } from 'date-fns/locale';
+import CardModal from './CardModal';
+import { redirect, useNavigate } from 'react-router-dom/dist';
 function CartPage() {
-  const {
-    cartItems,
-    clearCart,
-    deleteCartItem,
-    setCartItems
-  } = useCart();
-  //수량 + (미완)
+  const navigate = useNavigate();
+  const accessToken = localStorage.getItem('accessToken');
+  const [showModal, setShowModal] = useState(false);
+  const headers = {
+    'Content-Type': 'application/json;charset=UTF-8',
+    Authorization: `Bearer ${accessToken}`,
+  };
+
+  const { cartItems, clearCart, deleteCartItem, setCartItems } = useCart();
+  // 수량 +
   const onIncrease = (menuId) => {
-    const newCartItems = cartItems.map(item => {
-      if (item.menuId === menuId) {
-        return { ...item, quantity: item.quantity + 1 };
+    const newCartItems = cartItems.map((item) => {
+      if (item.menu.id === menuId) {
+        return { ...item, cartQuantity: item.cartQuantity + 1 };
       }
       return item;
     });
     setCartItems(newCartItems);
   };
-  //수량 - (미완)
+
+  // 수량 -
   const onDecrease = (menuId) => {
-    const newCartItems = cartItems.map(item => {
-      if (item.menuId === menuId && item.quantity > 0) {
-        return { ...item, quantity: item.quantity - 1 };
+    const newCartItems = cartItems.map((item) => {
+      if (item.menu.id === menuId && item.cartQuantity > 0) {
+        return { ...item, cartQuantity: item.cartQuantity - 1 };
       }
       return item;
     });
     setCartItems(newCartItems);
   };
-  //선택 삭제 
+
+  //선택 삭제
   const onDelete = (cartId, menuId) => {
     deleteCartItem(cartId, menuId);
   };
@@ -56,49 +64,77 @@ function CartPage() {
     clearCart();
   };
 
-  //전체 메뉴 개수 (미완)
+  //전체 메뉴 개수 (완)
   const getTotalItems = () => {
-    return cartItems.reduce((sum, item) => sum + item.quantity, 0);
+    console.log('aaaaaaaaaaaa', cartItems);
+    return cartItems.reduce((sum, item) => sum + item.cartQuantity, 0);
   };
-  //전체 가격 (미완)
+  //전체 가격 (완)
   const getTotalPrice = () => {
-    return cartItems.length > 0 ? cartItems.reduce((sum, item) => {
-      return sum + item.price * item.quantity;
-    }, 0) : 0;
+    return cartItems.length > 0
+      ? cartItems.reduce((sum, item) => {
+          return sum + item.menu.price * item.cartQuantity;
+        }, 0)
+      : 0;
   };
   const { width } = useResponsive();
 
   //아임포트 (결제요청하기, 결제 가능, 결제 완료 처리 미완)
-  const onClickPayment = () => {
+  const onClickPayment = async () => {
     const { IMP } = window;
     IMP.init('imp45381601');
 
     const data = {
       pg: 'html5_inicis',
       pay_method: 'card',
-      merchant_uid: "A0" + new Date().getTime(),
-      amount: getTotalPrice,
-      name: "주식회사 먹자취",
-      m_redirect_url: '/Paid'
+      merchant_uid: 'A0' + new Date().getTime(),
+      amount: getTotalPrice(),
+      name: '주식회사 먹자취',
+      m_redirect_url: '/Paid',
     };
     IMP.request_pay(data, callback);
-
+    console.log('데이터@@@', data);
   };
 
-  const callback = (rsp) => {
-    const { scuccess, error_msg } = rsp;
+  const callback = async (rsp) => {
+    const { success, imp_uid, merchant_uid, paid_amount, error_msg, name } =
+      rsp;
+    console.log('rsp@@@', rsp);
 
-    if (rsp.success) {
-      alert('결제가 성공적으로 완료되었습니다.');
+    if (success) {
+      setShowModal(true); // 결제 성공 시 모달 표시
+      const payload = {
+        payMethod: 'card',
+        impUid: imp_uid,
+        merchantUid: merchant_uid,
+        amount: paid_amount,
+        name: name,
+      };
+      console.log('페이로드', payload);
+      try {
+        // 서버로 데이터를 전송합니다.
+        const serverResponse = await axios.post(
+          'http://27.96.135.75/payment/addPayment',
+          payload,
+          { headers }
+        );
+        console.log('서버 응답:', serverResponse);
+      } catch (error) {
+        console.error('서버로 전송 실패:', error);
+      }
     } else {
-      alert(`결제 실패: ${rsp.error_msg}`);
+      alert(`결제 실패: ${error_msg}`);
     }
-  }
-
+  };
+  const onModalConfirm = () => {
+    setShowModal(false); // 모달 닫기
+    navigate('/home'); // /home으로 이동
+    // 여기에 이전 페이지로 이동하는 코드를 작성하세요. 예: history.goBack()
+  };
   return (
     <>
       <CssBaseline />
-      {/* <AppBarWithTitle title='장바구니' /> */}
+      {/* <AppBarWithTitle title='장바구니'  /> */}
       <Container>
         <Box sx={{ my: 2 }}>
           <Typography variant="h6" gutterBottom component="div">
@@ -113,51 +149,60 @@ function CartPage() {
             전체 삭제
           </Button>
           <List>
-            {cartItems && cartItems.map((cartItem) => (
-              <Box key={cartItem.menu.id}>
-                <ListItem>
-                  <ListItemText primary={cartItem.menu.menuName} />
-                  <ListItemText>
-                    {cartItem.menu.price ? cartItem.menu.price.toLocaleString() : '0'}원
-                  </ListItemText>
-                  <ListItemText>
-                    <IconButton
-                      size="small"
-                      onClick={() => onDecrease(cartItem.cartQuantity)}
-                      sx={{
-                        border: '1px solid #D9D9D9',
-                        color: 'black',
-                      }}
-                    >
-                      <RemoveIcon />
-                    </IconButton>
-                    {cartItem.cartQuantity}
-                    <IconButton
-                      size="small"
-                      onClick={() => onIncrease(cartItem.cartQuantity)}
-                      sx={{
-                        border: '1px solid #D9D9D9',
-                        color: 'black',
-                      }}
-                    >
-                      <AddIcon />
-                    </IconButton>
-                  </ListItemText>
-                  <ListItemSecondaryAction>
-                    <IconButton edge="end" onClick={() => onDelete(cartItem.cart.id, cartItem.menu.id)}>
-                      <CloseIcon />
-                    </IconButton>
-                  </ListItemSecondaryAction>
-                </ListItem>
-                <Divider
-                  sx={{
-                    my: 0,
-                    height: '0.5px',
-                    bgcolor: '#E7E3E3',
-                  }}
-                />
-              </Box>
-            ))}
+            {cartItems &&
+              cartItems.map((cartItem) => (
+                <Box key={cartItem.menu.id}>
+                  <ListItem>
+                    <ListItemText primary={cartItem.menu.menuName} />
+                    <ListItemText>
+                      {cartItem.menu.price
+                        ? cartItem.menu.price.toLocaleString()
+                        : '0'}
+                      원
+                    </ListItemText>
+                    <ListItemText>
+                      <IconButton
+                        size="small"
+                        onClick={() => onDecrease(cartItem.menu.id)}
+                        sx={{
+                          border: '1px solid #D9D9D9',
+                          color: 'black',
+                        }}
+                      >
+                        <RemoveIcon />
+                      </IconButton>
+                      {cartItem.cartQuantity}
+                      <IconButton
+                        size="small"
+                        onClick={() => onIncrease(cartItem.menu.id)}
+                        sx={{
+                          border: '1px solid #D9D9D9',
+                          color: 'black',
+                        }}
+                      >
+                        <AddIcon />
+                      </IconButton>
+                    </ListItemText>
+                    <ListItemSecondaryAction>
+                      <IconButton
+                        edge="end"
+                        onClick={() =>
+                          onDelete(cartItem.cart.id, cartItem.menu.id)
+                        }
+                      >
+                        <CloseIcon />
+                      </IconButton>
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                  <Divider
+                    sx={{
+                      my: 0,
+                      height: '0.5px',
+                      bgcolor: '#E7E3E3',
+                    }}
+                  />
+                </Box>
+              ))}
           </List>
         </Box>
       </Container>
@@ -178,8 +223,7 @@ function CartPage() {
         }}
       >
         <Typography sx={{ mb: 2 }} variant="h6">
-          {/* {getTotalPrice() ? getTotalPrice().toLocaleString() : '0'}원 */}
-
+          {getTotalPrice() ? getTotalPrice().toLocaleString() : '0'}원
         </Typography>
         <Button
           onClick={onClickPayment}
@@ -197,6 +241,7 @@ function CartPage() {
           <ShoppingCartIcon sx={{marginLeft: '5%'}}/>
         </Button>
       </Box>
+      <CardModal show={showModal} onClose={onModalConfirm} />
     </>
   );
 }

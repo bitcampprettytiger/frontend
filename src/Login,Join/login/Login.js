@@ -34,9 +34,11 @@ const Login = () => {
           },
         }
       );
-      const { accessToken, refreshToken } = response.data.item;
+      const { accessToken, refreshToken } = response.data.item; //memberId
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('refreshToken', refreshToken);
+      // localStorage.setItem('memberId', memberId);
+
 
       if (accessToken) {
         console.log('로그인 성공! 토큰이 존재합니다.');

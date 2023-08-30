@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Header from '../../../Layout/Header';
 import Footer from '../../../Layout/Footer';
 import './Search.css';
 import { useSearch } from '../SearchCustomHooks/useSearch';
-
+import { useGeolocation } from '../../GeolocationCustomHooks/useGeolocation';
 
 
 const Search = () => {
+    const location = useLocation(); //추가
+    const [searchQuery, setSearchQuery] = useState(''); //추가
     const navigate = useNavigate();
+    const headerText = location.state?.headerText || 'Default Header'; //추가
+    const shops = location.state?.shops || [];  //추가
+
     const {
         searchInput,
         setSearchInput,
@@ -22,8 +27,8 @@ const Search = () => {
     } = useSearch('');
 
     // 가게를 클릭했을 때 동작하는 함수
-    const handleShopClick = (shopId) => {
-        navigate(`/ShopMain/${shopId}`);
+    const handleShopClick = (vendorId) => {
+        navigate(`/shophome/${vendorId}`);
         // 이 부분은 커스텀 훅에서도 처리할 수 있습니다.
     };
     const handleDeleteClick = () => {
@@ -44,10 +49,35 @@ const Search = () => {
     };
 
     // 최근 검색어를 클릭했을 때 동작하는 함수
-    const handleRecentSearchClick = (text) => {
+    const handleRecenthandleSearchClick = (text) => {
         setSearchInput(text);
         handleSearchClick();
     };
+    useEffect(() => {
+        // 로컬 스토리지에서 최근 검색어 가져오기
+        const storedRecentSearches = localStorage.getItem('recentSearches');
+        if (storedRecentSearches) {
+            setRecentSearches(JSON.parse(storedRecentSearches));
+        }
+    }, []);
+
+    useEffect(() => {
+        if (searchQuery) {
+            setSearchInput(searchQuery);
+            handleSearchClick();
+        }
+    }, [searchQuery]);
+
+    useEffect(() => {
+        // URL의 쿼리 파라미터로부터 검색어를 가져옴
+        const params = new URLSearchParams(location.search);
+        const query = params.get('query');
+
+        if (query) {
+            setSearchQuery(query);
+            // 여기서 query를 사용하여 자동으로 검색을 수행하면 됩니다.
+        }
+    }, [location]);
     return (
         <div>
             <Header
@@ -68,7 +98,7 @@ const Search = () => {
                             <div className="hashtag-container">
                                 <div className="hashtag-buttons">
                                     {recentSearches.map((item, index) => (
-                                        <button key={index} onClick={() => handleRecentSearchClick(item.text)}>{item.text}</button>
+                                        <button key={index} onClick={() => handleRecenthandleSearchClick(item.text)}>{item.text}</button>
                                     ))}
 
                                 </div>
@@ -80,8 +110,8 @@ const Search = () => {
                                 <div className="hashtag-buttons">
                                     {recentShops.map((shop, index) => (
                                         <button key={index} onClick={() => handleShopClick(shop)}>
-                                            <img src={shop.imgSrc} alt={shop.name} style={{ borderRadius: '50%' }} />
-                                            {shop.name}
+                                            <img src={shop.imgSrc} alt={shop.vendorName} style={{ borderRadius: '50%' }} />
+                                            {shop.vendorName}
                                         </button>
                                     ))}
                                 </div>
@@ -91,18 +121,18 @@ const Search = () => {
                 )}
 
                 <div className="results-container">
-                    {searchResults.map(result => (
-                        <div key={result.id} className="result-item"
-                            onClick={() => handleShopClick(result.id)} // 클릭 이벤트를 추가
+                    {searchResults.map(vendor => (
+                        <div key={vendor.id} className="result-item"
+                            onClick={() => handleShopClick(vendor.id)} // 클릭 이벤트를 추가
                         >
-                            <img src={result.imgSrc ? result.imgSrc : "/images/roopy.png"} alt={result.name} />
+                            <img src={vendor.imgSrc ? vendor.imgSrc : "/images/roopy.png"} alt={vendor.vendorName} />
                             <div className="result-info">
-                                <p className="shop-name">{result.name}</p>
+                                <p className="shop-name">{vendor.vendorName}</p>
                                 <div className="rating">
                                     <img className="star-image" src="https://example.com/star.png" alt="star" />
-                                    {result.rating}
+                                    {vendor.rating}
                                 </div>
-                                <p>{result.category} / {result.address}</p>
+                                <p>{vendor.category} / {vendor.address}</p>
                             </div>
                             <div className="favorite-container">
                                 {/* Favorite icon here */}
