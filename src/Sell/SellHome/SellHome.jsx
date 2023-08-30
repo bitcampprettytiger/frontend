@@ -1,12 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Typography, Modal } from '@mui/material';
 import SHWaiting from './SHComponents/SHWaiting';
 import SHOrder from './SHComponents/SHOrder';
 import SellHeader from '../SellLayout/SellHeader.jsx';
 import SellFooter from '../SellLayout/SellFooter.jsx';
+import axios from 'axios';
 
 const SellHome = () => {
   const [message, setMessage] = useState(null);
+  const [vendor, setVendor] = useState();
+
+  useEffect(() => {
+    const getVendor = async() => {
+      try {
+        const response = await axios.get('http://27.96.135.75/vendor/getVendorInfo', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+          }
+        });
+
+        console.log(response);
+
+        if(response.data && response.data.item) {
+          setVendor(response.data.item);
+        }
+      } catch(error) {
+        console.log(error);
+      }
+    }
+
+    getVendor();
+  }, []);
 
   const handleWaitingClick = () => {
     setMessage('대기가 승인되었습니다.');
@@ -70,7 +94,7 @@ const SellHome = () => {
           </Box>
         </Modal>
       </Box>
-      <SellFooter></SellFooter>
+      {vendor ? <SellFooter vendorId={vendor.id}></SellFooter> : <SellFooter></SellFooter>}
 
     </>
   );

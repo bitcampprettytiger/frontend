@@ -56,9 +56,9 @@ const authRoutes = [
   { path: '/sellsign3', element: <SellSignUp3 /> },
 ];
 const sellRoutes = [
-  { path: '/sellset', element: <SellStoreSet /> },
-  { path: '/sellhome', element: <SellHome /> },
-  { path: '/sellmyset', element: <SellMySet /> },
+  { path: '/sellset/:vendorId', element: <SellStoreSet /> },
+  { path: '/sellhome/', element: <SellHome /> },
+  { path: '/sellmyset/:vendorId', element: <SellMySet /> },
 ];
 const mapRoutes = [
   { path: '/trfood', element: <TrFood /> },
