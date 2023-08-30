@@ -19,22 +19,24 @@ const SellSignUp1 = () => {
 
   return (
     <>
-      <Container style={{ padding: '20px', border: '1px solid #ccc' }}>
+      <Container style={{ padding: '12%', border: '1px solid #ccc' }}>
         <SSUHeader activeStep={activeStep}></SSUHeader>
         <Typography
           variant="h5"
-          style={{ textAlign: 'center', margin: '5% auto' }}
+          style={{ textAlign: 'center', margin: '15% auto', fontWeight: 'bold' }}
         >
           정보 조회
         </Typography>
         <SSUsaup setNextButtonEnabled={setNextButtonEnabled} />
 
-        <div style={{ textAlign: 'center', marginTop: '20px' }}>
+        <div style={{ textAlign: 'center' }}>
           <Button
             variant="contained"
             color="primary"
             onClick={handleNext}
             disabled={!nextButtonEnabled}
+            sx={{color: 'white'
+          , width: '78%'}}
           >
             다음
           </Button>

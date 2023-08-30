@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import { useNavigate, useParams } from 'react-router-dom';
 import useMenuData from '../MenuCustomHook/useMenuData';
 import useCart from '../MenuCustomHook/useCart';
+import useResponsive from '../../../SDCustomHooks/useResponsive';
 
 function groupByMenuType(menuDataList) {
   const menuGroups = {};
@@ -30,6 +31,7 @@ function MenuOrderPage() {
   const menuDataList = useMenuData();
   const menuGroups = groupByMenuType(menuDataList);
   const { addMenuItem } = useCart();
+  const { width } = useResponsive();
 
   const handleClose = () => {
     setIsModalVisible(false);
@@ -88,8 +90,8 @@ function MenuOrderPage() {
         <Button
         sx={{
           backgroundColor: '#FF745A',
-          width: '70vw',
-          height: '48px',
+          width: width,
+          height: '7%',
           color: 'white',
           fontSize: '17px',
           position: 'fixed',

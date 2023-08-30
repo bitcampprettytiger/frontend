@@ -17,6 +17,8 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import CloseIcon from '@mui/icons-material/Close';
 import useCart from '../MenuCustomHook/useCart';
 import AppBarWithTitle from '../../../Components/AppBarWithTitle';
+import useResponsive from '../../../SDCustomHooks/useResponsive';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 function CartPage() {
   const {
@@ -64,6 +66,7 @@ function CartPage() {
       return sum + item.price * item.quantity;
     }, 0) : 0;
   };
+  const { width } = useResponsive();
 
   //아임포트 (결제요청하기, 결제 가능, 결제 완료 처리 미완)
   const onClickPayment = () => {
@@ -162,8 +165,9 @@ function CartPage() {
         sx={{
           position: 'fixed',
           bottom: 0,
-          left: 0,
-          width: '100%',
+          width: width,
+          left: `calc((100% - ${width}) / 2)`,
+          right: `calc((100% - ${width}) / 2)`,
           borderTop: '1px solid #E7E3E3',
           height: '20vh',
           backgroundColor: 'white',
@@ -175,21 +179,22 @@ function CartPage() {
       >
         <Typography sx={{ mb: 2 }} variant="h6">
           {/* {getTotalPrice() ? getTotalPrice().toLocaleString() : '0'}원 */}
-          
+
         </Typography>
         <Button
           onClick={onClickPayment}
           sx={{
             backgroundColor: '#FF745A',
-            width: '70vw',
-            height: '25%',
+            width: '90%',
+            height: '30%',
             color: 'white',
             fontSize: '110%',
             position: 'relative',
-            marginBottom: '16px',
+            marginBottom: '0',
           }}
         >
-          결제하기
+          결제하기  
+          <ShoppingCartIcon sx={{marginLeft: '5%'}}/>
         </Button>
       </Box>
     </>

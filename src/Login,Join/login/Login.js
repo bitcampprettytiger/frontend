@@ -71,6 +71,10 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
+        <br />
+        <button onClick={handleSubmit} className="login-btn">
+          로그인
+        </button>
         <div className="sub-fun">
           <Link to="/signup">
             <button className="sub-button">회원가입</button>
@@ -78,9 +82,6 @@ const Login = () => {
           <button className="sub-button">비밀번호 찾기</button>
         </div>
         <br />
-        <button onClick={handleSubmit} className="login-btn">
-          로그인
-        </button>
         <SnsLogin />
       </form>
     </div>
