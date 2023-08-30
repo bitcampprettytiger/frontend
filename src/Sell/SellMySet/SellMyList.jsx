@@ -43,14 +43,16 @@ const SellMyList = () => {
             },
           }
         );
+        console.log('리스폰스', response);
 
-        if (response.status === 200) {
-          const sortedData = response.data.sort((a, b) => {
+        if (response.status === 200 && response.data.itemlist) {
+          const sortedData = [...response.data.itemlist].sort((a, b) => {
             if (a.menuType < b.menuType) return -1;
             if (a.menuType > b.menuType) return 1;
             return 0;
           });
           setMenus(sortedData); // 정렬된 데이터로 상태를 업데이트
+          console.log('리스트', menus);
         }
       } catch (error) {
         console.error('Failed to fetch menu data', error);
