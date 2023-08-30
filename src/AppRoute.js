@@ -44,7 +44,7 @@ const menuRoutes = [
   { path: '/order/:orderNumber', element: <MyTakeoutDetail /> },
   { path: '/myedit', element: <MyEdit /> },
   { path: '/popularresult', element: <PopularResult /> },
-  { path: '/cart/:memberId', element: <CartPage /> },
+  { path: '/cart', element: <CartPage /> },
 ];
 
 const authRoutes = [

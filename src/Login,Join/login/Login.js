@@ -11,6 +11,8 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  
+
 
   const navigate = useNavigate(); // 리다이렉트를 위한 navigate 함수 선언
 
