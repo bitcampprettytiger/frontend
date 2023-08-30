@@ -11,6 +11,9 @@ const Search = () => {
     const location = useLocation(); //추가
     const [searchQuery, setSearchQuery] = useState(''); //추가
     const navigate = useNavigate();
+    const headerText = location.state?.headerText || 'Default Header'; //추가
+    const shops = location.state?.shops || [];  //추가
+
     const {
         searchInput,
         setSearchInput,

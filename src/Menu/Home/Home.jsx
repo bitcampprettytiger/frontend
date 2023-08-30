@@ -27,6 +27,7 @@ function Home() {
   const [address, setAddress] = useState(""); // 사용자의 주소
   const [location, setLocation] = useState({ latitude: "", longitude: "" }); // 사용자의 위치 (위도, 경도)
   const [top5ReviewVendors, setTop5ReviewVendors] = useState([]); // 이달의 유저 픽 BEST NO.5 판매자 관리
+  const [headerText, setHeaderText] = useState(''); // 초기값은 빈 문자열
 
   const images = ['/images/slide-4.png', '/images/slide-2.png', '/images/slide-3.png']; // 이미지 슬라이더에 사용될 이미지들
 
@@ -141,14 +142,21 @@ function Home() {
   };
 
   // 버튼 클릭 이벤트 핸들러
-  const handleButtonClick = (url) => {
-    if (url) {
-      window.location.href = url;
-    }
+  const handleButtonClick = (areaName) => {
+    setHeaderText(`${areaName}지역의 인기 매장 BEST`);
   };
   //메뉴버튼 누르면 검색창이동
   const handleMenuItemClick = (menuText) => {
     navigate(`/search?query=${menuText}`);
+  };
+  //역버튼 누르면 검색창이동
+  const navigateToSearchWithInfo = (areaName, shopsAroundArea) => {
+    navigate('/search', {
+      state: {
+        headerText: `${areaName}지역의 인기 매장 BEST`,
+        shops: shopsAroundArea
+      }
+    });
   };
 
   return (
@@ -185,7 +193,11 @@ function Home() {
       <div className="outer-container">
         <div className="inner-container">
           {popularPlaces.map((place) => (
-            <button key={place.id} className="button-round">
+            <button
+              key={place.id}
+              className="button-round"
+              onClick={() => navigateToSearchWithInfo(place.location, place.shopsAround)}
+            >
               <img src={place.imageUrl} alt={place.name} className="button-image" />
               <span className="button-text">{place.location}</span>
             </button>
