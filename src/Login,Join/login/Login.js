@@ -11,7 +11,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  
+
 
 
   const navigate = useNavigate(); // 리다이렉트를 위한 navigate 함수 선언
@@ -34,10 +34,10 @@ const Login = () => {
           },
         }
       );
-      const { accessToken, refreshToken } = response.data.item; //memberId
+      const { accessToken, refreshToken, memberId } = response.data.item; //memberId
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('refreshToken', refreshToken);
-      // localStorage.setItem('memberId', memberId);
+      localStorage.setItem('memberId', memberId);
 
 
       if (accessToken) {

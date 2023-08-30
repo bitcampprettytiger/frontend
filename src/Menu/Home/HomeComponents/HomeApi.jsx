@@ -124,12 +124,12 @@ export const fetchFavoriteShopsByUserId = (memberId, token) => {
     };
     return axios.get(`http://27.96.135.75/api/favorite/${memberId}`, config);
 };
-// 즐겨찾기에서 가게를 삭제
-export const deleteFavoriteShop = (memberId, vendorId) => {
-    return axios.delete(`http:/27.96.135.75/api/favoritePick/${memberId}/remove/${vendorId}`, {
-        headers: getHeaders()
-    });
-};
+// // 즐겨찾기에서 가게를 삭제
+// export const deleteFavoriteShop = (memberId, vendorId) => {
+//     return axios.delete(`http:/27.96.135.75/api/favoritePick/${memberId}/remove/${vendorId}`, {
+//         headers: getHeaders()
+//     });
+// };
 
 
 
