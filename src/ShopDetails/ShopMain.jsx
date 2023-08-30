@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import ShopAppBar from './Layouts/ShopAppBar';
 import ShopImage from "./Containers/ShopDetail/ShopSwiper";
 import { useParams } from "react-router-dom";
@@ -13,6 +13,7 @@ import useVendor from "./SDCustomHooks/useVendor";
 const ShopMain = () => {
   const { vendorId } = useParams();
   const { vendor, error, loading } = useVendor(vendorId);
+  const locationRef = useRef(null);
 
   if (loading) return 
     <Stack sx={{ color: 'grey.500' }} spacing={2} direction="row">
@@ -22,14 +23,19 @@ const ShopMain = () => {
   if (!vendor) return <div>No vendor data available</div>;
 
   const imagesFromReviews = review.slice(0, 6).map(review => review.img);
+  const goToLocationSection = () => {
+    if (locationRef.current) {
+      locationRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
     return (
         <>
             <ShopAppBar/>
             {vendor && <ShopImage vendor={vendor} />}
-            <ShopInfo vendor={vendor} />
-            <ShopHomeTabsProvider>
-                <ShopHomeTabs images={imagesFromReviews} />
+            <ShopInfo vendor={vendor} onViewLocation={goToLocationSection}/>
+            <ShopHomeTabsProvider value={goToLocationSection} >
+                <ShopHomeTabs images={imagesFromReviews} locationRef={locationRef}/>
             </ShopHomeTabsProvider>
         </>
     );

@@ -7,7 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 // function Footer({ type, activeButton, handleButtonClick, isWaitingDetailFooterType, handleNextClick }) 
 function Footer({ type, activeButton, handleButtonClick, isWaitingDetailFooterType, handleNextClick }) {
-  console.log(type)
+
   const navigate = useNavigate();
 
   const navigateToNextScreen = () => {

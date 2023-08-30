@@ -8,7 +8,7 @@ import { useParams } from 'react-router-dom';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import useCopyToClipboard from '../../SDCustomHooks/useCopyToClipboard';
 
-function Location() {
+function Location(props, ref) {
   const {vendorId} = useParams();
   const { vendor, error, loading } = useVendor(vendorId);
   const copyToClipboard = useCopyToClipboard();
@@ -20,7 +20,7 @@ function Location() {
   const address = vendor.address;
 
   return (
-    <Box>
+    <Box ref={ref}>
       <Typography
         variant="h6"
         fontWeight="bold"
@@ -60,4 +60,4 @@ function Location() {
   );
 }
 
-export default Location;
+export default React.forwardRef(Location);;

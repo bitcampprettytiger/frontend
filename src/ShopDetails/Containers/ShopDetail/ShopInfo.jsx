@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import StarIcon from '@mui/icons-material/Star';
 import { Typography, IconButton } from '@mui/material';
 import CallIcon from '@mui/icons-material/Call';
@@ -36,14 +36,14 @@ function ShopInfo({ onCall, onViewLocation }) {
         </ReviewCountTypography>
       </StarBox>
       <ButtonBox>
-      <CallButton
-        color="primary"
-        component="a"
-        href={`tel:${vendor.tel}`}
-        startIcon={<CallIcon />}
-      >
-        전화 걸기
-      </CallButton>
+        <CallButton
+          color="primary"
+          component="a"
+          href={`tel:${vendor.tel}`}
+          startIcon={<CallIcon />}
+        >
+          전화 걸기
+        </CallButton>
         <LocationButton onClick={onViewLocation}>
           <IconButton color="default" size="small" sx={{ marginRight: 1 }}>
             <PlaceIcon />
