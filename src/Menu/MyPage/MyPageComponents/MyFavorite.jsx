@@ -37,7 +37,7 @@ function MyFavorite() {
         };
 
         fetchFavorites();
-    }, [token, memberId, navigate]);
+    }, [token, memberId]);
 
     const deleteFavorite = async (vendorName, vendorId) => {
         try {
