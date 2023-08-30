@@ -11,11 +11,8 @@ const useVendor = (vendorId) => {
       try {
         console.log("실행")
         setLoading(true);
-        const res = await axios.get(`http://localhost/vendor/infoDetail/${vendorId}`,{
-          headers :{
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzaW1ib25nZ3lvQGdtYWlsLmNvbSIsImlzcyI6InRvZG8gYm9vdCBhcHAiLCJpYXQiOjE2OTI5NjYzMTcsImV4cCI6MTY5Mjk2ODExNywicm9sZSI6IlJPTEVfQkFTSUMifQ.uyxDOH_QJiHJk4lVRn0wdhwCWh3NLsFNYdDgueYpnz4`
-          }
-        });
+        const res = await axios.get(`http://27.96.135.75/vendor/infoDetail/${vendorId}`);
+        console.log(res);
         setVendor(res.data);
       } catch (err) {
         setError(err);

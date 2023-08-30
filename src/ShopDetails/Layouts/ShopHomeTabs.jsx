@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext } from 'react';
+import { useContext, useRef } from 'react';
 import { Box, Typography } from '@mui/material';
 import ShopFacilities from '../Containers/ShopDetail/ShopFacilities';
 import Location from '../Containers/ShopDetail/Location';
@@ -14,7 +14,6 @@ import { WrapBox } from './ShopHomeTabsStyle';
 import useResponsive from '../SDCustomHooks/useResponsive';
 import MenuSeeMore from '../Containers/Menu/MenuComponents/MenuSeeMore';
 import PhotoSeeMore from '../Containers/Review/ReviewComponents/PhotoSeeMore';
-import review from '../../DataEx/review';
 
 
 function CustomTabPanel(props) {
@@ -44,8 +43,9 @@ function a11yProps(index) {
 }
 
 
-export default function ShopHomeTabs({images}) {
-  const { value, setValue, handleChange, handleVisibilityChange } = useContext(ShopHomeTabsContext);
+
+export default function ShopHomeTabs({images, locationRef}) {
+  const { value, setValue, handleChange } = useContext(ShopHomeTabsContext);
   const viewType = useResponsive();
 
   return (
@@ -66,7 +66,7 @@ export default function ShopHomeTabs({images}) {
         <ShopFacilities/>
         <MenuSeeMore/>
         <PhotoSeeMore images={images}/>
-        <Location/>
+        <Location ref={locationRef}/>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
           <MenuOrderPage/>

@@ -4,16 +4,25 @@ import axios from 'axios';
 function useFavoritePick() {
     const [isLoading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const accessToken = localStorage.getItem('accessToken');
+    const headers = {
+        'Content-Type' : 'application/json;charset=UTF-8',
+        Authorization: `Bearer ${accessToken}`,
+    };
 
-    const toggleFavorite = async (memberId, vendorId, isFavorite) => {
+    const toggleFavorite = async (vendorId, isFavorite) => {
+
         setLoading(true);
         setError(null);
-
         try {
-            await axios.post(`http://localhost//api/favoritePick/${memberId}/${isFavorite ? 'remove' : 'add'}/${vendorId}`);
+            if(isFavorite) {
+                await axios.delete(`http://27.96.135.75/api/favoritePick/1/remove/${vendorId}`, { headers });
+            } else {
+                await axios.post(`http://27.96.135.75/api/favoritePick/1/add/${vendorId}`, null, { headers });
+            }            
             setLoading(false);
         } catch (err) {
-            setError(err);
+            setError(err.response ? err.response.data : err);
             setLoading(false);
         }
     };

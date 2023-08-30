@@ -28,7 +28,6 @@ import SellHome from './Sell/SellHome/SellHome';
 import SellMySet from './Sell/SellMySet/SellMySet';
 import PopularResult from './Menu/Home/HomeComponents/PopularResult';
 import CartPage from './ShopDetails/Containers/Menu/MenuComponents/Cart';
-import { Payment } from '@mui/icons-material';
 
 
 const menuRoutes = [
@@ -48,8 +47,6 @@ const menuRoutes = [
   { path: '/myedit', element: <MyEdit /> },
   { path: '/popularresult', element: <PopularResult /> },
   { path: '/cart/:memberId', element: <CartPage /> },
-  { path: '/payment', element: <Payment /> }
-
 ];
 
 const authRoutes = [

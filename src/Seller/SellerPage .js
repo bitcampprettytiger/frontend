@@ -4,31 +4,35 @@ import { io } from 'socket.io-client';
 const SellerPage = () => {
   const userId = '1';
   const [reservationList, setReservationList] = useState([]);
-  const socket = io('http://localhost:8081', {
+  const socket = io('http://192.168.0.77:8081', {
     query: { userId }
   });
+  const [isReserved, setIsReserved] = useState(false);
+
   useEffect(() => {
     // const socket = io('http://localhost:8081'); // 판매자 엔드포인트로 연결
-    socket.on('customerMatched', data => {
-      // data에는 { socketId, position }가 포함되어 있음
-      console.log('Customer matched:', data);
-      // 이제 Vendor와 매칭된 Customer의 정보를 활용하여 필요한 작업 수행
+    if(!isReserved){
+    const data = "1";
+    socket.emit('enter_room', data);
+    setIsReserved(true);
+  }
+
+
+
+    socket.on('welcome', (nickname, roomCount) => {
+      console.log(`${nickname}님, 환영합니다! 방 인원: ${roomCount}`);
+      // 이제 환영 메시지를 받아서 처리하는 로직을 추가할 수 있습니다.
     });
-  
-    socket.on('message', message => {
-      console.log(message);
-      updateReservationList(JSON.parse(message)); // 서버에서 받은 메시지를 객체로 변환하여 예약 목록 갱신
-    });
+
+    // socket.on('message', message => {
+    //   console.log(message);
+    //   updateReservationList(JSON.parse(message)); // 서버에서 받은 메시지를 객체로 변환하여 예약 목록 갱신
+    // });
 
     // return () => {
     //   socket.disconnect(); // 컴포넌트 언마운트 시 소켓 연결 해제
     // };
   }, [socket]);
-
-
-
-
-
 
 
 
