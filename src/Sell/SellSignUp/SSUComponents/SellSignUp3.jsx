@@ -15,12 +15,16 @@ import {
   InputAdornment,
   IconButton,
 } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import SSUHeader from './SSUHeader';
 import SSUAddressModal from './SSUAddressModal';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import VendorAPI from './VendorAPI';
 const SellSignUp3 = () => {
+  const location = useLocation();
+  const username = location.state.username;
+  console.log("이름",username)
+  const [file, setFile] = useState(null);
   const [address, setAddress] = useState('');
   const [showPostcode, setShowPostcode] = useState(false);
   const [previewImage, setPreviewImage] = useState(null);
@@ -52,7 +56,8 @@ const SellSignUp3 = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
-
+    const selectedFile = e.target.files[0];
+    setFile(selectedFile);
     reader.onloadend = () => {
       setPreviewImage(reader.result);
     };
@@ -105,9 +110,9 @@ const SellSignUp3 = () => {
       tel,
       businessDay,
       businessHours.시작,
-      businessHours.마감
+      businessHours.마감,
+      file,username
     );
-
     // 여기에 API 호출 후 원하는 작업을 수행 (예: 페이지 이동)
     if (result === '회원가입 성공!') {
       navigate('/selllogin');
@@ -215,9 +220,9 @@ const SellSignUp3 = () => {
                 type="file"
                 onChange={handleImageChange}
                 style={{ display: 'none' }}
-                id="file-input"
+                id="file"
               />
-              <label htmlFor="file-input">
+              <label htmlFor="file">
                 <Button variant="contained" color="primary" component="span">
                   파일 선택
                 </Button>

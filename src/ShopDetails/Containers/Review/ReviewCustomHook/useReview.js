@@ -6,6 +6,8 @@ const useReview = (vendorId) => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const isLiked = () => reviews.filter(review => review.likeCount > 0).length;
+  const isDisliked = () => reviews.filter(review => review.disLikeCount > 0).length;
 
   useEffect(() => {
     const getReview = async () => {
@@ -26,7 +28,7 @@ const useReview = (vendorId) => {
     getReview();
   }, [vendorId]);
 
-  return { reviews, error, loading };
+  return { reviews, error, loading, isLiked, isDisliked };
 };
 
 export default useReview;
