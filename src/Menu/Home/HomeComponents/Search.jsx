@@ -1,113 +1,158 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, Link } from 'react-router-dom';
-import Header from '../../../Layout/Header.jsx';
-import Footer from '../../../Layout/Footer.jsx';
+import { useNavigate, useLocation } from 'react-router-dom';
+import Header from '../../../Layout/Header';
+import Footer from '../../../Layout/Footer';
 import './Search.css';
-import { Star as StarIcon } from '@mui/icons-material';
-import { Favorite as FavoriteIcon, FavoriteBorder as FavoriteBorderIcon } from '@mui/icons-material';
-import { yellow } from '@mui/material/colors';
-import axios from 'axios';
-import useAddress from '../../SearchCustomHooks/useAddress.jsx';
-import useSearch from '../../SearchCustomHooks/useSearch.jsx';
+import { useSearch } from '../SearchCustomHooks/useSearch';
+import { useGeolocation } from '../../GeolocationCustomHooks/useGeolocation';
 
-function Search() {
-    const API_URL = "http://27.96.135.75/info/vendorId";
-    const { address, location, setAddressToHome } = useAddress();
-    const [shops, setShops] = useState([]);
-    const [favorites, setFavorites] = useState(JSON.parse(localStorage.getItem('favorites')) || {});
 
-    useEffect(() => {
-        axios.get(API_URL)
-            .then(response => {
-                setShops(response.data);
-            })
-            .catch(error => {
-                console.error("데이터를 불러오는 데 실패했습니다.", error);
-            });
-    }, []);
+const Search = () => {
+    const location = useLocation(); //추가
+    const [searchQuery, setSearchQuery] = useState(''); //추가
+    const navigate = useNavigate();
+    const headerText = location.state?.headerText || 'Default Header'; //추가
+    const shops = location.state?.shops || [];  //추가
 
     const {
-        searchResults,
         searchInput,
-        hasSearched,
-        handleSearchChange,
-        handleDeleteClick,
-        handleHashTagClick,
-        handleSearchClick
-    } = useSearch(shops); // shops를 직접 전달
+        setSearchInput,
+        searchResults,
+        setSearchResults,
+        recentSearches,
+        setRecentSearches,
+        recentShops,
+        setRecentShops,
+        handleSearchClick,
+    } = useSearch('');
 
-    const locationRouter = useLocation();
-    const query = locationRouter.state?.query || '';
-    const defaultImage = '/images/roopy.png';
-
-    const toggleFavorite = (index) => {
-        const newFavorites = { ...favorites };
-        newFavorites[index] = !newFavorites[index];
-        setFavorites(newFavorites);
-        localStorage.setItem('favorites', JSON.stringify(newFavorites));
+    // 가게를 클릭했을 때 동작하는 함수
+    const handleShopClick = (vendorId) => {
+        navigate(`/shophome/${vendorId}`);
+        // 이 부분은 커스텀 훅에서도 처리할 수 있습니다.
+    };
+    const handleDeleteClick = () => {
+        setSearchInput("");  // 검색창의 내용을 지움
     };
 
-    useEffect(() => {
-        // 필요한 로직이 있다면 이곳에 추가
-    }, [query]);
 
+    // 검색 입력값이 변경될 때 동작하는 함수
+    const handleSearchChange = (e) => {
+        setSearchInput(e.target.value);
+    };
+
+    // 엔터키를 눌렀을 때 검색을 실행하는 함수
+    const handleKeyUp = (e) => {
+        if (e.key === "Enter") {
+            handleSearchClick();
+        }
+    };
+
+    // 최근 검색어를 클릭했을 때 동작하는 함수
+    const handleRecenthandleSearchClick = (text) => {
+        setSearchInput(text);
+        handleSearchClick();
+    };
+    useEffect(() => {
+        // 로컬 스토리지에서 최근 검색어 가져오기
+        const storedRecentSearches = localStorage.getItem('recentSearches');
+        if (storedRecentSearches) {
+            setRecentSearches(JSON.parse(storedRecentSearches));
+        }
+    }, []);
+
+    useEffect(() => {
+        if (searchQuery) {
+            setSearchInput(searchQuery);
+            handleSearchClick();
+        }
+    }, [searchQuery]);
+
+    useEffect(() => {
+        // URL의 쿼리 파라미터로부터 검색어를 가져옴
+        const params = new URLSearchParams(location.search);
+        const query = params.get('query');
+
+
+        if (query) {
+            setSearchQuery(query);
+            // 여기서 query를 사용하여 자동으로 검색을 수행하면 됩니다.
+        }
+    }, [location]);
     return (
-        <div className='App-main2'>
+        <div>
             <Header
                 page="search"
                 searchInput={searchInput}
                 handleSearchChange={handleSearchChange}
-                handleDeleteClick={handleDeleteClick}
                 handleSearchClick={handleSearchClick}
-                setAddressToHome={setAddressToHome}
+                handleDeleteClick={handleDeleteClick}
+                handleKeyUp={handleKeyUp}
             />
+            <div className="App-main2">
+                {/* 최근 검색어와 최근 확인한 가게는 검색어가 없거나 검색 결과가 없을 때만 보입니다. */}
 
-            <div className='hashtag-container'>
-                <div className="hashtag-buttons">
-                    <button onClick={() => handleHashTagClick('#분식')}>#분식</button>
-                    <button onClick={() => handleHashTagClick('#떡볶이')}>#떡볶이</button>
-                    <button onClick={() => handleHashTagClick('#포장마차')}>#포장마차</button>
-                    <button onClick={() => handleHashTagClick('#닭발')}>#닭발</button>
-                    <button onClick={() => handleHashTagClick('#오뎅')}>#오뎅</button>
-                    <button onClick={() => handleHashTagClick('#타코야끼')}>#타코야끼</button>
+                {(!searchInput || searchResults.length === 0) && (
+                    <>
+                        <div>
+                            <h3>최근 검색어</h3>
+                            <div className="hashtag-container">
+                                <div className="hashtag-buttons">
+                                    {recentSearches.map((item, index) => (
+                                        <button key={index} onClick={() => handleRecenthandleSearchClick(item.text)}>{item.text}</button>
+                                    ))}
+
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h3>최근 확인한 가게</h3>
+                            <div className="hashtag-container">
+                                <div className="hashtag-buttons">
+                                    {recentShops.map((shop, index) => (
+                                        <button key={index} onClick={() => handleShopClick(shop)}>
+                                            <img src={shop.imgSrc} alt={shop.vendorName} style={{ borderRadius: '50%' }} />
+                                            {shop.vendorName}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </>
+                )}
+
+
+                <div className="results-container">
+                    {searchResults.map(vendor => (
+                        <div key={vendor.id} className="result-item"
+                            onClick={() => handleShopClick(vendor.id)} // 클릭 이벤트를 추가
+                        >
+                            <img src={vendor.imgSrc ? vendor.imgSrc : "/images/roopy.png"} alt={vendor.vendorName} />
+                            <div className="result-info">
+                                <p className="shop-name">{vendor.vendorName}</p>
+                                <div className="rating">
+                                    <img className="star-image" src="https://example.com/star.png" alt="star" />
+                                    {vendor.rating}
+                                </div>
+                                <p>{vendor.category} / {vendor.address}</p>
+                            </div>
+                            <div className="favorite-container">
+                                {/* Favorite icon here */}
+                            </div>
+                        </div>
+                    ))}
+
                 </div>
             </div>
-
-            {searchResults.length > 0 ? (
-                <>
-                    {searchInput && <h2>{`'${searchInput}'에 대한 결과`}</h2>}
-                    <div className="results-container">
-                        {searchResults.map((shop, index) => ( // searchResults를 직접 사용
-                            <Link to={`/shop/${shop.name}`} key={index}>
-                                <div className="result-item">
-                                    <img src={shop.imageURL ? shop.imageURL : defaultImage} alt={`${shop.name}의 이미지`} />
-                                    <div className="result-info">
-                                        <h3>{shop.name}</h3>
-                                        <div className="rating">
-                                            <StarIcon style={{ color: yellow[700], fontSize: 20 }} />
-                                            <span>{shop.rating !== null && shop.rating !== undefined ? shop.rating : "등록된 점수가 없습니다"}</span>
-                                        </div>
-                                        <p>{shop.category || "분식"} / {shop.neighborhood || "송파동"}</p>
-                                    </div>
-                                    <div className="result-favorite">
-                                        {favorites[index] ? (
-                                            <FavoriteIcon onClick={(e) => { e.stopPropagation(); toggleFavorite(index); }} />
-                                        ) : (
-                                            <FavoriteBorderIcon onClick={(e) => { e.stopPropagation(); toggleFavorite(index); }} />
-                                        )}
-                                    </div>
-                                </div>
-                            </Link>
-                        ))}
-                    </div>
-                </>
-            ) : (
-                hasSearched && <h2>{`'${searchInput}'에 대한 검색 결과가 없습니다.`}</h2>
-            )}
-
             <Footer type="search" />
         </div>
     );
+
 }
+
+
+
+
+
 
 export default Search;

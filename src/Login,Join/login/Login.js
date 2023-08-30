@@ -12,6 +12,8 @@ const Login = () => {
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
+
+
   const navigate = useNavigate(); // 리다이렉트를 위한 navigate 함수 선언
 
   const handleSubmit = async (e) => {
@@ -32,9 +34,11 @@ const Login = () => {
           },
         }
       );
-      const { accessToken, refreshToken } = response.data.item;
+      const { accessToken, refreshToken, memberId } = response.data.item; //memberId
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('refreshToken', refreshToken);
+      localStorage.setItem('memberId', memberId);
+
 
       if (accessToken) {
         console.log('로그인 성공! 토큰이 존재합니다.');

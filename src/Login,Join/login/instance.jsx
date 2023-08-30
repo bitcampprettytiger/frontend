@@ -5,6 +5,7 @@ const instance = axios.create({
   baseURL: 'http://27.96.135.75',
 });
 console.log(instance.interceptors.response);
+console.log(instance)
 
 // 응답 인터셉터 설정
 instance.interceptors.response.use(

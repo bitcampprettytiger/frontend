@@ -7,79 +7,157 @@ import '../../App.css';
 import './Home.css';
 import useSlider from '../HomeCustomHooks/useSlider';
 import usePopularPlaces from '../HomeCustomHooks/usePopularPlaces';
-// import { BrowserView, MobileView } from 'react-device-detect';
+import {
+  fetchPopularPlaces,
+  fetchTop5Vendors,
+  fetchMostFavoritedVendors,
+  fetchTop10RecommendedMenus,
+  fetchTop5ReviewVendors
+} from '../Home/HomeComponents/HomeApi';
 
 function Home() {
-  const navigate = useNavigate();
-  const [searchInput, setSearchInput] = useState('');
-  const [hotPlaces, setHotPlaces] = useState([]);
-  const [nearbyStations, setNearbyStations] = useState([]);
-  const [showStations, setShowStations] = useState(false);
-  const [popularPlaces, setPopularPlaces] = useState([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
 
-  // 슬라이더 로직
+  const navigate = useNavigate(); // 페이지 이동을 위한 훅
+  const [searchInput, setSearchInput] = useState(''); // 검색 인풋 관리
+  const [popularPlaces, setPopularPlaces] = useState([]); // 인기 장소 관리
+  const [top5Vendors, setTop5Vendors] = useState([]); // Top 5 판매자 관리
+  const [mostFavoritedVendors, setMostFavoritedVendors] = useState([]); // 가장 많이 즐겨찾기 된 판매자 관리
+  const [top10Menus, setTop10Menus] = useState([]); // Top 5 메뉴 관리
+  const [currentIndex, setCurrentIndex] = useState(0); // 현재 이미지 슬라이더의 인덱스
+  const [address, setAddress] = useState(""); // 사용자의 주소
+  const [location, setLocation] = useState({ latitude: "", longitude: "" }); // 사용자의 위치 (위도, 경도)
+  const [top5ReviewVendors, setTop5ReviewVendors] = useState([]); // 이달의 유저 픽 BEST NO.5 판매자 관리
+  const [headerText, setHeaderText] = useState(''); // 초기값은 빈 문자열
 
-  const images = [
-    '/images/slide-4.png',
-    '/images/slide-2.png',
-    '/images/slide-3.png'
-  ];
+  const images = ['/images/slide-4.png', '/images/slide-2.png', '/images/slide-3.png']; // 이미지 슬라이더에 사용될 이미지들
 
-  // 주소 및 인기 장소 검색 로직.
+  // 판매자 상세 페이지로 이동
+  const navigateToVendorDetail = (vendorId) => {
+    navigate(`/shophome/${vendorId}`);
+  };
 
-  const [address, setAddress] = useState("");
-  const [location, setLocation] = useState({
-    latitude: "",
-    longitude: ""
-  });
-
-
+  // 주소와 위치 정보를 상태에 저장
   const setAddressToHome = (newAddress, newlocation) => {
-    setAddress(newAddress)
+    setAddress(newAddress);
     setLocation({
       latitude: newlocation.latitude,
       longitude: newlocation.longitude
     });
   };
-  useEffect(() => {
-    if (address) {
-      axios.post('http://27.96.135.75/vendor/search', {
-        address: address,
-        latitude: location.latitude,
-        hardness: location.longitude
-      }, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-        .then(response => {
-          setPopularPlaces(response.data.result.itemlist);
-        })
-        .catch(error => {
-          console.error("Error fetching popular places", error);
-        });
 
-      const interval = setInterval(() => {
-        setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-      }, 3000);
-      return () => clearInterval(interval);
+
+
+  // 데이터를 가져와서 상태 설정
+  const fetchAndSet = async (fetchFunction, setStateFunction, sliceAmount) => {
+    try {
+      const response = await fetchFunction();
+      console.log(response);
+      if (response && response.data && response.data.length > 0) {
+        setStateFunction(sliceAmount ? response.data.slice(0, sliceAmount) : response.data);
+      }
+    } catch (error) {
+      console.error(`Error fetching data: ${error}`);
     }
-  }, [address, images.length, location.latitude, location.longitude]);
+  };
 
+
+  useEffect(() => {
+    // 처음에 이달의 유저 픽 BEST NO.5 판매자 데이터를 가져옴
+    const fetchDataForReviewVendors = async () => {
+      const data = await fetchTop5ReviewVendors();
+      if (data) {
+        setTop5ReviewVendors(data);
+      }
+    };
+    fetchDataForReviewVendors();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await fetchTop5Vendors();
+      console.log("Top 5 Vendors:", data);
+      //여기 추가함
+
+
+      if (data) {
+        setTop5Vendors(data);
+      }
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    // 처음에 Top 5 메뉴 데이터를 가져옴
+    const fetchDataForMenus = async () => {
+      const data = await fetchTop10RecommendedMenus();
+      console.log(data)
+      if (data) {
+        setTop10Menus(data);
+      }
+    };
+    fetchDataForMenus();
+
+    // 주소나 위치가 변경되면 여러 데이터를 새로 가져옴
+    let isMounted = true;
+    console.log("fetchPopularPlaces");
+    console.log(fetchPopularPlaces(address, location.latitude, location.longitude))
+    fetchAndSet(() => fetchPopularPlaces(address, location.latitude, location.longitude), setPopularPlaces);
+    const fetchAndSetData = async () => {
+      if (address && address !== '') {  // address가 undefined나 빈 문자열이 아닐 경우에만 API 호출
+        await fetchAndSet(async () => {
+          const response = await fetchPopularPlaces(address, location.latitude, location.longitude);
+          setPopularPlaces(response.data.result.itemlist);
+          return response.data.result.itemlist;
+        }, setPopularPlaces);
+        await fetchAndSet(fetchPopularPlaces, setPopularPlaces);
+        await fetchAndSet(fetchTop5Vendors, setTop5Vendors);
+        await fetchAndSet(fetchMostFavoritedVendors, setMostFavoritedVendors, 5);
+        await fetchAndSet(fetchTop10RecommendedMenus, setTop10Menus);
+        console.log("popularPlaces" + popularPlaces)
+      }
+    };
+
+
+
+    console.log("fetchAndSetData()" + fetchAndSetData());
+    const interval = setInterval(() => {
+      if (isMounted) {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+      }
+    }, 3000);
+
+    return () => {
+      isMounted = false;
+      clearInterval(interval);
+    };
+  }, [address, location.latitude, location.longitude]);
+
+  // 검색 이벤트 핸들러
   const handleSearch = () => {
     navigate('/search', { state: { query: searchInput } });
   };
 
+  // 검색 페이지로 이동
   const navigateToSearch = () => {
     navigate('/search');
   };
 
-
-  const handleButtonClick = (url) => {
-    if (url) {
-      window.location.href = url;
-    }
+  // 버튼 클릭 이벤트 핸들러
+  const handleButtonClick = (areaName) => {
+    setHeaderText(`${areaName}지역의 인기 매장 BEST`);
+  };
+  //메뉴버튼 누르면 검색창이동
+  const handleMenuItemClick = (menuText) => {
+    navigate(`/search?query=${menuText}`);
+  };
+  //역버튼 누르면 검색창이동
+  const navigateToSearchWithInfo = (areaName, shopsAroundArea) => {
+    navigate('/search', {
+      state: {
+        headerText: `${areaName}지역의 인기 매장 BEST`,
+        shops: shopsAroundArea
+      }
+    });
   };
 
   return (
@@ -116,7 +194,11 @@ function Home() {
       <div className="outer-container">
         <div className="inner-container">
           {popularPlaces.map((place) => (
-            <button key={place.id} className="button-round">
+            <button
+              key={place.id}
+              className="button-round"
+              onClick={() => navigateToSearchWithInfo(place.location, place.shopsAround)}
+            >
               <img src={place.imageUrl} alt={place.name} className="button-image" />
               <span className="button-text">{place.location}</span>
             </button>
@@ -124,16 +206,49 @@ function Home() {
         </div>
       </div>
 
-      <p>포장마차거리 핫플레이스 BEST</p>
-      <p className="small-text">지금은 야장이 가장 인기! 먹고가꼬에서 포장마차거리를 확인하세요!</p>
+      <p>이달의 유저 픽 BEST NO.5</p>
       <div className="macha-button-container">
-        {["/images/place1.png", "/images/place2.png", "/images/place3.png", "/images/place4.png", "/images/place5.png"].map((image, index) => (
-          <button key={index} className="macha-button" onClick={navigateToSearch}>
-            <img src={image} alt={`Place ${index + 1}`} />
+        {top5ReviewVendors.map((vendor) => (
+          <button
+            key={vendor.id}
+            className="macha-button"
+            onClick={() => navigateToVendorDetail(vendor.id)}
+          >
+            <img src={vendor.imageUrl} alt={vendor.name} />
           </button>
         ))}
       </div>
 
+      <p>먹자취 추천 어쩌구 NO.5</p>
+      <div className="macha-button-container">
+        {mostFavoritedVendors.map((vendor) => (
+          <button
+            key={vendor.id}
+            className="macha-button"
+            onClick={() => navigateToVendorDetail(vendor.id)}
+          >
+            <img src={vendor.primaryimgurl} alt={vendor.name} />
+          </button>
+        ))}
+      </div>
+
+      <h3>먹자취에서 즐겨 찾는 메뉴</h3>
+      <div className="favorite-menu-container">
+        <div className="menu-box">
+          {top10Menus.slice(0, 5).map((menu, index) => (
+            <button className="menu-button" key={index} onClick={() => handleMenuItemClick(menu)}>
+              {index + 1}위: {menu}
+            </button>
+          ))}
+        </div>
+        <div className="menu-box">
+          {top10Menus.slice(5, 10).map((menu, index) => (
+            <button className="menu-button" key={index + 5}>
+              {index + 6}위: {menu}
+            </button>
+          ))}
+        </div>
+      </div>
       <div className='footer-text-container'>
         <div className='footer-text-container-text'>
           <p>

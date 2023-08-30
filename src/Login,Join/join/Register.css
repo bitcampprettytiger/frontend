@@ -1,25 +1,35 @@
 .register-container {
+    background-color: white;
+    /* 배경색을 흰색으로 */
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #FF745A;
+    padding: 20px;
 }
 
 .register-form {
-    width: 300px;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    /* 간격 세련되게 */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
+
 
 input {
     width: 70%;
     height: 5vh;
     border-radius: 10px;
 }
-.inputdiv{
+
+.inputdiv {
     margin-bottom: 10%;
 
 }
+
 .sub-button {
     background: none;
     border: none;
@@ -40,6 +50,22 @@ input {
 }
 
 .error-message {
-    margin-top: 20px;
-    color: red; /* 기본 색상은 빨간색으로 설정하였습니다. */
+    padding-top: 10px;
+    color: red;
+    height: 100%;
+    /* 기본 색상은 빨간색으로 설정하였습니다. */
+}
+
+.check-icon {
+    color: blue;
+}
+
+.error-message {
+    color: red;
+}
+
+.modal-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
