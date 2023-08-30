@@ -35,8 +35,9 @@ function MenuOrderPage() {
     setIsModalVisible(false);
   };
 
-  const handleMenuAdd = (menu) => {
-    addMenuItem(menu);
+  const handleMenuAdd = (selectedMenuId) => {
+    addMenuItem(selectedMenuId);
+    setAddedMenus(prevMenus => [...prevMenus, selectedMenuId]);
     setIsModalVisible(false); 
   };
 
@@ -53,14 +54,16 @@ function MenuOrderPage() {
             <h4 className="category-header">{menuType}</h4>
             {menuGroups[menuType].map(menuDataItem => (
               <React.Fragment key={menuDataItem.id}>
+                
                 <StyledMenuItem onClick={() => handleMenuClick(menuDataItem)}>
+                  
                   <div className="menu-image">
                     <img src={menuDataItem.menuImageList[0]?.url} alt={menuDataItem.menuName} />
                   </div>
                   <div className="menu-info">
                     <h3>{menuDataItem.menuName}</h3>
                     <p className="menu-description">{menuDataItem.menuContent}</p>
-                    <p className="menu-price">가격: {menuDataItem.price}원</p>
+                    <p className="menu-price">가격: {menuDataItem.price.toLocaleString()}원</p>
                   </div>
                 </StyledMenuItem>
                 <Divider sx={{ my: 0, height: '0.2px', bgcolor: 'gray.300' }} />
@@ -69,12 +72,15 @@ function MenuOrderPage() {
           </React.Fragment>
         ))}
       </StyledMenuList>
+
+
+
       {isModalVisible && (
           <MenuOptionalModal 
           open={isModalVisible} 
           onClose={handleClose}
           selectedMenu={selectedMenu}
-          onMenuAdd={handleMenuAdd}
+          onMenuAdd={() => handleMenuAdd(selectedMenu.id)}
         />
       )}
       {addedMenus.length > 0 && (
@@ -92,9 +98,7 @@ function MenuOrderPage() {
           transform: 'translateX(-50%)',
         }}
         onClick={() =>
-          navigate('/cart', {
-            state: { addedMenus },
-          })
+          navigate(`/cart`, { state: { addedMenus: addedMenus } })
         }
       >
         담은 메뉴

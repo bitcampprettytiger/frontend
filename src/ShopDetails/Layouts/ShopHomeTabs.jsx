@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext, useRef } from 'react';
+import { useContext } from 'react';
 import { Box, Typography } from '@mui/material';
 import ShopFacilities from '../Containers/ShopDetail/ShopFacilities';
 import Location from '../Containers/ShopDetail/Location';
