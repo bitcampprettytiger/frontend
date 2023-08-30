@@ -10,7 +10,7 @@ import MyReview from './Menu/MyPage/MyPageComponents/MyReview';
 import MyFavorite from './Menu/MyPage/MyPageComponents/MyFavorite';
 import MyTakeout from './Menu/MyPage/MyPageComponents/MyTakeout';
 import Notice from './Menu/Home/HomeComponents/Notice';
-import GeolocationComponent from './Menu/Home/HomeComponents/GeolocationComponent';
+import GeolocationComponent from './Menu/GeolocationCustomHooks/GeolocationComponent';
 import MyEdit from './Menu/MyPage/MyPageComponents/MyEdit';
 import ShopMain from './ShopDetails/ShopMain';
 import ReviewForm from './ShopDetails/Containers/Review/ReviewComponents/ReviewForm';
@@ -26,6 +26,7 @@ import SellHome from './Sell/SellHome/SellHome';
 import SellMySet from './Sell/SellMySet/SellMySet';
 import PopularResult from './Menu/Home/HomeComponents/PopularResult';
 import CartPage from './ShopDetails/Containers/Menu/MenuComponents/Cart';
+
 
 
 const menuRoutes = [
@@ -45,6 +46,7 @@ const menuRoutes = [
   { path: '/myedit', element: <MyEdit /> },
   { path: '/popularresult', element: <PopularResult /> },
   { path: '/cart', element: <CartPage /> },
+
 ];
 
 const authRoutes = [
