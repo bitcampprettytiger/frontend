@@ -7,14 +7,11 @@ import Slide from '@mui/material/Slide';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Box from '@mui/material/Box';
+import useResponsive from '../../../SDCustomHooks/useResponsive';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
-
-const primary = {
-  main : '#FF745A'
-}
 
 function MenuOptionalModal({ open, onClose, selectedMenu, onMenuAdd }) {
 
@@ -22,6 +19,8 @@ function MenuOptionalModal({ open, onClose, selectedMenu, onMenuAdd }) {
     onMenuAdd(selectedMenu);
     onClose();
   };
+
+  const { width } = useResponsive();
 
   return (
     <Dialog
@@ -32,8 +31,8 @@ function MenuOptionalModal({ open, onClose, selectedMenu, onMenuAdd }) {
       aria-describedby="menu-selection-description"
       PaperProps={{ 
         style: { 
-          width: '30%', 
-          height: '40%',
+          width: width, 
+          height: '25%',
           maxHeight: 'none',
           maxWidth: 'none'
         }
@@ -55,16 +54,9 @@ function MenuOptionalModal({ open, onClose, selectedMenu, onMenuAdd }) {
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
-          height: '100%',
+          height: '50%',
         }}
       >
-        <Box
-          sx={{
-            mt: 'auto',
-            width: '100%',
-            paddingBottom: '10%',
-          }}
-        >
           <Button
             variant="contained"
             fullWidth
@@ -79,7 +71,6 @@ function MenuOptionalModal({ open, onClose, selectedMenu, onMenuAdd }) {
           >
             {`1개 담기 - ${selectedMenu?.price}원`}
           </Button>
-        </Box>
       </DialogContent>
     </Dialog>
   );
