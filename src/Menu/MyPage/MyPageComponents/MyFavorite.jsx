@@ -5,75 +5,44 @@ import React, { useState, useEffect } from 'react';
 import { fetchFavoriteShopsByUserId, deleteFavoriteShop } from '../../Home/HomeComponents/HomeApi';
 import { useNavigate } from 'react-router-dom';
 
-function parseJwt(token) {
-    try {
-        const base64Url = token.split('.')[1];
-        const base64 = base64Url.replace('-', '+').replace('_', '/');
-        return JSON.parse(window.atob(base64));
-    } catch (error) {
-        console.error("Error parsing JWT:", error);
-        return null;
-    }
-}
 
 function MyFavorite() {
     const navigate = useNavigate();
-    const token = localStorage.getItem('jwtToken');
-    let store = [];
+    const token = localStorage.getItem('accessToken');
+    const [favoriteShops, setFavoriteShops] = useState([]);
+    const memberId = localStorage.getItem('memberId');
 
-    try {
-        store = JSON.parse(localStorage.getItem("favorites")) || [];
-        if (!Array.isArray(store)) {
-            store = [];
-        }
-    } catch (error) {
-        console.error("Error parsing favorites from localStorage:", error);
-    }
-
-    const [favoriteShops, setFavoriteShops] = useState(store);
 
     useEffect(() => {
-        if (!token) {
+        if (!token || !memberId) {
             console.error("JWT Token is not available in localStorage");
             navigate('/');
             return;
         }
 
-        const payload = parseJwt(token);
-        const MEMBER_ID = payload?.memberId || null;
-
-        if (!MEMBER_ID) {
-            console.error("MEMBER_ID is undefined");
-            return;
-        }
-
-        fetchFavoriteShopsByUserId(MEMBER_ID, token)
-            .then(response => {
-                console.log(response);
+        const fetchFavorites = async () => {
+            try {
+                const response = await fetchFavoriteShopsByUserId(memberId, token);
                 setFavoriteShops(response.data.favorites);
-            })
-            .catch(error => {
-                console.error("즐겨찾기 목록을 불러오는 중 오류 발생:", error);
-            });
+            } catch (error) {
+                console.error("Error fetching favorites:", error);
+            }
+        };
 
-    }, [token, navigate]);
+        fetchFavorites();
+    }, [token, memberId, navigate]);
 
-    function deleteFavorite(shopName, vendorId) {
-        const payload = parseJwt(token);
-        const MEMBER_ID = payload?.memberId || null;
+    const deleteFavorite = async (shopName, vendorId) => {
+        try {
+            await deleteFavoriteShop(vendorId, memberId);
+            const updatedFavorites = favoriteShops.filter(shop => shop.name !== shopName);
+            setFavoriteShops(updatedFavorites);
+        } catch (error) {
+            console.error("Error deleting favorite:", error);
+        }
+    };
 
-        deleteFavoriteShop(MEMBER_ID, vendorId)
-            .then(() => {
-                const updatedFavorites = favoriteShops.filter(shop => shop.name !== shopName);
-                setFavoriteShops(updatedFavorites);
-                localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
-            })
-            .catch(error => {
-                console.error("즐겨찾기 게시글을 삭제하는 중 오류 발생:", error);
-            });
-    }
-
-    if (!token) {
+    if (!token || !memberId) {
         return null;
     }
 

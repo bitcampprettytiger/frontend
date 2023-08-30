@@ -1,9 +1,15 @@
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 
 
-export const getHeaders = () => {
+export const getHeaders = (navigate) => {
+
     const accessToken = localStorage.getItem('accessToken');
+    if (!accessToken) {
+        navigate("/");
+        return;
+    }
     return {
         'Content-Type': 'application/json;charset=UTF-8',
         Authorization: `Bearer ${accessToken}`,
@@ -120,8 +126,13 @@ export const fetchFavoriteShopsByUserId = (memberId, token) => {
 };
 // 즐겨찾기에서 가게를 삭제
 export const deleteFavoriteShop = (memberId, vendorId) => {
-    return axios.delete(`http:/27.96.135.75/api/favoritePick/${memberId}/remove/${vendorId}`);
+    return axios.delete(`http:/27.96.135.75/api/favoritePick/${memberId}/remove/${vendorId}`, {
+        headers: getHeaders()
+    });
 };
+
+
+
 //장바구니
 export const getMyCart = (memberId, token) => {
     const config = {

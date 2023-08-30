@@ -76,6 +76,7 @@ function Home() {
     const fetchData = async () => {
       const data = await fetchTop5Vendors();
       console.log("Top 5 Vendors:", data);
+      //여기 추가함
 
 
       if (data) {
