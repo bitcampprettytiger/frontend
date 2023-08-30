@@ -6,8 +6,10 @@ const VendorAPI = async (
   address,
   tel,
   businessDay,
-  open, // businessHours.시작
-  close // businessHours.마감
+  open,
+  close,
+  file,
+  username
 ) => {
   try {
     const selectedDays = Object.entries(businessDay)
@@ -16,23 +18,29 @@ const VendorAPI = async (
       .join(',');
 
     // JSON 객체를 생성합니다.
-    const data = {
-      vendorType: vendorType,
-      vendorName: vendorName, // 여기에 가게이름 값을 삽입
-      businessDay: selectedDays,
-      SIGMenu: SIGMenu, // 여기에 대표메뉴 값을 삽입
-      address: address, // 여기에 주소 값을 삽입
-      tel: tel, // 여기에 전화번호 값을 삽입
-      open: JSON.stringify(open), // 영업 시작 시간
-      close: close, // 영업 마감 시간 시간을 가져옵니다.
-
-    };
+    const formData = new FormData();
+    formData.append('vendorType', vendorType);
+    formData.append('vendorName', vendorName);
+    formData.append('SIGMenu', SIGMenu);
+    formData.append('address', address);
+    formData.append('tel', tel);
+    formData.append('businessDay', selectedDays);
+    formData.append('open', open);
+    formData.append('close', close);
+    formData.append('username', username);
+    if (file) {
+      formData.append('file', file);
+    }
     // Axios 요청에서 'Content-Type': 'application/json' 헤더를 사용합니다.
-    const response = await axios.post('http://27.96.135.75/vendor/info', data, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    const response = await axios.post(
+      'http://27.96.135.75/vendor/info',
+      formData, // FormData 사용
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data', // 헤더 수정
+        },
+      }
+    );
 
     if (response.status === 200) {
       alert('성공');
