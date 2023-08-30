@@ -146,6 +146,11 @@ function Home() {
       window.location.href = url;
     }
   };
+  //메뉴버튼 누르면 검색창이동
+  const handleMenuItemClick = (menuText) => {
+    navigate(`/search?query=${menuText}`);
+  };
+
   return (
     <div className='App-main2'>
       <Header page="home" setAddressToHome={setAddressToHome} />
@@ -218,7 +223,7 @@ function Home() {
       <div className="favorite-menu-container">
         <div className="menu-box">
           {top10Menus.slice(0, 5).map((menu, index) => (
-            <button className="menu-button" key={index}>
+            <button className="menu-button" key={index} onClick={() => handleMenuItemClick(menu)}>
               {index + 1}위: {menu}
             </button>
           ))}

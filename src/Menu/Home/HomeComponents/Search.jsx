@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Header from '../../../Layout/Header';
 import Footer from '../../../Layout/Footer';
 import './Search.css';
@@ -8,6 +8,8 @@ import { useGeolocation } from '../../GeolocationCustomHooks/useGeolocation';
 
 
 const Search = () => {
+    const location = useLocation(); //추가
+    const [searchQuery, setSearchQuery] = useState(''); //추가
     const navigate = useNavigate();
     const {
         searchInput,
@@ -56,7 +58,23 @@ const Search = () => {
         }
     }, []);
 
+    useEffect(() => {
+        if (searchQuery) {
+            setSearchInput(searchQuery);
+            handleSearchClick();
+        }
+    }, [searchQuery]);
 
+    useEffect(() => {
+        // URL의 쿼리 파라미터로부터 검색어를 가져옴
+        const params = new URLSearchParams(location.search);
+        const query = params.get('query');
+
+        if (query) {
+            setSearchQuery(query);
+            // 여기서 query를 사용하여 자동으로 검색을 수행하면 됩니다.
+        }
+    }, [location]);
     return (
         <div>
             <Header
