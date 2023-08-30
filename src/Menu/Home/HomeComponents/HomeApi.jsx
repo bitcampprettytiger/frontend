@@ -172,4 +172,35 @@ export const fetchTop10RecommendedMenus = async () => {
     }
 };
 
+//회원 정보 조회
+export const fetchMyInfo = async () => {
+    try {
+        const response = await axios.get('http://27.96.135.75/myInfo', {
+            headers: getHeaders()
+        });
+        if (response.status === 200) {
+            return response.data;
+        } else {
+            throw new Error('Failed to fetch user info');
+        }
+    } catch (error) {
+        console.error('There was a problem fetching user info: ', error);
+    }
+};
+
+// 회원 찜내역 조회
+export const fetchMyFavoriteVendors = async () => {
+    try {
+        const response = await axios.get('http://27.96.135.75/myFavoriteVendors', {
+            headers: getHeaders()
+        });
+        if (response.status === 200) {
+            return response.data;
+        } else {
+            throw new Error('Failed to fetch favorite vendors');
+        }
+    } catch (error) {
+        console.error('There was a problem fetching favorite vendors: ', error);
+    }
+};
 
