@@ -18,24 +18,24 @@ function useFavoritePick() {
 
 
     const toggleFavorite = async (vendorId, isFavorite) => {
-
-
+        console.log("찍혀랑!" + vendorId, isFavorite)
         setLoading(true);
-
         setError(null);
         try {
-
+            let response;
             if (isFavorite) {
-                await axios.delete(`http://27.96.135.75/api/favoritePick/remove/${vendorId}`, { headers });
+                response = await axios.delete(`http://27.96.135.75/api/favoritePick/remove/${vendorId}`, { headers });
             } else {
-
-                await axios.post(`http://27.96.135.75/api/favoritePick/add/${vendorId}`, null, { headers });
+                response = await axios.post(`http://27.96.135.75/api/favoritePick/add/${vendorId}`, null, { headers });
             }
-
             setLoading(false);
+            return response; // 여기서 응답을 반환합니다.
+
         } catch (err) {
             setError(err.response ? err.response.data : err);
             setLoading(false);
+            throw err; // 에러를 던져 catch 블록에서 잡을 수 있게 합니다.
+
         }
     };
 

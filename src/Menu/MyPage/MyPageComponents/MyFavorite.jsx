@@ -4,6 +4,7 @@ import Header from '../../../Layout/Header';
 import Footer from '../../../Layout/Footer';
 import { fetchMyFavoriteVendors } from '../../Home/HomeComponents/HomeApi';
 import useFavoritePick from '../../../ShopDetails/SDCustomHooks/useFavoritePick';
+import StarIcon from '@mui/icons-material/Star';
 
 function MyFavorite() {
     const { toggleFavorite } = useFavoritePick();
@@ -22,12 +23,13 @@ function MyFavorite() {
         const fetchFavorites = async () => {
 
             try {
-                const response = await fetchMyFavoriteVendors(); // 이 부분을 변경했습니다.
+                const response = await fetchMyFavoriteVendors();
                 if (response) {
-                    console.log(response);
+                    console.log(response.item);
+                    setFavoriteShops(response.item || []);
                     console.log("API 호출이 성공적으로 완료되었습니다.");
                     console.log('데이터를 성공적으로 받았습니다.', response);
-                    setFavoriteShops(response.favorites || []); // response의 구조에 따라 적절하게 변경
+
                 }
             } catch (error) {
                 console.error("API 호출이 실패하였습니다.", error);
@@ -38,10 +40,16 @@ function MyFavorite() {
     }, [token, memberId]);
 
     const deleteFavorite = async (vendorName, vendorId) => {
+
         try {
+            const response = await toggleFavorite(vendorId, true);
+            console.log("응답하라!", response);
+            console.log("응답 상태 코드:", response.status);
+            console.log("응답 데이터:", response.data);
             await toggleFavorite(vendorId, true);
             const updatedFavorites = favoriteShops.filter(vendor => vendor.name !== vendorName);
             setFavoriteShops(updatedFavorites);
+
         } catch (error) {
             console.error("Error toggling favorite:", error);
         }
@@ -54,25 +62,33 @@ function MyFavorite() {
         <div className='App-main2'>
             <Header page="myfavorite" />
 
-            {favoriteShops.map(vendor => (
-                <div key={vendor.name} className='myfavorite-container'>
-                    <img
-                        src={vendor.image || `${process.env.PUBLIC_URL}/images/roopy.png`}
-                        alt="가게 이미지"
-                        className="store-image"
-                    />
-                    <div className="store-info">
-                        <div className="store-name">{vendor.name}</div>
-                        <div className="store-address">{vendor.address}</div>
-                        {/* 즐겨찾기 삭제 버튼을 추가합니다. */}
-                        <button onClick={() => deleteFavorite(vendor.name, vendor.vendorId)}>즐겨찾기 삭제</button>
+            <div className="results-container">
+                {favoriteShops.map(vendor => (
+                    <div key={vendor.id} className="result-item">
+                        <img
+                            src={vendor.image || `${process.env.PUBLIC_URL}/images/roopy.png`}
+                            alt="가게 이미지"
+                            className="store-image"
+                        />
+                        <div className="result-info">
+                            <p className="shop-name">{vendor.vendor.vendorName}</p>
+                            <div className="rating">
+                                <StarIcon style={{ color: 'goldenrod' }} /> {/* 노란색 별 아이콘 */}
+                                {vendor.vendor.averageReviewScore}
+                            </div>
+                            <p>{vendor.vendor.vendorType} / {vendor.vendor.address}</p>
+                        </div>
+                        <div className="favorite-container">
+                            <button onClick={() => deleteFavorite(vendor.vendorName, vendor.id)}>즐겨찾기 삭제</button>
+                        </div>
                     </div>
-                </div>
-            ))}
+                ))}
+            </div>
 
             <Footer type="myfavorite" />
         </div>
     );
+
 
 
 

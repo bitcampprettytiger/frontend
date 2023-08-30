@@ -5,6 +5,7 @@ import Footer from '../../../Layout/Footer';
 import './Search.css';
 import { useSearch } from '../SearchCustomHooks/useSearch';
 import { useGeolocation } from '../../GeolocationCustomHooks/useGeolocation';
+import StarIcon from '@mui/icons-material/Star';
 
 
 const Search = () => {
@@ -131,10 +132,10 @@ const Search = () => {
                             <div className="result-info">
                                 <p className="shop-name">{vendor.vendorName}</p>
                                 <div className="rating">
-                                    <img className="star-image" src="https://example.com/star.png" alt="star" />
-                                    {vendor.rating}
+                                    <StarIcon style={{ color: 'goldenrod' }} /> {/* 노란색 별 아이콘 */}
+                                    {vendor.averageReviewScore}
                                 </div>
-                                <p>{vendor.category} / {vendor.address}</p>
+                                <p>{vendor.vendorType} / {vendor.address}</p>
                             </div>
                             <div className="favorite-container">
                                 {/* Favorite icon here */}

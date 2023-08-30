@@ -191,7 +191,7 @@ export const fetchMyInfo = async () => {
 // 회원 찜내역 조회
 export const fetchMyFavoriteVendors = async () => {
     try {
-        const response = await axios.get('http://27.96.135.75/myFavoriteVendors', {
+        const response = await axios.get('http://27.96.135.75/myPage/myFavoriteVendors', {
             headers: getHeaders()
         });
         if (response.status === 200) {
