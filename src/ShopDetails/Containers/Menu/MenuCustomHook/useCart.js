@@ -52,7 +52,7 @@ export default function useCart() {
     console.log(cartId)
     console.log("메뉴 아이디"+menuId)
     try {
-      const response = await axios.delete(`http://192.168.0.240/cart/deletecartitem`, {
+      const response = await axios.delete(`http://27.96.135.75/cart/deletecartitem`, {
         headers: headers,
         params: {
           'cartId' : cartId,
@@ -61,6 +61,7 @@ export default function useCart() {
       });
       const updatedItems = cartItems.filter((item) => item.menu.id !== menuId);
       setCartItems(updatedItems);
+      console.log(cartItems)
     } catch (error) {
       console.error('장바구니 메뉴 삭제 오류', error);
       if (error.response) {
