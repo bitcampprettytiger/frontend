@@ -23,7 +23,7 @@ const Search = () => {
 
     // 가게를 클릭했을 때 동작하는 함수
     const handleShopClick = (vendorId) => {
-        navigate(`/ShopMain/${vendorId}`);
+        navigate(`/shophome/${vendorId}`);
         // 이 부분은 커스텀 훅에서도 처리할 수 있습니다.
     };
     const handleDeleteClick = () => {
@@ -100,18 +100,18 @@ const Search = () => {
                 )}
 
                 <div className="results-container">
-                    {searchResults.map(result => (
-                        <div key={result.id} className="result-item"
-                            onClick={() => handleShopClick(result.id)} // 클릭 이벤트를 추가
+                    {searchResults.map(vendor => (
+                        <div key={vendor.id} className="result-item"
+                            onClick={() => handleShopClick(vendor.id)} // 클릭 이벤트를 추가
                         >
-                            <img src={result.imgSrc ? result.imgSrc : "/images/roopy.png"} alt={result.vendorName} />
+                            <img src={vendor.imgSrc ? vendor.imgSrc : "/images/roopy.png"} alt={vendor.vendorName} />
                             <div className="result-info">
-                                <p className="shop-name">{result.vendorName}</p>
+                                <p className="shop-name">{vendor.vendorName}</p>
                                 <div className="rating">
                                     <img className="star-image" src="https://example.com/star.png" alt="star" />
-                                    {result.rating}
+                                    {vendor.rating}
                                 </div>
-                                <p>{result.category} / {result.address}</p>
+                                <p>{vendor.category} / {vendor.address}</p>
                             </div>
                             <div className="favorite-container">
                                 {/* Favorite icon here */}
