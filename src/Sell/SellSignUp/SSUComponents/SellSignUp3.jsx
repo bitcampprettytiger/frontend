@@ -15,12 +15,15 @@ import {
   InputAdornment,
   IconButton,
 } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import SSUHeader from './SSUHeader';
 import SSUAddressModal from './SSUAddressModal';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import VendorAPI from './VendorAPI';
 const SellSignUp3 = () => {
+  const location = useLocation();
+  const username = location.state.username;
+  console.log("이름",username)
   const [file, setFile] = useState(null);
   const [address, setAddress] = useState('');
   const [showPostcode, setShowPostcode] = useState(false);
@@ -108,9 +111,8 @@ const SellSignUp3 = () => {
       businessDay,
       businessHours.시작,
       businessHours.마감,
-      file
+      file,username
     );
-
     // 여기에 API 호출 후 원하는 작업을 수행 (예: 페이지 이동)
     if (result === '회원가입 성공!') {
       navigate('/selllogin');

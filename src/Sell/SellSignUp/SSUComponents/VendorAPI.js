@@ -8,7 +8,8 @@ const VendorAPI = async (
   businessDay,
   open,
   close,
-  file // 파일을 인자로 받음
+  file,
+  username
 ) => {
   try {
     const selectedDays = Object.entries(businessDay)
@@ -26,6 +27,7 @@ const VendorAPI = async (
     formData.append('businessDay', selectedDays);
     formData.append('open', open);
     formData.append('close', close);
+    formData.append('username', username);
     if (file) {
       formData.append('file', file);
     }

@@ -35,7 +35,7 @@ const Login = () => {
       localStorage.setItem('refreshToken', refreshToken);
       if (accessToken) {
         console.log('로그인 성공! 토큰이 존재합니다.');
-        navigate('/sellhome');
+        navigate(`/sellhome`);
       } else {
         console.log('로그인 실패! 토큰이 존재하지 않습니다.');
       }
