@@ -5,7 +5,9 @@ import { useCreateMarkers } from './MapCustomHooks/useCreateMarker';
 import useUpdateMarkers from './MapCustomHooks/useUpdateMarkers';
 import useInitMap from './MapCustomHooks/useInitMap';
 import ModalWindos from './MapComponents/ModalWindos';
+import { useLocation } from 'react-router-dom';
 const KaKaoMap = (props) => {
+  const location = useLocation();
   const [markers, setMarkers] = useState([]);
   const [currentPosition, setCurrentPosition] = useState(null);
   const { data, loading } = useMapAPI('http://27.96.135.75/vendor/info');
@@ -27,7 +29,6 @@ const KaKaoMap = (props) => {
   }, [data]);
 
   console.log(vendorInfo);
-
 
   const map = useInitMap();
 
@@ -56,6 +57,15 @@ const KaKaoMap = (props) => {
       }
     };
   }, [map, updateMarkers]);
+  useEffect(() => {
+    if (location.pathname.includes('stfood')) {
+      setSelectedVendorTypes(['노점']);
+    } else if (location.pathname.includes('trfood')) {
+      setSelectedVendorTypes(['포장마차']);
+    } else {
+      setSelectedVendorTypes([]); // 다른 조건이 필요하다면 여기에 추가
+    }
+  }, [location.pathname]);
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
