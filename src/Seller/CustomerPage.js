@@ -5,7 +5,7 @@ const CustomerPage = () => {
   const [position, setPosition] = useState(0);
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const socket = io('http://192.168.0.77:8081'); // 서버 주소
+  const socket = io('http://192.168.0.58:8081'); // 서버 주소
   const [isReserved, setIsReserved] = useState(false);
   const [nickname, setNickname] = useState(""); // 닉네임 상태 추가
   const[vendor,setvendor] = useState("");
@@ -26,7 +26,12 @@ const CustomerPage = () => {
     if (!isReserved) {
       socket.emit('enter_room', data);
       setIsReserved(true);
-      setPosition(prevPosition => prevPosition + 1);
+      // setPosition(prevPosition => prevPosition + 1);
+      socket.on('reserved_position', (position) => {
+        // 예약된 위치를 받아서 처리
+        console.log(`당신은 ${position}번째 예약입니다.`);
+        setPosition(position);
+      });
     }
   };
 
