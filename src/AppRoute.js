@@ -26,6 +26,7 @@ import SellHome from './Sell/SellHome/SellHome';
 import SellMySet from './Sell/SellMySet/SellMySet';
 import PopularResult from './Menu/Home/HomeComponents/PopularResult';
 import CartPage from './ShopDetails/Containers/Menu/MenuComponents/Cart';
+import { FavoriteProvider } from './Menu/MyPage/MyPageComponents/FavoriteContext';
 
 
 
@@ -46,6 +47,7 @@ const menuRoutes = [
   { path: '/myedit', element: <MyEdit /> },
   { path: '/popularresult', element: <PopularResult /> },
   { path: '/cart', element: <CartPage /> },
+  { path: '/mypage', element: <FavoriteProvider><Mypage /></FavoriteProvider> },
 
 ];
 

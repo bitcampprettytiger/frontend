@@ -138,7 +138,7 @@ export const getMyCart = (memberId, token) => {
     const config = {
         headers: getHeaders(),
     };
-    return axios.get(`http://27.96.135.75/cart/member/${memberId}`, config);
+    return axios.get(`http://27.96.135.75/cart/info/${memberId}`, config);
 };
 
 
@@ -203,4 +203,57 @@ export const fetchMyFavoriteVendors = async () => {
         console.error('There was a problem fetching favorite vendors: ', error);
     }
 };
+
+
+export const fetchOrderDetail = async (MEMBER_ID) => {
+    try {
+        const response = await fetch(`http://27.96.135.75/myPage/myOrders`, {
+            headers: getHeaders()
+        });
+
+        // 서버 응답을 JSON 형태로 파싱
+        const data = await response.json();
+
+        // 1. Log the received data
+        console.log("Data received:", data);
+
+        // 'orders' 필드가 배열로 있다고 가정
+        if (Array.isArray(data.item)) {
+            return data.item;
+        } else {
+            // 2. Log the error message
+            console.error('item is not an array');
+            return [];  // 배열이 아니면 빈 배열 반환
+        }
+
+    } catch (error) {
+        console.error('Error fetching order details:', error);
+        throw error;  // 오류를 상위로 전파
+    }
+};
+//주문내역함수 
+export const fetchPaymentList = async (token) => {
+    try {
+        const response = await fetch('http://27.96.135.75/myPage/myPaymentList', {
+            headers: getHeaders(),
+        });
+
+        const data = await response.json();
+
+        if (data.statusCode === 200 && Array.isArray(data.item)) {
+            return data.item;
+        } else {
+            console.error('No payment data found or Bad Request:', data.errorMessage);
+            return null;
+        }
+    } catch (error) {
+        console.error('Error fetching payment list:', error);
+        return null;
+    }
+};
+
+
+
+
+
 

@@ -5,6 +5,7 @@ import { BrowserView, MobileView } from 'react-device-detect';
 import { ThemeProvider } from 'styled-components';
 import { browserRoutes, mobileRoutes } from './AppRoute';
 import { NoticeProvider } from './Menu/Home/HomeComponents/NoticeContext';
+import { FavoriteProvider } from './Menu/MyPage/MyPageComponents/FavoriteContext';
 
 function App() {
 
@@ -35,15 +36,17 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <NoticeProvider>
-        <BrowserView className='BV'>
-          <Router>
-            <Routes>
-              {browserRoutes.map((route, index) => (
-                <Route key={index} path={route.path} element={route.element} />
-              ))}
-            </Routes>
-          </Router>
-        </BrowserView>
+        <FavoriteProvider>
+          <BrowserView className='BV'>
+            <Router>
+              <Routes>
+                {browserRoutes.map((route, index) => (
+                  <Route key={index} path={route.path} element={route.element} />
+                ))}
+              </Routes>
+            </Router>
+          </BrowserView>
+        </FavoriteProvider>
         {/* 
         <MobileView className='MV'>
           <Router>
