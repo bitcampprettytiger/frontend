@@ -19,7 +19,7 @@
 }
 
 
-input {
+.TextField {
     width: 70%;
     height: 5vh;
     border-radius: 10px;

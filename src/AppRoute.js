@@ -26,7 +26,25 @@ import SellHome from './Sell/SellHome/SellHome';
 import SellMySet from './Sell/SellMySet/SellMySet';
 import PopularResult from './Menu/Home/HomeComponents/PopularResult';
 import CartPage from './ShopDetails/Containers/Menu/MenuComponents/Cart';
+import { useLocation } from 'react-router-dom';
+import { BrowserView, MobileView } from 'react-device-detect';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { NoticeProvider } from './Menu/Home/HomeComponents/NoticeContext';
+import { ThemeProvider, createTheme } from '@mui/material';
+import './App.css';
 import NotFound from './NotFound';
+
+const muitheme = createTheme({
+  palette: {
+    primary: {
+      main: '#21BF73',
+    },
+    secondary: {
+      main: '#D9D9D9',
+    },
+  },
+});
+
 const menuRoutes = [
   { path: '/home', element: <Home /> },
   { path: '/geolocationcomponent', element: <GeolocationComponent /> },
@@ -50,11 +68,15 @@ const menuRoutes = [
 const authRoutes = [
   { path: '/', element: <AppLogin /> },
   { path: '/signup', element: <AppSignup /> },
+];
+
+const sellAuthRoutes = [
   { path: '/selllogin', element: <SellLogin /> },
   { path: '/sellsign1', element: <SellSignUp1 /> },
   { path: '/sellsign2', element: <SellSignUp2 /> },
   { path: '/sellsign3', element: <SellSignUp3 /> },
 ];
+
 const sellRoutes = [
   { path: '/sellset/:vendorId', element: <SellStoreSet /> },
   { path: '/sellhome/', element: <SellHome /> },
@@ -69,5 +91,58 @@ export const browserRoutes = [
   ...authRoutes,
   ...menuRoutes,
   ...mapRoutes,
+  ...sellAuthRoutes,
   ...sellRoutes,
 ];
+
+export function AppRoute() {
+
+  return (
+    <Router>
+      <InnerAppRoute />
+    </Router>
+  );
+}
+
+
+
+function InnerAppRoute() {
+  const location = useLocation();
+
+  const isSellerRoute = [...sellRoutes, ...sellAuthRoutes].some(route => location.pathname.startsWith(route.path));
+  const isUserRoute = [...authRoutes, ...menuRoutes, ...mapRoutes].some(route => location.pathname.startsWith(route.path));
+
+  let className = 'App';
+
+  if (isSellerRoute) {
+    className = 'sellerPage';
+  } else if (isUserRoute) {
+    className = 'userPage';
+  }
+
+  return (
+    <div className={className}>
+      <ThemeProvider theme={muitheme}>
+        <NoticeProvider>
+          <BrowserView className='BV'>
+            <Routes>
+              {browserRoutes.map((route, index) => (
+                <Route key={index} path={route.path} element={route.element} />
+              ))}
+            </Routes>
+          </BrowserView>
+          {/* 
+        <MobileView className='MV'>
+          <Router>
+            <Routes>
+              {mobileRoutes.map((route, index) => (
+                <Route key={index} path={route.path} element={route.element} />
+              ))}
+            </Routes>
+          </Router>
+        </MobileView> */}
+        </NoticeProvider>
+      </ThemeProvider>
+    </div>
+  );
+}

@@ -12,33 +12,28 @@ const StepProgress = ({ activeStep }) => {
             sx={{
               '.MuiStepIcon-text': {
                 fill: 'white',
-                '&.MuiStepIcon-active': {
-                  color: 'FF745A',
-                },
-                '&.MuiStepIcon-completed': {
-                  color: 'white',
-                },
               },
               '&.MuiStepLabel-active': {
-                color: 'text.primary',
+                color: '#21BF73',
                 fontWeight: 'bold',
               },
               '&.MuiStepLabel-completed': {
-                color: 'text.primary',
+                color: '#21BF73',
               },
               '.MuiStepIcon-root': {
                 color: '#E8E8E8',
                 '&.MuiStepIcon-active': {
-                  color: '#FF745A',
+                  color: '#21BF73',
                 },
                 '&.MuiStepIcon-completed': {
-                  color: '#FF745A',
+                  color: '#21BF73',
                 },
               },
             }}
           >
             {label}
           </StepLabel>
+
         </Step>
       ))}
     </Stepper>
