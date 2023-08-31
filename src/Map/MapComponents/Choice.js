@@ -1,7 +1,8 @@
 import React from 'react';
 import { Box, Button, TextField } from '@mui/material';
-
+import { useNavigate } from 'react-router-dom';
 const Choice = ({ moveToCurrentPosition, toggleSIGmenu, selectedSIGmenus }) => {
+  const navigate = useNavigate();
   return (
     <Box
       sx={{
@@ -22,13 +23,13 @@ const Choice = ({ moveToCurrentPosition, toggleSIGmenu, selectedSIGmenus }) => {
           display: 'flex',
           margin: '0 auto',
           marginTop: '10%',
+          height:'10%',
         }}
       >
         <Box
           onClick={moveToCurrentPosition}
           sx={{
             pointerEvents: 'auto',
-
             margin: '0 auto',
             bgcolor: 'red',
             width: '15%',
@@ -42,10 +43,13 @@ const Choice = ({ moveToCurrentPosition, toggleSIGmenu, selectedSIGmenus }) => {
             style={{ width: '100%', height: '100%' }}
           />
         </Box>
-        <TextField
+        {/* search로 이동 */}
+        <Box
+          onClick={() => navigate('/search')}
           sx={{
             width: '60%',
             borderColor: 'black',
+            border:'1px solid black',
             // borderRadius: '20px',
             textAlign: 'center',
             margin: '0 auto',
@@ -82,7 +86,7 @@ const Choice = ({ moveToCurrentPosition, toggleSIGmenu, selectedSIGmenus }) => {
               borderStyle: 'solid',
               borderColor: selectedSIGmenus.includes(type) ? 'red' : 'gray',
               '&:hover': {
-                backgroundColor: 'green',  // 마우스를 올렸을 때 배경색을 파란색으로
+                backgroundColor: 'green', // 마우스를 올렸을 때 배경색을 파란색으로
               },
             }}
             onClick={() => toggleSIGmenu(type)}
