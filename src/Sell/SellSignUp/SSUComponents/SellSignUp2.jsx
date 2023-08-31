@@ -158,7 +158,6 @@ const SellSignUp2 = () => {
                 fullWidth
                 variant="outlined"
                 placeholder="전화번호"
-                type="password"
                 value={tel}
                 onChange={(e) => {
                   settel(e.target.value);

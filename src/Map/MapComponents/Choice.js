@@ -1,7 +1,7 @@
 import React from 'react';
 import './Choice.css';
 
-const Choice = ({ moveToCurrentPosition, toggleVendorType, selectedVendorTypes }) => {
+const Choice = ({ moveToCurrentPosition, toggleSIGmenu, selectedSIGmenus  }) => {
   return (
     <div className="full">
       <div className="menu-wrap">
@@ -11,11 +11,11 @@ const Choice = ({ moveToCurrentPosition, toggleVendorType, selectedVendorTypes }
         <input className="input"></input>
       </div>
       <div className="flex-wrap">
-        {['양식', '일식', '분식', '중식'].map((type, index) => (
+        {['분식', '국물', '볶음', '튀김'].map((type, index) => (
           <button
             key={index}
-            className={selectedVendorTypes.includes(type) ? 'selected' : ''}
-            onClick={() => toggleVendorType(type)}
+            className={selectedSIGmenus .includes(type) ? 'selected' : ''}
+            onClick={() => toggleSIGmenu(type)}
           >
             {type}
           </button>

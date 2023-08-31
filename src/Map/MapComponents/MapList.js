@@ -5,7 +5,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import './MapList.css';
 import { useState, useRef } from 'react';
 
-export default function MapList({ vendorInfo, moveTo }) {
+export default function MapList({ vendorInfo, moveTo, selectedVendorTypes }) {
   const [selectedItem, setSelectedItem] = useState(null);
   const sliderRef = useRef(null);
   const settings = {
@@ -41,26 +41,34 @@ export default function MapList({ vendorInfo, moveTo }) {
   return (
     <>
       <Slider ref={sliderRef} {...settings} className="list">
-        {vendorInfo.map((info, index) => (
-          <div key={index}>
-            <div
-              className={`list-item ${
-                selectedItem === index ? 'selected' : ''
-              }`}
-              onClick={() => handleClick(info, index)}
-            >
-              <img
-                src={getImageByVendorType(info.vendorType)}
-                alt={info.vendorType}
-              />
-              <div className="info-container">
-                <span>{info.vendorType}</span>
-                <span>{info.vendorOpenStatus}</span>
-                <span>{info.vendorTel}</span>
+        {vendorInfo
+          .filter((info) => {
+            // selectedVendorTypes 배열이 비어 있거나 해당 벤더 타입을 포함하고 있다면 true
+            return (
+              !selectedVendorTypes.length ||
+              selectedVendorTypes.includes(info.vendorType)
+            );
+          })
+          .map((info, index) => (
+            <div key={index}>
+              <div
+                className={`list-item ${
+                  selectedItem === index ? 'selected' : ''
+                }`}
+                onClick={() => handleClick(info, index)}
+              >
+                <img
+                  src={getImageByVendorType(info.vendorType)}
+                  alt={info.vendorType}
+                />
+                <div className="info-container">
+                  <span>{info.vendorType}</span>
+                  <span>{info.vendorOpenStatus}</span>
+                  <span>{info.vendorTel}</span>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
       </Slider>
     </>
   );
