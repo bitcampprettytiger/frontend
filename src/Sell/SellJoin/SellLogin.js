@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Login.css';
+import './SellLogin.css';
 import Logo from './login-component/Logo';
 import InputField from './login-component/InputField';
 import instance from './instance';
@@ -48,8 +48,10 @@ const Login = () => {
   return (
     <div className="login-container">
       <form className="login-form">
-        <Logo />
-        <h2>판매자</h2>
+        <div className="header">
+          <Logo />
+          <h2 className="title-text">사장님</h2>
+        </div>
         <div className="input-field">
           <InputField
             type="text"
@@ -66,16 +68,16 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
+        <br />
+        <button onClick={handleSubmit} className="login-btn">
+          로그인
+        </button>
         <div className="sub-fun">
           <Link to={'/sellsign1'}>
             <button className="sub-button">회원가입</button>
           </Link>
           <button className="sub-button">비밀번호 찾기</button>
         </div>
-        <br />
-        <button onClick={handleSubmit} className="login-btn">
-          로그인
-        </button>
       </form>
     </div>
   );

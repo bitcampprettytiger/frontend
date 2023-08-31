@@ -8,15 +8,19 @@ import IconButton from '@mui/material/IconButton';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from 'react-router-dom';
 import { Box } from '@mui/material';
+import useResponsive from '../SDCustomHooks/useResponsive';
 
 const AppBarWithTitle = ({ title }) => {
   let navigate = useNavigate();
+  const { width } = useResponsive();
 
   return (
     <React.Fragment>
       <CssBaseline />
       <AppBar sx={{
-                width: '100%',
+                width: width,
+                left: `calc((100% - ${width}) / 2)`,
+                right: `calc((100% - ${width}) / 2)`,
                 backgroundColor: 'white', 
                 height: '8%', 
                 position: 'fixed', 

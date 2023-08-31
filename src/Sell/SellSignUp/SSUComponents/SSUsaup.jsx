@@ -15,6 +15,8 @@ const SSUsaup = ({setNextButtonEnabled }) => {
   const [value1, setValue1] = useState('');
   const [value2, setValue2] = useState('');
   const [responseMessage, setResponseMessage] = useState(''); // 응답 메시지 상태
+  const [buttonColor, setButtonColor] = useState('#21BF73');
+  const [fontColor, setFontColor] = useState('white');
 
   const handleSubmit = async () => {
     const payload = {
@@ -22,6 +24,7 @@ const SSUsaup = ({setNextButtonEnabled }) => {
       value1,
       value2: value2 || null,
     };
+
 
     try {
       console.log(value1);
@@ -36,9 +39,13 @@ const SSUsaup = ({setNextButtonEnabled }) => {
       // 응답에서 일치 여부 확인 (서버 응답 형식에 따라 수정 필요)
       setResponseMessage('정보가 일치합니다.');
       setNextButtonEnabled(true); // 정보 일치시 버튼 활성화
+      setButtonColor('#f0f0f0'); 
+      setFontColor('black');
     } catch (error) {
       setResponseMessage('정보가 일치하지 않습니다.');
       setNextButtonEnabled(false); // 정보 불일치시 버튼 활성화
+      setButtonColor('#FF745A');
+      setFontColor('white');
       // 에러 발생 시 처리 로직
       console.error(error);
     }
@@ -60,6 +67,7 @@ const SSUsaup = ({setNextButtonEnabled }) => {
               value={value2}
               onChange={(e) => setValue2(e.target.value)}
               fullWidth
+              sx={{marginTop : '10%'}}
             />
           </>
         );
@@ -76,16 +84,17 @@ const SSUsaup = ({setNextButtonEnabled }) => {
         return (
           <div>
             <TextField
-              label="value1"
+              label="정보1"
               value={value1}
               onChange={(e) => setValue1(e.target.value)}
               fullWidth
             />
             <TextField
-              label="value2"
+              label="정보2"
               value={value2}
               onChange={(e) => setValue2(e.target.value)}
               fullWidth
+              sx={{marginTop : '10%'}}
             />
           </div>
         );
@@ -103,6 +112,7 @@ const SSUsaup = ({setNextButtonEnabled }) => {
               value={value2}
               onChange={(e) => setValue2(e.target.value)}
               fullWidth
+              sx={{marginTop : '10%'}}
             />
           </div>
         );
@@ -131,6 +141,7 @@ const SSUsaup = ({setNextButtonEnabled }) => {
               value={value2}
               onChange={(e) => setValue2(e.target.value)}
               fullWidth
+              sx={{marginTop : '10%'}}
             />
           </div>
         );
@@ -148,6 +159,7 @@ const SSUsaup = ({setNextButtonEnabled }) => {
               value={value2}
               onChange={(e) => setValue2(e.target.value)}
               fullWidth
+              sx={{marginTop : '10%'}}
             />
           </div>
         );
@@ -175,12 +187,12 @@ const SSUsaup = ({setNextButtonEnabled }) => {
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={12} style={{ marginTop: '20px' }}>
+        <Grid item xs={12} style={{ marginTop: '10%' }}>
           {renderFields()}
         </Grid>
         <Grid item xs={12} style={{ textAlign: 'center' }}>
           {/* 버튼 중앙 배치 */}
-          <button onClick={handleSubmit}>전송</button>
+          <button onClick={handleSubmit} style={{width: '90%', marginTop: '5%', backgroundColor: buttonColor, color: fontColor}}>전송</button>
         </Grid>
         <Grid
           item

@@ -17,7 +17,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import SSUHeader from './SSUHeader';
 import SellUpAPI from './SiginUpAPI';
 
-const SellSignUp2 = ( ) => {
+const SellSignUp2 = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -39,7 +39,7 @@ const SellSignUp2 = ( ) => {
 
   const validateUsername = (value) => {
     if (value.match(/\S+@\S+\.\S+/)) {
-      setUsernameError('이메일 형식이 맞습니다');
+      setUsernameError('이메일 형식이 맞습니다.');
     } else {
       setUsernameError('이메일 형식이 올바르지 않습니다.');
     }
@@ -49,7 +49,7 @@ const SellSignUp2 = ( ) => {
     if (value.length < 8) {
       setPasswordError('비밀번호는 8자 이상이어야 합니다.');
     } else {
-      setPasswordError('비밀번호는 8자 이상입니다');
+      setPasswordError('8자 이상의 비밀번호입니다.');
     }
   };
 
@@ -57,7 +57,7 @@ const SellSignUp2 = ( ) => {
     if (value !== password) {
       setConfirmPasswordError('비밀번호가 일치하지 않습니다.');
     } else {
-      setConfirmPasswordError('비밀번호가 일치합니다');
+      setConfirmPasswordError('비밀번호가 일치합니다.');
     }
   };
 
@@ -65,20 +65,25 @@ const SellSignUp2 = ( ) => {
     e.preventDefault();
 
     if (
-      usernameError !== '이메일 형식이 맞습니다' ||
-      passwordError !== '비밀번호는 8자 이상입니다' ||
-      confirmPasswordError !== '비밀번호가 일치합니다' ||
+      usernameError !== '이메일 형식이 맞습니다.' ||
+      passwordError !== '8자 이상의 비밀번호입니다.' ||
+      confirmPasswordError !== '비밀번호가 일치합니다.' ||
       !privacy
     ) {
       alert('입력을 확인해주세요.');
+      console.log(usernameError)
+      console.log(passwordError)
+      console.log(confirmPasswordError)
+      console.log(privacy)
       return;
+
     }
     const result = await SellUpAPI(username, password, tel, privacy); // 여기에 필요한 정보를 추가
 
     if (result === '회원가입 성공!') {
       console.log('이름', username);
       alert('회원가입 되었습니다.');
-      navigate('/sellsign3',{state: { username }});
+      navigate('/sellsign3', { state: { username } });
     } else {
       alert(result); // 에러 메시지 출력
     }
@@ -86,7 +91,7 @@ const SellSignUp2 = ( ) => {
 
   return (
     <>
-      <Container style={{ padding: '20px', border: '1px solid #ccc' }}>
+      <Container style={{ padding: '12%', border: '1px solid #ccc' }}>
         <SSUHeader activeStep={activeStep}></SSUHeader>
         <div style={{ textAlign: 'center', margin: '5% auto' }}>
           <Typography variant="h5">회원가입</Typography>
@@ -132,7 +137,14 @@ const SellSignUp2 = ( ) => {
                 }}
               />
               {passwordError && (
-                <div className="error-message">{passwordError}</div>
+                <div
+                  className="error-message"
+                  style={{
+                    color: passwordError === '8자 이상의 비밀번호입니다.' ? 'blue' : 'red',
+                  }}
+                >
+                  {passwordError}
+                </div>
               )}
             </Grid>
             <Grid item xs={12} container alignItems="center">
@@ -149,7 +161,14 @@ const SellSignUp2 = ( ) => {
                 }}
               />
               {confirmPasswordError && (
-                <div className="error-message">{confirmPasswordError}</div>
+                <div
+                  className="error-message"
+                  style={{
+                    color: confirmPasswordError === '비밀번호가 일치합니다' ? 'blue' : 'red',
+                  }}
+                >
+                  {confirmPasswordError}
+                </div>
               )}
             </Grid>
             <Grid item xs={12} container alignItems="center">
@@ -158,7 +177,6 @@ const SellSignUp2 = ( ) => {
                 fullWidth
                 variant="outlined"
                 placeholder="전화번호"
-                type="password"
                 value={tel}
                 onChange={(e) => {
                   settel(e.target.value);
@@ -175,6 +193,7 @@ const SellSignUp2 = ( ) => {
                 control={<Checkbox checked={privacy} />}
                 label="개인정보 동의서"
                 value={privacy}
+                sx={{ fontSize: '90%' }}
               />
             </Grid>
 
@@ -187,6 +206,11 @@ const SellSignUp2 = ( ) => {
                 variant="contained"
                 color="primary"
                 onClick={handleRegister}
+                sx={{
+                  color: 'white'
+                  , width: '95%'
+                  , fontSize: '110%'
+                }}
               >
                 다음
               </Button>

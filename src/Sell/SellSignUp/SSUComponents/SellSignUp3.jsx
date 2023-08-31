@@ -111,7 +111,8 @@ const SellSignUp3 = () => {
       businessDay,
       businessHours.시작,
       businessHours.마감,
-      file,username
+      file,
+      username
     );
     // 여기에 API 호출 후 원하는 작업을 수행 (예: 페이지 이동)
     if (result === '회원가입 성공!') {
@@ -131,12 +132,12 @@ const SellSignUp3 = () => {
         <SSUHeader activeStep={activeStep} />
         <Typography
           variant="h5"
-          style={{ textAlign: 'center', margin: '5% auto' }}
+          style={{ textAlign: 'center', margin: '10% auto', fontWeight: 'bold' }}
         >
           상세 정보 작성
         </Typography>
         <form>
-          <Typography variant="body1" sx={{ margin: '2% 0' }}>
+          <Typography variant="body1" sx={{ margin: '5% 2% 2% 0' }}>
             구분
           </Typography>
           {/* 옵션 선택 부분 */}
@@ -146,28 +147,28 @@ const SellSignUp3 = () => {
               onChange={handleVendorTypeChange} // 이벤트 핸들러 바인딩
             >
               <MenuItem value={'노점'}>노점</MenuItem>
-              <MenuItem value={'길거리'}>길거리</MenuItem>
+              <MenuItem value={'포장마차'}>포장마차</MenuItem>
             </Select>
           </FormControl>
           {/* 메뉴 선택 부분 */}
           <Grid item xs={12} container alignItems="center">
-            <Typography variant="body1" sx={{ margin: '2% 0' }}>
-              메뉴 선택
+            <Typography variant="body1" sx={{ margin: '5% 2% 2% 0' }}>
+              대표 메뉴 선택
             </Typography>
             <FormControl variant="outlined" fullWidth>
               <Select
                 value={SIGMenu} // 상태에 대한 바인딩
                 onChange={(e) => setSIGMenu(e.target.value)} // 이벤트 핸들러 바인딩
               >
-                <MenuItem value={'면'}>면</MenuItem>
+                <MenuItem value={'분식'}>분식</MenuItem>
                 <MenuItem value={'국물'}>국물</MenuItem>
                 <MenuItem value={'볶음'}>볶음</MenuItem>
-                <MenuItem value={'마른안주'}>마른안주</MenuItem>
+                <MenuItem value={'튀김'}>튀김</MenuItem>
               </Select>
             </FormControl>
           </Grid>
           {/* 가게 이름 필드 */}
-          <Typography variant="body1" sx={{ margin: '2% 0' }}>
+          <Typography variant="body1" sx={{ margin: '5% 2% 2% 0' }}>
             가게 이름
           </Typography>
           <TextField
@@ -178,11 +179,11 @@ const SellSignUp3 = () => {
             onChange={handleVendorNameChange} // 이벤트 핸들러 바인딩
           />
           <Grid item xs={12} container alignItems="center">
-            <Typography variant="body1">전화번호</Typography>
+            <Typography variant="body1" sx={{ margin: '5% 2% 2% 0' }}>가게 번호</Typography>
             <TextField
               fullWidth
               variant="outlined"
-              placeholder="전화번호"
+              placeholder="가게 번호"
               value={tel}
               onChange={(e) => {
                 setTel(e.target.value);
@@ -191,7 +192,7 @@ const SellSignUp3 = () => {
           </Grid>
           {/* 가게 주소 필드 */}
           <Grid item xs={12} container alignItems="center">
-            <Typography variant="body1" sx={{ margin: '2% 0' }}>
+            <Typography variant="body1" sx={{ margin: '5% 2% 2% 0' }}>
               가게 주소
             </Typography>
             <TextField
@@ -205,7 +206,7 @@ const SellSignUp3 = () => {
               <Button
                 variant="contained"
                 onClick={() => setShowPostcode(true)}
-                sx={{ margin: '5% 0' }}
+                sx={{ margin: '5% 0 10%', color: 'white' }}
               >
                 주소 찾기
               </Button>
@@ -214,17 +215,18 @@ const SellSignUp3 = () => {
 
           {/* 가게 이미지 업로드 부분 */}
           <Grid container spacing={1}>
-            <Grid item xs={6}>
-              <Typography variant="body1">가게 이미지</Typography>
+            <Grid item xs={6} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}> {/* 이 부분을 수정했습니다 */}
+              <Typography variant="body1" sx={{ marginBottom: '10%', textAlign: 'center' }}>가게 이미지</Typography> {/* textAlign: 'center' 추가 */}
               <input
                 type="file"
                 onChange={handleImageChange}
                 style={{ display: 'none' }}
                 id="file"
               />
-              <label htmlFor="file">
-                <Button variant="contained" color="primary" component="span">
-                  파일 선택
+              <label htmlFor="file" style={{ alignSelf: 'center' }}> {/* alignSelf: 'center' 추가 */}
+                <Button variant="contained" color="primary" component="span" sx={{ color: 'white' }}>
+                  파일 선택 
+                  <AttachFileIcon sx={{fontSize:'130%'}}/>
                 </Button>
               </label>
             </Grid>
@@ -250,7 +252,7 @@ const SellSignUp3 = () => {
           </Grid>
           {/* 영업일 체크박스 */}
           <Grid item xs={12} container alignItems="center">
-            <Typography variant="body1" sx={{ margin: '2% 0' }}>
+            <Typography variant="body1" sx={{ margin: '10% 0 3%' }}>
               영업일
             </Typography>
             <FormGroup row>
@@ -269,9 +271,9 @@ const SellSignUp3 = () => {
             </FormGroup>
           </Grid>
           {/* 영업 시작 시간 선택 */}
-          <Grid container spacing={2} alignItems="center">
+          <Grid container spacing={2} alignItems="center" sx={{ marginTop: '5%' }}>
             <Grid item xs={6}>
-              <Typography variant="body1">영업 시작</Typography>
+              <Typography variant="body1" sx={{ marginBottom: '4%' }}>영업 시작</Typography>
               <FormControl variant="outlined" fullWidth>
                 <Select
                   name="시작"
@@ -287,7 +289,7 @@ const SellSignUp3 = () => {
               </FormControl>
             </Grid>
             <Grid item xs={6}>
-              <Typography variant="body1">영업 마감</Typography>
+              <Typography variant="body1" sx={{ marginBottom: '4%' }}>영업 마감</Typography>
               <FormControl variant="outlined" fullWidth>
                 <Select
                   name="마감"
@@ -309,9 +311,15 @@ const SellSignUp3 = () => {
             xs={12}
             container
             justifyContent="center"
-            sx={{ margin: '5% 0' }}
+            sx={{ margin: '10% 0' }}
           >
-            <Button variant="contained" color="primary" onClick={handleNext}>
+            <Button variant="contained"
+              color="primary"
+              onClick={handleNext}
+              sx={{
+                color: 'white'
+                , width: '100%'
+              }}>
               완료
             </Button>
           </Grid>

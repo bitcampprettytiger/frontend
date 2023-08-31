@@ -24,7 +24,7 @@ function ShopInfo({ onCall, onViewLocation }) {
   if (!vendor) return <div>No vendor data available</div>;
 
   return (
-    <Container>
+    <Container sx={{margin:'0 5%'}}>
       <Typography variant="h6" gutterBottom>
         {vendor.vendorType}
       </Typography>

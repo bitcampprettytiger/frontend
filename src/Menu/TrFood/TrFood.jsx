@@ -1,17 +1,23 @@
-
 import '../../App.css';
+import KaKaoMap from '../../Map/KaKaoMap';
+import Choice from '../../Map/MapComponents/Choice';
+import MapList from '../../Map/MapComponents/MapList';
+import Footer from '../../Layout/Footer';
 
-function TrFood() {
-
-
+function Trfood() {
   return (
     <>
-      <div className="App">
-        <p>푸드트럭</p>
+      <div className="App-main2">
+        <div className="wrap">
+          <KaKaoMap>
+            <Choice></Choice>
+            <MapList></MapList>
+          </KaKaoMap>
+          <Footer type="trfood"></Footer>
+        </div>
       </div>
     </>
   );
 }
 
-
-export default TrFood;
+export default Trfood;
