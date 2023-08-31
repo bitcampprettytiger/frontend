@@ -32,6 +32,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { NoticeProvider } from './Menu/Home/HomeComponents/NoticeContext';
 import { ThemeProvider, createTheme } from '@mui/material';
 import './App.css';
+import NotFound from './NotFound';
 
 const muitheme = createTheme({
   palette: {
@@ -61,7 +62,7 @@ const menuRoutes = [
   { path: '/myedit', element: <MyEdit /> },
   { path: '/popularresult', element: <PopularResult /> },
   { path: '/cart', element: <CartPage /> },
-
+  { path: '*', element: <NotFound /> },
 ];
 
 const authRoutes = [

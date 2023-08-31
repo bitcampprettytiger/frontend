@@ -1,4 +1,4 @@
-const useUpdateMarkers = (map, markers, selectedVendorTypes, vendorInfo) => {
+const useUpdateMarkers = (map, markers, selectedVendorTypes, vendorInfo,selectedSIGmenus) => {
   return () => {
     if (!map) return;
 
@@ -17,8 +17,10 @@ const useUpdateMarkers = (map, markers, selectedVendorTypes, vendorInfo) => {
         markerPosition.getLng() <= neLatLng.getLng()
       ) {
         if (
-          !selectedVendorTypes.length ||
-          selectedVendorTypes.includes(vendorInfo[index].vendorType)
+          (!selectedVendorTypes.length ||
+            selectedVendorTypes.includes(vendorInfo[index].vendorType)) &&
+          (!selectedSIGmenus.length ||
+            selectedSIGmenus.includes(vendorInfo[index].vendorSIG))
         ) {
           marker.setMap(map);
           newDisplayedMarkers.push(marker);

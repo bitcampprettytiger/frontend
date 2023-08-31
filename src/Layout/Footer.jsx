@@ -107,7 +107,7 @@ function Footer({ type, activeButton, handleButtonClick, isWaitingDetailFooterTy
           </span>
         </button>
       </Link>
-      <Link to="/foodTruck">
+      <Link to="/trfood">
         <button className="image-button" onClick={() => handleButtonClick && handleButtonClick('foodTruck')}>
           <img
             src={activeButton === 'foodTruck' ? 'images/foodcar.png' : 'images/grayFoodcar.png'}
@@ -120,7 +120,7 @@ function Footer({ type, activeButton, handleButtonClick, isWaitingDetailFooterTy
               fontWeight: activeButton === 'foodTruck' ? 'bold' : 'normal',
             }}
           >
-            푸드트럭
+            포장마차
           </span>
         </button>
       </Link>

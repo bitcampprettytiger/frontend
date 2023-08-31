@@ -11,23 +11,23 @@ export const useCreateMarkers = (map, data) => {
           Number(row.x)
         );
 
-        // 카테고리에 따른 이미지 선택
+        // sigmenu에 따른 이미지 선택
         let imagePath;
-        switch (row.vendorType) {
+        switch (row.sigmenu) {
           case '분식':
             imagePath = '../images/jeon.png';
             break;
-          case '중식':
+          case '국물':
             imagePath = '../images/bung.png';
             break;
-          case '일식':
+          case '볶음':
             imagePath = '../images/tako.png';
             break;
-          case '양식':
+          case '튀김':
             imagePath = '../images/ttuck.png';
             break;
           default:
-            imagePath = '../images/stfood.png';
+            imagePath = '../images/bell.png';
             break;
         }
 

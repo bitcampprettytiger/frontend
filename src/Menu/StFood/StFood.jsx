@@ -8,7 +8,7 @@ function StFood() {
   return (
     <>
       <div className="App-main2">
-        <div className="wrap">
+        <div className="wrap" style={{position:'relative'}}>
           <KaKaoMap>
             <Choice></Choice>
             <MapList></MapList>
