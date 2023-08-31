@@ -15,7 +15,7 @@ const SSUsaup = ({setNextButtonEnabled }) => {
   const [value1, setValue1] = useState('');
   const [value2, setValue2] = useState('');
   const [responseMessage, setResponseMessage] = useState(''); // 응답 메시지 상태
-  const [buttonColor, setButtonColor] = useState('#FF745A');
+  const [buttonColor, setButtonColor] = useState('#21BF73');
   const [fontColor, setFontColor] = useState('white');
 
   const handleSubmit = async () => {
@@ -187,12 +187,12 @@ const SSUsaup = ({setNextButtonEnabled }) => {
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={12} style={{ marginTop: '20px' }}>
+        <Grid item xs={12} style={{ marginTop: '10%' }}>
           {renderFields()}
         </Grid>
         <Grid item xs={12} style={{ textAlign: 'center' }}>
           {/* 버튼 중앙 배치 */}
-          <button onClick={handleSubmit} style={{width: '90%', marginTop: '10%', backgroundColor: buttonColor, fontColor: fontColor}}>전송</button>
+          <button onClick={handleSubmit} style={{width: '90%', marginTop: '5%', backgroundColor: buttonColor, color: fontColor}}>전송</button>
         </Grid>
         <Grid
           item

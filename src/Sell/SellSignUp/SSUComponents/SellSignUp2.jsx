@@ -49,7 +49,7 @@ const SellSignUp2 = () => {
     if (value.length < 8) {
       setPasswordError('비밀번호는 8자 이상이어야 합니다.');
     } else {
-      setPasswordError('비밀번호는 8자 이상입니다');
+      setPasswordError('8자 이상의 비밀번호입니다.');
     }
   };
 
@@ -86,7 +86,7 @@ const SellSignUp2 = () => {
 
   return (
     <>
-      <Container style={{ padding: '20px', border: '1px solid #ccc' }}>
+      <Container style={{ padding: '12%', border: '1px solid #ccc' }}>
         <SSUHeader activeStep={activeStep}></SSUHeader>
         <div style={{ textAlign: 'center', margin: '5% auto' }}>
           <Typography variant="h5">회원가입</Typography>
@@ -132,7 +132,14 @@ const SellSignUp2 = () => {
                 }}
               />
               {passwordError && (
-                <div className="error-message">{passwordError}</div>
+                <div
+                  className="error-message"
+                  style={{
+                    color: passwordError === '8자 이상의 비밀번호입니다.' ? 'blue' : 'red',
+                  }}
+                >
+                  {passwordError}
+                </div>
               )}
             </Grid>
             <Grid item xs={12} container alignItems="center">
@@ -149,7 +156,14 @@ const SellSignUp2 = () => {
                 }}
               />
               {confirmPasswordError && (
-                <div className="error-message">{confirmPasswordError}</div>
+                <div
+                  className="error-message"
+                  style={{
+                    color: confirmPasswordError === '비밀번호가 일치합니다' ? 'blue' : 'red',
+                  }}
+                >
+                  {confirmPasswordError}
+                </div>
               )}
             </Grid>
             <Grid item xs={12} container alignItems="center">
@@ -175,7 +189,7 @@ const SellSignUp2 = () => {
                 control={<Checkbox checked={privacy} />}
                 label="개인정보 동의서"
                 value={privacy}
-                sx={{fontSize: '90%'}}
+                sx={{ fontSize: '90%' }}
               />
             </Grid>
 
