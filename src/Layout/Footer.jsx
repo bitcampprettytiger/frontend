@@ -120,7 +120,7 @@ function Footer({ type, activeButton, handleButtonClick, isWaitingDetailFooterTy
               fontWeight: activeButton === 'foodTruck' ? 'bold' : 'normal',
             }}
           >
-            푸드트럭
+            포장마차
           </span>
         </button>
       </Link>
