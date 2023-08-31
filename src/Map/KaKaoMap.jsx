@@ -13,6 +13,7 @@ const KaKaoMap = (props) => {
   const { data, loading } = useMapAPI('http://27.96.135.75/vendor/info');
   const [selectedVendorTypes, setSelectedVendorTypes] = useState([]);
   const [selectedVendor, setSelectedVendor] = useState(null);
+  const [selectedSIGmenus, setSelectedSIGmenus] = useState([]);
   const vendorInfo = useMemo(() => {
     if (data) {
       return data.map((vendor) => ({
@@ -23,6 +24,7 @@ const KaKaoMap = (props) => {
         vendorTel: vendor.tel,
         vendorX: vendor.x,
         vendorY: vendor.y,
+        vendorSIG: vendor.sigmenu,
       }));
     }
     return [];
@@ -41,7 +43,8 @@ const KaKaoMap = (props) => {
     map,
     markers,
     selectedVendorTypes,
-    vendorInfo
+    vendorInfo,
+    selectedSIGmenus
   );
 
   useEffect(() => {
@@ -84,31 +87,33 @@ const KaKaoMap = (props) => {
     }
   };
 
-  const toggleVendorType = (vendorType) => {
-    setSelectedVendorTypes((prevTypes) =>
-      prevTypes.includes(vendorType)
-        ? prevTypes.filter((type) => type !== vendorType)
-        : [...prevTypes, vendorType]
+  const toggleSIGmenu = (vendorSIG) => {
+    setSelectedSIGmenus((prevSIGmenus) =>
+      prevSIGmenus.includes(vendorSIG)
+        ? prevSIGmenus.filter((sig) => sig !== vendorSIG)
+        : [...prevSIGmenus, vendorSIG]
     );
   };
-
   const displaySelectedVendorType = () => {
     markers.forEach((marker, index) => {
-      if (
-        !selectedVendorTypes.length ||
-        selectedVendorTypes.includes(vendorInfo[index].vendorType)
-      ) {
+      const currentVendorInfo = vendorInfo[index];
+
+      const typeMatch = selectedVendorTypes.includes(
+        currentVendorInfo.vendorType
+      );
+      const sigMatch =
+        !selectedSIGmenus.length ||
+        selectedSIGmenus.includes(currentVendorInfo.vendorSIG);
+      if (typeMatch && sigMatch) {
         marker.setMap(map);
       } else {
         marker.setMap(null);
       }
     });
   };
-
   useEffect(() => {
     displaySelectedVendorType();
-  }, [selectedVendorTypes]);
-
+  }, [selectedVendorTypes, selectedSIGmenus]);
   const moveToCurrentPosition = () => {
     if (map) {
       navigator.geolocation.getCurrentPosition(function (position) {
@@ -137,8 +142,9 @@ const KaKaoMap = (props) => {
       moveToCurrentPosition,
       vendorInfo,
       moveTo,
-      toggleVendorType,
+      toggleSIGmenu,
       selectedVendorTypes,
+      selectedSIGmenus,
     })
   );
   return (
