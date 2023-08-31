@@ -3,7 +3,7 @@ import ShopAppBar from './Layouts/ShopAppBar';
 import ShopImage from "./Containers/ShopDetail/ShopSwiper";
 import { useParams } from "react-router-dom";
 import ShopHomeTabs from "./Layouts/ShopHomeTabs";
-import review from "../DataEx/review"
+import useReview from './Containers/Review/ReviewCustomHook/useReview';
 import { ShopHomeTabsProvider } from "./SDCustomHooks/SHTContext";
 import ShopInfo from "./Containers/ShopDetail/ShopInfo";
 import CircularProgress from '@mui/material/CircularProgress';
@@ -14,6 +14,7 @@ const ShopMain = () => {
   const { vendorId } = useParams();
   const { vendor, error, loading } = useVendor(vendorId);
   const locationRef = useRef(null);
+  const { reviews: reviewData } = useReview(vendorId);
 
   if (loading) return 
     <Stack sx={{ color: 'grey.500' }} spacing={2} direction="row">
@@ -22,7 +23,7 @@ const ShopMain = () => {
   if (error) return <div>Error: {error.message}</div>;
   if (!vendor) return <div>No vendor data available</div>;
 
-  const imagesFromReviews = review.slice(0, 6).map(review => review.img);
+  const imagesFromReviews = reviewData.slice(0, 6).map(review => review.img);
   const goToLocationSection = () => {
     if (locationRef.current) {
       locationRef.current.scrollIntoView({ behavior: 'smooth' });

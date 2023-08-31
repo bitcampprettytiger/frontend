@@ -3,21 +3,10 @@ import React, { useState, useEffect } from 'react';
 import { Box, Grid, Button, Typography, Checkbox } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useParams } from 'react-router-dom';
-const SSSMenuList = ({ menus, onDeleteMenu }) => {
+const SellMyList = () => {
   const { vendorId } = useParams();
-
-  console.log('Received menus: ', menus);
-  console.log(
-    'Current menu.menuImage states in menus: ',
-    menus.map((menu) => menu.menuImage)
-  );
-  useEffect(() => {
-    let initialStock = {};
-    menus.forEach((menu, index) => {
-      initialStock[index] = false; // 초기 품절 상태는 false
-    });
-    setOutOfStock(initialStock);
-  }, [menus]);
+  const [menus, setMenus] = useState([]);
+  const [outOfStock, setOutOfStock] = useState({});
 
   const handleStockChange = (e, index) => {
     setOutOfStock({
@@ -25,10 +14,14 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
       [index]: e.target.checked,
     });
   };
-  const [outOfStock, setOutOfStock] = useState({});
-  const handleDelete = (index) => {
-    onDeleteMenu(index);
-  };
+
+  useEffect(() => {
+    let initialStock = {};
+    menus.forEach((menu, index) => {
+      initialStock[index] = false; // 초기 품절 상태는 false
+    });
+    setOutOfStock(initialStock);
+  }, [menus]);
   const formatPrice = (price) =>
     `${parseInt(price, 10).toLocaleString('ko-KR')}원`;
 
@@ -39,50 +32,35 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
   });
   const accessToken = localStorage.getItem('accessToken');
 
-  const sendMenuInfo = async () => {
-    try {
-      const formData = new FormData();
-
-      // 메뉴 정보들을 각각 평평하게 (flat) 추가
-      menus.forEach((menu, index) => {
-        formData.append('menuName', menu.menuName);
-        formData.append('price', parseInt(menu.price, 10));
-        formData.append('menuContent', menu.menuContent);
-        formData.append('menuType', menu.menuType);
-        formData.append(
-          'menuSellStatus',
-          outOfStock[index] ? 'OUT_OF_STOCK' : 'SELL'
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `http://27.96.135.75/menu/info/${vendorId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
         );
+        console.log('리스폰스', response);
 
-        if (menu.menuImage) {
-          formData.append('menuImage', menu.menuImage);
+        if (response.status === 200 && response.data.itemlist) {
+          const sortedData = [...response.data.itemlist].sort((a, b) => {
+            if (a.menuType < b.menuType) return -1;
+            if (a.menuType > b.menuType) return 1;
+            return 0;
+          });
+          setMenus(sortedData); // 정렬된 데이터로 상태를 업데이트
+          console.log('리스트', menus);
         }
-      });
-      formData.append('vendorId', vendorId);
-
-      // vendor.id도 추가한다면
-
-      const response = await axios.post(
-        'http://27.96.135.75/menu/info/insertMenu', // 서버 주소
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-
-      if (response.status === 200) {
-        alert('메뉴 정보 전송 성공');
-      } else {
-        alert('서버코드실패');
+      } catch (error) {
+        console.error('Failed to fetch menu data', error);
       }
-    } catch (error) {
-      alert('실패');
-      console.error('There was an error sending the data', error);
-    }
-  };
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>
@@ -120,9 +98,6 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
           </Grid>
           <Grid item xs={1} sx={{ textAlign: 'center' }}>
             품절
-          </Grid>
-          <Grid item xs={1} sx={{ textAlign: 'center' }}>
-            삭제
           </Grid>
         </Grid>
         <Box
@@ -165,26 +140,18 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
                     onChange={(e) => handleStockChange(e, index)}
                   />
                 </Grid>
-                <Grid item xs={1} sx={{ textAlign: 'center' }}>
-                  <img
-                    src="delete-icon-path.jpg" // 삭제 아이콘 이미지 경로
-                    alt="Delete"
-                    style={{ cursor: 'pointer' }}
-                    onClick={() => handleDelete(index)}
-                  />
-                </Grid>
               </React.Fragment>
             ))}
           </Grid>
         </Box>
       </Box>
       <Grid item xs={12} sx={{ textAlign: 'center' }}>
-        <Button variant="contained" color="secondary" onClick={sendMenuInfo}>
-          완료
+        <Button variant="contained" color="secondary">
+          수정하러 가기
         </Button>
       </Grid>
     </ThemeProvider>
   );
 };
 
-export default SSSMenuList;
+export default SellMyList;

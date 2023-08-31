@@ -6,12 +6,14 @@ const useReview = (vendorId) => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const isLiked = () => reviews.filter(review => review.likeCount > 0).length;
+  const isDisliked = () => reviews.filter(review => review.disLikeCount > 0).length;
 
   useEffect(() => {
     const getReview = async () => {
       try {
         setLoading(true);
-        const res = await axios.get(`http://localhost/reviews/review-list/${vendorId}`);
+        const res = await axios.get(`http://27.96.135.75/reviews/review-list/${vendorId}`);
         if (res.data.statusCode === 200) {
             setReviews(res.data.itemlist);
         } else {
@@ -26,7 +28,7 @@ const useReview = (vendorId) => {
     getReview();
   }, [vendorId]);
 
-  return { reviews, error, loading };
+  return { reviews, error, loading, isLiked, isDisliked };
 };
 
 export default useReview;

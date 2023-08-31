@@ -12,23 +12,20 @@ import {
   ResponsiveContainer,
   LabelList
 } from "recharts";
+import useReview from "../ReviewCustomHook/useReview";
+import { useParams } from "react-router-dom";
 
 const HygieneStatic = () => {
-  const reviews = [
-    { id: 1, hygiene: "good" },
-    { id: 2, hygiene: "good" },
-    { id: 3, hygiene: "good" },
-    { id: 4, hygiene: "bad" },
-    { id: 5, hygiene: "bad" },
-  ];
+  const { vendorId } = useParams();
+  const { reviews } = useReview(vendorId);
 
   const countHygieneRatings = (reviews) => {
     const result = { good: 0, bad: 0 };
 
     reviews.forEach((review) => {
-      if (review.hygiene === "good") {
+      if (review.isLiked) {
         result.good += 1;
-      } else if (review.hygiene === "bad") {
+      } else if (review.isDisliked) {
         result.bad += 1;
       }
     });
@@ -48,25 +45,25 @@ const HygieneStatic = () => {
   const renderCustomBarLabel = (props) => {
     const { x, y, width, height, value, dataKey } = props;
     const text = `${value}%`;
-    const label = dataKey; 
+    const label = dataKey;
 
     const labelX = dataKey === '좋아요' ? x - 60 : x + width + 60;
-    const labelY = y + height / 2 - 15; 
+    const labelY = y + height / 2 - 15;
     
     const percentX = labelX;
-    const percentY = y + height / 2 + 15; 
+    const percentY = y + height / 2 + 15;
 
-  return (
-    <g>
-      <text x={labelX} y={labelY} fill="#000" textAnchor="middle">
-        {label}
-      </text>
-      <text x={percentX} y={percentY} fill="#000" textAnchor="middle">
-        {text}
-      </text>
-    </g>
-  );
-};
+    return (
+      <g>
+        <text x={labelX} y={labelY} fill="#000" textAnchor="middle">
+          {label}
+        </text>
+        <text x={percentX} y={percentY} fill="#000" textAnchor="middle">
+          {text}
+        </text>
+      </g>
+    );
+  };
 
   const barData = [
     {

@@ -16,9 +16,9 @@ function useFavoritePick() {
         setError(null);
         try {
             if(isFavorite) {
-                await axios.delete(`http://27.96.135.75/api/favoritePick/1/remove/${vendorId}`, { headers });
+                await axios.delete(`http://27.96.135.75/api/favoritePick/remove/${vendorId}`, { headers });
             } else {
-                await axios.post(`http://27.96.135.75/api/favoritePick/1/add/${vendorId}`, null, { headers });
+                await axios.post(`http://27.96.135.75/api/favoritePick/add/${vendorId}`, null, { headers });
             }            
             setLoading(false);
         } catch (err) {

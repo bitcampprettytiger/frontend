@@ -18,7 +18,7 @@ import SSUHeader from './SSUHeader';
 import SellUpAPI from './SiginUpAPI';
 
 const SellSignUp2 = () => {
-  const [username, setusername] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [tel, settel] = useState('');
@@ -63,6 +63,7 @@ const SellSignUp2 = () => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
+
     if (
       usernameError !== '이메일 형식이 맞습니다' ||
       passwordError !== '비밀번호는 8자 이상입니다' ||
@@ -75,9 +76,9 @@ const SellSignUp2 = () => {
     const result = await SellUpAPI(username, password, tel, privacy); // 여기에 필요한 정보를 추가
 
     if (result === '회원가입 성공!') {
-      console.log(privacy);
+      console.log('이름', username);
       alert('회원가입 되었습니다.');
-      navigate('/'); // 로그인 페이지로 이동
+      navigate('/sellsign3', { state: { username } });
     } else {
       alert(result); // 에러 메시지 출력
     }
@@ -100,7 +101,7 @@ const SellSignUp2 = () => {
                 placeholder="아이디"
                 value={username}
                 onChange={(e) => {
-                  setusername(e.target.value);
+                  setUsername(e.target.value);
                   validateUsername(e.target.value);
                 }}
               />
@@ -157,7 +158,6 @@ const SellSignUp2 = () => {
                 fullWidth
                 variant="outlined"
                 placeholder="전화번호"
-                type="password"
                 value={tel}
                 onChange={(e) => {
                   settel(e.target.value);
@@ -174,6 +174,7 @@ const SellSignUp2 = () => {
                 control={<Checkbox checked={privacy} />}
                 label="개인정보 동의서"
                 value={privacy}
+                sx={{fontSize: '90%'}}
               />
             </Grid>
 
@@ -186,6 +187,11 @@ const SellSignUp2 = () => {
                 variant="contained"
                 color="primary"
                 onClick={handleRegister}
+                sx={{
+                  color: 'white'
+                  , width: '95%'
+                  , fontSize: '110%'
+                }}
               >
                 다음
               </Button>

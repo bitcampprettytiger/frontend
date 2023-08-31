@@ -24,6 +24,8 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
     const [address, setAddress] = useState("");
     const [error, setError] = useState(null);
     const [showNotificationPanel, setShowNotificationPanel] = useState(false);
+    const [headerText, setHeaderText] = useState("검색"); // 기본 값으로 "검색"
+
     const navigateToNotificationPage = () => {
         navigate('/notice'); // 여기에 알림 페이지의 경로를 입력하세요.
     };
@@ -63,6 +65,7 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
                     console.log(address);
                     setAddressToHome && setAddressToHome(result[0].address.address_name, location);
                     // setFetchedAddress({ address: result[0].address.address_name, location });
+
                 } else {
                     setAddress("주소를 가져오는 중 에러 발생");
                     console.error("Error fetching address from coordinates");
@@ -174,6 +177,14 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
                 </div>
             </div>
 
+        </div>
+    );
+
+    const renderDynamicHeader = () => (
+        <div className="App-header">
+            <div className="header-center-section">
+                {headerText}
+            </div>
         </div>
     );
     const renderHotplaceHeader = (content) => (

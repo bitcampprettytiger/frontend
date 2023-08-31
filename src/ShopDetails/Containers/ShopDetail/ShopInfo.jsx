@@ -30,7 +30,7 @@ function ShopInfo({ onCall, onViewLocation }) {
       </Typography>
       <StarBox>
         <StarIcon sx={{ color: '#FFC700', marginRight: 1 }} />
-        <StarTypography>평점 {(vendor.weightedAverageScore || 0).toFixed(1)} </StarTypography>
+        <StarTypography>평점 {(vendor.averageReviewScore || 0).toFixed(1)} </StarTypography>
         <ReviewCountTypography>
           ({vendor.reviewCount || 0})
         </ReviewCountTypography>

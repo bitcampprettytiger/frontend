@@ -11,6 +11,8 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  
+
 
   const navigate = useNavigate(); // 리다이렉트를 위한 navigate 함수 선언
 
@@ -24,7 +26,7 @@ const Login = () => {
 
     try {
       const response = await instance.post(
-        'http://localhost/member/login',
+        'http://27.96.135.75/member/login',
         data,
         {
           headers: {
@@ -32,9 +34,11 @@ const Login = () => {
           },
         }
       );
-      const { accessToken, refreshToken } = response.data.item;
+      const { accessToken, refreshToken } = response.data.item; //memberId
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('refreshToken', refreshToken);
+      // localStorage.setItem('memberId', memberId);
+
 
       if (accessToken) {
         console.log('로그인 성공! 토큰이 존재합니다.');
@@ -69,6 +73,10 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
+        <br />
+        <button onClick={handleSubmit} className="login-btn">
+          로그인
+        </button>
         <div className="sub-fun">
           <Link to="/signup">
             <button className="sub-button">회원가입</button>
@@ -76,9 +84,6 @@ const Login = () => {
           <button className="sub-button">비밀번호 찾기</button>
         </div>
         <br />
-        <button onClick={handleSubmit} className="login-btn">
-          로그인
-        </button>
         <SnsLogin />
       </form>
     </div>

@@ -15,7 +15,7 @@ const style = {
     bgcolor: 'background.paper',
     fontSize: '100%'
 };
-
+//ShopDetail 메뉴 더보기 
 function MenuSeeMore() {
     const menuDataList = useMenuData();
     const displayData = menuDataList.slice(0, 3); 

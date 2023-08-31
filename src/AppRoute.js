@@ -10,11 +10,9 @@ import MyReview from './Menu/MyPage/MyPageComponents/MyReview';
 import MyFavorite from './Menu/MyPage/MyPageComponents/MyFavorite';
 import MyTakeout from './Menu/MyPage/MyPageComponents/MyTakeout';
 import Notice from './Menu/Home/HomeComponents/Notice';
-import GeolocationComponent from './Menu/Home/HomeComponents/GeolocationComponent';
+import GeolocationComponent from './Menu/GeolocationCustomHooks/GeolocationComponent';
 import MyEdit from './Menu/MyPage/MyPageComponents/MyEdit';
 import ShopMain from './ShopDetails/ShopMain';
-import SellerPage from './Seller/SellerPage '
-import CustomerPage from './Seller/CustomerPage'
 import ReviewForm from './ShopDetails/Containers/Review/ReviewComponents/ReviewForm';
 import MyTakeoutDetail from './Menu/MyPage/MyPageComponents/MyTakeoutDetail';
 import AppLogin from './Login,Join/login/Login';
@@ -28,8 +26,7 @@ import SellHome from './Sell/SellHome/SellHome';
 import SellMySet from './Sell/SellMySet/SellMySet';
 import PopularResult from './Menu/Home/HomeComponents/PopularResult';
 import CartPage from './ShopDetails/Containers/Menu/MenuComponents/Cart';
-
-
+import NotFound from './NotFound';
 const menuRoutes = [
   { path: '/home', element: <Home /> },
   { path: '/geolocationcomponent', element: <GeolocationComponent /> },
@@ -46,7 +43,8 @@ const menuRoutes = [
   { path: '/order/:orderNumber', element: <MyTakeoutDetail /> },
   { path: '/myedit', element: <MyEdit /> },
   { path: '/popularresult', element: <PopularResult /> },
-  { path: '/cart/:memberId', element: <CartPage /> },
+  { path: '/cart', element: <CartPage /> },
+  { path: '*', element: <NotFound /> },
 ];
 
 const authRoutes = [
@@ -58,9 +56,9 @@ const authRoutes = [
   { path: '/sellsign3', element: <SellSignUp3 /> },
 ];
 const sellRoutes = [
-  { path: '/sellset', element: <SellStoreSet /> },
-  { path: '/sellhome', element: <SellHome /> },
-  { path: '/sellmyset', element: <SellMySet /> },
+  { path: '/sellset/:vendorId', element: <SellStoreSet /> },
+  { path: '/sellhome/', element: <SellHome /> },
+  { path: '/sellmyset/:vendorId', element: <SellMySet /> },
 ];
 const mapRoutes = [
   { path: '/trfood', element: <TrFood /> },
@@ -68,41 +66,8 @@ const mapRoutes = [
 ];
 
 export const browserRoutes = [
-
-
-    { path: '/', element: <AppLogin /> },
-    { path: '/signup', element: <AppSignup /> },
-    { path: '/home', element: <Home /> },
-    { path: '/trfood', element: <TrFood /> },
-    { path: '/stfood', element: <StFood /> },
-    { path: '/geolocationcomponent', element: <GeolocationComponent /> },
-    { path: '/mypage', element: <Mypage /> },
-    { path: '/search', element: <Search /> },
-    { path: '/waiting', element: <Waiting /> },
-    { path: '/myreview', element: <MyReview /> },
-    { path: '/myfavorite', element: <MyFavorite /> },
-    { path: '/mytakeout', element: <MyTakeout /> },
-    { path: '/waitingDetail', element: <WaitingDetail /> },
-    { path: '/myedit', element: <MyEdit /> },
-    { path: '/shopmain', element: <ShopMain /> },
-    { path: '/sellerpage', element: <SellerPage/>},
-    { path: '/CustomerPage', element: <CustomerPage />}
-
-];
-
-export const mobileRoutes = [
-    { path: '/', element: <Home /> },
-    { path: '/trfood', element: <TrFood /> },
-    { path: '/stfood', element: <StFood /> },
-    { path: '/geolocationcomponent', element: <GeolocationComponent /> },
-    { path: '/mypage', element: <Mypage /> },
-    { path: '/search', element: <Search /> },
-    { path: '/waiting', element: <Waiting /> },
-    { path: '/myreview', element: <MyReview /> },
-    { path: '/myfavorite', element: <MyFavorite /> },
-    { path: '/mytakeout', element: <MyTakeout /> },
-    { path: '/waitingDetail', element: <WaitingDetail /> },
-    { path: '/myedit', element: <MyEdit /> },
-    { path: '/shopmain', element: <ShopMain /> },
-
+  ...authRoutes,
+  ...menuRoutes,
+  ...mapRoutes,
+  ...sellRoutes,
 ];

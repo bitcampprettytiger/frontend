@@ -11,7 +11,7 @@ import {
   fetchPopularPlaces,
   fetchTop5Vendors,
   fetchMostFavoritedVendors,
-  fetchTop5RecommendedMenus,
+  fetchTop10RecommendedMenus,
   fetchTop5ReviewVendors
 } from '../Home/HomeComponents/HomeApi';
 
@@ -22,11 +22,12 @@ function Home() {
   const [popularPlaces, setPopularPlaces] = useState([]); // 인기 장소 관리
   const [top5Vendors, setTop5Vendors] = useState([]); // Top 5 판매자 관리
   const [mostFavoritedVendors, setMostFavoritedVendors] = useState([]); // 가장 많이 즐겨찾기 된 판매자 관리
-  const [top5Menus, setTop5Menus] = useState([]); // Top 5 메뉴 관리
+  const [top10Menus, setTop10Menus] = useState([]); // Top 5 메뉴 관리
   const [currentIndex, setCurrentIndex] = useState(0); // 현재 이미지 슬라이더의 인덱스
   const [address, setAddress] = useState(""); // 사용자의 주소
   const [location, setLocation] = useState({ latitude: "", longitude: "" }); // 사용자의 위치 (위도, 경도)
   const [top5ReviewVendors, setTop5ReviewVendors] = useState([]); // 이달의 유저 픽 BEST NO.5 판매자 관리
+  const [headerText, setHeaderText] = useState(''); // 초기값은 빈 문자열
 
   const images = ['/images/slide-4.png', '/images/slide-2.png', '/images/slide-3.png']; // 이미지 슬라이더에 사용될 이미지들
 
@@ -75,6 +76,7 @@ function Home() {
     const fetchData = async () => {
       const data = await fetchTop5Vendors();
       console.log("Top 5 Vendors:", data);
+      //여기 추가함
 
 
       if (data) {
@@ -87,28 +89,37 @@ function Home() {
   useEffect(() => {
     // 처음에 Top 5 메뉴 데이터를 가져옴
     const fetchDataForMenus = async () => {
-      const data = await fetchTop5RecommendedMenus();
+      const data = await fetchTop10RecommendedMenus();
+      console.log(data)
       if (data) {
-        setTop5Menus(data);
+        setTop10Menus(data);
       }
     };
     fetchDataForMenus();
 
     // 주소나 위치가 변경되면 여러 데이터를 새로 가져옴
     let isMounted = true;
-
+    console.log("fetchPopularPlaces");
+    console.log(fetchPopularPlaces(address, location.latitude, location.longitude))
     fetchAndSet(() => fetchPopularPlaces(address, location.latitude, location.longitude), setPopularPlaces);
     const fetchAndSetData = async () => {
       if (address && address !== '') {  // address가 undefined나 빈 문자열이 아닐 경우에만 API 호출
-        await fetchAndSet(() => fetchPopularPlaces(address, location.latitude, location.longitude), setPopularPlaces);
+        await fetchAndSet(async () => {
+          const response = await fetchPopularPlaces(address, location.latitude, location.longitude);
+          setPopularPlaces(response.data.result.itemlist);
+          return response.data.result.itemlist;
+        }, setPopularPlaces);
         await fetchAndSet(fetchPopularPlaces, setPopularPlaces);
         await fetchAndSet(fetchTop5Vendors, setTop5Vendors);
         await fetchAndSet(fetchMostFavoritedVendors, setMostFavoritedVendors, 5);
+        await fetchAndSet(fetchTop10RecommendedMenus, setTop10Menus);
+        console.log("popularPlaces" + popularPlaces)
       }
     };
 
-    fetchAndSetData();
 
+
+    console.log("fetchAndSetData()" + fetchAndSetData());
     const interval = setInterval(() => {
       if (isMounted) {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
@@ -132,14 +143,27 @@ function Home() {
   };
 
   // 버튼 클릭 이벤트 핸들러
-  const handleButtonClick = (url) => {
-    if (url) {
-      window.location.href = url;
-    }
+  const handleButtonClick = (areaName) => {
+    setHeaderText(`${areaName}지역의 인기 매장 BEST`);
   };
+  //메뉴버튼 누르면 검색창이동
+  const handleMenuItemClick = (menuText) => {
+    navigate(`/search?query=${menuText}`);
+  };
+  //역버튼 누르면 검색창이동
+  const navigateToSearchWithInfo = (areaName, shopsAroundArea) => {
+    navigate('/search', {
+      state: {
+        headerText: `${areaName}지역의 인기 매장 BEST`,
+        shops: shopsAroundArea
+      }
+    });
+  };
+
   return (
     <div className='App-main2'>
       <Header page="home" setAddressToHome={setAddressToHome} />
+
       <div className="slider">
         <img src={images[currentIndex]} alt="슬라이드 이미지" className="slide-image" />
         <div className="dots">
@@ -170,8 +194,12 @@ function Home() {
       <div className="outer-container">
         <div className="inner-container">
           {popularPlaces.map((place) => (
-            <button key={place.id} className="button-round">
-              <img src="{place.imageUrl}" alt={place.name} className="button-image" />
+            <button
+              key={place.id}
+              className="button-round"
+              onClick={() => navigateToSearchWithInfo(place.location, place.shopsAround)}
+            >
+              <img src={place.imageUrl} alt={place.name} className="button-image" />
               <span className="button-text">{place.location}</span>
             </button>
           ))}
@@ -206,12 +234,20 @@ function Home() {
 
       <h3>먹자취에서 즐겨 찾는 메뉴</h3>
       <div className="favorite-menu-container">
-        <ul>
-          {top5Menus.map((menu, index) => (
-            <li key={index}>{menu.name}</li>  // Replace 'name' with the actual property you're expecting from the API
+        <div className="menu-box">
+          {top10Menus.slice(0, 5).map((menu, index) => (
+            <button className="menu-button" key={index} onClick={() => handleMenuItemClick(menu)}>
+              {index + 1}위: {menu}
+            </button>
           ))}
-        </ul>
-
+        </div>
+        <div className="menu-box">
+          {top10Menus.slice(5, 10).map((menu, index) => (
+            <button className="menu-button" key={index + 5}>
+              {index + 6}위: {menu}
+            </button>
+          ))}
+        </div>
       </div>
       <div className='footer-text-container'>
         <div className='footer-text-container-text'>
