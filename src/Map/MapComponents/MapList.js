@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import './MapList.css';
-import { useState, useRef } from 'react';
-
+import { Card, CardMedia, CardContent, Typography } from '@mui/material';
+import './MapList.css'
 export default function MapList({ vendorInfo, moveTo, selectedVendorTypes }) {
   const [selectedItem, setSelectedItem] = useState(null);
   const sliderRef = useRef(null);
@@ -15,35 +14,31 @@ export default function MapList({ vendorInfo, moveTo, selectedVendorTypes }) {
     slidesToShow: 4,
     slidesToScroll: 1,
     swipeToSlide: true,
-    initialSlide: 1, // 2번째 슬라이드부터 시작
+    initialSlide: 1,
   };
 
   const imageMap = {
-    한식: '../images/stfood.png',
-    중식: '../images/bung.png',
-    일식: '../images/tako.png',
-    분식: '../images/jeon.png',
-    양식: '../images/ttuck.png',
-    // 다른 카테고리도 이곳에 추가
+    분식: '../images/stfood.png',
+    국물: '../images/bung.png',
+    볶음: '../images/tako.png',
+    튀김: '../images/jeon.png',
   };
 
-  // 주어진 vendorType에 해당하는 이미지 경로를 반환하는 함수
   const getImageByVendorType = (vendorType) => {
-    return imageMap[vendorType] || '../images/default.png'; // 만약 매핑되지 않은 카테고리라면 기본 이미지를 반환
+    return imageMap[vendorType] || '../images/default.png';
   };
 
   const handleClick = (info, index) => {
     moveTo({ lat: info.vendorY, lon: info.vendorX });
-    setSelectedItem(index); // 선택한 아이템 인덱스 설정
-    sliderRef.current.slickGoTo(index - 1); // 선택한 슬라이드를 2번째 위치로 이동
+    setSelectedItem(index);
+    sliderRef.current.slickGoTo(index - 1);
   };
 
   return (
     <>
-      <Slider ref={sliderRef} {...settings} className="list">
+      <Slider ref={sliderRef} {...settings}>
         {vendorInfo
           .filter((info) => {
-            // selectedVendorTypes 배열이 비어 있거나 해당 벤더 타입을 포함하고 있다면 true
             return (
               !selectedVendorTypes.length ||
               selectedVendorTypes.includes(info.vendorType)
@@ -51,22 +46,34 @@ export default function MapList({ vendorInfo, moveTo, selectedVendorTypes }) {
           })
           .map((info, index) => (
             <div key={index}>
-              <div
-                className={`list-item ${
-                  selectedItem === index ? 'selected' : ''
-                }`}
+              <Card
                 onClick={() => handleClick(info, index)}
+                sx={{
+                  width: 260,
+                  marginBottom: 2,
+                  borderColor: selectedItem === index ? 'primary.main' : 'grey.300',
+                  borderWidth: 2,
+                  borderStyle: 'solid',
+                }}
               >
-                <img
-                  src={getImageByVendorType(info.vendorType)}
+                <CardMedia
+                  component="img"
+                  height="140"
+                  image={getImageByVendorType(info.vendorType)}
                   alt={info.vendorType}
                 />
-                <div className="info-container">
-                  <span>{info.vendorType}</span>
-                  <span>{info.vendorOpenStatus}</span>
-                  <span>{info.vendorTel}</span>
-                </div>
-              </div>
+                <CardContent>
+                  <Typography variant="h6" component="div">
+                    {info.vendorType}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {info.vendorOpenStatus}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {info.vendorTel}
+                  </Typography>
+                </CardContent>
+              </Card>
             </div>
           ))}
       </Slider>

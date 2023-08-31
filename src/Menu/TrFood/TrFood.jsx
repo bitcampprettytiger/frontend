@@ -13,7 +13,7 @@ function Trfood() {
             <Choice></Choice>
             <MapList></MapList>
           </KaKaoMap>
-          <Footer type="stfood"></Footer>
+          <Footer type="trfood"></Footer>
         </div>
       </div>
     </>
