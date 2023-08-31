@@ -167,6 +167,7 @@ function CartPage() {
                         sx={{
                           border: '1px solid #D9D9D9',
                           color: 'black',
+                          marginRight:'10%'
                         }}
                       >
                         <RemoveIcon />
@@ -178,6 +179,7 @@ function CartPage() {
                         sx={{
                           border: '1px solid #D9D9D9',
                           color: 'black',
+                          marginLeft:'10%'
                         }}
                       >
                         <AddIcon />

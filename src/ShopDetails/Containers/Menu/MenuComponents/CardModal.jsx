@@ -1,16 +1,36 @@
 import React from 'react';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import { Box } from '@mui/system';
 
 const CardModal = ({ show, onClose }) => {
   if (!show) return null;
 
   return (
-    <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0, 0, 0, 0.7)', zIndex: 9999 }}>
-      <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: '#fff', padding: '20px', borderRadius: '8px' }}>
-        <p>결제가 성공적으로 완료되었습니다.</p>
-        <button onClick={onClose}>확인</button>
-      </div>
-    </div>
+    <Dialog open={show} onClose={onClose}>
+      <DialogContent style={{ textAlign: 'center' }}>
+        <Typography variant="h6">결제가 완료되었습니다.</Typography>
+      </DialogContent>
+      <Box 
+        display="flex" 
+        justifyContent="center" 
+        alignItems="center"
+        padding={2}
+      >
+        <Button 
+          variant="contained" 
+          color="primary" 
+          onClick={onClose} 
+          style={{ textTransform: 'none', fontSize: '1rem' }}
+        >
+          확인
+        </Button>
+      </Box>
+    </Dialog>
   );
 };
 
 export default CardModal;
+
