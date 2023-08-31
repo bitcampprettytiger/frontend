@@ -4,7 +4,7 @@ import { io } from 'socket.io-client';
 const SellerPage = () => {
   const userId = '1';
   const [reservationList, setReservationList] = useState([]);
-  const socket = io('http://192.168.0.77:8081', {
+  const socket = io('http://192.168.0.58:8081', {
     query: { userId }
   });
   const [position, setPosition] = useState(0);
@@ -33,7 +33,7 @@ const SellerPage = () => {
   }, [socket]);
 
   const handleDisconnect = (phoneNumber) => {
-    console.log("handleDisconnect"+phoneNumber)
+    console.log(phoneNumber)
     // 클라이언트와의 연결을 끊는 로직 구현
     // phoneNumber를 기반으로 연결을 찾아서 끊을 수 있도록 해야 합니다.
     // 아래는 가상의 예시입니다.
