@@ -39,7 +39,7 @@ const SellSignUp2 = () => {
 
   const validateUsername = (value) => {
     if (value.match(/\S+@\S+\.\S+/)) {
-      setUsernameError('이메일 형식이 맞습니다');
+      setUsernameError('이메일 형식이 맞습니다.');
     } else {
       setUsernameError('이메일 형식이 올바르지 않습니다.');
     }
@@ -57,7 +57,7 @@ const SellSignUp2 = () => {
     if (value !== password) {
       setConfirmPasswordError('비밀번호가 일치하지 않습니다.');
     } else {
-      setConfirmPasswordError('비밀번호가 일치합니다');
+      setConfirmPasswordError('비밀번호가 일치합니다.');
     }
   };
 
@@ -65,13 +65,18 @@ const SellSignUp2 = () => {
     e.preventDefault();
 
     if (
-      usernameError !== '이메일 형식이 맞습니다' ||
-      passwordError !== '비밀번호는 8자 이상입니다' ||
-      confirmPasswordError !== '비밀번호가 일치합니다' ||
+      usernameError !== '이메일 형식이 맞습니다.' ||
+      passwordError !== '8자 이상의 비밀번호입니다.' ||
+      confirmPasswordError !== '비밀번호가 일치합니다.' ||
       !privacy
     ) {
       alert('입력을 확인해주세요.');
+      console.log(usernameError)
+      console.log(passwordError)
+      console.log(confirmPasswordError)
+      console.log(privacy)
       return;
+
     }
     const result = await SellUpAPI(username, password, tel, privacy); // 여기에 필요한 정보를 추가
 
