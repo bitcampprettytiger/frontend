@@ -22,8 +22,8 @@ import AttachFileIcon from '@mui/icons-material/AttachFile';
 import VendorAPI from './VendorAPI';
 const SellSignUp3 = () => {
   const location = useLocation();
-  // const username = location.state.username;
-  // console.log("이름",username)
+  const username = location.state.username;
+  console.log("이름",username)
   const [file, setFile] = useState(null);
   const [address, setAddress] = useState('');
   const [showPostcode, setShowPostcode] = useState(false);
@@ -112,7 +112,7 @@ const SellSignUp3 = () => {
       businessHours.시작,
       businessHours.마감,
       file,
-      // username
+      username
     );
     // 여기에 API 호출 후 원하는 작업을 수행 (예: 페이지 이동)
     if (result === '회원가입 성공!') {
@@ -147,23 +147,23 @@ const SellSignUp3 = () => {
               onChange={handleVendorTypeChange} // 이벤트 핸들러 바인딩
             >
               <MenuItem value={'노점'}>노점</MenuItem>
-              <MenuItem value={'길거리'}>길거리</MenuItem>
+              <MenuItem value={'포장마차'}>포장마차</MenuItem>
             </Select>
           </FormControl>
           {/* 메뉴 선택 부분 */}
           <Grid item xs={12} container alignItems="center">
             <Typography variant="body1" sx={{ margin: '5% 2% 2% 0' }}>
-              메뉴 선택
+              대표 메뉴 선택
             </Typography>
             <FormControl variant="outlined" fullWidth>
               <Select
                 value={SIGMenu} // 상태에 대한 바인딩
                 onChange={(e) => setSIGMenu(e.target.value)} // 이벤트 핸들러 바인딩
               >
-                <MenuItem value={'면'}>면</MenuItem>
+                <MenuItem value={'분식'}>분식</MenuItem>
                 <MenuItem value={'국물'}>국물</MenuItem>
                 <MenuItem value={'볶음'}>볶음</MenuItem>
-                <MenuItem value={'마른안주'}>마른안주</MenuItem>
+                <MenuItem value={'튀김'}>튀김</MenuItem>
               </Select>
             </FormControl>
           </Grid>

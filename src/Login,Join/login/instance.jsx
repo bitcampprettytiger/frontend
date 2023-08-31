@@ -4,18 +4,16 @@ import axios from 'axios';
 const instance = axios.create({
   baseURL: 'http://27.96.135.75',
 });
-console.log(instance.interceptors.response);
-console.log(instance)
+console.log("인스턴스",instance.interceptors.response);
 
 // 응답 인터셉터 설정
 instance.interceptors.response.use(
   (response) => response,
   async (error) => {
-    console.log(instance.interceptors);
     const originalRequest = error.config;
-    console.log(error);
+    alert("인터셉터 진입")
     // 에러가 401이고, 이미 재요청한 것이 아닌 경우
-    if (error.response.status === 401 && !originalRequest._retry) {
+    if (error.response.status === 403 && !originalRequest._retry) {
       console.log('엑세스 토큰 만료, 리프레시 토큰 사용');
       originalRequest._retry = true;
 

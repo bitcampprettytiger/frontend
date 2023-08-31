@@ -26,9 +26,7 @@ import SellHome from './Sell/SellHome/SellHome';
 import SellMySet from './Sell/SellMySet/SellMySet';
 import PopularResult from './Menu/Home/HomeComponents/PopularResult';
 import CartPage from './ShopDetails/Containers/Menu/MenuComponents/Cart';
-
-
-
+import NotFound from './NotFound';
 const menuRoutes = [
   { path: '/home', element: <Home /> },
   { path: '/geolocationcomponent', element: <GeolocationComponent /> },
@@ -46,7 +44,7 @@ const menuRoutes = [
   { path: '/myedit', element: <MyEdit /> },
   { path: '/popularresult', element: <PopularResult /> },
   { path: '/cart', element: <CartPage /> },
-
+  { path: '*', element: <NotFound /> },
 ];
 
 const authRoutes = [
