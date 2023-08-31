@@ -7,13 +7,27 @@ import Header from '../../Layout/Header';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { Link } from 'react-router-dom';
-
+import { useFavorite } from '../../Menu/MyPage/MyPageComponents/FavoriteContext';
 
 function Mypage() {
   const [isEditing, setIsEditing] = useState(false);
   const [nickname, setNickname] = useState("닉네임");
   const [newNickname, setNewNickname] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [reviewCount, setReviewCount] = useState(0);
+  const { favoriteCount, setFavoriteCount, favoriteShops, setFavoriteShops } = useFavorite();
+
+
+  const fetchFavorites = async () => {
+    try {
+      const response = await fetch('/myPage/myFavoriteVendors');
+      const data = await response.json();
+      setFavoriteShops(data.favoriteShops || []);
+    } catch (error) {
+      console.error('Could not fetch favorite shops:', error);
+    }
+  };
+
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -34,57 +48,33 @@ function Mypage() {
   const handleChange = (e) => {
     setNewNickname(e.target.value);
   };
-
-  const [reviewCount, setReviewCount] = useState(0);
-  const [favoriteCount, setFavoriteCount] = useState(0);
-
   useEffect(() => {
-    // 예: API 호출을 사용하여 리뷰와 찜해찜의 게시물 수를 가져옵니다.
-    // 이 부분은 실제 백엔드 서비스와의 통신을 기반으로 작성해야 합니다.
-    fetch('/api/user/reviews/count')
-      .then(res => res.json())
-      .then(data => setReviewCount(data.count));
+    const fetchAllData = async () => {
+      try {
+        const [reviewResponse, favoriteVendorsResponse] = await Promise.all([
+          fetch('/myPage/myReviews'),
+          fetch('/myPage/myFavoriteVendors')
+        ]);
 
-    fetch('/api/user/favorites/count')
-      .then(res => res.json())
-      .then(data => setFavoriteCount(data.count));
-  }, []); // 컴포넌트가 마운트될 때만 API 호출을 수행합니다.
-  //찜하기추가
-  const addFavorite = (memberId, vendorId) => {
-    fetch(`/api/favoritePick/${memberId}/add/${vendorId}`, {
-      method: 'POST',
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Failed to add favorite');
-        }
-        return response.json();
-      })
-      .then(data => {
-        console.log("Favorite added:", data);
-      })
-      .catch(error => {
-        console.error("Error:", error);
-      });
-  }
-  //찜하기 삭제
-  const removeFavorite = (memberId, vendorId) => {
-    fetch(`/api/favoritePick/${memberId}/remove/${vendorId}`, {
-      method: 'POST',
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Failed to remove favorite');
-        }
-        return response.json();
-      })
-      .then(data => {
-        console.log("Favorite removed:", data);
-      })
-      .catch(error => {
-        console.error("Error:", error);
-      });
-  }
+        const reviewData = await reviewResponse.json();
+        const favoriteVendorsData = await favoriteVendorsResponse.json();
+
+        setReviewCount(reviewData.count);
+        setFavoriteShops(favoriteVendorsData.favoriteShops || []);
+        setFavoriteCount(favoriteShops.length);
+      } catch (error) {
+        console.error('Could not fetch data:', error);
+
+
+      }
+    };
+
+    fetchAllData();
+  }, []);
+
+
+
+
 
 
   return (
