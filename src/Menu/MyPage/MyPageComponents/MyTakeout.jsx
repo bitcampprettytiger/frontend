@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../../Layout/Header.jsx';
 import Footer from '../../../Layout/Footer.jsx';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { fetchOrderDetail, fetchPaymentList } from '../../Home/HomeComponents/HomeApi.jsx';
 import './MyTakeout.css';
 
@@ -12,7 +12,7 @@ function MyTakeout() {
     const [todayStoreCount, setTodayStoreCount] = useState(0);
     const [groupedOrders, setGroupedOrders] = useState({});
     const MEMBER_ID = localStorage.getItem('member_id');
-
+    const navigate = useNavigate();
 
     useEffect(() => {
         // 주문과 결제 정보를 가져오는 비동기 함수
@@ -20,7 +20,7 @@ function MyTakeout() {
             try {
                 // 주문 상세 정보를 가져옵니다.
                 const orderData = await fetchOrderDetail(MEMBER_ID);
-
+                console.log("이건 상세정보", orderData);
                 // 현재 날짜를 ISO 형식으로 가져옵니다.
                 const today = new Date().toISOString().split('T')[0];
 
@@ -88,12 +88,24 @@ function MyTakeout() {
                                 <div className='mytakeout-store'>
                                     <img src="/images/roopy.png" alt="Store Logo" />
                                     <div className='mytakeout-store-info'>
-                                        <p>{order.storeName}</p>
+                                        <p>{order.menuType}</p>
                                         <div className='menu-detail'>
                                             <p>{order.orderMenu}</p>
                                             <p>{order.totalPrice}원</p>
                                         </div>
                                     </div>
+                                    <button
+                                        className="write-review-button"
+                                        onClick={() => {
+                                            console.log("주문이되나여?", order);
+                                            console.log("아이디는 찍히나?", order.id);
+                                            console.log("가게아이디는?", order.vendorId);
+
+                                            navigate(`/ReviewForm/${order.id}/${order.vendorId}`); // ReviewForm 페이지로 이동하면서 order.id와 vendorId를 전달
+                                        }}
+                                    >
+                                        리뷰 작성하기
+                                    </button>
                                 </div>
                             </li>
                         ))

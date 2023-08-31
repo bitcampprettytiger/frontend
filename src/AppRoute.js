@@ -38,7 +38,7 @@ const menuRoutes = [
   { path: '/myreview', element: <MyReview /> },
   { path: '/waitingDetail', element: <WaitingDetail /> },
   { path: '/shopHome/:vendorId', element: <ShopMain /> },
-  { path: '/reviewform', element: <ReviewForm /> },
+  { path: '/reviewform/:orderId/:vendorId', element: <ReviewForm /> },
   { path: '/notice', element: <Notice /> },
   { path: '/mypage', element: <Mypage /> },
   { path: '/myfavorite', element: <MyFavorite /> },
