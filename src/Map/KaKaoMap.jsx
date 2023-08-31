@@ -25,6 +25,7 @@ const KaKaoMap = (props) => {
         vendorX: vendor.x,
         vendorY: vendor.y,
         vendorSIG: vendor.sigmenu,
+        vendorid : vendor.id
       }));
     }
     return [];
