@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
-import './Login.css';
-import Logo from '../login-component/Logo';
+import styles from './Login.module.css';
 import InputField from '../login-component/InputField';
 import SnsLogin from '../login-component/Snslogin';
 import instance from './instance';
@@ -11,7 +10,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  
+
 
 
   const navigate = useNavigate(); // 리다이렉트를 위한 navigate 함수 선언
@@ -53,11 +52,12 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
-      <form className="login-form">
-        <Logo />
-        <h2>로그인</h2>
-        <div className="input-field">
+    <div className={styles["login-container"]}>
+      <form className={styles["userlogin-form"]}>
+        <div className={styles["header"]}>
+          <div className={styles["logo-name"]}>먹자취</div>
+        </div>
+        <div className={styles["userinput-field"]}>
           <InputField
             type="text"
             placeholder="아이디"
@@ -65,7 +65,7 @@ const Login = () => {
             onChange={(e) => setUsername(e.target.value)}
           />
         </div>
-        <div className="input-field">
+        <div>
           <InputField
             type={showPassword ? 'text' : 'password'}
             placeholder="비밀번호"
@@ -74,14 +74,14 @@ const Login = () => {
           />
         </div>
         <br />
-        <button onClick={handleSubmit} className="login-btn">
-          로그인
+        <button onClick={handleSubmit} className={styles["login-btn"]}>
+          먹자취 로그인
         </button>
-        <div className="sub-fun">
+        <div className={styles["sub-fun"]}>
           <Link to="/signup">
-            <button className="sub-button">회원가입</button>
+            <button className={styles["sub-button"]}>회원가입</button>
           </Link>
-          <button className="sub-button">비밀번호 찾기</button>
+          <button className={styles["sub-button"]}>비밀번호 찾기</button>
         </div>
         <br />
         <SnsLogin />

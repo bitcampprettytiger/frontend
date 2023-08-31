@@ -3,11 +3,11 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #ff8d79;
+    background-color: #F9FCFB;
 }
 
-.login-form {
-    width: 300px;
+.userlogin-form {
+    width: 80%;
     text-align: center;
 }
 
@@ -15,33 +15,31 @@
     display: flex;
 }
 
-.header .logo-box {
-    width: 30%;
-}
-
-.logo-box img {
-    width: 100%;
-}
-
 .header .logo-name {
-    width: 70%;
-    font-size: 40px;
+    width: 100%;
+    font-size: 270%;
     display: flex;
     justify-content: center;
     align-items: center;
+    color: #FD5E53;
+    margin-bottom: 10%;
+    font-weight: bold;
 }
 
 input {
-    width: 70%;
-    height: 5vh;
+    width: 90%;
+    height: 6vh;
     border-radius: 10px;
+    border-color: #E2E2E2;
+    margin-top: 5%;
+    border-style: solid;
 }
 
 .sub-button {
     background: none;
     border: none;
     color: grey;
-    font-size: 16px;
+    font-size: 100%;
     cursor: pointer;
     text-decoration: none;
 }
@@ -54,9 +52,12 @@ input {
     text-decoration: none;
     background: none;
     border: none;
-    color: red;
-    font-size: 16px;
+    color: white;
+    background-color: #FD5E53;
+    border-radius: 5px;
+    font-size: 110%;
     cursor: pointer;
+    width: 90%;
     margin-bottom: 30px;
 }
 
@@ -71,6 +72,8 @@ input {
 
 .sns-title {
     text-align: center;
+    margin-bottom: 10%;
+    font-size: 90%;
 }
 
 .sns-line {
@@ -122,6 +125,6 @@ input {
     width: 50%;
 }
 
-.input-field {
-    margin-top: 10%;
+.testInput{
+
 }

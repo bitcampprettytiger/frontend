@@ -22,6 +22,7 @@ const SellStoreSet = () => {
         overflowY: 'scroll',
         scrollbarWidth: 'none',
         msOverflowStyle: 'none',
+        height: '100%'
       }}
     >
       <style>{`::-webkit-scrollbar { display: none; }`}</style>
