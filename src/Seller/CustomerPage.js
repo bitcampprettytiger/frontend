@@ -27,8 +27,22 @@ const CustomerPage = () => {
       socket.emit('enter_room', data);
       setIsReserved(true);
       setPosition(prevPosition => prevPosition + 1);
+      // socket.on('reserved_position', (position) => {
+      //   // 예약된 위치를 받아서 처리
+      //   console.log(`당신은 ${position}번째 예약입니다.`);
+      //   setPosition(position);
+      // });
     }
+    // console.log("여기?")
   };
+  useEffect(() => {
+    socket.on('update_position', (position) => {
+      console.log("여기?")
+      // 예약된 위치를 받아서 처리
+      console.log(`당신은 ${position}번째 예약입니다.`);
+      setPosition(position);
+    });
+  }, [socket]);
 
   return (
     <div>
