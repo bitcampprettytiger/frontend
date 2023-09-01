@@ -33,6 +33,7 @@ import { NoticeProvider } from './Menu/Home/HomeComponents/NoticeContext';
 import { ThemeProvider, createTheme } from '@mui/material';
 import './App.css';
 import NotFound from './NotFound';
+import AnimatedCursor from './Layout/AnimatedCursor';
 
 const muitheme = createTheme({
   palette: {
@@ -125,6 +126,7 @@ function InnerAppRoute() {
       <ThemeProvider theme={muitheme}>
         <NoticeProvider>
           <BrowserView className='BV'>
+            <AnimatedCursor/>
             <Routes>
               {browserRoutes.map((route, index) => (
                 <Route key={index} path={route.path} element={route.element} />
