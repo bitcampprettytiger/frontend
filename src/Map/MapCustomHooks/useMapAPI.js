@@ -16,6 +16,7 @@ export const useMapAPI = (url) => {
       try {
         const response = await axios.get(url, { headers });
         setData(response.data.itemlist);
+        console.log('벤더에이터ㅓㅓ',response.data.itemlist)
       } catch (error) {
         console.error('Failed to fetch data:', error);
       }

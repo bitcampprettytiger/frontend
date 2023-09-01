@@ -16,6 +16,10 @@ const KaKaoMap = (props) => {
   const [selectedSIGmenus, setSelectedSIGmenus] = useState([]);
   const vendorInfo = useMemo(() => {
     if (data) {
+      const imageUrl =
+      data.vendorImageDTOList?.[0]?.url +
+      data.vendorImageDTOList?.[0]?.fileName;
+
       return data.map((vendor) => ({
         vendorName: vendor.vendorName,
         vendorAddress: vendor.address,
@@ -25,7 +29,8 @@ const KaKaoMap = (props) => {
         vendorX: vendor.x,
         vendorY: vendor.y,
         vendorSIG: vendor.sigmenu,
-        vendorid : vendor.id
+        vendorid: vendor.id,
+        vendorimg: imageUrl,
       }));
     }
     return [];

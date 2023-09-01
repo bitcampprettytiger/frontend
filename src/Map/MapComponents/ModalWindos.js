@@ -24,7 +24,9 @@ const ModalWindows = ({ info, onClose }) => {
         <Typography variant="h6">{info.vendorName}</Typography>
 
         <Typography variant="body1">{info.vendorAddress}</Typography>
-        <Typography variant="body1">이미지</Typography>
+        <Typography variant="body1">
+          <img src={info.vendorimg} alt='이미지 있넝'></img>
+        </Typography>
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="primary">
