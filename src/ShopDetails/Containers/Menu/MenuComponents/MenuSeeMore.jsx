@@ -13,7 +13,8 @@ import { useParams } from 'react-router-dom';
 const style = {
     width: '100%',
     bgcolor: 'background.paper',
-    fontSize: '100%'
+    fontSize: '100%',
+    margin: '10% 0'
 };
 //ShopDetail 메뉴 더보기 
 function MenuSeeMore() {
@@ -28,7 +29,7 @@ function MenuSeeMore() {
       };
 
     return (
-        <List sx={style} component="nav" aria-label="mailbox folders">
+        <List sx={style}>
         <ListItem>
           <ListItemText primary="메뉴" />
           <KeyboardArrowRightIcon />
@@ -50,6 +51,10 @@ function MenuSeeMore() {
               borderWidth: '1px',
               color: '#000000',
               fontSize: '90%',
+              '&:hover': {
+                backgroundColor: '#f1eceb',
+                borderColor: '1px solid #FD5E53'
+              }
             }}
           >
             메뉴 전체보기

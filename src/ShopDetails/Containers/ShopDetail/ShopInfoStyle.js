@@ -27,6 +27,10 @@ export const CallButton = styled(Button)`
   background: white;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
   border: #E7E3E3 solid 1px ;
+
+  &:hover {
+    background-color: #f1eceb;
+  }
 `;
 
 export const LocationButton = styled(Button)`
@@ -37,6 +41,10 @@ export const LocationButton = styled(Button)`
   background: white;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
   border: #E7E3E3 solid 1px; 
+
+   &:hover {
+    background-color: #f1eceb;
+  }
 `;
 export const StarTypography = styled(Typography)`
   font-size: 100%;

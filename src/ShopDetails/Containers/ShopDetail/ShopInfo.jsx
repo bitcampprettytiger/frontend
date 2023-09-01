@@ -37,7 +37,6 @@ function ShopInfo({ onCall, onViewLocation }) {
       </StarBox>
       <ButtonBox>
         <CallButton
-          color="primary"
           component="a"
           href={`tel:${vendor.tel}`}
           startIcon={<CallIcon />}
@@ -45,7 +44,7 @@ function ShopInfo({ onCall, onViewLocation }) {
           전화 걸기
         </CallButton>
         <LocationButton onClick={onViewLocation}>
-          <IconButton color="default" size="small" sx={{ marginRight: 1 }}>
+          <IconButton size="small" sx={{ marginRight: 1, color: 'black' }}>
             <PlaceIcon />
           </IconButton>
           위치 보기
