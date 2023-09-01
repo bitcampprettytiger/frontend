@@ -1,5 +1,5 @@
 # Node 이미지 기반
-FROM node:18.17.1 AS build
+FROM node:18.16.0 AS build
 
 # 작업 디렉터리 설정
 WORKDIR /usr/src/app
