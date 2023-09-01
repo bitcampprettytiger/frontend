@@ -91,7 +91,7 @@ const SellSignUp2 = () => {
 
   return (
     <>
-      <Container style={{ padding: '12%', border: '1px solid #ccc' }}>
+      <Container style={{ padding: '12%', border: '1px solid #ccc', height: '100vh' }}>
         <SSUHeader activeStep={activeStep}></SSUHeader>
         <div style={{ textAlign: 'center', margin: '5% auto' }}>
           <Typography variant="h5">회원가입</Typography>
@@ -116,7 +116,8 @@ const SellSignUp2 = () => {
                   style={{
                     textAlign: 'center',
                     color:
-                      usernameError === '이메일 형식이 맞습니다' ? 'blue' : '',
+                      usernameError === '이메일 형식이 맞습니다.' ? 'blue' : 'red',
+                    fontSize: '90%'
                   }}
                 >
                   {usernameError}
@@ -141,6 +142,7 @@ const SellSignUp2 = () => {
                   className="error-message"
                   style={{
                     color: passwordError === '8자 이상의 비밀번호입니다.' ? 'blue' : 'red',
+                    fontSize: '90%'
                   }}
                 >
                   {passwordError}
@@ -164,7 +166,8 @@ const SellSignUp2 = () => {
                 <div
                   className="error-message"
                   style={{
-                    color: confirmPasswordError === '비밀번호가 일치합니다' ? 'blue' : 'red',
+                    color: confirmPasswordError === '비밀번호가 일치합니다.' ? 'blue' : 'red',
+                    fontSize: '90%'
                   }}
                 >
                   {confirmPasswordError}
@@ -186,21 +189,26 @@ const SellSignUp2 = () => {
             <Grid
               item
               xs={12}
-              style={{ textAlign: 'right', marginTop: '20px' }}
+              style={{ textAlign: 'right', marginTop: '0' }}
               onClick={handleOpen}
             >
               <FormControlLabel
-                control={<Checkbox checked={privacy} />}
-                label="개인정보 동의서"
+                control={<Checkbox checked={privacy}
+                  sx={{ "& svg": { fontSize: "1.3rem" } }}
+                />}
+                label={
+                  <Typography variant="body2" style={{ fontSize: '90%' }}>
+                    개인정보 동의서
+                  </Typography>
+                }
                 value={privacy}
-                sx={{ fontSize: '90%' }}
               />
             </Grid>
 
             <Grid
               item
               xs={12}
-              style={{ textAlign: 'center', marginTop: '20px' }}
+              style={{ textAlign: 'center', marginTop: '0' }}
             >
               <Button
                 variant="contained"

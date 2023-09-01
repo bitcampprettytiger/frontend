@@ -17,6 +17,8 @@ function SellFooter({vendorId}) {
         background: '#ffffff',
         borderTop: '1px solid #e7e7e7',
         marginTop: '5%',
+        height: '8vh', 
+        backgroundColor: 'white'
       }}
     >
       <Toolbar sx={{ justifyContent: 'space-around', alignItems: 'center' }}>

@@ -58,11 +58,13 @@ input {
     font-size: 110%;
     cursor: pointer;
     width: 90%;
-    margin-bottom: 30px;
+    margin-bottom: 10%;
+    height: 5vh;
 }
 
 .login-btn:hover {
     text-decoration: none;
+    background-color: #df4136;
 }
 
 .sub-fun {
@@ -72,6 +74,7 @@ input {
 
 .sns-title {
     text-align: center;
+    margin-top: 20%;
     margin-bottom: 10%;
     font-size: 90%;
 }
@@ -86,7 +89,7 @@ input {
     display: flex;
     justify-content: space-between;
 }
-
+ 
 .sns-1,
 .sns-2,
 .sns-3 {

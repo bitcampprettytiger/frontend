@@ -22,13 +22,17 @@ const SellStoreSet = () => {
         overflowY: 'scroll',
         scrollbarWidth: 'none',
         msOverflowStyle: 'none',
-        height: '100%'
+        height: '100vh',
       }}
     >
       <style>{`::-webkit-scrollbar { display: none; }`}</style>
       <SellHeader></SellHeader>
+      <div style={{
+        padding: '5%'
+      }}>
       <SSSMenuInputs onAddMenu={handleAddMenu}></SSSMenuInputs>
       <SSSMenuList menus={menus} onDeleteMenu={handleDeleteMenu}></SSSMenuList>
+      </div>
       {/* <SSSReserveBtn></SSSReserveBtn> */}
       <SellFooter></SellFooter>
     </div>

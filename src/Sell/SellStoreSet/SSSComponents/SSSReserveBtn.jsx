@@ -39,7 +39,7 @@ const ReservationButtons = ({ title }) => {
           onClick={handleAllow}
           sx={{
             backgroundColor: isAllowed === true ? 'limegreen' : 'grey',
-            width: '100px', // 버튼 크기 설정
+            width: '20%', // 버튼 크기 설정
           }}
         >
           허용
@@ -49,7 +49,7 @@ const ReservationButtons = ({ title }) => {
           onClick={handleDeny}
           sx={{
             backgroundColor: isAllowed === false ? 'red' : 'grey',
-            width: '100px', // 버튼 크기 설정
+            width: '20%', // 버튼 크기 설정
           }}
         >
           거부
