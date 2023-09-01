@@ -18,7 +18,7 @@ export const getHeaders = (navigate) => {
 
 export const fetchPopularPlaces = (address, latitude, longitude) => {
     console.log(address, latitude, longitude)
-    return axios.post('http://27.96.135.75/vendor/search', {
+    return axios.post('http://192.168.0.58/vendor/search', {
         address: address,
         latitude: latitude,
         hardness: longitude
@@ -30,7 +30,7 @@ export const fetchPopularPlaces = (address, latitude, longitude) => {
 
 export const fetchMostFavoritedVendors = () => {
 
-    return axios.get('http://27.96.135.75/api/favoritePick/top8Favorites', {
+    return axios.get('http://192.168.0.58/api/favoritePick/top8Favorites', {
         headers: getHeaders()
     });
 
@@ -67,7 +67,7 @@ export const fetchTop5ReviewVendors = async () => {
         console.log("1111111귀찮거든")
         const url = '/review/averageReviewScore';
         console.log(`Sending request to ${url}`); // 실제로 어떤 URL로 요청이 가는지 출력
-        const response = await axios.get('http://27.96.135.75/vendor/review/averageReviewScore', {
+        const response = await axios.get('http://192.168.0.58/vendor/review/averageReviewScore', {
             headers: getHeaders()
         });
         console.log(response)  // 백엔드 엔드포인트 주소
@@ -82,7 +82,7 @@ export const fetchTop5ReviewVendors = async () => {
 // 가게리뷰를 가져옴
 
 export const fetchReviewsByVendorId = (vendorId) => {
-    return axios.get(`http://27.96.135.75/vendor/review-list/${vendorId}`);
+    return axios.get(`http://192.168.0.58/vendor/review-list/${vendorId}`);
 };
 
 //새로운 리뷰를 생성
@@ -93,7 +93,7 @@ export const createReview = (reviewDto, files) => {
         formData.append('uploadFiles', file);
     });
 
-    return axios.post('http://27.96.135.75/review', formData, {
+    return axios.post('http://192.168.0.58/review', formData, {
         headers: getHeaders(),
     });
 };
@@ -109,24 +109,24 @@ export const updateReview = (reviewDto, uploadFiles, changeFileList, originFileL
     });
     formData.append('originFileList', JSON.stringify(originFileList));
 
-    return axios.put('http://27.96.135.75/review', formData, {
+    return axios.put('http://192.168.0.58/review', formData, {
         headers: getHeaders(),
     });
 };
 //리뷰삭제
 export const deleteReview = (reviewDto) => {
-    return axios.delete('http://27.96.135.75/review', { data: reviewDto });
+    return axios.delete('http://192.168.0.58/review', { data: reviewDto });
 };
 //즐겨찾기가 되어 있는 가게리스트
 export const fetchFavoriteShopsByUserId = (memberId, token) => {
     const config = {
         headers: getHeaders()
     };
-    return axios.get(`http://27.96.135.75/api/favorite/${memberId}`, config);
+    return axios.get(`http://192.168.0.58/api/favorite/${memberId}`, config);
 };
 // // 즐겨찾기에서 가게를 삭제
 // export const deleteFavoriteShop = (memberId, vendorId) => {
-//     return axios.delete(`http:/27.96.135.75/api/favoritePick/${memberId}/remove/${vendorId}`, {
+//     return axios.delete(`http:/192.168.0.58/api/favoritePick/${memberId}/remove/${vendorId}`, {
 //         headers: getHeaders()
 //     });
 // };
@@ -138,7 +138,7 @@ export const getMyCart = (memberId, token) => {
     const config = {
         headers: getHeaders(),
     };
-    return axios.get(`http://27.96.135.75/cart/info/${memberId}`, config);
+    return axios.get(`http://192.168.0.58/cart/info/${memberId}`, config);
 };
 
 
@@ -147,19 +147,19 @@ export const deleteCartItem = (cartItemDTO, token) => {
     const config = {
         headers: getHeaders(),
     };
-    return axios.delete(`http://27.96.135.75/cart/deletecartitem`, { data: cartItemDTO, headers: config.headers });
+    return axios.delete(`http://192.168.0.58/cart/deletecartitem`, { data: cartItemDTO, headers: config.headers });
 };
 //장바구니비우기
 export const deleteCart = (cartItemDTO, token) => {
     const config = {
         headers: getHeaders(),
     };
-    return axios.delete(`http://27.96.135.75/cart/info`, { data: cartItemDTO, headers: config.headers });
+    return axios.delete(`http://192.168.0.58/cart/info`, { data: cartItemDTO, headers: config.headers });
 };
 //조회수가높은10개
 export const fetchTop10RecommendedMenus = async () => {
     try {
-        const response = await axios.get('http://27.96.135.75/menu/recommendedMenus10', {
+        const response = await axios.get('http://192.168.0.58/menu/recommendedMenus10', {
             headers: getHeaders()
         });
         if (response.status === 200) {
@@ -175,7 +175,7 @@ export const fetchTop10RecommendedMenus = async () => {
 //회원 정보 조회
 export const fetchMyInfo = async () => {
     try {
-        const response = await axios.get('http://27.96.135.75/myInfo', {
+        const response = await axios.get('http://192.168.0.58/myInfo', {
             headers: getHeaders()
         });
         if (response.status === 200) {
@@ -191,7 +191,7 @@ export const fetchMyInfo = async () => {
 // 회원 찜내역 조회
 export const fetchMyFavoriteVendors = async () => {
     try {
-        const response = await axios.get('http://27.96.135.75/myPage/myFavoriteVendors', {
+        const response = await axios.get('http://192.168.0.58/myPage/myFavoriteVendors', {
             headers: getHeaders()
         });
         if (response.status === 200) {
@@ -207,7 +207,7 @@ export const fetchMyFavoriteVendors = async () => {
 
 export const fetchOrderDetail = async (MEMBER_ID) => {
     try {
-        const response = await fetch(`http://27.96.135.75/myPage/myOrders`, {
+        const response = await fetch(`http://192.168.0.58/myPage/myOrders`, {
             headers: getHeaders()
         });
 
@@ -234,7 +234,7 @@ export const fetchOrderDetail = async (MEMBER_ID) => {
 //주문내역함수 
 export const fetchPaymentList = async (token) => {
     try {
-        const response = await fetch('http://27.96.135.75/myPage/myPaymentList', {
+        const response = await fetch('http://192.168.0.58/myPage/myPaymentList', {
             headers: getHeaders(),
         });
 

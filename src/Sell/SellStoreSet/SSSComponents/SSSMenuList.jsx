@@ -55,15 +55,15 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
         );
 
         if (menu.menuImage) {
-          formData.append('menuImage', menu.menuImage);
+          formData.append('file', menu.menuImage);
         }
       });
-      formData.append('vendorId', vendorId);
+      // formData.append('vendorId', vendorId);
 
       // vendor.id도 추가한다면
 
       const response = await axios.post(
-        'http://27.96.135.75/menu/info/insertMenu', // 서버 주소
+        'http://192.168.0.58/menu/info/insertMenu', // 서버 주소
         formData,
         {
           headers: {
@@ -97,7 +97,7 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
           border: '1px solid #BDBDBD',
           borderRadius: '5px',
           padding: '2%',
-          background: 'white'
+          background: 'white',
         }}
       >
         <Grid
@@ -142,7 +142,7 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
                 <Grid item xs={2} sx={{ textAlign: 'center' }}>
                   {menu.menuImage ? (
                     <img
-                      src={URL.createObjectURL(menu.menuImage)}
+                      src={menu.menuImage}
                       alt="menu preview"
                       style={{ width: '50px', height: '50px' }}
                     />
@@ -182,11 +182,14 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
         </Box>
       </Box>
       <Grid item xs={12} sx={{ textAlign: 'center' }}>
-        <Button variant="contained" onClick={sendMenuInfo}
-        sx={{
-          background: '#21BF73',
-          marginTop: '5%'
-        }}>
+        <Button
+          variant="contained"
+          onClick={sendMenuInfo}
+          sx={{
+            background: '#21BF73',
+            marginTop: '5%',
+          }}
+        >
           완료
         </Button>
       </Grid>

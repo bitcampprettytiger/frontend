@@ -21,7 +21,6 @@ const SSSMenuInputs = ({ onAddMenu }) => {
       setMenuContent('');
       setPrice('');
       setMenuImage(null);
-      console.log("Current menuImage state: ", menuImage);
       setMenuType('');
     }
   };

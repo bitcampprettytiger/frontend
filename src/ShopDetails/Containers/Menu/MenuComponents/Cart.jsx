@@ -43,6 +43,7 @@ function CartPage() {
       return item;
     });
     setCartItems(newCartItems);
+    console.log('카트아이템', newCartItems);
   };
 
   // 수량 -
@@ -116,7 +117,7 @@ function CartPage() {
       try {
         // 서버로 데이터를 전송합니다.
         const serverResponse = await axios.post(
-          'http://27.96.135.75/payment/addPayment',
+          'http://192.168.0.58/payment/addPayment',
           payload,
           { headers }
         );
@@ -136,7 +137,7 @@ function CartPage() {
   return (
     <>
       <CssBaseline />
-      <AppBarWithTitle title="장바구니" />
+      {/* <AppBarWithTitle title="장바구니" /> */}
       <Container style={{ marginTop: '15%' }}>
         <Box sx={{ my: 2 }}>
           <Typography variant="h6" gutterBottom component="div">

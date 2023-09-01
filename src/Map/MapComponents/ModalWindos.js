@@ -13,7 +13,7 @@ const ModalWindows = ({ info, onClose }) => {
 
   const goToVendorDetail = () => {
     // 상세 페이지로 이동
-    console.log(info.vendorid);
+    console.log(info);
     navigate(`/shophome/${info.vendorid}`);
   };
   return (

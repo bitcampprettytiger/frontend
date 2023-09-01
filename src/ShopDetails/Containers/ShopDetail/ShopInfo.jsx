@@ -24,13 +24,15 @@ function ShopInfo({ onCall, onViewLocation }) {
   if (!vendor) return <div>No vendor data available</div>;
 
   return (
-    <Container sx={{margin:'0 5%'}}>
+    <Container sx={{ margin: '0 5%' }}>
       <Typography variant="h6" gutterBottom>
         {vendor.vendorType}
       </Typography>
       <StarBox>
         <StarIcon sx={{ color: '#FFC700', marginRight: 1 }} />
-        <StarTypography>평점 {(vendor.averageReviewScore || 0).toFixed(1)} </StarTypography>
+        <StarTypography>
+          평점 {(vendor.averageReviewScore || 0).toFixed(1)}{' '}
+        </StarTypography>
         <ReviewCountTypography>
           ({vendor.reviewCount || 0})
         </ReviewCountTypography>
