@@ -1,4 +1,6 @@
 import React, { createContext, useState, useContext } from 'react';
+
+
 import App from '../../../App';
 
 const NoticeContext = createContext();
@@ -19,4 +21,7 @@ export const useNotice = () => {
         throw new Error('useNotice must be used within a NoticeProvider');
     }
     return context;
+
 };
+
+

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import './Mypage.css';
@@ -7,13 +7,27 @@ import Header from '../../Layout/Header';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { Link } from 'react-router-dom';
-
+import { useFavorite } from '../../Menu/MyPage/MyPageComponents/FavoriteContext';
 
 function Mypage() {
   const [isEditing, setIsEditing] = useState(false);
   const [nickname, setNickname] = useState("닉네임");
   const [newNickname, setNewNickname] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [reviewCount, setReviewCount] = useState(0);
+  const { favoriteCount, setFavoriteCount, favoriteShops, setFavoriteShops } = useFavorite();
+
+
+  const fetchFavorites = async () => {
+    try {
+      const response = await fetch('/myPage/myFavoriteVendors');
+      const data = await response.json();
+      setFavoriteShops(data.favoriteShops || []);
+    } catch (error) {
+      console.error('Could not fetch favorite shops:', error);
+    }
+  };
+
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -34,9 +48,33 @@ function Mypage() {
   const handleChange = (e) => {
     setNewNickname(e.target.value);
   };
+  useEffect(() => {
+    const fetchAllData = async () => {
+      try {
+        const [reviewResponse, favoriteVendorsResponse] = await Promise.all([
+          fetch('/myPage/myReviews'),
+          fetch('/myPage/myFavoriteVendors')
+        ]);
 
-  const reviewCount = 10; // 예시로 사용한 리뷰 수
-  const favoriteCount = 5; // 예시로 사용한 찜해찜 수
+        const reviewData = await reviewResponse.json();
+        const favoriteVendorsData = await favoriteVendorsResponse.json();
+
+        setReviewCount(reviewData.count);
+        setFavoriteShops(favoriteVendorsData.favoriteShops || []);
+        setFavoriteCount(favoriteShops.length);
+      } catch (error) {
+        console.error('Could not fetch data:', error);
+
+
+      }
+    };
+
+    fetchAllData();
+  }, []);
+
+
+
+
 
 
   return (
@@ -78,17 +116,22 @@ function Mypage() {
             }}
           >
             {/* 리뷰 버튼 및 카운트 */}
-            <div onClick={() => window.location.href = '/reviews'} style={{ cursor: 'pointer' }}>
-              <Button sx={{ border: 'none', textTransform: 'none' }}>리뷰</Button>
-              <div>{reviewCount}</div>
+            <div style={{ cursor: 'pointer' }}>
+              <Link to="/myreview">
+                <Button sx={{ border: 'none', textTransform: 'none' }}>리뷰</Button>
+                <div>{reviewCount}</div>
+              </Link>
             </div>
 
             {/* 찜해찜 버튼 및 카운트 */}
-            <div onClick={() => window.location.href = '/favorites'} style={{ cursor: 'pointer' }}>
-              <Button sx={{ border: 'none', textTransform: 'none' }}>찜해찜</Button>
-              <div>{favoriteCount}</div>
+            <div style={{ cursor: 'pointer' }}>
+              <Link to="/myfavorite">
+                <Button sx={{ border: 'none', textTransform: 'none' }}>찜해찜</Button>
+                <div>{favoriteCount}</div>
+              </Link>
             </div>
           </Box>
+
 
           <div className="button-group">
             <Link to="/myreview">
@@ -124,4 +167,3 @@ function Mypage() {
 }
 
 export default Mypage;
-

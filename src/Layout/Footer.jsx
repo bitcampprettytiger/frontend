@@ -32,13 +32,14 @@ function Footer({ type, activeButton, handleButtonClick, isWaitingDetailFooterTy
   );
   //줄서기 디테일
   const renderWaitingDetailFooter = () => (
-    <footer className="App-footer">
+
+    < footer className="App-footer" >
       {/* <button className="text-button" onClick={() => navigateToNextScreen()}> */}
-      <button className="text-button" onClick={handleNextClick}>
+      < button className="text-button" onClick={handleNextClick} >
 
         다음
-      </button>
-    </footer>
+      </button >
+    </footer >
   );
 
   const renderSubmittingFooter = () => (
@@ -69,6 +70,7 @@ function Footer({ type, activeButton, handleButtonClick, isWaitingDetailFooterTy
   const [showModal, setShowModal] = useState(false);
 
   const renderDefaultFooter = () => (
+
     <footer className="App-footer">
       <Link to="/home">
         <button className="image-button" onClick={() => handleButtonClick && handleButtonClick('home')}>
@@ -88,7 +90,7 @@ function Footer({ type, activeButton, handleButtonClick, isWaitingDetailFooterTy
           </span>
         </button>
       </Link>
-      <Link to="/streetFood">
+      <Link to="/stfood">
         <button className="image-button" onClick={() => handleButtonClick && handleButtonClick('stfood')}>
           <img
             src={activeButton === 'stfood' ? '/images/spoonfork.png' : '/images/graySpoon.png'}
@@ -105,7 +107,7 @@ function Footer({ type, activeButton, handleButtonClick, isWaitingDetailFooterTy
           </span>
         </button>
       </Link>
-      <Link to="/foodTruck">
+      <Link to="/trfood">
         <button className="image-button" onClick={() => handleButtonClick && handleButtonClick('foodTruck')}>
           <img
             src={activeButton === 'foodTruck' ? 'images/foodcar.png' : 'images/grayFoodcar.png'}
@@ -118,7 +120,7 @@ function Footer({ type, activeButton, handleButtonClick, isWaitingDetailFooterTy
               fontWeight: activeButton === 'foodTruck' ? 'bold' : 'normal',
             }}
           >
-            푸드트럭
+            포장마차
           </span>
         </button>
       </Link>

@@ -1,7 +1,22 @@
+* {
+  font-family: 'NanumSquareNeo-Variable', sans-serif !important;
+  box-sizing: border-box;
+}
+
 .BV {
   width: 30%;
   margin: 0 auto;
+  background-color: #F9FCFB;
 }
+
+.sellerPage {
+  background-color: #B0EACD;
+}
+
+.userPage {
+  background-color: #f1eceb;
+}
+
 .view{
   width: 100%;
   margin: 0 auto;
@@ -29,4 +44,9 @@ html a {
 
 body::-webkit-scrollbar {
   display: none; 
+}
+
+.App-main2 {
+  width: 100%;
+  border: 1px solid #ff0000;
 }

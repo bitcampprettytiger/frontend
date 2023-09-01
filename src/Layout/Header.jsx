@@ -14,15 +14,18 @@ import { convertCoordsToAddress } from '../Utils/kakaoUtils';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import Notice from '../Menu/Home/HomeComponents/Notice';
 
-function Header({ page, searchInput, handleSearchChange, handleDeleteClick, handleSearchClick, setAddressToHome }) {
+function Header({ page, searchInput, handleSearchChange, handleDeleteClick, handleSearchClick, setAddressToHome, handleKeyUp }) {
+
+
     const navigate = useNavigate();
     const [notifications, setNotifications] = useState([]);
-
+    const [fetchedAddress, setFetchedAddress] = useState(null);
     const [location, setLocation] = useState({ latitude: null, longitude: null });
     const [address, setAddress] = useState("");
     const [error, setError] = useState(null);
-
     const [showNotificationPanel, setShowNotificationPanel] = useState(false);
+    const [headerText, setHeaderText] = useState("검색"); // 기본 값으로 "검색"
+
     const navigateToNotificationPage = () => {
         navigate('/notice'); // 여기에 알림 페이지의 경로를 입력하세요.
     };
@@ -37,9 +40,6 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
     const handleMenuClick = () => {
         navigate('/waiting'); // 여기서 '/waiting'은 Waiting.jsx 임시이동
     };
-
-
-
 
     useEffect(() => {
         if (navigator.geolocation) {
@@ -63,7 +63,9 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
                 if (status === window.kakao.maps.services.Status.OK) {
                     setAddress(result[0].address.address_name);
                     console.log(address);
-                    setAddressToHome(result[0].address.address_name, location);
+                    setAddressToHome && setAddressToHome(result[0].address.address_name, location);
+                    // setFetchedAddress({ address: result[0].address.address_name, location });
+
                 } else {
                     setAddress("주소를 가져오는 중 에러 발생");
                     console.error("Error fetching address from coordinates");
@@ -74,12 +76,21 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
         }
     }, [location]);
 
+    // useEffect(() => {
+    //     if (fetchedAddress) {
+    //         setAddressToHome(fetchedAddress.address, fetchedAddress.location);
+    //     }
+    // }, [fetchedAddress]);
+
+
     const toggleNotificationPanel = () => {
         setShowNotificationPanel(!showNotificationPanel);
     };
     const clearNotifications = () => {
         setNotifications([]);
     };
+
+
 
     const renderHomeHeader = () => (
         <div className="App-header">
@@ -157,6 +168,8 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
                         value={searchInput}
                         onChange={handleSearchChange}
                         onKeyDown={handleKeyDown}
+                        onKeyUp={handleKeyUp}  // 이렇게 handleKeyUp를 추가합니다.
+
                     />
                     <button style={{ border: 'none', background: 'none' }} onClick={handleDeleteClick}>
                         <HighlightOffIcon style={{ color: '#ff813d' }} />
@@ -164,6 +177,14 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
                 </div>
             </div>
 
+        </div>
+    );
+
+    const renderDynamicHeader = () => (
+        <div className="App-header">
+            <div className="header-center-section">
+                {headerText}
+            </div>
         </div>
     );
     const renderHotplaceHeader = (content) => (
@@ -333,34 +354,38 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
             </div>
         </div>
     );
-
-    const headers = {
-        'home': renderHomeHeader,
-        'trfood': () => renderOtherHeader('Food Truck Header Content'),
-        'pojangmacha': () => renderOtherHeader('Pojangmacha Header Content'),
-        'stfood': () => renderOtherHeader('Street Food Header Content'),
-        'mypage': renderMypageHeader,
-        'takeout': renderTakeoutHeader,
-        'search': renderSearchHeader,
-        'hotplace': () => renderHotplaceHeader("Hotplace Header Content"),
-        'waiting': renderWaitingHeader,
-        'waitingDetail': renderWaitingDetailHeader,
-        'myreview': renderMyReviewHeader,
-        'myfavorite': renderMyFavoriteHeader,
-        'mytakeout': renderMyTakeoutHeader,
-        'myedit': renderMyEditHeader
-    };
-
-
-
-
-
+    const IconButton = ({ onClick, children }) => (
+        <button style={{ border: 'none', background: 'none' }} onClick={onClick}>
+            {children}
+        </button>
+    );
 
     return (
         <div className="header">
-            {headers[page] && headers[page]()}
+            {page === 'home' && renderHomeHeader(setAddressToHome)}
+            {page === 'trfood' && renderOtherHeader('Food Truck Header Content')}
+            {page === 'pojangmacha' && renderOtherHeader('Pojangmacha Header Content')}
+            {page === 'stfood' && renderOtherHeader('Street Food Header Content')}
+            {page === 'mypage' && renderMypageHeader()}
+            {page === 'takeout' && renderTakeoutHeader()}
+            {page === 'search' && renderSearchHeader()}
+            {page === 'hotplace' && renderHotplaceHeader("Hotplace Header Content")}
+            {page === 'waiting' && renderWaitingHeader()}
+            {page === 'waitingDetail' && renderWaitingDetailHeader()}
+            {page === 'myreview' && renderMyReviewHeader()}
+            {page === 'myfavorite' && renderMyFavoriteHeader()}
+            {page === 'mytakeout' && renderMyTakeoutHeader()}
+            {page === 'myedit' && renderMyEditHeader()}
         </div>
+
     );
+
+
+
+
+
+
+
 
 
 }

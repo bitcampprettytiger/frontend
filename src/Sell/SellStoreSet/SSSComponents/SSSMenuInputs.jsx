@@ -1,86 +1,114 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { Button, TextField, Box, Grid, Typography } from '@mui/material';
-const SSSMenuInput = ({ onAddMenu }) => {
-  const [menu, setMenu] = useState('');
-  const [price, setPrice] = useState('');
-  const isValid = menu.trim() !== '' && price.trim() !== '';
 
-  const handlePriceChange = (e) => {
-    const value = e.target.value;
-    if (value === '' || /^[0-9]+$/.test(value)) {
-      // 입력값이 비어 있거나 숫자로만 구성되어 있으면 값을 업데이트합니다.
-      setPrice(value);
-    }
-  };
+const SSSMenuInputs = ({ onAddMenu }) => {
+  const [menuName, setMenuName] = useState('');
+  const [menuType, setMenuType] = useState('');
+  const [menuContent, setMenuContent] = useState('');
+  const [price, setPrice] = useState('');
+  const [menuImage, setMenuImage] = useState(null);
+  const [menuList, setMenuList] = useState([]);
 
   const addMenu = () => {
-    if (isValid) {
-      // 유효성 검사 추가
-      onAddMenu(menu, price);
-      setMenu('');
+    console.log("Adding menu: ", { menuType, menuName, menuContent, price, menuImage });
+
+    if (menuType && menuName && menuContent && price) {
+      const newMenu = { menuType, menuName, menuContent, price, menuImage };
+      setMenuList([...menuList, newMenu]);
+      onAddMenu(menuType, menuName, menuContent, price, menuImage);
+      setMenuName('');
+      setMenuContent('');
       setPrice('');
+      setMenuImage(null);
+      setMenuType('');
     }
   };
+
   return (
     <Box
       component="form"
       noValidate
       autoComplete="off"
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        width: '100%',
-        maxWidth: '400px',
-        margin: 'auto',
-      }}
+      sx={{ maxWidth: '400px', margin: 'auto' }}
     >
-      <Typography variant="h5" >
+      <Grid variant="h5" sx={{ textAlign: 'center', marginBottom: '5%' }}>
         메뉴 정보 입력
-      </Typography>
-      <Grid
-        container
-        spacing={2}
-        justifyContent="center"
-        sx={{ marginTop: '5%' }}
-      >
-        <Grid item xs={6} sx={{ textAlign: 'center' }}>
-          메뉴명
-        </Grid>
-        <Grid item xs={6} sx={{ textAlign: 'center' }}>
-          금액
-        </Grid>
-        <Grid item xs={6}>
+      </Grid>
+      <Grid container spacing={2}>
+        <Grid item xs={4}>
           <TextField
-            variant="outlined"
-            value={menu}
-            onChange={(e) => setMenu(e.target.value)}
-            fullWidth
-            sx={{ width: '80%', marginLeft: '10%' }} // 입력창 크기 조정
+            label="메뉴종류"
+            value={menuType}
+            onChange={(e) => setMenuType(e.target.value)}
+            sx={{background: 'white'}}
           />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={4}>
           <TextField
-            variant="outlined"
+            label="메뉴 이름"
+            value={menuName}
+            onChange={(e) => setMenuName(e.target.value)}
+            sx={{background: 'white'}}
+          />
+        </Grid>
+        <Grid item xs={4}>
+          <div>
+            {menuImage && (
+              <img
+                src={URL.createObjectURL(menuImage)}
+                alt="menu preview"
+                style={{ width: '100%', height: '20%' }}
+              />
+            )}
+
+            <input
+              type="file"
+              style={{ display: 'none' }} 
+              id="fileInput" 
+              onChange={(e) => {
+                console.log("File selected: ", e.target.files[0]);
+                setMenuImage(e.target.files[0]);
+              }}
+            />
+
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => document.getElementById("fileInput").click()}
+              sx={{color: 'white'}}
+            >
+              사진 넣기
+            </Button>
+          </div>
+        </Grid>
+      </Grid>
+      <Grid container spacing={2} sx={{ marginTop: '5%' }}>
+        <Grid item xs={8}>
+          <TextField
+            label="메뉴내용"
+            value={menuContent}
+            onChange={(e) => setMenuContent(e.target.value)}
+            sx={{background: 'white'}}
+          />
+        </Grid>
+        <Grid item xs={4}>
+          <TextField
+            label="금액"
             value={price}
-            onChange={handlePriceChange}
-            fullWidth
-            sx={{ width: '80%', marginLeft: '10%' }} // 입력창 크기 조정
+            onChange={(e) => setPrice(e.target.value)}
+            sx={{background: 'white'}}
           />
         </Grid>
-        <Grid item xs={12} container justifyContent="center">
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={addMenu}
-            disabled={!isValid} // 유효하지 않으면 버튼 비활성화
-          >
-            추가
-          </Button>
-        </Grid>
+      </Grid>
+      <Grid item xs={12} sx={{ textAlign: 'center', marginTop: '5%' }}>
+        <Button variant="contained" color="primary" onClick={addMenu}
+          sx={{ color: 'white' }}>
+          메뉴 추가
+        </Button>
       </Grid>
     </Box>
   );
 };
 
-export default SSSMenuInput;
+export default SSSMenuInputs;

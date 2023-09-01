@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, IconButton, AppBar, Toolbar } from '@mui/material';
 import { Link } from 'react-router-dom';
 
-function SellFooter() {
+function SellFooter({vendorId}) {
   const [activeButton, setActiveButton] = useState('');
-
+  
   const handleButtonClick = (buttonName) => {
     setActiveButton(buttonName);
   };
-
   return (
     <AppBar
       position="static"
@@ -18,10 +17,12 @@ function SellFooter() {
         background: '#ffffff',
         borderTop: '1px solid #e7e7e7',
         marginTop: '5%',
+        height: '8vh', 
+        backgroundColor: 'white'
       }}
     >
       <Toolbar sx={{ justifyContent: 'space-around', alignItems: 'center' }}>
-        <Link to={'/sellset'}>
+        <Link to={`/sellset/${vendorId}`}>
           <IconButton
             color={activeButton === 'streetFood' ? 'primary' : 'default'}
             onClick={() => handleButtonClick('streetFood')}
@@ -50,13 +51,13 @@ function SellFooter() {
                   fontWeight: activeButton === 'streetFood' ? 'bold' : 'normal',
                 }}
               >
-                가게 설정
+                판매 설정
               </Box>
             </Box>
           </IconButton>
         </Link>
 
-        <Link to={'/sellhome'}>
+        <Link to={`/sellhome`}>
           <IconButton
             color={activeButton === 'home' ? 'primary' : 'default'}
             onClick={() => handleButtonClick('home')}
@@ -91,7 +92,7 @@ function SellFooter() {
           </IconButton>
         </Link>
 
-        <Link to={'/sellmyset'}>
+        <Link to={`/sellmyset/${vendorId}`}>
           <IconButton
             color={activeButton === 'myPage' ? 'primary' : 'default'}
             onClick={() => handleButtonClick('myPage')}
@@ -120,7 +121,7 @@ function SellFooter() {
                   fontWeight: activeButton === 'myPage' ? 'bold' : 'normal',
                 }}
               >
-                마이페이지
+                판매 확인
               </Box>
             </Box>
           </IconButton>
@@ -131,4 +132,3 @@ function SellFooter() {
 }
 
 export default SellFooter;
-

@@ -1,4 +1,3 @@
-import React from 'react'
 import Header from '../../../Layout/Header.jsx';
 import Footer from '../../../Layout/Footer.jsx';
 import './MyReview.css';
@@ -12,14 +11,21 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-
+import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { fetchReviewsByVendorId, createReview, updateReview, deleteReview as deleteReviewAPI } from '../../Home/HomeComponents/HomeApi.jsx';
 
 
 
 function MyReview() {
+    const [reviews, setReviews] = useState([]);
+    const [isModalOpen, setModalOpen] = useState(false);
+    const [currentReview, setCurrentReview] = useState(null);
 
-    const [isModalOpen, setModalOpen] = React.useState(false);//모달창보이기
-    const [currentReview, setCurrentReview] = React.useState(null);//모달창숨기기
+    const [isButtonClicked, setButtonClicked] = useState(false);
+    const [isExpanded, setIsExpanded] = useState(false);
+    const vendorId = 1; // 임시로 1로 설정. 실제 로직에서는 변경 필요.
+
 
     const handleOpen = () => {
         setModalOpen(true);
@@ -27,71 +33,108 @@ function MyReview() {
 
     const handleClose = () => {
         setModalOpen(false);
+        setCurrentReview(null);
     };
+
     const style = {
         position: 'absolute',
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 480,  // `.myreview-container`와 동일
-        height: 550, // `.myreview-container`와 동일
+        width: 480,
+        height: 550,
         bgcolor: 'background.paper',
         boxShadow: 24,
         p: 4,
     };
-    //더보기버튼 클릭상태
-    const [isButtonClicked, setButtonClicked] = React.useState(false);
-    const [isExpanded, setIsExpanded] = React.useState(false); //리뷰텍스트 펼치기
 
 
     // 임의의 리뷰 개수 (실제 데이터로 바꿔야 함)
     const reviewCount = 4;
     //임의 리뷰데이터
-    const reviews = [
-        {
-            storeName: "은희네",
-            starCount: 3,
-            images: [
-                "/images/review1.jpeg",
-                "/images/review2.jpeg",
-                "/images/review3.jpeg",
-                "/images/review4.jpeg",
-                "/images/review5.jpeg",
-            ],
-            text: "이것들은 그동안 내가 먹은 음식 사진들이당 얻은것은 결국 살뿐. 하지만 맛있었으면 됐지~ "
-        },
-        {
-            storeName: "민규네",
-            starCount: 5,
-            images: [],
-            text: "우웅ㅇㅇ우웅ㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ"
-        },
-        {
-            storeName: "유진이네",
-            starCount: 4,
-            images: ["/images/review6.jpeg", "/images/review7.jpeg"],
-            text: "신민규 짜증나 규네나 사줘 싯팔!"
+
+    // 리뷰를 삭제하는 함수
+    const handleDeleteReview = async (reviewId) => {
+        try {
+            await deleteReviewAPI(reviewId);
+            const updatedReviews = reviews.filter(review => review.id !== reviewId);
+            setReviews(updatedReviews);
+        } catch (error) {
+            // More robust error handling
+            alert('Failed to delete review. Please try again.');
         }
-    ];
+    };
+
+    useEffect(() => {
+        const fetchReviews = async () => {
+            try {
+                const response = await fetchReviewsByVendorId(vendorId);
+                if (response.status === 200) {
+                    setReviews(response.data);
+                }
+            } catch (error) {
+                alert('Failed to fetch reviews. Please try again.');  // User-friendly error message
+            }
+        };
+
+        fetchReviews();
+    }, []);
+
+    const handleCreateReview = async (reviewDto, files) => {  // Added 'async' keyword
+        try {
+            const response = await createReview(reviewDto, files);  // Added 'await'
+            if (response.status === 200) {
+                // 리뷰가 성공적으로 생성되면, 다시 데이터를 로드합니다.
+                const newReviews = await fetchReviewsByVendorId(vendorId);  // Added 'await'
+                setReviews(newReviews.data);
+            } else {
+                // Handle unsuccessful HTTP response
+                alert('Failed to create review. Please try again.');
+            }
+        } catch (error) {
+            console.error('Failed to create review:', error);
+            // Added user-friendly error alert
+            alert('An error occurred while creating the review. Please try again.');
+        }
+    };
+
+    const handleDeleteReviewApiCall = async (reviewId) => {
+        try {
+            const response = await deleteReviewAPI(reviewId); // deleteReview API 호출
+            if (response.status === 200) {
+                // 성공적으로 삭제한 후에 다시 리뷰 목록을 로드
+                const newReviews = await fetchReviewsByVendorId(vendorId);
+                setReviews(newReviews.data);
+            }
+        } catch (error) {
+            console.error('Failed to delete review:', error);
+        }
+    };
+
+
+
 
     return (
         <div className='App-main2'>
             <Header page="myreview" />
             <div className='myreview-container'>
                 <h2>내가 쓴 총 {reviews.length}개의 리뷰</h2>
-
                 <hr className="review-divider" />
 
                 {reviews.map((review, index) => (
-                    <div key={index} className="review-item">
+                    <div key={review.id || index} className="review-item"> {/* 고유한 값으로 key 설정 */}
                         <div className="review-header">
-                            <span className="store-name">{review.storeName}</span>
-                            <button className="navigate-btn">
+                            <span className="store-name">
+                                <Link to={`/store/${review.storeId}`}>{review.storeName}</Link>
+                            </span>
+                            <button className="delete-btn" onClick={() => handleDeleteReview(review.id)}>
                                 <KeyboardArrowRightIcon className="navigate-icon" />
                             </button>
-                            <button className="delete-btn">
+
+                            <button className="delete-btn" onClick={() => handleDeleteReviewApiCall(review.id)}>
                                 <DeleteForeverIcon className="delete-icon" />
                             </button>
+
                         </div>
                         <div className="star-container">
                             {Array.from({ length: review.starCount }).map((_, idx) => (
@@ -104,12 +147,14 @@ function MyReview() {
                                 <img key={idx} src={img} alt={`review-${idx}`} className="review-image" />
                             ))}
                             {review.images.length > 4 &&
-                                <div className="more-images" onClick={() => { setModalOpen(true); setCurrentReview(review); }}>+</div>
+                                <div className="more-images" onClick={() => handleOpen(review)}>+</div>
                             }
                         </div>
+
                         <Typography
-                            className={isExpanded ? '' : 'review-text'}
+                            className={isExpanded ? 'expanded-class' : 'collapsed-class'}  // added class names
                         >
+
                             {review.text}
                         </Typography>
 
@@ -138,14 +183,7 @@ function MyReview() {
                     </div>
                 ))}
 
-
-                <Button onClick={handleOpen}>리뷰 상세보기</Button>
-                <Modal
-                    open={isModalOpen}
-                    onClose={handleClose}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                >
+                <Modal open={isModalOpen} onClose={handleClose}>
                     <Box sx={{
                         ...style,
                         overflow: 'auto',
@@ -163,11 +201,7 @@ function MyReview() {
                                 />
                             ))}
                         </div>
-                        <Typography
-                            id="modal-modal-description"
-                            sx={{ mt: 2 }}
-                            className={isExpanded ? '' : 'review-text'}
-                        >
+                        <Typography id="modal-modal-description" sx={{ mt: 2 }} className={isExpanded ? '' : 'review-text'}>
                             {currentReview?.text}
                         </Typography>
                         {currentReview?.text.split('\n').length > 3 && (
@@ -193,13 +227,11 @@ function MyReview() {
                             </button>
                         )}
                     </Box>
-
                 </Modal>
             </div>
             <Footer type="myreview" />
         </div>
     );
-
 }
 
 export default MyReview;

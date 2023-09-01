@@ -1,74 +1,198 @@
-import React from 'react';
-import { Box, Grid, Button } from '@mui/material';
-import '../../../Global.css';
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import { Box, Grid, Button, Typography, Checkbox } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useParams } from 'react-router-dom';
 const SSSMenuList = ({ menus, onDeleteMenu }) => {
-  // 금액을 쉼표로 구분하고 "원"을 붙이는 함수
-  const formatPrice = (price) => {
-    return `${parseInt(price, 10).toLocaleString('ko-KR')}원`;
+  const { vendorId } = useParams();
+
+  console.log('Received menus: ', menus);
+  console.log(
+    'Current menu.menuImage states in menus: ',
+    menus.map((menu) => menu.menuImage)
+  );
+  useEffect(() => {
+    let initialStock = {};
+    menus.forEach((menu, index) => {
+      initialStock[index] = false; // 초기 품절 상태는 false
+    });
+    setOutOfStock(initialStock);
+  }, [menus]);
+
+  const handleStockChange = (e, index) => {
+    setOutOfStock({
+      ...outOfStock,
+      [index]: e.target.checked,
+    });
   };
+  const [outOfStock, setOutOfStock] = useState({});
+  const handleDelete = (index) => {
+    onDeleteMenu(index);
+  };
+  const formatPrice = (price) =>
+    `${parseInt(price, 10).toLocaleString('ko-KR')}원`;
+
   const theme = createTheme({
     typography: {
       fontFamily: 'NanumSquareRound, Arial, sans-serif',
     },
   });
+  const accessToken = localStorage.getItem('accessToken');
+
+  const sendMenuInfo = async () => {
+    try {
+      const formData = new FormData();
+
+      // 메뉴 정보들을 각각 평평하게 (flat) 추가
+      menus.forEach((menu, index) => {
+        formData.append('menuName', menu.menuName);
+        formData.append('price', parseInt(menu.price, 10));
+        formData.append('menuContent', menu.menuContent);
+        formData.append('menuType', menu.menuType);
+        formData.append(
+          'menuSellStatus',
+          outOfStock[index] ? 'OUT_OF_STOCK' : 'SELL'
+        );
+
+        if (menu.menuImage) {
+          formData.append('file', menu.menuImage);
+        }
+      });
+      // formData.append('vendorId', vendorId);
+
+      // vendor.id도 추가한다면
+
+      const response = await axios.post(
+        'http://192.168.0.58/menu/info/insertMenu', // 서버 주소
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        alert('메뉴 정보 전송 성공');
+      } else {
+        alert('서버코드실패');
+      }
+    } catch (error) {
+      alert('실패');
+      console.error('There was an error sending the data', error);
+    }
+  };
+
   return (
     <ThemeProvider theme={theme}>
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        width: '100%',
-        maxWidth: '400px',
-        margin: 'auto',
-        marginTop: '5%',
-        border: '1px solid black',
-        fontFamily:'NanumSquareRound, Arial, sans-serif'
-      }}
-    >
-      <Grid container spacing={2} justifyContent="center" sx={{marginBottom:'5%'}}>
-        <Grid item xs={4} sx={{ textAlign: 'center' }}>
-          메뉴 목록
-        </Grid>
-        <Grid item xs={4} sx={{ textAlign: 'center' }}>
-          금액
-        </Grid>
-        <Grid item xs={4} sx={{ textAlign: 'center' }}>
-          삭제
-        </Grid>
-      </Grid>
       <Box
         sx={{
-          maxHeight: '180px',
-          overflowY: 'scroll',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
           width: '100%',
-          '&::-webkit-scrollbar': {
-            display: 'none',
-          },
-          '-ms-overflow-style': 'none',
-          scrollbarWidth: 'none',
+          margin: 'auto',
+          marginTop: '5%',
+          border: '1px solid #BDBDBD',
+          borderRadius: '5px',
+          padding: '2%',
+          background: 'white',
         }}
       >
-        <Grid container spacing={2} justifyContent="center">
-          {menus.map((menu, index) => (
-            <React.Fragment key={index}>
-              <Grid item xs={4} sx={{ textAlign: 'center' }}>
-                {menu.name}
-              </Grid>
-              <Grid item xs={4} sx={{ textAlign: 'center' }}>
-                {formatPrice(menu.price)} {/* 금액 형식 변경 */}
-              </Grid>
-              <Grid item xs={4} sx={{ textAlign: 'center' }}>
-                <Button variant="outlined" color="secondary" onClick={() => onDeleteMenu(index)}>
-                  삭제
-                </Button>
-              </Grid>
-            </React.Fragment>
-          ))}
+        <Grid
+          container
+          spacing={1}
+          justifyContent="center"
+          sx={{ marginBottom: '5%' }}
+        >
+          <Grid item xs={2} sx={{ textAlign: 'center' }}>
+            사진
+          </Grid>
+          <Grid item xs={2} sx={{ textAlign: 'center' }}>
+            종류
+          </Grid>
+          <Grid item xs={2} sx={{ textAlign: 'center' }}>
+            이름
+          </Grid>
+          <Grid item xs={2} sx={{ textAlign: 'center' }}>
+            내용
+          </Grid>
+          <Grid item xs={2} sx={{ textAlign: 'center' }}>
+            금액
+          </Grid>
+          <Grid item xs={1} sx={{ textAlign: 'center' }}>
+            품절
+          </Grid>
+          <Grid item xs={1} sx={{ textAlign: 'center' }}>
+            삭제
+          </Grid>
         </Grid>
+        <Box
+          sx={{
+            maxHeight: '180px',
+            minHeight: '180px',
+            overflowY: 'scroll',
+            width: '100%',
+          }}
+        >
+          <Grid container spacing={3} justifyContent="center">
+            {menus.map((menu, index) => (
+              <React.Fragment key={index}>
+                <Grid item xs={2} sx={{ textAlign: 'center' }}>
+                  {menu.menuImage ? (
+                    <img
+                      src={menu.menuImage}
+                      alt="menu preview"
+                      style={{ width: '50px', height: '50px' }}
+                    />
+                  ) : (
+                    'N/A'
+                  )}
+                </Grid>
+                <Grid item xs={2} sx={{ textAlign: 'center' }}>
+                  {menu.menuType}
+                </Grid>
+                <Grid item xs={2} sx={{ textAlign: 'center' }}>
+                  {menu.menuName}
+                </Grid>
+                <Grid item xs={2} sx={{ textAlign: 'center' }}>
+                  {menu.menuContent}
+                </Grid>
+                <Grid item xs={2} sx={{ textAlign: 'center' }}>
+                  {formatPrice(menu.price)}
+                </Grid>
+                <Grid item xs={1} sx={{ textAlign: 'center' }}>
+                  <Checkbox
+                    checked={outOfStock[index] || false}
+                    onChange={(e) => handleStockChange(e, index)}
+                  />
+                </Grid>
+                <Grid item xs={1} sx={{ textAlign: 'center' }}>
+                  <img
+                    src="delete-icon-path.jpg" // 삭제 아이콘 이미지 경로
+                    alt="Delete"
+                    style={{ cursor: 'pointer' }}
+                    onClick={() => handleDelete(index)}
+                  />
+                </Grid>
+              </React.Fragment>
+            ))}
+          </Grid>
+        </Box>
       </Box>
-    </Box>
+      <Grid item xs={12} sx={{ textAlign: 'center' }}>
+        <Button
+          variant="contained"
+          onClick={sendMenuInfo}
+          sx={{
+            background: '#21BF73',
+            marginTop: '5%',
+          }}
+        >
+          완료
+        </Button>
+      </Grid>
     </ThemeProvider>
   );
 };
