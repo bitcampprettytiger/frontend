@@ -51,7 +51,7 @@ export const useSearch = (initialSearchInput, location) => {
                     longitude: geoLocation.lng,
                 };
 
-                const response = await axios.get(`http://27.96.135.75/vendor/info?search=${searchInput}`, {
+                const response = await axios.get(`http://192.168.0.58/vendor/info?search=${searchInput}`, {
                     headers: getHeaders()
                 });
 
@@ -89,7 +89,7 @@ export const useSearch = (initialSearchInput, location) => {
     // 1. 검색 텍스트가 있을 경우에만 API 호출
     useEffect(() => {
         if (searchInput) {
-            axios.get(`http://27.96.135.75/vendor/category?address=${searchInput}&menuName=${searchInput}&vendorName=${searchInput}`, {
+            axios.get(`http://192.168.0.58/vendor/category?address=${searchInput}&menuName=${searchInput}&vendorName=${searchInput}`, {
                 headers: getHeaders()
             })
                 .then(response => {

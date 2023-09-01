@@ -37,7 +37,7 @@ export default function MapList({ vendorInfo, moveTo }) {
   }, [location.pathname, vendorInfo]);
 
   const imageMap = {
-    분식: '../images/stfood.png',
+    분식: '../images/roopy.png',
     국물: '../images/bung.png',
     볶음: '../images/tako.png',
     튀김: '../images/jeon.png',

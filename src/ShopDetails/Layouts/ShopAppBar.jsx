@@ -15,7 +15,6 @@ import ShareIcon from '@mui/icons-material/Share';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ScrollTop from '../Components/ScrollTop';
 import useVendor from '../SDCustomHooks/useVendor';
-import ShareModal from '../Containers/ShopDetail/ShareModal';
 import useFavoritePick from '../SDCustomHooks/useFavoritePick';
 import useResponsive from '../SDCustomHooks/useResponsive';
 
@@ -128,7 +127,7 @@ function ShopAppBar(props) {
                             }}>
                                 <ShareIcon />
                             </IconButton>
-                            <ShareModal open={open} handleClose={handleClose} />
+                            {/* <ShareModal open={open} handleClose={handleClose} /> */}
                             </div>
                         </Box>
                     </Box>
