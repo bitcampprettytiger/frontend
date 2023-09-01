@@ -117,7 +117,7 @@ function CartPage() {
       try {
         // 서버로 데이터를 전송합니다.
         const serverResponse = await axios.post(
-          'http://192.168.0.58/payment/addPayment',
+          'http://27.96.135.75/payment/addPayment',
           payload,
           { headers }
         );

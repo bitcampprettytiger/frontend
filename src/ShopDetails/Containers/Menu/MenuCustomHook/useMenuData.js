@@ -13,7 +13,7 @@ function useMenuData() {
 
 //메뉴 데이터 조회
   useEffect(() => {
-    axios.get(`http://192.168.0.58/menu/info/${vendorId}`, { headers })
+    axios.get(`http://27.96.135.75/menu/info/${vendorId}`, { headers })
       .then(response => {
         const menuDTOList = response.data.itemlist;
         setMenuDataList(menuDTOList);
