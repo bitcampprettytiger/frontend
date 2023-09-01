@@ -46,6 +46,7 @@ export default function MapList({ vendorInfo, moveTo }) {
   const handleClick = (info, index) => {
     moveTo({ lat: info.vendorY, lon: info.vendorX });
     setSelectedItem(index);
+    console.log(info.vendorid);
   };
 
   return (

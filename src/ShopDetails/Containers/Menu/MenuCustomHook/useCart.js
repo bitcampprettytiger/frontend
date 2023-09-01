@@ -42,6 +42,7 @@ export default function useCart() {
     try {
       await axios.delete(`http://27.96.135.75/cart/info`, { headers });
       setCartItems([]);
+      console.log('ssssssssss')
     } catch (error) {
       console.error('장바구니 전체 삭제 오류', error);
     }
