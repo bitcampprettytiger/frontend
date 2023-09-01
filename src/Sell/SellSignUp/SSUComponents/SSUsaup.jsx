@@ -192,7 +192,9 @@ const SSUsaup = ({setNextButtonEnabled }) => {
         </Grid>
         <Grid item xs={12} style={{ textAlign: 'center' }}>
           {/* 버튼 중앙 배치 */}
-          <button onClick={handleSubmit} style={{width: '90%', marginTop: '5%', backgroundColor: buttonColor, color: fontColor}}>전송</button>
+          <button onClick={handleSubmit} style={{width: '90%', marginTop: '5%', height: '5vh', 
+          backgroundColor: buttonColor, color: fontColor, borderStyle: 'none',
+          borderRadius: '5px', fontSize: '110%'}}>전송</button>
         </Grid>
         <Grid
           item

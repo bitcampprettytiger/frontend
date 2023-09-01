@@ -94,7 +94,10 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
           width: '100%',
           margin: 'auto',
           marginTop: '5%',
-          border: '1px solid black',
+          border: '1px solid #BDBDBD',
+          borderRadius: '5px',
+          padding: '2%',
+          background: 'white'
         }}
       >
         <Grid
@@ -179,7 +182,11 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
         </Box>
       </Box>
       <Grid item xs={12} sx={{ textAlign: 'center' }}>
-        <Button variant="contained" color="secondary" onClick={sendMenuInfo}>
+        <Button variant="contained" onClick={sendMenuInfo}
+        sx={{
+          background: '#21BF73',
+          marginTop: '5%'
+        }}>
           완료
         </Button>
       </Grid>
