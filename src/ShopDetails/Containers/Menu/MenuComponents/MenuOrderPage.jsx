@@ -38,12 +38,14 @@ function MenuOrderPage() {
 
   const handleMenuAdd = (selectedMenuId) => {
     addMenuItem(selectedMenuId);
+    console.log('셀렉메뉴아이디', selectedMenuId);
     setAddedMenus((prevMenus) => [...prevMenus, selectedMenuId]);
     setIsModalVisible(false);
   };
 
   const handleMenuClick = (menu) => {
     setSelectedMenu(menu);
+    console.log('메뉴클릭', menu);
     setIsModalVisible(true);
   };
 
