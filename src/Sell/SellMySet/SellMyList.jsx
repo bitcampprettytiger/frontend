@@ -73,6 +73,7 @@ const SellMyList = () => {
           margin: 'auto',
           marginTop: '5%',
           border: '1px solid black',
+          height: '72vh'
         }}
       >
         <Grid
@@ -146,7 +147,7 @@ const SellMyList = () => {
         </Box>
       </Box>
       <Grid item xs={12} sx={{ textAlign: 'center' }}>
-        <Button variant="contained" color="secondary">
+        <Button variant="contained" sx={{background: '#21BF73', marginTop: '5%'}}>
           수정하러 가기
         </Button>
       </Grid>
