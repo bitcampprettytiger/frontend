@@ -75,7 +75,7 @@ const Login = () => {
         </div>
         <br />
         <button onClick={handleSubmit} className={styles["login-btn"]}>
-          먹자취 로그인
+          먹자취
         </button>
         <div className={styles["sub-fun"]}>
           <Link to="/signup">
