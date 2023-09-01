@@ -85,18 +85,7 @@ export const fetchReviewsByVendorId = (vendorId) => {
     return axios.get(`http://27.96.135.75/vendor/review-list/${vendorId}`);
 };
 
-//새로운 리뷰를 생성
-export const createReview = (reviewDto, files) => {
-    const formData = new FormData();
-    formData.append('reviewDto', JSON.stringify(reviewDto));
-    files.forEach((file) => {
-        formData.append('uploadFiles', file);
-    });
 
-    return axios.post('http://27.96.135.75/review', formData, {
-        headers: getHeaders(),
-    });
-};
 //리뷰업데이트
 export const updateReview = (reviewDto, uploadFiles, changeFileList, originFileList) => {
     const formData = new FormData();
@@ -109,13 +98,13 @@ export const updateReview = (reviewDto, uploadFiles, changeFileList, originFileL
     });
     formData.append('originFileList', JSON.stringify(originFileList));
 
-    return axios.put('http://27.96.135.75/review', formData, {
+    return axios.put('http://27.96.135.75/reviews/review', formData, {
         headers: getHeaders(),
     });
 };
 //리뷰삭제
 export const deleteReview = (reviewDto) => {
-    return axios.delete('http://27.96.135.75/review', { data: reviewDto });
+    return axios.delete('http://27.96.135.75/reviews/review', { data: reviewDto });
 };
 //즐겨찾기가 되어 있는 가게리스트
 export const fetchFavoriteShopsByUserId = (memberId, token) => {
@@ -252,8 +241,59 @@ export const fetchPaymentList = async (token) => {
     }
 };
 
+export const createReview = async (reviewDto, files, token) => {
+    const url = 'http://27.96.135.75/reviews/review';
+    const formData = new FormData();
 
+    // 리뷰 데이터 추가
+    Object.keys(reviewDto).forEach(key => {
+        formData.append(key, reviewDto[key]);
+    });
 
+    // 파일(이미지 등) 추가
+    if (files) { // files의 존재 여부 확인
+        files.forEach((file, index) => {
+            formData.append(`file${index + 1}`, file);
+        });
+    }
 
+    // Debug: formData 내용 확인
+    console.log("FormData contents:");
+    for (let [key, value] of formData.entries()) {
+        console.log(key, value);
+    }
 
+    try {
+        const headers = getHeaders(token);
+        delete headers['Content-Type']; // Content-Type 제거
+        // Debug: 헤더 정보 확인
+        console.log('Request headers:', headers);
 
+        const response = await fetch(url, {
+            method: 'POST',
+            headers,
+            body: formData
+        });
+
+        // Debug: HTTP 응답 코드 확인
+        console.log('HTTP Response status:', response.status);
+
+        // Debug: 원시 응답 확인
+        console.log('Raw response:', response);
+
+        const data = await response.json();
+
+        // Debug: 응답 본문 확인
+        console.log('Response body:', data);
+
+        if (response.ok) {
+            return data;
+        } else {
+            console.error('Failed to create review:', data.errorMessage || "Unknown error");
+            throw new Error(data.errorMessage || "Failed to create review");
+        }
+    } catch (error) {
+        console.error('Error while creating review:', error);
+        throw error;
+    }
+};

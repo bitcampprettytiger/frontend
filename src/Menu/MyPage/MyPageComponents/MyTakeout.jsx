@@ -101,7 +101,7 @@ function MyTakeout() {
                                             console.log("아이디는 찍히나?", order.id);
                                             console.log("가게아이디는?", order.vendorId);
 
-                                            navigate(`/ReviewForm/${order.id}/${order.vendorId}`); // ReviewForm 페이지로 이동하면서 order.id와 vendorId를 전달
+                                            navigate(`/ReviewForm/${order.id}/${order.vendor.id}`); // ReviewForm 페이지로 이동하면서 order.id와 vendorId를 전달
                                         }}
                                     >
                                         리뷰 작성하기
