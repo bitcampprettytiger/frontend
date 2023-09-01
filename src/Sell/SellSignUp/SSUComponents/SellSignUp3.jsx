@@ -20,6 +20,8 @@ import SSUHeader from './SSUHeader';
 import SSUAddressModal from './SSUAddressModal';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import VendorAPI from './VendorAPI';
+import {Scrollbar} from 'smooth-scrollbar-react';
+import { Scrollbar as BaseScrollbar } from "smooth-scrollbar/scrollbar";
 const SellSignUp3 = () => {
   const location = useLocation();
   const username = location.state.username;
@@ -121,14 +123,16 @@ const SellSignUp3 = () => {
       alert('오류가 발생했습니다. 다시 시도해 주세요.');
     }
   };
+
   return (
     <>
+      
       <SSUAddressModal
         open={showPostcode}
         onClose={() => setShowPostcode(false)}
         onComplete={handleAddress}
       />
-      <Container style={{ padding: '20px', border: '1px solid #ccc' }}>
+      <Container style={{ padding: '10%', border: '1px solid #ccc' }}>
         <SSUHeader activeStep={activeStep} />
         <Typography
           variant="h5"

@@ -91,7 +91,7 @@ const SellSignUp2 = () => {
 
   return (
     <>
-      <Container style={{ padding: '12%', border: '1px solid #ccc', height: '100vh' }}>
+      <Container style={{ padding: '10%', border: '1px solid #ccc', height: '100vh' }}>
         <SSUHeader activeStep={activeStep}></SSUHeader>
         <div style={{ textAlign: 'center', margin: '5% auto' }}>
           <Typography variant="h5">회원가입</Typography>

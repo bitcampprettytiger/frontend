@@ -74,6 +74,7 @@ const SellMyList = () => {
           marginTop: '5%',
           border: '1px solid black',
           height: '72vh',
+          padding: '3%'
         }}
       >
         <Grid
