@@ -9,8 +9,13 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt';
 import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
+import { useParams } from 'react-router-dom';
+import useReview from '../ReviewCustomHook/useReview';
 
 function ReviewForm() {
+  const { orderId, vendorId } = useParams();
+  const { reviews, error, loading, isLiked, isDisliked } = useReview(vendorId); // 추출한 vendorId를 useReview에 넘김
+
   const [likeBtnSelected, setLikeBtnSelected] = useState(false);
 
   const [dislikeBtnSelected, setDislikeBtnSelected] = useState(false);

@@ -26,6 +26,7 @@ import SellHome from './Sell/SellHome/SellHome';
 import SellMySet from './Sell/SellMySet/SellMySet';
 import PopularResult from './Menu/Home/HomeComponents/PopularResult';
 import CartPage from './ShopDetails/Containers/Menu/MenuComponents/Cart';
+import { FavoriteProvider } from './Menu/MyPage/MyPageComponents/FavoriteContext';
 import { useLocation } from 'react-router-dom';
 import { BrowserView, MobileView } from 'react-device-detect';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
@@ -33,6 +34,7 @@ import { NoticeProvider } from './Menu/Home/HomeComponents/NoticeContext';
 import { ThemeProvider, createTheme } from '@mui/material';
 import './App.css';
 import NotFound from './NotFound';
+
 
 const muitheme = createTheme({
   palette: {
@@ -53,9 +55,9 @@ const menuRoutes = [
   { path: '/myreview', element: <MyReview /> },
   { path: '/waitingDetail', element: <WaitingDetail /> },
   { path: '/shopHome/:vendorId', element: <ShopMain /> },
-  { path: '/reviewform', element: <ReviewForm /> },
+  { path: '/reviewform/:orderId/:vendorId', element: <ReviewForm /> },
   { path: '/notice', element: <Notice /> },
-  { path: '/mypage', element: <Mypage /> },
+  { path: '/mypage', element: <FavoriteProvider><Mypage /></FavoriteProvider> },
   { path: '/myfavorite', element: <MyFavorite /> },
   { path: '/mytakeout', element: <MyTakeout /> },
   { path: '/order/:orderNumber', element: <MyTakeoutDetail /> },
@@ -63,6 +65,7 @@ const menuRoutes = [
   { path: '/popularresult', element: <PopularResult /> },
   { path: '/cart', element: <CartPage /> },
   { path: '*', element: <NotFound /> },
+
 ];
 
 const authRoutes = [
@@ -88,11 +91,14 @@ const mapRoutes = [
 ];
 
 export const browserRoutes = [
+
   ...authRoutes,
   ...menuRoutes,
   ...mapRoutes,
+
   ...sellAuthRoutes,
   ...sellRoutes,
+
 ];
 
 export function AppRoute() {
