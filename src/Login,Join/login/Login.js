@@ -33,10 +33,10 @@ const Login = () => {
           },
         }
       );
-      const { accessToken, refreshToken } = response.data.item; //memberId
+      const { accessToken, refreshToken, memberId } = response.data.item; //memberId
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('refreshToken', refreshToken);
-      // localStorage.setItem('memberId', memberId);
+      localStorage.setItem('memberId', memberId);
 
 
       if (accessToken) {

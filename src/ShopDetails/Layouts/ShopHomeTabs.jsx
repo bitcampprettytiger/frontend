@@ -56,7 +56,7 @@ export default function ShopHomeTabs({images, locationRef}) {
           onChange={handleChange}
           aria-label="ShophHomeTabs"
           variant="sticky"
-        >
+        > 
           <StyledTab label="홈" {...a11yProps(0)} />
           <StyledTab label="메뉴" {...a11yProps(1)} />
           <StyledTab label="리뷰" {...a11yProps(2)} />

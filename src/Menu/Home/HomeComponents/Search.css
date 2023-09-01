@@ -87,6 +87,7 @@
     color: #FF745A;
 }
 
+
 /* Hashtag Container */
 .hashtag-container {
     width: 100%;
@@ -100,6 +101,7 @@
 /* Removing Scrollbar for Webkit browsers */
 .hashtag-container::-webkit-scrollbar {
     display: none;
+
 }
 
 /* Hashtag Buttons */

@@ -35,13 +35,14 @@ function MyReview() {
         setModalOpen(false);
         setCurrentReview(null);
     };
+
     const style = {
         position: 'absolute',
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 480,  // `.myreview-container`와 동일
-        height: 550, // `.myreview-container`와 동일
+        width: 480,
+        height: 550,
         bgcolor: 'background.paper',
         boxShadow: 24,
         p: 4,
@@ -118,7 +119,6 @@ function MyReview() {
             <Header page="myreview" />
             <div className='myreview-container'>
                 <h2>내가 쓴 총 {reviews.length}개의 리뷰</h2>
-
                 <hr className="review-divider" />
 
                 {reviews.map((review, index) => (
@@ -147,12 +147,14 @@ function MyReview() {
                                 <img key={idx} src={img} alt={`review-${idx}`} className="review-image" />
                             ))}
                             {review.images.length > 4 &&
-                                <div className="more-images" onClick={() => { setModalOpen(true); setCurrentReview(review); }}>+</div>
+                                <div className="more-images" onClick={() => handleOpen(review)}>+</div>
                             }
                         </div>
+
                         <Typography
                             className={isExpanded ? 'expanded-class' : 'collapsed-class'}  // added class names
                         >
+
                             {review.text}
                         </Typography>
 
@@ -181,14 +183,7 @@ function MyReview() {
                     </div>
                 ))}
 
-
-                <Button onClick={handleOpen}>리뷰 상세보기</Button>
-                <Modal
-                    open={isModalOpen}
-                    onClose={handleClose}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                >
+                <Modal open={isModalOpen} onClose={handleClose}>
                     <Box sx={{
                         ...style,
                         overflow: 'auto',
@@ -206,11 +201,7 @@ function MyReview() {
                                 />
                             ))}
                         </div>
-                        <Typography
-                            id="modal-modal-description"
-                            sx={{ mt: 2 }}
-                            className={isExpanded ? '' : 'review-text'}
-                        >
+                        <Typography id="modal-modal-description" sx={{ mt: 2 }} className={isExpanded ? '' : 'review-text'}>
                             {currentReview?.text}
                         </Typography>
                         {currentReview?.text.split('\n').length > 3 && (
@@ -236,13 +227,11 @@ function MyReview() {
                             </button>
                         )}
                     </Box>
-
                 </Modal>
             </div>
             <Footer type="myreview" />
         </div>
     );
-
 }
 
 export default MyReview;

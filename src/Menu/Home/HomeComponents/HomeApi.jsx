@@ -124,12 +124,12 @@ export const fetchFavoriteShopsByUserId = (memberId, token) => {
     };
     return axios.get(`http://27.96.135.75/api/favorite/${memberId}`, config);
 };
-// 즐겨찾기에서 가게를 삭제
-export const deleteFavoriteShop = (memberId, vendorId) => {
-    return axios.delete(`http:/27.96.135.75/api/favoritePick/${memberId}/remove/${vendorId}`, {
-        headers: getHeaders()
-    });
-};
+// // 즐겨찾기에서 가게를 삭제
+// export const deleteFavoriteShop = (memberId, vendorId) => {
+//     return axios.delete(`http:/27.96.135.75/api/favoritePick/${memberId}/remove/${vendorId}`, {
+//         headers: getHeaders()
+//     });
+// };
 
 
 
@@ -138,7 +138,7 @@ export const getMyCart = (memberId, token) => {
     const config = {
         headers: getHeaders(),
     };
-    return axios.get(`http://27.96.135.75/cart/member/${memberId}`, config);
+    return axios.get(`http://27.96.135.75/cart/info/${memberId}`, config);
 };
 
 
@@ -171,5 +171,89 @@ export const fetchTop10RecommendedMenus = async () => {
         console.error('There was a problem with the fetch operation: ', error);
     }
 };
+
+//회원 정보 조회
+export const fetchMyInfo = async () => {
+    try {
+        const response = await axios.get('http://27.96.135.75/myInfo', {
+            headers: getHeaders()
+        });
+        if (response.status === 200) {
+            return response.data;
+        } else {
+            throw new Error('Failed to fetch user info');
+        }
+    } catch (error) {
+        console.error('There was a problem fetching user info: ', error);
+    }
+};
+
+// 회원 찜내역 조회
+export const fetchMyFavoriteVendors = async () => {
+    try {
+        const response = await axios.get('http://27.96.135.75/myPage/myFavoriteVendors', {
+            headers: getHeaders()
+        });
+        if (response.status === 200) {
+            return response.data;
+        } else {
+            throw new Error('Failed to fetch favorite vendors');
+        }
+    } catch (error) {
+        console.error('There was a problem fetching favorite vendors: ', error);
+    }
+};
+
+
+export const fetchOrderDetail = async (MEMBER_ID) => {
+    try {
+        const response = await fetch(`http://27.96.135.75/myPage/myOrders`, {
+            headers: getHeaders()
+        });
+
+        // 서버 응답을 JSON 형태로 파싱
+        const data = await response.json();
+
+        // 1. Log the received data
+        console.log("Data received:", data);
+
+        // 'orders' 필드가 배열로 있다고 가정
+        if (Array.isArray(data.item)) {
+            return data.item;
+        } else {
+            // 2. Log the error message
+            console.error('item is not an array');
+            return [];  // 배열이 아니면 빈 배열 반환
+        }
+
+    } catch (error) {
+        console.error('Error fetching order details:', error);
+        throw error;  // 오류를 상위로 전파
+    }
+};
+//주문내역함수 
+export const fetchPaymentList = async (token) => {
+    try {
+        const response = await fetch('http://27.96.135.75/myPage/myPaymentList', {
+            headers: getHeaders(),
+        });
+
+        const data = await response.json();
+
+        if (data.statusCode === 200 && Array.isArray(data.item)) {
+            return data.item;
+        } else {
+            console.error('No payment data found or Bad Request:', data.errorMessage);
+            return null;
+        }
+    } catch (error) {
+        console.error('Error fetching payment list:', error);
+        return null;
+    }
+};
+
+
+
+
 
 

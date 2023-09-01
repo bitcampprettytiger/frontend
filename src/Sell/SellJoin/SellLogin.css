@@ -16,7 +16,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-left: -5%;
+    /* margin-left: -5%; */
 }
 
 .header .logo-name {
