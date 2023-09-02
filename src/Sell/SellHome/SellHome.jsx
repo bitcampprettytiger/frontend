@@ -13,7 +13,7 @@ const SellHome = () => {
   useEffect(() => {
     const getVendor = async() => {
       try {
-        const response = await axios.get('http://27.96.135.75/vendor/getVendorInfo', {
+        const response = await axios.get('http://192.168.0.240/vendor/getVendorInfo', {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('accessToken')}`
           }
