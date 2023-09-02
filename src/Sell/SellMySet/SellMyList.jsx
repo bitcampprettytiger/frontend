@@ -36,7 +36,7 @@ const SellMyList = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://192.168.0.240  /menu/info/${vendorId}`,
+          `http://192.168.0.240/menu/info/${vendorId}`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -73,7 +73,8 @@ const SellMyList = () => {
           margin: 'auto',
           marginTop: '5%',
           border: '1px solid black',
-          height: '72vh'
+          height: '72vh',
+          padding: '3%'
         }}
       >
         <Grid
@@ -113,10 +114,10 @@ const SellMyList = () => {
             {menus.map((menu, index) => (
               <React.Fragment key={index}>
                 <Grid item xs={2} sx={{ textAlign: 'center' }}>
-                  {menu.menuImage ? (
+                  {menu.primaryimage ? (
                     <img
-                      src={URL.createObjectURL(menu.menuImage)}
-                      alt="menu preview"
+                      src={menu.menuImageList[0].url}
+                      alt="가게사진"
                       style={{ width: '50px', height: '50px' }}
                     />
                   ) : (
@@ -147,7 +148,10 @@ const SellMyList = () => {
         </Box>
       </Box>
       <Grid item xs={12} sx={{ textAlign: 'center' }}>
-        <Button variant="contained" sx={{ background: '#21BF73', marginTop: '5%' }}>
+        <Button
+          variant="contained"
+          sx={{ background: '#21BF73', marginTop: '5%' }}
+        >
           수정하러 가기
         </Button>
       </Grid>

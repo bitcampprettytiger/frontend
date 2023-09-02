@@ -25,7 +25,8 @@ const Login = () => {
 
     try {
       const response = await instance.post(
-        '/member/login',
+
+        'http://192.168.0.240/member/login',
         data,
         {
           headers: {

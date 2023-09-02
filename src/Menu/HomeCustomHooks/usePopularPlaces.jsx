@@ -11,7 +11,7 @@ export default function usePopularPlaces(address, location) {
             console.log(location.latitude)
             console.log(location.longitude)
             console.log("여기!!!!")
-            axios.post('http://192.168.0.240  /vendor/search', {
+            axios.post('http://192.168.0.240/vendor/search', {
                 address: address,
                 latitude: location.latitude,
                 hardness: location.longitude  // 오타 수정됨

@@ -24,10 +24,11 @@ import axios from 'axios';
 import { da } from 'date-fns/locale';
 import CardModal from './CardModal';
 import { redirect, useNavigate } from 'react-router-dom/dist';
-function CartPage() {
+function CartPage({ vendorid }) {
   const navigate = useNavigate();
   const accessToken = localStorage.getItem('accessToken');
   const [showModal, setShowModal] = useState(false);
+  const [paymentOK, setpaymentOK] = useState(false);
   const headers = {
     'Content-Type': 'application/json;charset=UTF-8',
     Authorization: `Bearer ${accessToken}`,
@@ -43,6 +44,7 @@ function CartPage() {
       return item;
     });
     setCartItems(newCartItems);
+    console.log('카트아이템', newCartItems);
   };
 
   // 수량 -
@@ -99,9 +101,19 @@ function CartPage() {
   };
 
   const callback = async (rsp) => {
-    const { success, imp_uid, merchant_uid, paid_amount, error_msg, name } =
-      rsp;
+    const {
+      success,
+      imp_uid,
+      merchant_uid,
+      paid_amount,
+      error_msg,
+      name,
+      paymentOK,
+    } = rsp;
     console.log('rsp@@@', rsp);
+
+    //페이먼트 아이디
+    //벤더아이디
 
     if (success) {
       setShowModal(true); // 결제 성공 시 모달 표시
@@ -111,15 +123,17 @@ function CartPage() {
         merchantUid: merchant_uid,
         amount: paid_amount,
         name: name,
+        paymentOK: paymentOK,
       };
       console.log('페이로드', payload);
       try {
         // 서버로 데이터를 전송합니다.
         const serverResponse = await axios.post(
-          'http://192.168.0.240  /payment/addPayment',
+          'http://192.168.0.240/payment/addPayment',
           payload,
           { headers }
         );
+        setpaymentOK(true);
         console.log('서버 응답:', serverResponse);
       } catch (error) {
         console.error('서버로 전송 실패:', error);
@@ -136,7 +150,7 @@ function CartPage() {
   return (
     <>
       <CssBaseline />
-      <AppBarWithTitle title="장바구니" />
+      {/* <AppBarWithTitle title="장바구니" /> */}
       <Container style={{ marginTop: '15%' }}>
         <Box sx={{ my: 2 }}>
           <Typography variant="h6" gutterBottom component="div">

@@ -11,7 +11,7 @@ const SSSMenuInputs = ({ onAddMenu }) => {
   const [menuList, setMenuList] = useState([]);
 
   const addMenu = () => {
-    console.log("Adding menu: ", { menuType, menuName, menuContent, price, menuImage });
+    console.log("메뉴 입력 ", { menuType, menuName, menuContent, price, menuImage });
 
     if (menuType && menuName && menuContent && price) {
       const newMenu = { menuType, menuName, menuContent, price, menuImage };
@@ -21,7 +21,6 @@ const SSSMenuInputs = ({ onAddMenu }) => {
       setMenuContent('');
       setPrice('');
       setMenuImage(null);
-      console.log("Current menuImage state: ", menuImage);
       setMenuType('');
     }
   };
@@ -57,7 +56,7 @@ const SSSMenuInputs = ({ onAddMenu }) => {
           <div>
             {menuImage && (
               <img
-                src={URL.createObjectURL(menuImage)}
+                src={menuImage}
                 alt="menu preview"
                 style={{ width: '100%', height: '20%' }}
               />

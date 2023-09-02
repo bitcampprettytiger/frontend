@@ -82,9 +82,8 @@ export const fetchTop5ReviewVendors = async () => {
 // 가게리뷰를 가져옴
 
 export const fetchReviewsByVendorId = (vendorId) => {
-    return axios.get(`http://192.168.0.240  /vendor/review-list/${vendorId}`, {
-        headers: getHeaders(),
-    });
+
+    return axios.get(`http://192.168.0.240/vendor/review-list/${vendorId}`);
 };
 
 
@@ -100,13 +99,13 @@ export const updateReview = (reviewDto, uploadFiles, changeFileList, originFileL
     });
     formData.append('originFileList', JSON.stringify(originFileList));
 
-    return axios.put('http://192.168.0.240/reviews/review', formData, {
+    return axios.put('http://192.168.0.240/review', formData, {
         headers: getHeaders(),
     });
 };
 //리뷰삭제
 export const deleteReview = (reviewDto) => {
-    return axios.delete('http://192.168.0.240/reviews/review', { data: reviewDto });
+    return axios.delete('http://192.168.0.240/review', { data: reviewDto });
 };
 //즐겨찾기가 되어 있는 가게리스트
 export const fetchFavoriteShopsByUserId = (memberId, token) => {
@@ -117,7 +116,7 @@ export const fetchFavoriteShopsByUserId = (memberId, token) => {
 };
 // // 즐겨찾기에서 가게를 삭제
 // export const deleteFavoriteShop = (memberId, vendorId) => {
-//     return axios.delete(`http:/192.168.0.58/api/favoritePick/${memberId}/remove/${vendorId}`, {
+//     return axios.delete(`http:/192.168.0.240/api/favoritePick/${memberId}/remove/${vendorId}`, {
 //         headers: getHeaders()
 //     });
 // };

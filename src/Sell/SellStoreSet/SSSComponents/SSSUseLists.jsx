@@ -41,7 +41,7 @@ const SSSUseLists = () => {
 
     try {
       // 서버에 비동기로 전송
-      const response = await axios.post('http://192.168.0.240  /vendor/info', {
+      const response = await axios.post('http://192.168.0.240/vendor/info', {
         helpCheck: amenitiesString,
       });
       console.log('Data sent to server:', response.data);

@@ -33,7 +33,7 @@ const VendorAPI = async (
     }
     // Axios 요청에서 'Content-Type': 'application/json' 헤더를 사용합니다.
     const response = await axios.post(
-      'http://192.168.0.240  /vendor/info',
+      'http://192.168.0.240/vendor/info',
       formData, // FormData 사용
       {
         headers: {
