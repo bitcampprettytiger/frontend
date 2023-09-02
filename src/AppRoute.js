@@ -68,6 +68,7 @@ const menuRoutes = [
   { path: '/myedit', element: <MyEdit /> },
   { path: '/popularresult', element: <PopularResult /> },
   { path: '/cart', element: <CartPage /> },
+  { path: '/new-order', element: <ChatApp />},
   { path: '*', element: <NotFound /> },
 
 ];
