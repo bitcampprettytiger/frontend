@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -14,70 +14,90 @@ import useReview from '../ReviewCustomHook/useReview';
 import { createReview } from '../../../../Menu/Home/HomeComponents/HomeApi';
 
 
-function ReviewForm() {
+function ReviewForm({ onReviewSubmit }) {
   const { orderId, vendorId } = useParams();
   const { reviews, error, loading, isLiked, isDisliked } = useReview(vendorId); // 추출한 vendorId를 useReview에 넘김
 
-  const [likeBtnSelected, setLikeBtnSelected] = useState(false);
+  const [likeCount, setLikeCount] = useState(false);
 
-  const [dislikeBtnSelected, setDislikeBtnSelected] = useState(false);
-  const [reviewText, setReviewText] = useState(""); // 리뷰 텍스트를 위한 상태
+  const [disLikeCount, setDisLikeCount] = useState(false);
+  const [rereviewContent, setRereviewContent] = useState(""); // 리뷰 텍스트를 위한 상태
   const [rating, setRating] = useState(0); // 평점을 위한 상태
+  const [selectedFiles, setSelectedFiles] = useState([]); // 선택된 파일을 위한 상태
+  const [reviewScore, setReviewScore] = useState(0); // 음식 별점을 위한 상태
+
 
   const handleLikeBtnClick = () => {
-    setLikeBtnSelected(true);
-    setDislikeBtnSelected(false);
+    console.log("Like button clicked");
+
+    setLikeCount(true);
+    setDisLikeCount(false);
   };
 
   const handleDislikeBtnClick = () => {
-    setLikeBtnSelected(false);
-    setDislikeBtnSelected(true);
+    console.log("Dislike button clicked");
+
+    setLikeCount(false);
+    setDisLikeCount(true);
   };
   const handleReviewChange = (e) => {
-    setReviewText(e.target.value); // 리뷰 텍스트 업데이트
+    setRereviewContent(e.target.value); // 리뷰 텍스트 업데이트
   };
 
   const handleRatingChange = (e, newValue) => {
     setRating(newValue); // 평점 업데이트
   };
+
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files);
+    setSelectedFiles(files); // 선택된 파일 업데이트
+  };
+
+  const removeSelectedFile = (index) => {
+    const newSelectedFiles = [...selectedFiles];
+    newSelectedFiles.splice(index, 1);
+    setSelectedFiles(newSelectedFiles);
+  };
+
   const handleReviewSubmit = async () => {
-    if (!vendorId) {
-      console.error("vendorId가 없어!!!!");
-      return;
-    }
-    console.log("handleReviewSubmit called"); // 함수가 호출되었는지 확인
-    // 값이 제대로 반환되는지 확인
+    // if (!vendorId) {
+    //   console.error("vendorId가 없어!!!!");
+    //   return;
+    // }
 
-    console.log("useParams:", { orderId, vendorId });  // 여기에서는 이미 얻어온 orderId와 vendorId를 사용
+    console.log("handleReviewSubmit called");
 
-    // 상태가 제대로 업데이트되는지 확인
-    console.log("Current State - reviewText:", reviewText, "rating:", rating);
+    console.log("useParams:", { orderId, vendorId });
 
+    console.log("Current State - rereviewContent:", rereviewContent, "rating:", rating);
 
-    // 여기에서 createReview 함수를 호출하여 리뷰를 저장
-    // reviewDto, files, token 채워야함
     const reviewDto = {
-      text: reviewText,
-      rating,
+      reviewContent: rereviewContent,
+      reviewScore,  // 음식 별점 
+      likeCount,
+      disLikeCount,
       vendorId,
-      // ... 다른 필요한 데이터
     };
 
-    console.log("Review DTO:", reviewDto); // DTO가 어떻게 생성되었는지 확인
+    console.log("Review DTO:", reviewDto);
 
-
-    const files = [];
+    const files = []; // 파일 정보를 추가하려면 배열을 채워야 함
     const token = localStorage.getItem('accessToken');
 
-    console.log("Access Token:", token); // 토큰이 올바르게 로딩되었는지 확인
-
+    console.log("Access Token:", token);
 
     try {
-      const result = await createReview(reviewDto, files, token);
-      console.log("API Call Result:", result); // API 호출 결과 확인
+      const result = await createReview(reviewDto, selectedFiles, token);
+      console.log("API Call Result:", result);
 
-      if (result) {  // result가 null이나 undefined가 아니라면
+      if (onReviewSubmit) {
+        onReviewSubmit(reviewDto, files);  // 상위 컴포넌트로 리뷰 데이터를 전달합니다.
+      }
+
+      if (result) {
         console.log("리뷰가 성공적으로 저장되었습니다.", result);
+        alert('리뷰가 성공적으로 저장되었습니다.');  // 여기에 추가
+
       } else {
         console.log("리뷰 저장에 실패했습니다. 결과가 없습니다.");
       }
@@ -85,6 +105,10 @@ function ReviewForm() {
       console.error("리뷰 저장 중 오류가 발생했습니다.", error);
     }
   };
+  useEffect(() => {
+    setLikeCount(isLiked);  // 좋아요 상태 업데이트
+    setDisLikeCount(isDisliked); // 아쉬워요 상태 업데이트
+  }, [isLiked, isDisliked]);
 
   return (
     <div>
@@ -126,17 +150,9 @@ function ReviewForm() {
         >
           음식은 어떠셨나요?
         </Typography>
-        <Rating value={null} />
-        <Typography
-          sx={{
-            fontSize: '15px',
-            color: 'black',
-            paddingTop: '20px',
-            fontWeight: 'bold',
-          }}
-        >
-          위생은 어떠셨나요?
-        </Typography>
+        <Rating value={reviewScore} onChange={(e, newValue) => setReviewScore(newValue)} />
+
+
         <div
           style={{
             display: 'flex',
@@ -146,9 +162,9 @@ function ReviewForm() {
           }}
         >
           <Button
-            variant={likeBtnSelected ? "contained" : "outlined"}
+            variant={likeCount ? "contained" : "outlined"}
             startIcon={
-              likeBtnSelected ? (
+              likeCount ? (
                 <SentimentSatisfiedAltIcon sx={{ color: "white" }} />
               ) : (
                 <SentimentSatisfiedAltIcon />
@@ -157,9 +173,9 @@ function ReviewForm() {
             onClick={handleLikeBtnClick}
             sx={{
               borderRadius: "20px",
-              borderColor: !likeBtnSelected && "#D9D9D9",
-              backgroundColor: likeBtnSelected ? "#FF745A" : "white",
-              color: likeBtnSelected ? "white" : "black",
+              borderColor: !likeCount && "#D9D9D9",
+              backgroundColor: likeCount ? "#FF745A" : "white",
+              color: likeCount ? "white" : "black",
               "&:hover": {
                 borderWidth: "1.5px",
                 borderColor: "#FF745A",
@@ -169,9 +185,9 @@ function ReviewForm() {
             좋아요
           </Button>
           <Button
-            variant={dislikeBtnSelected ? "contained" : "outlined"}
+            variant={disLikeCount ? "contained" : "outlined"}
             startIcon={
-              dislikeBtnSelected ? (
+              disLikeCount ? (
                 <SentimentDissatisfiedIcon sx={{ color: "white" }} />
               ) : (
                 <SentimentDissatisfiedIcon />
@@ -180,9 +196,9 @@ function ReviewForm() {
             onClick={handleDislikeBtnClick}
             sx={{
               borderRadius: "20px",
-              borderColor: !dislikeBtnSelected && "#D9D9D9",
-              backgroundColor: dislikeBtnSelected ? "#FF745A" : "white",
-              color: dislikeBtnSelected ? "white" : "black",
+              borderColor: !disLikeCount && "#D9D9D9",
+              backgroundColor: disLikeCount ? "#FF745A" : "white",
+              color: disLikeCount ? "white" : "black",
               "&:hover": {
                 borderWidth: "1.5px",
                 borderColor: "#FF745A",
@@ -199,10 +215,22 @@ function ReviewForm() {
           variant="outlined"
           multiline
           rows={4}
-          value={reviewText}
+          value={rereviewContent}
           onChange={handleReviewChange}
           placeholder="다른 사람들이 볼 수 있게 남겨주세요. :)"
           fullWidth
+        />
+        <input
+          type="file"
+          multiple
+          onChange={handleFileChange}
+          style={{
+            display: 'none',
+            width: '80%',
+            marginTop: '30%'
+          }
+          }
+          id="fileInput"
         />
         <Button
           variant="outlined"
@@ -214,10 +242,36 @@ function ReviewForm() {
             borderWidth: '1px',
             marginTop: '2vh'
           }}
+          onClick={() => document.getElementById('fileInput').click()}
+
         >
           사진 첨부하기
         </Button>
+        <div>
+          {selectedFiles.map((file, index) => (
+            <div key={index} style={{ display: 'inline-block', position: 'relative' }}>
+              <img
+                src={URL.createObjectURL(file)}
+                alt={file.name}
+                style={{ width: '100px', height: '100px' }}
+              />
+              <button
+                onClick={() => removeSelectedFile(index)}
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  right: 0,
+                  background: 'red',
+                  color: 'white'
+                }}
+              >
+                X
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
+
       <div style={{ textAlign: 'center', paddingTop: '20px' }}>
         <Button
           variant="contained"
@@ -232,7 +286,7 @@ function ReviewForm() {
           등록하기
         </Button>
       </div>
-    </div>
+    </div >
   );
 
 }

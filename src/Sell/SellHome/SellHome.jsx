@@ -11,9 +11,9 @@ const SellHome = () => {
   const [vendor, setVendor] = useState();
 
   useEffect(() => {
-    const getVendor = async() => {
+    const getVendor = async () => {
       try {
-        const response = await axios.get('http://27.96.135.75/vendor/getVendorInfo', {
+        const response = await axios.get('http://192.168.0.240  /vendor/getVendorInfo', {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('accessToken')}`
           }
@@ -21,10 +21,10 @@ const SellHome = () => {
 
         console.log(response);
 
-        if(response.data && response.data.item) {
+        if (response.data && response.data.item) {
           setVendor(response.data.item);
         }
-      } catch(error) {
+      } catch (error) {
         console.log(error);
       }
     }

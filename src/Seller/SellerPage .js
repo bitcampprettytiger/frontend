@@ -4,7 +4,7 @@ import { io } from 'socket.io-client';
 const SellerPage = () => {
   const userId = '1';
   const [reservationList, setReservationList] = useState([]);
-  const socket = io('http://192.168.0.58:8081', {
+  const socket = io('http://192.168.0.240  :8081', {
     query: { userId }
   });
   const [position, setPosition] = useState(0);
@@ -17,11 +17,11 @@ const SellerPage = () => {
 
   useEffect(() => {
     // const socket = io('http://localhost:8081'); // 판매자 엔드포인트로 연결
-    if(!isReserved){
-    socket.emit('enter_room', data);
-    setIsReserved(true);
-    setPosition(prevPosition => prevPosition + 1);
-  }
+    if (!isReserved) {
+      socket.emit('enter_room', data);
+      setIsReserved(true);
+      setPosition(prevPosition => prevPosition + 1);
+    }
     socket.on('welcome', (nickname, roomCount) => {
       console.log(`${nickname}님, 환영합니다! 방 인원: ${roomCount}`);
       // 이제 환영 메시지를 받아서 처리하는 로직을 추가할 수 있습니다.
@@ -49,7 +49,7 @@ const SellerPage = () => {
           <p>Vendor: {reservation.vendor}</p>
           <p>Name: {reservation.name}</p>
           <p>Phone Number: {reservation.phoneNumber}</p>
-         <button onClick={() => handleDisconnect(reservation.phoneNumber)}>
+          <button onClick={() => handleDisconnect(reservation.phoneNumber)}>
             연결 끊기
           </button>
         </div>

@@ -13,11 +13,11 @@ const useReview = (vendorId) => {
     const getReview = async () => {
       try {
         setLoading(true);
-        const res = await axios.get(`http://27.96.135.75/reviews/review-list/${vendorId}`);
+        const res = await axios.get(`http://192.168.0.240  /reviews/review-list/${vendorId}`);
         if (res.data.statusCode === 200) {
-            setReviews(res.data.itemlist);
+          setReviews(res.data.itemlist);
         } else {
-            setError(new Error(res.data.errorMessage));
+          setError(new Error(res.data.errorMessage));
         }
       } catch (err) {
         setError(err);

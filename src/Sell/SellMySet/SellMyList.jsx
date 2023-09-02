@@ -36,7 +36,7 @@ const SellMyList = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://27.96.135.75/menu/info/${vendorId}`,
+          `http://192.168.0.240  /menu/info/${vendorId}`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -147,7 +147,7 @@ const SellMyList = () => {
         </Box>
       </Box>
       <Grid item xs={12} sx={{ textAlign: 'center' }}>
-        <Button variant="contained" sx={{background: '#21BF73', marginTop: '5%'}}>
+        <Button variant="contained" sx={{ background: '#21BF73', marginTop: '5%' }}>
           수정하러 가기
         </Button>
       </Grid>

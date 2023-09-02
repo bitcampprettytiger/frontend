@@ -75,8 +75,8 @@ function CartPage() {
   const getTotalPrice = () => {
     return cartItems.length > 0
       ? cartItems.reduce((sum, item) => {
-          return sum + item.menu.price * item.cartQuantity;
-        }, 0)
+        return sum + item.menu.price * item.cartQuantity;
+      }, 0)
       : 0;
   };
   const { width } = useResponsive();
@@ -116,7 +116,7 @@ function CartPage() {
       try {
         // 서버로 데이터를 전송합니다.
         const serverResponse = await axios.post(
-          'http://27.96.135.75/payment/addPayment',
+          'http://192.168.0.240  /payment/addPayment',
           payload,
           { headers }
         );

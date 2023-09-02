@@ -1,4 +1,4 @@
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 export default function useCart() {
@@ -12,13 +12,13 @@ export default function useCart() {
 
   // 메뉴 추가
   const addMenuItem = async (selectedMenuId, cartId) => {
-    const fixedQuantity = 1; 
+    const fixedQuantity = 1;
     try {
       const response = await axios.post(
-        'http://27.96.135.75/cart/info',
+        'http://192.168.0.240  /cart/info',
         {
           cart: {
-            id : cartId
+            id: cartId
           },
           menu: { id: selectedMenuId },
           cartQuantity: fixedQuantity
@@ -28,7 +28,7 @@ export default function useCart() {
       if (response.status === 200) {
         setCartItems([...cartItems, ...response.data.itemlist]);
         console.log("이거는 ", cartItems)
-      } 
+      }
     } catch (error) {
       console.log(error.response.data);
       console.error('메뉴 추가 오류', error);
@@ -40,7 +40,7 @@ export default function useCart() {
   // 전체 삭제
   const clearCart = async () => {
     try {
-      await axios.delete(`http://27.96.135.75/cart/info`, { headers });
+      await axios.delete(`http://192.168.0.240  /cart/info`, { headers });
       setCartItems([]);
       console.log('ssssssssss')
     } catch (error) {
@@ -51,12 +51,12 @@ export default function useCart() {
   // 선택 삭제
   const deleteCartItem = async (cartId, menuId) => {
     console.log(cartId)
-    console.log("메뉴 아이디"+menuId)
+    console.log("메뉴 아이디" + menuId)
     try {
-      const response = await axios.delete(`http://27.96.135.75/cart/deletecartitem`, {
+      const response = await axios.delete(`http://192.168.0.240  /cart/deletecartitem`, {
         headers: headers,
         params: {
-          'cartId' : cartId,
+          'cartId': cartId,
           'menuId': menuId
         }
       });
@@ -74,7 +74,7 @@ export default function useCart() {
   // 사용자 장바구니 확인
   const fetchCartItems = async () => {
     try {
-      const response = await axios.get('http://27.96.135.75/cart/member', { headers });
+      const response = await axios.get('http://192.168.0.240  /cart/member', { headers });
       if (response.status === 200) {
         setCartItems(response.data.itemlist);
       }
