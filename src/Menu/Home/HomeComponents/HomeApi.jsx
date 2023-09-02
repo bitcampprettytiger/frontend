@@ -82,21 +82,11 @@ export const fetchTop5ReviewVendors = async () => {
 // 가게리뷰를 가져옴
 
 export const fetchReviewsByVendorId = (vendorId) => {
+
     return axios.get(`http://192.168.0.240/vendor/review-list/${vendorId}`);
 };
 
-//새로운 리뷰를 생성
-export const createReview = (reviewDto, files) => {
-    const formData = new FormData();
-    formData.append('reviewDto', JSON.stringify(reviewDto));
-    files.forEach((file) => {
-        formData.append('uploadFiles', file);
-    });
 
-    return axios.post('http://192.168.0.240/review', formData, {
-        headers: getHeaders(),
-    });
-};
 //리뷰업데이트
 export const updateReview = (reviewDto, uploadFiles, changeFileList, originFileList) => {
     const formData = new FormData();
@@ -219,6 +209,7 @@ export const fetchOrderDetail = async (MEMBER_ID) => {
 
         // 'orders' 필드가 배열로 있다고 가정
         if (Array.isArray(data.item)) {
+            console.log()
             return data.item;
         } else {
             // 2. Log the error message
@@ -252,8 +243,53 @@ export const fetchPaymentList = async (token) => {
     }
 };
 
+export const createReview = async (reviewDto, file, token) => {
 
+    const url = 'http://192.168.0.240  /reviews/review';
+    const formData = new FormData();
+    console.log("이거 리뷰 디티오임" + reviewDto);
 
+    // 리뷰 데이터 추가
+    Object.keys(reviewDto).forEach(key => {
+        formData.append(key, reviewDto[key]);
+    });
 
+    // 파일(이미지 등) 추가
+    if (file) {
+        file.forEach((file, index) => {
+            formData.append(`file${index + 1}`, file);
+        });
+    }
 
+    // 토큰 유효성 검사
+    if (!token) {
+        throw new Error("액세스 토큰이 누락되었거나 유효하지 않습니다!");
+    }
 
+    // 새로운 헤더를 생성
+    const headers = {
+        Authorization: `Bearer ${token}`
+    };
+
+    // axios 사용
+    try {
+        const response = await axios.post(url, formData, { headers });
+        console.log("이거 리뷰 디티오임" + reviewDto);
+
+        if (response.status === 200) {
+            return response.data;
+        } else {
+            throw new Error(response.data.errorMessage || "리뷰 생성 실패");
+        }
+    } catch (error) {
+        console.error('리뷰 생성 중 오류 발생:', error);
+        console.log("이거 리뷰 디티오 아이디임" + reviewDto.id);
+        console.log("이거 리뷰 디티오 오더아이디임" + reviewDto.orderId);
+
+        if (error.response) {
+            console.error("서버 응답:", error.response.data);
+        }
+
+        throw error;
+    }
+};

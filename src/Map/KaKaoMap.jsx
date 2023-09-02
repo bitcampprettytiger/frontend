@@ -16,8 +16,8 @@ const KaKaoMap = (props) => {
   const [selectedSIGmenus, setSelectedSIGmenus] = useState([]);
   const vendorInfo = useMemo(() => {
     if (data) {
-   
-      console.log('1222222222222222',data);
+
+      console.log('1222222222222222', data);
 
       return data.map((vendor) => ({
         vendorName: vendor.vendorName,

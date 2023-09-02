@@ -18,17 +18,17 @@ const useShare = (vendorId) => {
     }
   }, [vendor, loading]);
 
-//   const shareToKakao = useCallback(() => {
-//     if (!loading && vendor) {
-//       Kakao.Share.sendCustom({
-//         templateId: 82775,
-//         templateArgs: {
-//           title: '[먹자취]',
-//           description: vendor.address,
-//         },
-//       });
-//     }
-//   }, [vendor, loading]);
+  //   const shareToKakao = useCallback(() => {
+  //     if (!loading && vendor) {
+  //       Kakao.Share.sendCustom({
+  //         templateId: 82775,
+  //         templateArgs: {
+  //           title: '[먹자취]',
+  //           description: vendor.address,
+  //         },
+  //       });
+  //     }
+  //   }, [vendor, loading]);
 
   return {
     shareToWeb,

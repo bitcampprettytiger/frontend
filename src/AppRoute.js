@@ -59,7 +59,7 @@ const menuRoutes = [
   { path: '/reviewform/:orderId/:vendorId', element: <ReviewForm /> },
   { path: '/notice', element: <Notice /> },
   { path: '/mypage', element: <FavoriteProvider><Mypage /></FavoriteProvider> },
-  { path: '/myfavorite', element: <MyFavorite /> },
+  { path: '/myfavorite', element: <FavoriteProvider><MyFavorite /></FavoriteProvider> },
   { path: '/mytakeout', element: <MyTakeout /> },
   { path: '/order/:orderNumber', element: <MyTakeoutDetail /> },
   { path: '/myedit', element: <MyEdit /> },

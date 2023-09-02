@@ -77,8 +77,8 @@ function CartPage({ vendorid }) {
   const getTotalPrice = () => {
     return cartItems.length > 0
       ? cartItems.reduce((sum, item) => {
-          return sum + item.menu.price * item.cartQuantity;
-        }, 0)
+        return sum + item.menu.price * item.cartQuantity;
+      }, 0)
       : 0;
   };
   const { width } = useResponsive();
