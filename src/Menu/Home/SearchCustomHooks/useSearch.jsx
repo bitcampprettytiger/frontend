@@ -1,41 +1,38 @@
 import { useState, useEffect } from 'react';
 import { useGeolocation } from '../../GeolocationCustomHooks/useGeolocation';
-import axios from 'axios';
+import { getHeaders, getVendorByCategory, getVendorInfo } from '../HomeComponents/HomeApi';
 
-
-export const getHeaders = () => {
-    const accessToken = localStorage.getItem('accessToken');
-    return {
-        'Content-Type': 'application/json;charset=UTF-8',
-        Authorization: `Bearer ${accessToken}`,
-    };
-};
-
+// 검색 관련 상태와 로직을 관리하는 커스텀 훅
 export const useSearch = (initialSearchInput, location) => {
+    // 검색 입력 값 관리
     const [searchInput, setSearchInput] = useState(initialSearchInput || "");
+    // 검색 결과 관리
     const [searchResults, setSearchResults] = useState([]);
+    // 최근 검색어 관리
     const [recentSearches, setRecentSearches] = useState([]);
+    // 최근 방문한 가게들 관리
     const [recentShops, setRecentShops] = useState([]);
+    // 현재 위치 정보
     const { location: geoLocation, isLoading } = useGeolocation();
-    const [vendors, setVendors] = useState([]); // 추가한 부분
+    // 판매자 정보 관리
+    const [vendors, setVendors] = useState([]);
 
-
-
+    // 검색 버튼 클릭 처리
     const handleSearchClick = async () => {
+        // 검색어가 없으면 경고
         if (!searchInput.trim()) {
             console.warn("검색어를 입력하세요.");
             return;
         }
 
-        console.log("Location object:", geoLocation);
-
+        // 위치 정보 로딩 중이면 대기
         if (isLoading) {
             console.warn('Location 로딩중~');
             return;
         }
 
         try {
-            // 중복 검색어가 있는지 확인하고, 없으면 추가
+            // 최근 검색어 업데이트
             const existingSearch = recentSearches.find((item) => item.text === searchInput);
             if (!existingSearch) {
                 const newItem = { text: searchInput, timestamp: new Date().getTime() };
@@ -44,67 +41,41 @@ export const useSearch = (initialSearchInput, location) => {
                 setRecentSearches(updatedSearches);
             }
 
-            // 백엔드 API를 호출
+            // 위치 정보가 있는 경우에만 API 호출
             if (geoLocation && geoLocation.lat && geoLocation.lng) {
-                const nowLocationDto = {
-                    latitude: geoLocation.lat,
-                    longitude: geoLocation.lng,
-                };
+                // 첫 번째 API 호출 (카테고리별 판매자 정보)
+                const response1 = await getVendorByCategory(searchInput);
+                if (response1.status === 200 && response1.data && response1.data.itemlist) {
+                    setVendors(response1.data.itemlist);
+                }
 
-                const response = await axios.get(`http://27.96.135.75/vendor/info?search=${searchInput}`, {
-                    headers: getHeaders()
-                });
-
-                console.log("API Response: ", response);  // Debugging line
-
-                if (response.status === 200 && response.data.result && response.data.result.itemlist) {
-                    const data = response.data.result.itemlist;
-
-                    // 필터링 수행
+                // 두 번째 API 호출 (판매자 정보)
+                const response2 = await getVendorInfo(searchInput);
+                if (response2.status === 200 && response2.data.result && response2.data.result.itemlist) {
+                    let data = response2.data.result.itemlist;
                     data = data.filter(vendor =>
                         (vendor.vendorName && vendor.vendorName.includes(searchInput)) ||
                         (vendor.SIGMenu && vendor.SIGMenu.includes(searchInput)) ||
                         (vendor.address && vendor.address.includes(searchInput)) ||
                         (vendor.vendorType && vendor.vendorType.includes(searchInput))
                     );
-
                     setSearchResults(data || []);
-                } else {
-                    console.error('API Request Failed:', response);
                 }
             } else {
+                // 위치 정보가 없을 때
                 console.warn("위치정보가 안나와 ㅠㅡㅠ");
             }
         } catch (error) {
+            // API 요청 실패
             console.error('API Request Error:', error);
         }
 
-        // 상태를 강제로 업데이트하여 useEffect를 다시 실행하게 함
-        setSearchInput(prevInput => prevInput + " "); // 공백 추가
-        setSearchInput(prevInput => prevInput.trim()); // 공백 제거
+        // 상태를 강제로 업데이트하여 useEffect를 다시 실행
+        setSearchInput(prevInput => prevInput + " ");
+        setSearchInput(prevInput => prevInput.trim());
     };
 
-
-
-    // 1. 검색 텍스트가 있을 경우에만 API 호출
-    useEffect(() => {
-        if (searchInput) {
-            axios.get(`http://27.96.135.75/vendor/category?address=${searchInput}&menuName=${searchInput}&vendorName=${searchInput}`, {
-                headers: getHeaders()
-            })
-                .then(response => {
-                    console.log('Response data:', response.data); // 디버깅 코드 추가
-                    console.log('Type of response data:', typeof response.data); // 디버깅 코드 추가
-                    setVendors(response.data.itemlist || []);
-                })
-                .catch(error => {
-                    console.error('There was an error!', error);
-                });
-        }
-    }, [searchInput]);
-
-
-    // 2. vendors가 변경될 때마다 필터링 수행
+    // 판매자 정보가 업데이트 될 때 검색 결과도 함께 업데이트
     useEffect(() => {
         if (Array.isArray(vendors)) {
             const filteredResults = vendors.filter(result =>
@@ -118,8 +89,6 @@ export const useSearch = (initialSearchInput, location) => {
         }
     }, [vendors, searchInput]);
 
-
-
     return {
         searchInput,
         setSearchInput,
@@ -130,7 +99,6 @@ export const useSearch = (initialSearchInput, location) => {
         recentShops,
         setRecentShops,
         handleSearchClick,
-
         vendors
     };
 };

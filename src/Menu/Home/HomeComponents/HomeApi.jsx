@@ -365,3 +365,14 @@ export const removeFavoriteShop = (vendorId, headers) => {
     });
 };
 
+export const getVendorByCategory = (searchInput) => {
+    return axios.get(`${API_BASE_URL}/vendor/category?address=${searchInput}&menuName=${searchInput}&vendorName=${searchInput}`, {
+        headers: getHeaders()
+    });
+};
+
+export const getVendorInfo = (searchInput) => {
+    return axios.get(`${API_BASE_URL}/vendor/info?search=${searchInput}`, {
+        headers: getHeaders()
+    });
+};
