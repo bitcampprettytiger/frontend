@@ -49,6 +49,14 @@ function MenuOrderPage() {
     setIsModalVisible(true);
   };
 
+  const adjustWidth = (originalWidth) => {
+    const numericValue = parseInt(originalWidth, 10);
+    const adjustedValue = numericValue - 10;
+    return `${adjustedValue}%`;
+  };
+
+  const adjustedWidth = adjustWidth(width);
+
   return (
     <>
       <StyledMenuList>
@@ -65,13 +73,13 @@ function MenuOrderPage() {
                     />
                   </div>
                   <div className="menu-info">
-                    <h3>{menuDataItem.menuName}</h3>
-                    <p className="menu-description">
+                    <h3 style={{fontWeight: 'bold'}}>{menuDataItem.menuName}</h3>
+                    <div className="menu-description">
                       {menuDataItem.menuContent}
-                    </p>
-                    <p className="menu-price">
+                    </div>
+                    <div className="menu-price" style={{fontWeight: 'bold'}}>
                       가격: {menuDataItem.price.toLocaleString()}원
-                    </p>
+                    </div>
                   </div>
                 </StyledMenuItem>
                 <Divider sx={{ my: 0, height: '0.2px', bgcolor: 'gray.300' }} />
@@ -92,17 +100,17 @@ function MenuOrderPage() {
       {addedMenus.length > 0 && (
         <Button
           sx={{
-            backgroundColor: '#FF745A',
-            width: width,
+            backgroundColor: '#FD5E53',
+            width: adjustedWidth,
             height: '7%',
             color: 'white',
             fontSize: '17px',
             position: 'fixed',
-            bottom: '16px',
+            bottom: '2%',
             left: '50%',
             transform: 'translateX(-50%)',
             '&:hover': {
-              backgroundColor: '#FF745A', // 예: '#FF4500'
+              backgroundColor: '#FD5E53',
             },
           }}
           onClick={() =>

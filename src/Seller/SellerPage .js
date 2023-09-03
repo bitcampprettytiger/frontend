@@ -4,7 +4,7 @@ import { io } from 'socket.io-client';
 const SellerPage = () => {
   const userId = '1';
   const [reservationList, setReservationList] = useState([]);
-  const socket = io('http://192.168.0.240:8081', {
+  const socket = io('http://27.96.135.75:8081', {
     query: { userId }
   });
   const [position, setPosition] = useState(0);

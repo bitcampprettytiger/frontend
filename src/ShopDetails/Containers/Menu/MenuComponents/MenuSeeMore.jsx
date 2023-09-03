@@ -53,7 +53,7 @@ function MenuSeeMore() {
               fontSize: '90%',
               '&:hover': {
                 backgroundColor: '#f1eceb',
-                borderColor: '1px solid #FD5E53'
+                borderColor: '#FD5E53'
               }
             }}
           >

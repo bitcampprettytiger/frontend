@@ -23,7 +23,7 @@ const FindPW = ({ openModal, handleModalClose }) => {
   const findPhoneNumber = async () => {
     try {
       const response = await axios.post(
-        'http://192.168.0.240/member/findPhoneNumber',
+        'http://27.96.135.75/member/findPhoneNumber',
         {
           phoneNumber,
         }
@@ -46,7 +46,7 @@ const FindPW = ({ openModal, handleModalClose }) => {
 
     try {
       const response = await axios.post(
-        'http://192.168.0.240/member/updatePassword',
+        'http://27.96.135.75/member/updatePassword',
         {
           newPassword,
         }

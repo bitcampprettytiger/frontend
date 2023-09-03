@@ -31,7 +31,7 @@ import { useLocation } from 'react-router-dom';
 import { BrowserView, MobileView } from 'react-device-detect';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { NoticeProvider } from './Menu/Home/HomeComponents/NoticeContext';
-import { ThemeProvider, createTheme } from '@mui/material';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import './App.css';
 import NotFound from './NotFound';
 import AnimatedCursor from './Layout/AnimatedCursor';
@@ -43,7 +43,7 @@ const muitheme = createTheme({
       main: '#21BF73',
     },
     secondary: {
-      main: '#D9D9D9',
+      main: '##FD5E53',
     },
   },
 });

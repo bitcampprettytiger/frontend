@@ -13,7 +13,7 @@ export const StyledAppBar = styled(Tabs)`
     color: black;
   }
   & .MuiTabs-indicator {
-    background-color: #FF745A;
+    background-color: #FD5E53;
   }
 `;
 
