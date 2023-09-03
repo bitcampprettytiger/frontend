@@ -16,6 +16,9 @@ const io = socketIO(server,{
 }); 
 let socketToVendor = new Map();
 let phoneNumberToVendor = new Map(); // 각 전화번호가 어떤 판매자에게 연결되어 있는지 저장하는 맵
+const phoneNumberToSocketId = new Map(); // 각 전화번호와 연결된 소켓 ID를 저장하는 맵
+
+
 let sellerConnections = [];
 let currentPosition = 0;
 let vendorConnections = {};
@@ -50,7 +53,12 @@ io.on('connection', (socket) => {
   // socket.onAny((e) =>{
   //   console.log(`${e}`)
   // })
+  const phoneNumber = socket.handshake.query.phoneNumber;
+  if (phoneNumber) {
+    phoneNumberToSocketId.set(phoneNumber, socket.id); // 소켓이 연결될 때 맵에 추가
+  }
 
+  
   socket.on("enter_room", (data) => { 
     socket.join(data.vendor); // 해당 vendor를 방 이름으로 사용
     socket.to(data.vendor).emit("welcome", socket.nickname, countRoom(data.vendor));
@@ -94,6 +102,36 @@ io.on('connection', (socket) => {
     console.log(reservedPosition);    console.log(reservedPosition);
     // io.to(vendorId).emit('update_position', reservedPosition); // 클라이언트에게 갱신된 position 값 전송
   });
+
+  
+  socket.on('disconnect', () => {
+    console.log(`User disconnected: ${socket.id}`);
+    // 필요한 추가 조치 수행
+
+    if (phoneNumber) {
+      phoneNumberToSocketId.delete(phoneNumber); // 소켓이 연결 해제될 때 맵에서 제거
+    }
+  });
+
+  socket.on('notification', (messageInfo) =>{
+    // 구매자에게 알리기 위해 소켓 통신으로 메시지 보내기
+
+    console.log(messageInfo.message);
+
+    const buyerSocketId = phoneNumberToSocketId.get(messageInfo.phoneNumber);
+    
+    if(buyerSocketId){
+      io.to(buyerSocketId).emit("notification", messageInfo.message); 
+     }
+    
+});
+socket.on('order', ({ phoneNumber, orderArray }) => {
+  console.log(`Received an order from ${phoneNumber}:`, orderArray);
+
+  // 판매자에게 주문 정보 전달
+  io.emit('new_order', { phoneNumber, orderArray });
+});
+
 });
 
 const port = 8081;

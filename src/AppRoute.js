@@ -33,6 +33,9 @@ import { NoticeProvider } from './Menu/Home/HomeComponents/NoticeContext';
 import { ThemeProvider, createTheme } from '@mui/material';
 import './App.css';
 import NotFound from './NotFound';
+import SellerPage from './Seller/SellerPage ';
+import Tackout from './Seller/Tackout';
+import CustomerPage from './Seller/CustomerPage';
 
 const muitheme = createTheme({
   palette: {
@@ -72,6 +75,9 @@ const authRoutes = [
 
 const sellAuthRoutes = [
   { path: '/selllogin', element: <SellLogin /> },
+  { path: '/sellPage', element: <SellerPage /> },
+  { path: '/sellTake', element: <Tackout /> },
+  { path: '/sellcustom', element: <CustomerPage /> },
   { path: '/sellsign1', element: <SellSignUp1 /> },
   { path: '/sellsign2', element: <SellSignUp2 /> },
   { path: '/sellsign3', element: <SellSignUp3 /> },
