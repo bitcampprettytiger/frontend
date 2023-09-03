@@ -5,8 +5,8 @@ import ShopFacilities from '../Containers/ShopDetail/ShopFacilities';
 import Location from '../Containers/ShopDetail/Location';
 import ShopHomeTabsContext from '../SDCustomHooks/SHTContext';
 import { StyledAppBar, StyledTab } from '../Layouts/ShopHomeTabsStyle';
-import MenuOrderPage from '../Containers/Menu/MenuComponents/MenuOrderPage'
-import ReviewDetail from '../Containers/Review/ReviewComponents/ReviewDetail'
+import MenuOrderPage from '../Containers/Menu/MenuComponents/MenuOrderPage';
+import ReviewDetail from '../Containers/Review/ReviewComponents/ReviewDetail';
 import RatingAvg from '../Containers/Review/ReviewComponents/RatingAvg';
 import HygieneStatic from '../Containers/Review/ReviewComponents/HygieneStatic';
 import SHFooter from './SHFooter';
@@ -14,7 +14,7 @@ import { WrapBox } from './ShopHomeTabsStyle';
 import useResponsive from '../SDCustomHooks/useResponsive';
 import MenuSeeMore from '../Containers/Menu/MenuComponents/MenuSeeMore';
 import PhotoSeeMore from '../Containers/Review/ReviewComponents/PhotoSeeMore';
-
+import { useEffect } from 'react';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -22,7 +22,7 @@ function CustomTabPanel(props) {
     <div
       role="tabpanel"
       hidden={value !== index}
-      id={`simple-tabpanel-${index}`} 
+      id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
@@ -42,12 +42,12 @@ function a11yProps(index) {
   };
 }
 
-
-
-export default function ShopHomeTabs({images, locationRef}) {
+export default function ShopHomeTabs({ images, locationRef, vendorId }) {
   const { value, setValue, handleChange } = useContext(ShopHomeTabsContext);
   const viewType = useResponsive();
-
+  useEffect(() => {
+    console.log('벤더아이디', vendorId);
+  }, []);
   return (
     <Box sx={{ width: '100%' }}>
       <WrapBox>
@@ -56,27 +56,27 @@ export default function ShopHomeTabs({images, locationRef}) {
           onChange={handleChange}
           aria-label="ShophHomeTabs"
           variant="sticky"
-        > 
+        >
           <StyledTab label="홈" {...a11yProps(0)} />
           <StyledTab label="메뉴" {...a11yProps(1)} />
           <StyledTab label="리뷰" {...a11yProps(2)} />
         </StyledAppBar>
       </WrapBox>
-        <CustomTabPanel value={value} index={0}>
-        <ShopFacilities/>
-        <MenuSeeMore/>
-        <PhotoSeeMore images={images}/>
-        <Location ref={locationRef}/>
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={1}>
-          <MenuOrderPage/>
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={2}>
-          <RatingAvg/>
-          <HygieneStatic/>
-          <ReviewDetail/> 
-        </CustomTabPanel>
-        {value === 0 && <SHFooter viewType={viewType}/>}
-        </Box>
+      <CustomTabPanel value={value} index={0}>
+        <ShopFacilities />
+        <MenuSeeMore />
+        <PhotoSeeMore images={images} />
+        <Location ref={locationRef} />
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={1}>
+        <MenuOrderPage vendorId={vendorId} />
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={2}>
+        <RatingAvg />
+        <HygieneStatic />
+        <ReviewDetail />
+      </CustomTabPanel>
+      {value === 0 && <SHFooter viewType={viewType} />}
+    </Box>
   );
 }

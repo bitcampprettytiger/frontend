@@ -22,7 +22,7 @@ function groupByMenuType(menuDataList) {
   return menuGroups;
 }
 
-function MenuOrderPage() {
+function MenuOrderPage({ vendorId }) {
   const [selectedMenu, setSelectedMenu] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [addedMenus, setAddedMenus] = useState([]);
@@ -106,7 +106,9 @@ function MenuOrderPage() {
             },
           }}
           onClick={() =>
-            navigate(`/cart`, { state: { addedMenus: addedMenus } })
+            navigate(`/cart`, {
+              state: { addedMenus: addedMenus, vendorId: vendorId },
+            })
           }
         >
           장바구니

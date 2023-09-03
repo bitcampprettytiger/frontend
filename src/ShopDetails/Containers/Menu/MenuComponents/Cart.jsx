@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Typography,
   IconButton,
@@ -24,7 +24,10 @@ import axios from 'axios';
 import { da } from 'date-fns/locale';
 import CardModal from './CardModal';
 import { redirect, useNavigate } from 'react-router-dom/dist';
-function CartPage({ vendorid }) {
+import { useLocation } from 'react-router-dom';
+function CartPage() {
+  const location = useLocation();
+  const vendorId = location.state?.vendorId; // state에서 vendorId 가져오기
   const navigate = useNavigate();
   const accessToken = localStorage.getItem('accessToken');
   const [showModal, setShowModal] = useState(false);
@@ -36,6 +39,9 @@ function CartPage({ vendorid }) {
 
   const { cartItems, clearCart, deleteCartItem, setCartItems } = useCart();
   // 수량 +
+  useEffect(() => {
+    console.log('주문하기 벤더아이디 ===============', vendorId);
+  }, []);
   const onIncrease = (menuId) => {
     const newCartItems = cartItems.map((item) => {
       if (item.menu.id === menuId) {
@@ -77,8 +83,8 @@ function CartPage({ vendorid }) {
   const getTotalPrice = () => {
     return cartItems.length > 0
       ? cartItems.reduce((sum, item) => {
-        return sum + item.menu.price * item.cartQuantity;
-      }, 0)
+          return sum + item.menu.price * item.cartQuantity;
+        }, 0)
       : 0;
   };
   const { width } = useResponsive();
@@ -109,6 +115,7 @@ function CartPage({ vendorid }) {
       error_msg,
       name,
       paymentOK,
+      // vendorId,
     } = rsp;
     console.log('rsp@@@', rsp);
 
@@ -124,12 +131,13 @@ function CartPage({ vendorid }) {
         amount: paid_amount,
         name: name,
         paymentOK: paymentOK,
+        // vendorId: vendorId,
       };
       console.log('페이로드', payload);
       try {
         // 서버로 데이터를 전송합니다.
         const serverResponse = await axios.post(
-          'http://192.168.0.240/payment/addPayment',
+          'http://27.96.135.75/payment/addPayment',
           payload,
           { headers }
         );
