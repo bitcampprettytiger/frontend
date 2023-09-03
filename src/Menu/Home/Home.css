@@ -3,6 +3,15 @@
     box-sizing: border-box;
 }
 
+.scroll::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .scroll {
+    -ms-overflow-style: none; /* 인터넷 익스플로러 */
+    scrollbar-width: none; /* 파이어폭스 */
+  }
+
 body {
     flex-direction: column;
     min-height: 100vh;
@@ -14,17 +23,9 @@ body {
     width: 100%;
     border: 1px solid #ff0000;
     overflow: auto;
-    height: 170vh;
+    height: 100vh;
     /* 뷰포트의 높이를 기준으로 100% */
 
-}
-
-p,
-h3 {
-    font-size: 16px;
-    font-weight: bold;
-    margin: 1% 5%;
-    margin-bottom: 3px;
 }
 
 p.small-text {
@@ -40,7 +41,7 @@ p.small-text {
     border-radius: 20px;
     margin: 5% auto;
     width: 90%;
-    height: 5%;
+    height: 5vh;
 }
 
 .Home-search-input {
@@ -49,9 +50,10 @@ p.small-text {
     border: none;
     outline: none;
     background-color: #ffffff;
-    padding: 5px;
+    padding: 3%;
     border-radius: 15px;
     margin: 10px;
+    height: 3vh;
 }
 
 .Home-search-button {
@@ -150,11 +152,11 @@ p.small-text {
 }
 
 .button-round {
-    width: 60px;
-    height: 60px;
+    width: 5em;
+    height: 5em;
     border-radius: 50%;
     background-color: #f0f0f0;
-    display: flex;
+    display: block;
     justify-content: center;
     align-items: center;
     position: relative;
@@ -171,7 +173,7 @@ p.small-text {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    cursor: pointer;
+    border: none !important;
 }
 
 .button-round span {
@@ -182,20 +184,17 @@ p.small-text {
 
 .macha-button {
     border: none;
-    border-radius: 20px;
+    border-radius: 10px;
     width: 40%;
-    height: 80%;
+    aspect-ratio: 1/1;
     display: inline-block;
     background: transparent;
-    cursor: pointer;
     outline: none;
-    margin-right: -3%;
     transition: transform 0.3s, opacity 0.3s;
 }
 
 .macha-button img {
     width: 100%;
-    height: 25vh;
     border-radius: 20px;
 }
 
@@ -216,20 +215,18 @@ p.small-text {
     opacity: 1;
 }
 
+.textbar {
+    color: #717171;
+    margin: 5%;
+}
+
 .footer-text-container {
-    margin-top: auto;
     background-color: #f7f7f7;
-    padding: 20px 0;
+    padding: 10%;
     text-align: center;
     border-top: 1px solid #e0e0e0;
     width: 100%;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 40px;
-    /* Adjust according to footer height */
-    display: none;
+    margin: 10% 0;
 }
 
 .footer-text-container-text {
@@ -244,6 +241,11 @@ p.small-text {
     color: #555;
     line-height: 1.5;
     margin: 0;
+}
+.title {
+    font-size: 110%;
+    margin: 5%;
+    font-weight: bold;
 }
 
 .footer-text-container-text p br {
@@ -260,13 +262,16 @@ p.small-text {
 .menu-box {
     display: flex;
     flex-direction: column;
+    margin: 0 5%;
+    width: 50%;
 }
 
 .menu-button {
     border: none;
     background: none;
-    cursor: pointer;
     text-align: left;
+    margin-bottom: 15%;
+    font-size: 90%;
 }
 
 .menu-button:hover {
@@ -274,10 +279,7 @@ p.small-text {
 }
   .swiper-slide {
     text-align: center;
-    font-size: 18px;
     background: #fff;
-  
-    /* Center slide text vertically */
     display: flex;
     justify-content: center;
     align-items: center;

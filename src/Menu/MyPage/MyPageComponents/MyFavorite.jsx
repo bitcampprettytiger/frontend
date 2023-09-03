@@ -5,7 +5,10 @@ import Footer from '../../../Layout/Footer';
 import { fetchMyFavoriteVendors } from '../../Home/HomeComponents/HomeApi';
 import useFavoritePick from '../../../ShopDetails/SDCustomHooks/useFavoritePick';
 import StarIcon from '@mui/icons-material/Star';
+import { IconButton } from '@mui/material';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useFavorite } from './FavoriteContext';
+import './MyFavorite.css';
 
 function MyFavorite() {
     const { toggleFavorite } = useFavoritePick();
@@ -52,24 +55,36 @@ function MyFavorite() {
         <div className='App-main2'>
             <Header page="myfavorite" />
 
-            <div className="results-container">
+            <div className="myfavorite-container">
                 {favoriteShops.map(vendor => (
-                    <div key={vendor.id} className="result-item">
-                        <img
-                            src={vendor.image || `${process.env.PUBLIC_URL}/images/roopy.png`}
-                            alt="가게 이미지"
-                            className="store-image"
-                        />
-                        <div className="result-info">
-                            <p className="shop-name">{vendor.vendor.vendorName}</p>
-                            <div className="rating">
-                                <StarIcon style={{ color: 'goldenrod' }} /> {/* 노란색 별 아이콘 */}
-                                {vendor.vendor.averageReviewScore}
-                            </div>
-                            <p>{vendor.vendor.vendorType} / {vendor.vendor.address}</p>
+                    <div key={vendor.id} className="favorite-item">
+                        <div className="store-image-container">
+                            <img
+                                src={vendor.image || `${process.env.PUBLIC_URL}/images/roopy.png`}
+                                alt="가게 이미지"
+                                className="shop-image"
+                            />
                         </div>
-                        <div className="favorite-container">
-                            <button onClick={() => deleteFavorite(vendor.vendorName, vendor.id)}>즐겨찾기 삭제</button>
+                        <div className="store-info-container">
+                            <div className="store-info">
+                                <p className="store-name">{vendor.vendor.vendorName}</p>
+                                <div className="rating">
+                                    <StarIcon style={{ color: 'goldenrod', marginRight: '8%' }} />
+                                    {vendor.vendor.averageReviewScore}
+                                </div>
+                                <p className='fstore-address'>{vendor.vendor.vendorType} / {vendor.vendor.address}</p>
+                            </div>
+                            <div className="delete-btn">
+                                <IconButton
+                                    aria-label="like"
+                                    onClick={() => deleteFavorite(vendor.vendorName, vendor.id)}
+                                    sx={{
+                                        color: '#FD5E53',
+                                    }}
+                                >
+                                    <FavoriteIcon />
+                                </IconButton>
+                            </div>
                         </div>
                     </div>
                 ))}

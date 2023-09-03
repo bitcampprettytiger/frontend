@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import ShopHomeTabsContext from '../../../SDCustomHooks/SHTContext';
 
 const ImageGrid = ({ imageUrls }) => (
-  <Grid container spacing={2} sx={{ margin: '10% 0' }}>
+  <Grid container spacing={2} sx={{ marginTop: '1%' }}>
     {imageUrls.map((imageUrl, index) => (
       <Grid item xs={4} key={index}>
         <Paper
@@ -46,12 +46,12 @@ export default function PhotoSeeMore({ images }) {
     setValue(2); //리뷰로 이동
   }
   return (
-    <Box sx={{ width: '100%', paddingBottom: '2vh' }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+    <Box sx={{ width: '100%', paddingBottom: '2vh'}}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Typography variant="h6" fontWeight="bold">
           방문자 사진
         </Typography>
-        <Typography variant="body1" onClick={handleReviewClick} sx={{ cursor: 'pointer' }}>
+        <Typography variant="body1" onClick={handleReviewClick}>
           <Box component="span" sx={{
             fontSize: '80%',
             '&:hover': {

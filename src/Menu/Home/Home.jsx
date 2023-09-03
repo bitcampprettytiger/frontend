@@ -18,6 +18,9 @@ import {
   fetchTop10RecommendedMenus,
   fetchTop5ReviewVendors
 } from '../Home/HomeComponents/HomeApi';
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+
+
 
 function Home() {
 
@@ -193,11 +196,11 @@ function Home() {
           onChange={(e) => setSearchInput(e.target.value)}
         />
         <button className="Home-search-button" onClick={handleSearch}>
-          <img src="images/inputsearch.png" alt="Search" />
+          <SearchOutlinedIcon sx={{color: '#FD5E53'}}/>
         </button>
       </div>
 
-      <p>오늘 이곳은 어때요?</p>
+      <p className='title'>오늘 이곳은 어때요?</p>
       <div className="outer-container">
         <div className="inner-container">
           {popularPlaces.map((place) => (
@@ -213,7 +216,7 @@ function Home() {
         </div>
       </div>
 
-      <p>이달의 유저 픽 BEST NO.5</p>
+      <p className='title'>이달의 유저 픽 BEST NO.5</p>
       <div className="macha-button-container">
         {top5ReviewVendors.map((vendor) => (
           <button
@@ -226,7 +229,7 @@ function Home() {
         ))}
       </div>
 
-      <p>먹자취 추천 어쩌구 NO.5</p>
+      <p className='title'>먹자취 추천 어쩌구 NO.5</p>
       <div className="macha-button-container">
         {mostFavoritedVendors.map((vendor) => (
           <button
@@ -239,19 +242,27 @@ function Home() {
         ))}
       </div>
 
-      <h3>먹자취에서 즐겨 찾는 메뉴</h3>
+      <p className='title'>먹자취에서 즐겨 찾는 메뉴</p>
       <div className="favorite-menu-container">
         <div className="menu-box">
           {top10Menus.slice(0, 5).map((menu, index) => (
             <button className="menu-button" key={index} onClick={() => handleMenuItemClick(menu)}>
-              {index + 1}위: {menu}
+              <span>{index + 1}위</span>
+              {" "}
+              <span className='textbar'>|</span>
+              {" "}
+              <span>{menu}</span>
             </button>
           ))}
         </div>
         <div className="menu-box">
           {top10Menus.slice(5, 10).map((menu, index) => (
             <button className="menu-button" key={index + 5}>
-              {index + 6}위: {menu}
+              <span>{index + 6}위</span>
+              {" "}
+              <span className='textbar'>|</span>
+              {" "}
+              <span>{menu}</span>
             </button>
           ))}
         </div>

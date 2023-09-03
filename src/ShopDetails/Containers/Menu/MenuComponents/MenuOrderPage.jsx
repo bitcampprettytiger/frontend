@@ -73,13 +73,13 @@ function MenuOrderPage() {
                     />
                   </div>
                   <div className="menu-info">
-                    <h3>{menuDataItem.menuName}</h3>
-                    <p className="menu-description">
+                    <h3 style={{fontWeight: 'bold'}}>{menuDataItem.menuName}</h3>
+                    <div className="menu-description">
                       {menuDataItem.menuContent}
-                    </p>
-                    <p className="menu-price">
+                    </div>
+                    <div className="menu-price" style={{fontWeight: 'bold'}}>
                       가격: {menuDataItem.price.toLocaleString()}원
-                    </p>
+                    </div>
                   </div>
                 </StyledMenuItem>
                 <Divider sx={{ my: 0, height: '0.2px', bgcolor: 'gray.300' }} />

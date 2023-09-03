@@ -4,10 +4,13 @@ import Button from '@mui/material/Button';
 import './Mypage.css';
 import Footer from '../../Layout/Footer';
 import Header from '../../Layout/Header';
-import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
+import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { Link } from 'react-router-dom';
 import { useFavorite } from '../../Menu/MyPage/MyPageComponents/FavoriteContext';
+import { LuFootprints } from 'react-icons/lu';
+import { FaHeart } from 'react-icons/fa';
+import { MdOutlineShoppingBasket } from 'react-icons/md';
 
 function Mypage() {
   const [isEditing, setIsEditing] = useState(false);
@@ -105,7 +108,7 @@ function Mypage() {
             <div className="nickname-display">
               <p className="nickname-text">{nickname}</p>
               <button onClick={handleEditClick} className="nickname-edit-button">
-                <PlayCircleOutlineIcon />
+                <ArrowForwardIosRoundedIcon />
               </button>
             </div>
           )}
@@ -115,7 +118,7 @@ function Mypage() {
           <Box
             component="div"
             sx={{
-              p: 2,
+              p: '8%',
               border: '1px dashed grey',
               width: '100%', // 박스의 너비 설정
               backgroundColor: 'white', // 박스의 배경색 설정
@@ -124,18 +127,24 @@ function Mypage() {
             }}
           >
             {/* 리뷰 버튼 및 카운트 */}
-            <div style={{ cursor: 'pointer' }}>
+            <div className='reviewBox'>
               <Link to="/myreview">
-                <Button sx={{ border: 'none', textTransform: 'none' }}>리뷰</Button>
-                <div>{reviewCount}</div>
+                <Button sx={{ border: 'none', 
+                textTransform: 'none',
+                color: '#FD5E53',
+                fontSize: '105%' }}>리뷰</Button>
+                <div className='cntNum'>{reviewCount}</div>
               </Link>
             </div>
 
             {/* 찜해찜 버튼 및 카운트 */}
-            <div style={{ cursor: 'pointer' }}>
+            <div className='favoriteBox'>
               <Link to="/myfavorite">
-                <Button sx={{ border: 'none', textTransform: 'none' }}>찜해찜</Button>
-                <div>{favoriteCount}</div>
+                <Button sx={{ border: 'none', 
+                textTransform: 'none',
+                color: '#FD5E53',
+                fontSize: '105%' }}>찜해찜</Button>
+                <div className='cntNum'>{favoriteCount}</div>
               </Link>
             </div>
           </Box>
@@ -144,25 +153,25 @@ function Mypage() {
           <div className="button-group">
             <Link to="/myreview">
               <div className="custom-button">
-                <img src="/path-to-your-first-image.jpg" alt="Review" className="button-icon" />
-                나의 먹자취 리뷰
-                <KeyboardArrowRightIcon />
+                <LuFootprints className="button-icon icon-left" />
+                <span class="button-text">나의 먹자취 리뷰</span>
+                <KeyboardArrowRightIcon className='icon-right'/>
               </div>
             </Link>
 
             <Link to="/myfavorite">
               <div className="custom-button">
-                <img src="/path-to-your-second-image.jpg" alt="Favorites" className="button-icon" />
-                내가 찜해찜!
-                <KeyboardArrowRightIcon />
+                <FaHeart className="button-icon themeColor icon-left" />
+                <span class="button-text">내가 찜해찜!</span>
+                <KeyboardArrowRightIcon className='icon-right'/>
               </div>
             </Link>
 
             <Link to="/mytakeout">
               <div className="custom-button">
-                <img src="/path-to-your-third-image.jpg" alt="Order" className="button-icon" />
-                포장주문내역
-                <KeyboardArrowRightIcon />
+                <MdOutlineShoppingBasket className="button-icon icon-left" />
+                <span class="button-text">포장주문내역</span>
+                <KeyboardArrowRightIcon className='icon-right'/>
               </div>
             </Link>
           </div>

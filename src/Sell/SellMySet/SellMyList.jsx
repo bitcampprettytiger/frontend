@@ -36,7 +36,7 @@ const SellMyList = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://192.168.0.240/menu/info/${vendorId}`,
+          `http://27.96.135.75/menu/info/${vendorId}`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,

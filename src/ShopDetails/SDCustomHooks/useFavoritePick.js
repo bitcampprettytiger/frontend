@@ -16,9 +16,13 @@ function useFavoritePick() {
 
     const updateFavoriteShops = async () => {
         try {
-            // 여기서 즐겨찾기 목록을 가져오는 API를 호출합니다.
-            const response = await axios.get("http://192.168.0.240/api/favoritePick/list", { headers });
-            setFavoriteShops(response.data || []);  // 상태를 업데이트합니다.
+            const response = await axios.get("http://27.96.135.75/myPage/myFavoriteVendors", { headers });
+            if(response.data && Array.isArray(response.data.item)) {
+                setFavoriteShops(response.data.item);
+            } else {
+                console.error("API response does not contain an item array:", response.data);
+                setFavoriteShops([]);
+            }
         } catch (err) {
             setError(err.response ? err.response.data : err);
         }
@@ -30,12 +34,12 @@ function useFavoritePick() {
         try {
             let response;
             if (isFavorite) {
-                response = await axios.delete(`http://192.168.0.240/api/favoritePick/remove/${vendorId}`, { headers });
+                response = await axios.delete(`http://27.96.135.75/api/favoritePick/remove/${vendorId}`, { headers });
             } else {
-                response = await axios.post(`http://192.168.0.240/api/favoritePick/add/${vendorId}`, null, { headers });
+                response = await axios.post(`http://27.96.135.75/api/favoritePick/add/${vendorId}`, null, { headers });
             }
 
-            // 즐겨찾기 상태가 바뀌었으므로 목록을 업데이트합니다.
+            // 목록 업데이트
             await updateFavoriteShops();
 
             setLoading(false);

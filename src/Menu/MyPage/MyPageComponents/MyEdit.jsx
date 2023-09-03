@@ -82,12 +82,10 @@ function MyEdit() {
     return (
         <div className='App-main2'>
             <Header page="myedit" />
-            <div className='myedit-container'>
-
                 <Box
                     sx={{
                         backgroundColor: 'darkgray', // 진한 회색 배경 적용
-                        padding: '1em', // 패딩 적용
+                        padding: '5%', // 패딩 적용
                         marginBottom: '1em' // 아래 버튼들과의 간격 조절
                     }}>
                     {isEditing ? (
@@ -112,6 +110,8 @@ function MyEdit() {
 
                     {showModal && <div className="modal">닉네임이 변경 되었습니다.</div>}
                 </Box>
+            <div className='myedit-container'>
+
 
                 <div className='button-container'>
                     <button className='left-button'>
