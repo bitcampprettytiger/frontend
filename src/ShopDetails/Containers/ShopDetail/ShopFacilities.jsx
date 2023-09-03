@@ -12,7 +12,7 @@ const CommonTypography = styled(Typography)(({ theme }) => ({
 
 const ShopFacilities = () => {
   const fanAvailable = '있음';
-  const restroomLocation = '강남역 공영 화장실';
+  const restroomLocation = '공영 화장실';
 
   return (
     <Box>

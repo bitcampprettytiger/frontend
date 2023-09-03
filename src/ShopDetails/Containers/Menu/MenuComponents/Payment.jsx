@@ -32,7 +32,7 @@ const Payment= () => {
         <Button
             onClick={onClickPayment}
           sx={{
-            backgroundColor: '#FF745A',
+            backgroundColor: '#FD5E53',
             width: '70vw',
             height: '10%',
             color: 'white',

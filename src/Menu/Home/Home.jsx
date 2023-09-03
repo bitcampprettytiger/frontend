@@ -6,6 +6,10 @@ import Footer from '../../Layout/Footer';
 import '../../App.css';
 import './Home.css';
 import useSlider from '../HomeCustomHooks/useSlider';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import { Pagination } from 'swiper/modules';
 import usePopularPlaces from '../HomeCustomHooks/usePopularPlaces';
 import {
   fetchPopularPlaces,
@@ -28,8 +32,9 @@ function Home() {
   const [location, setLocation] = useState({ latitude: "", longitude: "" }); // 사용자의 위치 (위도, 경도)
   const [top5ReviewVendors, setTop5ReviewVendors] = useState([]); // 이달의 유저 픽 BEST NO.5 판매자 관리
   const [headerText, setHeaderText] = useState(''); // 초기값은 빈 문자열
-
   const images = ['/images/slide-4.png', '/images/slide-2.png', '/images/slide-3.png']; // 이미지 슬라이더에 사용될 이미지들
+  const swiperRef = useSlider(images); //이미지 추가
+
 
   // 판매자 상세 페이지로 이동
   const navigateToVendorDetail = (vendorId) => {
@@ -164,18 +169,20 @@ function Home() {
     <div className='App-main2'>
       <Header page="home" setAddressToHome={setAddressToHome} />
 
-      <div className="slider">
-        <img src={images[currentIndex]} alt="슬라이드 이미지" className="slide-image" />
-        <div className="dots">
-          {images.map((image, index) => (
-            <span
-              key={index}
-              className={`dot ${currentIndex === index ? 'active' : ''}`}
-              onClick={() => setCurrentIndex(index)}
-            />
-          ))}
-        </div>
-      </div>
+      <Swiper
+        ref={swiperRef}
+        pagination={{
+          dynamicBullets: true,
+        }}
+        modules={[Pagination]}
+        className="mySwiper"
+      >
+        {images.map((image, index) => (
+          <SwiperSlide key={index}>
+            <img src={image} alt={`Slide ${index + 1}`} />
+          </SwiperSlide>
+        ))}
+      </Swiper>
 
       <div className="Home-search-container">
         <input

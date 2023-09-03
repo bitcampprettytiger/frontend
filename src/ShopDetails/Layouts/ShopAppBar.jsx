@@ -104,12 +104,12 @@ function ShopAppBar(props) {
                             aria-label="like"
                             onClick={handleLike}
                             sx={{
-                                color: liked ? '#FF745A' : 'inherit',
+                                color: liked ? '#FD5E53' : 'inherit',
                                 height: '100%',
                                 width: 'auto',
                             }}
                         >
-                            {liked ? <FavoriteIcon /> : <FavoriteBorderIcon sx={{ color: '#FF745A' }} />}
+                            {liked ? <FavoriteIcon /> : <FavoriteBorderIcon sx={{ color: '#FD5E53' }} />}
                         </IconButton>
                         </Box>
                         <Box sx={{

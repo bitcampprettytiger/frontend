@@ -101,11 +101,11 @@ function ReviewForm() {
             sx={{
               borderRadius: "20px",
               borderColor: !likeBtnSelected && "#D9D9D9",
-              backgroundColor: likeBtnSelected ? "#FF745A" : "white",
+              backgroundColor: likeBtnSelected ? "#FD5E53" : "white",
               color: likeBtnSelected ? "white" : "black",
               "&:hover": {
                 borderWidth: "1.5px",
-                borderColor: "#FF745A",
+                borderColor: "#FD5E53",
               },
             }}
           >
@@ -124,11 +124,11 @@ function ReviewForm() {
             sx={{
               borderRadius: "20px",
               borderColor: !dislikeBtnSelected && "#D9D9D9",
-              backgroundColor: dislikeBtnSelected ? "#FF745A" : "white",
+              backgroundColor: dislikeBtnSelected ? "#FD5E53" : "white",
               color: dislikeBtnSelected ? "white" : "black", // 이 부분이 추가됩니다.
               "&:hover": {
                 borderWidth: "1.5px",
-                borderColor: "#FF745A",
+                borderColor: "#FD5E53",
               },
             }}
           >
@@ -166,7 +166,7 @@ function ReviewForm() {
           sx={{
             width: '80%',
             height: '48px',
-            backgroundColor: '#FF745A',
+            backgroundColor: '#FD5E53',
             color: 'white',
           }}
         >

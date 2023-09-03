@@ -49,6 +49,14 @@ function MenuOrderPage() {
     setIsModalVisible(true);
   };
 
+  const adjustWidth = (originalWidth) => {
+    const numericValue = parseInt(originalWidth, 10);
+    const adjustedValue = numericValue - 10;
+    return `${adjustedValue}%`;
+  };
+
+  const adjustedWidth = adjustWidth(width);
+
   return (
     <>
       <StyledMenuList>
@@ -92,17 +100,17 @@ function MenuOrderPage() {
       {addedMenus.length > 0 && (
         <Button
           sx={{
-            backgroundColor: '#FF745A',
-            width: width,
+            backgroundColor: '#FD5E53',
+            width: adjustedWidth,
             height: '7%',
             color: 'white',
             fontSize: '17px',
             position: 'fixed',
-            bottom: '16px',
+            bottom: '2%',
             left: '50%',
             transform: 'translateX(-50%)',
             '&:hover': {
-              backgroundColor: '#FF745A', // 예: '#FF4500'
+              backgroundColor: '#FD5E53',
             },
           }}
           onClick={() =>
