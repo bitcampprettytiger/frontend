@@ -20,7 +20,7 @@ const SellSignUp1 = () => {
 
   return (
     <>
-      <Container style={{ padding: '12%', border: '1px solid #ccc', height: '100%' }}>
+      <Container style={{ padding: '10%', border: '1px solid #ccc', height: '100vh' }}>
         <SSUHeader activeStep={activeStep}></SSUHeader>
         <Typography
           variant="h5"
@@ -39,6 +39,7 @@ const SellSignUp1 = () => {
               color: 'white'
               , width: '78%'
               , backgroundColor: '#21BF73'
+              , fontSize: '110%'
             }}
           >
             다음

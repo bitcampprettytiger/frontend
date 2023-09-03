@@ -62,7 +62,7 @@ function MenuOptionalModal({ open, onClose, selectedMenu, onMenuAdd }) {
             fullWidth
             onClick={handleConfirm}
             sx={{
-              backgroundColor: '#FF745A',
+              backgroundColor: '#FD5E53',
               color: 'white',
               '&:hover': {
                 backgroundColor: '#E3634D',

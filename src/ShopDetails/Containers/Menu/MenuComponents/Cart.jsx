@@ -11,6 +11,7 @@ import {
   ListItemText,
   Button,
   ListItemSecondaryAction,
+  Grid,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
@@ -23,10 +24,11 @@ import axios from 'axios';
 import { da } from 'date-fns/locale';
 import CardModal from './CardModal';
 import { redirect, useNavigate } from 'react-router-dom/dist';
-function CartPage() {
+function CartPage({ vendorid }) {
   const navigate = useNavigate();
   const accessToken = localStorage.getItem('accessToken');
   const [showModal, setShowModal] = useState(false);
+  const [paymentOK, setpaymentOK] = useState(false);
   const headers = {
     'Content-Type': 'application/json;charset=UTF-8',
     Authorization: `Bearer ${accessToken}`,
@@ -42,6 +44,7 @@ function CartPage() {
       return item;
     });
     setCartItems(newCartItems);
+    console.log('카트아이템', newCartItems);
   };
 
   // 수량 -
@@ -61,6 +64,7 @@ function CartPage() {
   };
   //전체 삭제
   const onDeleteAll = () => {
+    console.log('Sssssss');
     clearCart();
   };
 
@@ -73,8 +77,8 @@ function CartPage() {
   const getTotalPrice = () => {
     return cartItems.length > 0
       ? cartItems.reduce((sum, item) => {
-          return sum + item.menu.price * item.cartQuantity;
-        }, 0)
+        return sum + item.menu.price * item.cartQuantity;
+      }, 0)
       : 0;
   };
   const { width } = useResponsive();
@@ -97,9 +101,19 @@ function CartPage() {
   };
 
   const callback = async (rsp) => {
-    const { success, imp_uid, merchant_uid, paid_amount, error_msg, name } =
-      rsp;
+    const {
+      success,
+      imp_uid,
+      merchant_uid,
+      paid_amount,
+      error_msg,
+      name,
+      paymentOK,
+    } = rsp;
     console.log('rsp@@@', rsp);
+
+    //페이먼트 아이디
+    //벤더아이디
 
     if (success) {
       setShowModal(true); // 결제 성공 시 모달 표시
@@ -109,6 +123,7 @@ function CartPage() {
         merchantUid: merchant_uid,
         amount: paid_amount,
         name: name,
+        paymentOK: paymentOK,
       };
       console.log('페이로드', payload);
       try {
@@ -118,6 +133,7 @@ function CartPage() {
           payload,
           { headers }
         );
+        setpaymentOK(true);
         console.log('서버 응답:', serverResponse);
       } catch (error) {
         console.error('서버로 전송 실패:', error);
@@ -134,8 +150,8 @@ function CartPage() {
   return (
     <>
       <CssBaseline />
-      {/* <AppBarWithTitle title='장바구니'  /> */}
-      <Container>
+      {/* <AppBarWithTitle title="장바구니" /> */}
+      <Container style={{ marginTop: '15%' }}>
         <Box sx={{ my: 2 }}>
           <Typography variant="h6" gutterBottom component="div">
             총 {getTotalItems()}개의 메뉴
@@ -153,46 +169,60 @@ function CartPage() {
               cartItems.map((cartItem) => (
                 <Box key={cartItem.menu.id}>
                   <ListItem>
-                    <ListItemText primary={cartItem.menu.menuName} />
-                    <ListItemText>
-                      {cartItem.menu.price
-                        ? cartItem.menu.price.toLocaleString()
-                        : '0'}
-                      원
-                    </ListItemText>
-                    <ListItemText>
-                      <IconButton
-                        size="small"
-                        onClick={() => onDecrease(cartItem.menu.id)}
-                        sx={{
-                          border: '1px solid #D9D9D9',
-                          color: 'black',
-                        }}
-                      >
-                        <RemoveIcon />
-                      </IconButton>
-                      {cartItem.cartQuantity}
-                      <IconButton
-                        size="small"
-                        onClick={() => onIncrease(cartItem.menu.id)}
-                        sx={{
-                          border: '1px solid #D9D9D9',
-                          color: 'black',
-                        }}
-                      >
-                        <AddIcon />
-                      </IconButton>
-                    </ListItemText>
-                    <ListItemSecondaryAction>
-                      <IconButton
-                        edge="end"
-                        onClick={() =>
-                          onDelete(cartItem.cart.id, cartItem.menu.id)
-                        }
-                      >
-                        <CloseIcon />
-                      </IconButton>
-                    </ListItemSecondaryAction>
+                    <Grid container spacing={3}>
+                      <Grid item xs={5}>
+                        <ListItemText primary={cartItem.menu.menuName} />
+                      </Grid>
+                      <Grid item xs={3}>
+                        <ListItemText>
+                          {cartItem.menu.price
+                            ? cartItem.menu.price.toLocaleString()
+                            : '0'}
+                          원
+                        </ListItemText>
+                      </Grid>
+                      <Grid item xs={3}>
+                        <IconButton
+                          size="small"
+                          onClick={() => onDecrease(cartItem.menu.id)}
+                          sx={{
+                            border: '1px solid #D9D9D9',
+                            color: 'black',
+                            marginRight: '10%',
+                            padding: '5px', // 패딩을 줄입니다.
+                            fontSize: '0.8rem', // 아이콘의 크기를 줄입니다.
+                          }}
+                        >
+                          <RemoveIcon fontSize="inherit" />
+                        </IconButton>
+                        {cartItem.cartQuantity}
+                        <IconButton
+                          size="small"
+                          onClick={() => onIncrease(cartItem.menu.id)}
+                          sx={{
+                            border: '1px solid #D9D9D9',
+                            color: 'black',
+                            marginLeft: '10%',
+                            padding: '5px', // 패딩을 줄입니다.
+                            fontSize: '0.8rem', // 아이콘의 크기를 줄입니다.
+                          }}
+                        >
+                          <AddIcon fontSize="inherit" />
+                        </IconButton>
+                      </Grid>
+                      <Grid item xs={1}>
+                        <ListItemSecondaryAction>
+                          <IconButton
+                            edge="end"
+                            onClick={() =>
+                              onDelete(cartItem.cart.id, cartItem.menu.id)
+                            }
+                          >
+                            <CloseIcon />
+                          </IconButton>
+                        </ListItemSecondaryAction>
+                      </Grid>
+                    </Grid>
                   </ListItem>
                   <Divider
                     sx={{
@@ -237,8 +267,8 @@ function CartPage() {
             marginBottom: '0',
           }}
         >
-          결제하기  
-          <ShoppingCartIcon sx={{marginLeft: '5%'}}/>
+          결제하기
+          <ShoppingCartIcon sx={{ marginLeft: '5%' }} />
         </Button>
       </Box>
       <CardModal show={showModal} onClose={onModalConfirm} />

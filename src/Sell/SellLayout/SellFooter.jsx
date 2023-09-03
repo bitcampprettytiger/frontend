@@ -17,6 +17,8 @@ function SellFooter({vendorId}) {
         background: '#ffffff',
         borderTop: '1px solid #e7e7e7',
         marginTop: '5%',
+        height: '8vh', 
+        backgroundColor: 'white'
       }}
     >
       <Toolbar sx={{ justifyContent: 'space-around', alignItems: 'center' }}>
@@ -45,7 +47,7 @@ function SellFooter({vendorId}) {
               <Box
                 sx={{
                   fontSize: '16px',
-                  color: activeButton === 'streetFood' ? '#FF745A' : 'gray',
+                  color: activeButton === 'streetFood' ? '#FD5E53' : 'gray',
                   fontWeight: activeButton === 'streetFood' ? 'bold' : 'normal',
                 }}
               >
@@ -80,7 +82,7 @@ function SellFooter({vendorId}) {
               <Box
                 sx={{
                   fontSize: '16px',
-                  color: activeButton === 'home' ? '#FF745A' : 'gray',
+                  color: activeButton === 'home' ? '#FD5E53' : 'gray',
                   fontWeight: activeButton === 'home' ? 'bold' : 'normal',
                 }}
               >
@@ -115,7 +117,7 @@ function SellFooter({vendorId}) {
               <Box
                 sx={{
                   fontSize: '16px',
-                  color: activeButton === 'myPage' ? '#FF745A' : 'gray',
+                  color: activeButton === 'myPage' ? '#FD5E53' : 'gray',
                   fontWeight: activeButton === 'myPage' ? 'bold' : 'normal',
                 }}
               >

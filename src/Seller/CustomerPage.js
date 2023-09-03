@@ -8,13 +8,13 @@ const CustomerPage = () => {
   const socket = io('http://172.30.1.60:8081'); // 서버 주소
   const [isReserved, setIsReserved] = useState(false);
   const [nickname, setNickname] = useState(""); // 닉네임 상태 추가
-  const[vendor,setvendor] = useState("");
+  const [vendor, setvendor] = useState("");
   useEffect(() => {
     socket.on('welcome', (nickname, roomCount) => {
       console.log(`${nickname}님, 환영합니다! 방 인원: ${roomCount}`);
     });
   }, [socket]);
-  
+
   const reserveQueue = () => {
     const data = {
       vendor: "1", // 판매자 ID, 혹은 다른 값으로 변경해야 함
@@ -22,7 +22,7 @@ const CustomerPage = () => {
       phoneNumber: phoneNumber
     };
     console.log(name, phoneNumber);
-  
+
     if (!isReserved) {
       socket.emit('enter_room', data);
       setIsReserved(true);

@@ -24,20 +24,21 @@ function ShopInfo({ onCall, onViewLocation }) {
   if (!vendor) return <div>No vendor data available</div>;
 
   return (
-    <Container>
+    <Container sx={{ margin: '0 5%' }}>
       <Typography variant="h6" gutterBottom>
         {vendor.vendorType}
       </Typography>
       <StarBox>
         <StarIcon sx={{ color: '#FFC700', marginRight: 1 }} />
-        <StarTypography>평점 {(vendor.averageReviewScore || 0).toFixed(1)} </StarTypography>
+        <StarTypography>
+          평점 {(vendor.averageReviewScore || 0).toFixed(1)}{' '}
+        </StarTypography>
         <ReviewCountTypography>
           ({vendor.reviewCount || 0})
         </ReviewCountTypography>
       </StarBox>
       <ButtonBox>
         <CallButton
-          color="primary"
           component="a"
           href={`tel:${vendor.tel}`}
           startIcon={<CallIcon />}
@@ -45,7 +46,7 @@ function ShopInfo({ onCall, onViewLocation }) {
           전화 걸기
         </CallButton>
         <LocationButton onClick={onViewLocation}>
-          <IconButton color="default" size="small" sx={{ marginRight: 1 }}>
+          <IconButton size="small" sx={{ marginRight: 1, color: 'black' }}>
             <PlaceIcon />
           </IconButton>
           위치 보기

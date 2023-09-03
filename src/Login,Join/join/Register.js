@@ -103,6 +103,7 @@ const Register = () => {
           <TextField
             required
             type="text"
+            color='secondary'
             placeholder="아이디"
             value={username}
             sx={{ width: '100%' }}
@@ -127,6 +128,7 @@ const Register = () => {
           <TextField
             required
             type="password"
+            color='secondary'
             placeholder="비밀번호"
             sx={{ width: '100%' }}
             value={password}
@@ -153,6 +155,7 @@ const Register = () => {
             required
             sx={{ width: '100%' }}
             type="password"
+            color='secondary'
             placeholder="비밀번호 확인"
             value={confirmPassword}
             onChange={(e) => {
@@ -180,24 +183,35 @@ const Register = () => {
           required
           type="text"
           placeholder="전화번호"
+          color='secondary'
           value={tel}
           onChange={(e) => setTel(e.target.value)}
         />
         <TextField
           type="text"
           placeholder="닉네임"
+          color='secondary'
           value={nickname}
           onChange={(e) => setNickname(e.target.value)}
         />
         <div onClick={handleOpen}>
           <FormControlLabel
-            control={<Checkbox checked={privacy} />}
+            control={<Checkbox checked={privacy}
+            sx={{
+              '&.Mui-checked': {
+                color: '#FD5E53',
+              },
+            }} />}
             label="개인정보 동의서"
             value={privacy}
           />
         </div>
         <div className="sub-fun">
-          <button type="submit" className="sub-button">
+          <button type="submit" className="sub-button" 
+          style={{width: '100%', height: '5vh', 
+          background: '#FD5E53', borderRadius: '10px', 
+          color: 'white'
+          }}>
             회원가입
           </button>
         </div>
@@ -222,10 +236,10 @@ const Register = () => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => handleClose(true)} color="primary" autoFocus>
+          <Button onClick={() => handleClose(true)} autoFocus sx={{color: '#FD5E53'}}>
             동의
           </Button>
-          <Button onClick={() => handleClose(false)} color="primary">
+          <Button onClick={() => handleClose(false)} sx={{color: '#FD5E53'}}>
             거부
           </Button>
         </DialogActions>

@@ -26,16 +26,19 @@ import SellHome from './Sell/SellHome/SellHome';
 import SellMySet from './Sell/SellMySet/SellMySet';
 import PopularResult from './Menu/Home/HomeComponents/PopularResult';
 import CartPage from './ShopDetails/Containers/Menu/MenuComponents/Cart';
+import { FavoriteProvider } from './Menu/MyPage/MyPageComponents/FavoriteContext';
 import { useLocation } from 'react-router-dom';
 import { BrowserView, MobileView } from 'react-device-detect';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { NoticeProvider } from './Menu/Home/HomeComponents/NoticeContext';
-import { ThemeProvider, createTheme } from '@mui/material';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import './App.css';
 import NotFound from './NotFound';
 import SellerPage from './Seller/SellerPage ';
 import Tackout from './Seller/Tackout';
 import CustomerPage from './Seller/CustomerPage';
+import AnimatedCursor from './Layout/AnimatedCursor';
+
 
 const muitheme = createTheme({
   palette: {
@@ -43,7 +46,7 @@ const muitheme = createTheme({
       main: '#21BF73',
     },
     secondary: {
-      main: '#D9D9D9',
+      main: '##FD5E53',
     },
   },
 });
@@ -56,16 +59,17 @@ const menuRoutes = [
   { path: '/myreview', element: <MyReview /> },
   { path: '/waitingDetail', element: <WaitingDetail /> },
   { path: '/shopHome/:vendorId', element: <ShopMain /> },
-  { path: '/reviewform', element: <ReviewForm /> },
+  { path: '/reviewform/:orderId/:vendorId', element: <ReviewForm /> },
   { path: '/notice', element: <Notice /> },
-  { path: '/mypage', element: <Mypage /> },
-  { path: '/myfavorite', element: <MyFavorite /> },
+  { path: '/mypage', element: <FavoriteProvider><Mypage /></FavoriteProvider> },
+  { path: '/myfavorite', element: <FavoriteProvider><MyFavorite /></FavoriteProvider> },
   { path: '/mytakeout', element: <MyTakeout /> },
   { path: '/order/:orderNumber', element: <MyTakeoutDetail /> },
   { path: '/myedit', element: <MyEdit /> },
   { path: '/popularresult', element: <PopularResult /> },
   { path: '/cart', element: <CartPage /> },
   { path: '*', element: <NotFound /> },
+
 ];
 
 const authRoutes = [
@@ -94,11 +98,14 @@ const mapRoutes = [
 ];
 
 export const browserRoutes = [
+
   ...authRoutes,
   ...menuRoutes,
   ...mapRoutes,
+
   ...sellAuthRoutes,
   ...sellRoutes,
+
 ];
 
 export function AppRoute() {
@@ -131,6 +138,7 @@ function InnerAppRoute() {
       <ThemeProvider theme={muitheme}>
         <NoticeProvider>
           <BrowserView className='BV'>
+            <AnimatedCursor/>
             <Routes>
               {browserRoutes.map((route, index) => (
                 <Route key={index} path={route.path} element={route.element} />

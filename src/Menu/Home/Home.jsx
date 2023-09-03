@@ -6,6 +6,10 @@ import Footer from '../../Layout/Footer';
 import '../../App.css';
 import './Home.css';
 import useSlider from '../HomeCustomHooks/useSlider';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import { Pagination } from 'swiper/modules';
 import usePopularPlaces from '../HomeCustomHooks/usePopularPlaces';
 import {
   fetchPopularPlaces,
@@ -14,6 +18,9 @@ import {
   fetchTop10RecommendedMenus,
   fetchTop5ReviewVendors
 } from '../Home/HomeComponents/HomeApi';
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+
+
 
 function Home() {
 
@@ -28,8 +35,9 @@ function Home() {
   const [location, setLocation] = useState({ latitude: "", longitude: "" }); // 사용자의 위치 (위도, 경도)
   const [top5ReviewVendors, setTop5ReviewVendors] = useState([]); // 이달의 유저 픽 BEST NO.5 판매자 관리
   const [headerText, setHeaderText] = useState(''); // 초기값은 빈 문자열
-
   const images = ['/images/slide-4.png', '/images/slide-2.png', '/images/slide-3.png']; // 이미지 슬라이더에 사용될 이미지들
+  const swiperRef = useSlider(images); //이미지 추가
+
 
   // 판매자 상세 페이지로 이동
   const navigateToVendorDetail = (vendorId) => {
@@ -164,18 +172,20 @@ function Home() {
     <div className='App-main2'>
       <Header page="home" setAddressToHome={setAddressToHome} />
 
-      <div className="slider">
-        <img src={images[currentIndex]} alt="슬라이드 이미지" className="slide-image" />
-        <div className="dots">
-          {images.map((image, index) => (
-            <span
-              key={index}
-              className={`dot ${currentIndex === index ? 'active' : ''}`}
-              onClick={() => setCurrentIndex(index)}
-            />
-          ))}
-        </div>
-      </div>
+      <Swiper
+        ref={swiperRef}
+        pagination={{
+          dynamicBullets: true,
+        }}
+        modules={[Pagination]}
+        className="mySwiper"
+      >
+        {images.map((image, index) => (
+          <SwiperSlide key={index}>
+            <img src={image} alt={`Slide ${index + 1}`} />
+          </SwiperSlide>
+        ))}
+      </Swiper>
 
       <div className="Home-search-container">
         <input
@@ -186,11 +196,11 @@ function Home() {
           onChange={(e) => setSearchInput(e.target.value)}
         />
         <button className="Home-search-button" onClick={handleSearch}>
-          <img src="images/inputsearch.png" alt="Search" />
+          <SearchOutlinedIcon sx={{color: '#FD5E53'}}/>
         </button>
       </div>
 
-      <p>오늘 이곳은 어때요?</p>
+      <p className='title'>오늘 이곳은 어때요?</p>
       <div className="outer-container">
         <div className="inner-container">
           {popularPlaces.map((place) => (
@@ -206,7 +216,7 @@ function Home() {
         </div>
       </div>
 
-      <p>이달의 유저 픽 BEST NO.5</p>
+      <p className='title'>이달의 유저 픽 BEST NO.5</p>
       <div className="macha-button-container">
         {top5ReviewVendors.map((vendor) => (
           <button
@@ -219,7 +229,7 @@ function Home() {
         ))}
       </div>
 
-      <p>먹자취 추천 어쩌구 NO.5</p>
+      <p className='title'>먹자취 추천 어쩌구 NO.5</p>
       <div className="macha-button-container">
         {mostFavoritedVendors.map((vendor) => (
           <button
@@ -232,19 +242,27 @@ function Home() {
         ))}
       </div>
 
-      <h3>먹자취에서 즐겨 찾는 메뉴</h3>
+      <p className='title'>먹자취에서 즐겨 찾는 메뉴</p>
       <div className="favorite-menu-container">
         <div className="menu-box">
           {top10Menus.slice(0, 5).map((menu, index) => (
             <button className="menu-button" key={index} onClick={() => handleMenuItemClick(menu)}>
-              {index + 1}위: {menu}
+              <span>{index + 1}위</span>
+              {" "}
+              <span className='textbar'>|</span>
+              {" "}
+              <span>{menu}</span>
             </button>
           ))}
         </div>
         <div className="menu-box">
           {top10Menus.slice(5, 10).map((menu, index) => (
             <button className="menu-button" key={index + 5}>
-              {index + 6}위: {menu}
+              <span>{index + 6}위</span>
+              {" "}
+              <span className='textbar'>|</span>
+              {" "}
+              <span>{menu}</span>
             </button>
           ))}
         </div>

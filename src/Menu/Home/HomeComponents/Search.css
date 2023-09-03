@@ -84,8 +84,9 @@
 /* Favorite Icon Styling */
 .results-container .result-favorite svg {
     font-size: 24px;
-    color: #FF745A;
+    color: #FD5E53;
 }
+
 
 /* Hashtag Container */
 .hashtag-container {
@@ -100,6 +101,7 @@
 /* Removing Scrollbar for Webkit browsers */
 .hashtag-container::-webkit-scrollbar {
     display: none;
+
 }
 
 /* Hashtag Buttons */

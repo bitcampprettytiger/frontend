@@ -11,7 +11,7 @@ const SellHome = () => {
   const [vendor, setVendor] = useState();
 
   useEffect(() => {
-    const getVendor = async() => {
+    const getVendor = async () => {
       try {
         const response = await axios.get('http://27.96.135.75/vendor/getVendorInfo', {
           headers: {
@@ -21,10 +21,10 @@ const SellHome = () => {
 
         console.log(response);
 
-        if(response.data && response.data.item) {
+        if (response.data && response.data.item) {
           setVendor(response.data.item);
         }
-      } catch(error) {
+      } catch (error) {
         console.log(error);
       }
     }

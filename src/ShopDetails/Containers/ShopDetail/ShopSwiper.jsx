@@ -26,6 +26,7 @@ const ShopImage = ({ vendor }) => {
                   className="imageSlider"
                   src={image.url}
                   alt={`shop${index}`}
+                style={{width:'100%'}}
                 />
               </SwiperSlide>
             ))}

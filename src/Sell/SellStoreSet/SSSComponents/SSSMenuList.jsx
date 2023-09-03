@@ -4,11 +4,9 @@ import { Box, Grid, Button, Typography, Checkbox } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useParams } from 'react-router-dom';
 const SSSMenuList = ({ menus, onDeleteMenu }) => {
-  const { vendorId } = useParams();
-
-  console.log('Received menus: ', menus);
+  console.log('메뉴받기', menus);
   console.log(
-    'Current menu.menuImage states in menus: ',
+    '메뉴 - 메뉴 이미지 : ',
     menus.map((menu) => menu.menuImage)
   );
   useEffect(() => {
@@ -55,10 +53,10 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
         );
 
         if (menu.menuImage) {
-          formData.append('menuImage', menu.menuImage);
+          formData.append('file', menu.menuImage);
         }
       });
-      formData.append('vendorId', vendorId);
+      // formData.append('vendorId', vendorId);
 
       // vendor.id도 추가한다면
 
@@ -94,7 +92,10 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
           width: '100%',
           margin: 'auto',
           marginTop: '5%',
-          border: '1px solid black',
+          border: '1px solid #BDBDBD',
+          borderRadius: '5px',
+          padding: '2%',
+          background: 'white',
         }}
       >
         <Grid
@@ -139,7 +140,7 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
                 <Grid item xs={2} sx={{ textAlign: 'center' }}>
                   {menu.menuImage ? (
                     <img
-                      src={URL.createObjectURL(menu.menuImage)}
+                      src={menu.menuImage}
                       alt="menu preview"
                       style={{ width: '50px', height: '50px' }}
                     />
@@ -179,7 +180,14 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
         </Box>
       </Box>
       <Grid item xs={12} sx={{ textAlign: 'center' }}>
-        <Button variant="contained" color="secondary" onClick={sendMenuInfo}>
+        <Button
+          variant="contained"
+          onClick={sendMenuInfo}
+          sx={{
+            background: '#21BF73',
+            marginTop: '5%',
+          }}
+        >
           완료
         </Button>
       </Grid>

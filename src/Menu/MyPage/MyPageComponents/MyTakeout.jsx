@@ -1,81 +1,101 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../../Layout/Header.jsx';
 import Footer from '../../../Layout/Footer.jsx';
-import { useNavigate, Link } from 'react-router-dom';
-import { getMyCart, deleteCart } from '../../Home/HomeComponents/HomeApi.jsx';
+import { Link, useNavigate } from 'react-router-dom';
+import { fetchOrderDetail, fetchPaymentList } from '../../Home/HomeComponents/HomeApi.jsx';
 import './MyTakeout.css';
 
 function MyTakeout() {
-    const [cartItems, setCartItems] = useState([]);
-    const [orders, setOrders] = useState([]);
-    const token = localStorage.getItem('jwtToken');
+    const [orderDetail, setOrderDetail] = useState([]);
+    const [error, setError] = useState(null);
+    const token = localStorage.getItem('accessToken');
+    const [todayStoreCount, setTodayStoreCount] = useState(0);
+    const [groupedOrders, setGroupedOrders] = useState({});
+    const MEMBER_ID = localStorage.getItem('member_id');
     const navigate = useNavigate();
 
-    let payload = null;
-    if (token) {
-        payload = JSON.parse(atob(token.split('.')[1]));
-    }
-    const USER_ID = payload?.userId;
-
     useEffect(() => {
-        if (USER_ID && token) {
-            getMyCart(USER_ID, token)
-                .then(response => {
-                    console.log(response);
-                    setCartItems(response.data.itemlist);
-                })
-                .catch(error => {
-                    console.error("Error fetching cart:", error);
-                });
-        }
-    }, [USER_ID, token]);
+        const fetchOrderAndPaymentData = async () => {
+            try {
+                const orderData = await fetchOrderDetail(MEMBER_ID);
+                const today = new Date().toISOString().split('T')[0];
+                const todayOrders = orderData.filter(order => order.orderDate.split('T')[0] === today);
+                const uniqueStores = [...new Set(todayOrders.map(order => order.storeName))];
+                const paymentData = await fetchPaymentList(token);
 
-    function clearCart() {
-        deleteCart(USER_ID, token)
-            .then(response => {
-                setCartItems([]);
-            })
-            .catch(error => {
-                console.error("Error clearing cart:", error);
-            });
+                setOrderDetail(orderData || []);
+                setTodayStoreCount(uniqueStores.length);
+
+                const groups = {};
+                orderData.forEach(order => {
+                    const date = order.orderDate.split('T')[0];
+                    if (!groups[date]) {
+                        groups[date] = [];
+                    }
+                    groups[date].push(order);
+                });
+
+                setGroupedOrders(groups);
+
+            } catch (error) {
+                setError(error);
+            }
+        };
+
+        fetchOrderAndPaymentData();
+    }, []);
+
+    if (error) {
+        return <div>Error: {error.message}</div>;
     }
 
     return (
         <div className='App-main2'>
             <Header page="mytakeout" />
             <div className='mytakeout-container'>
-                <div className='mytakeout-list'>
-                    {orders.map((order, index) => (
-                        <div className='mytakeout-item' key={index}>
-                            <div className='mytakeout-date'>
-                                {order.orderDate} 포장완료
-                                <Link to={`/order/${order.orderNumber}`} className='mytakeout-detail-button'>
-                                    주문 상세
-                                </Link>
-                            </div>
-                            <div className='mytakeout-store'>
-                                <img src="/images/roopy.png" alt="Store Logo" />
-                                <div className='mytakeout-store-info'>
-                                    <p>{order.storeName}</p>
-                                    <div className='menu-detail'>
-                                        <p>{order.orderMenu}</p>
-                                        <p>{order.totalPrice}원</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <button
-                                onClick={() => navigate('/reviewform')}
-                                className='mytakeout-review-button'>
-                                리뷰 작성하기
-                            </button>
-                            <button
-                                onClick={clearCart}
-                                className='clear-cart-button'>
-                                포장 주문 내역 삭제
-                            </button>
-                        </div>
-                    ))}
+                <div className="order-summary">
+                    <p>{localStorage.getItem('nickname')}님이 오늘 주문한 가게는 {todayStoreCount}개 입니다.</p>
+                    <p>총 {orderDetail.length} 개의 결제 내역이 있습니다.</p>
                 </div>
+                <ul className='mytakeout-list'>
+                    {orderDetail.length > 0 ? (
+                        orderDetail.map((order, index) => (
+                            <li className='mytakeout-item' key={order.id || index}>
+                                <div className='mytakeout-date'>
+                                    {order.orderDate} 포장완료
+                                    <Link to={`/order/${order.orderNumber}`} className='mytakeout-detail-button'>
+                                        주문 상세
+                                    </Link>
+                                </div>
+                                <div className='mytakeout-store'>
+                                    <img src="/images/roopy.png" alt="Store Logo" />
+                                    <div className='mytakeout-store-info'>
+                                        <p>{order.menuType}</p>
+                                        <div className='menu-detail'>
+                                            <p>{order.orderMenu}</p>
+                                            <p>{order.totalPrice}원</p>
+                                        </div>
+                                    </div>
+                                    <button
+                                        className="write-review-button"
+                                        disabled={!order || !"orderId" in order || !"id" in order.vendor}
+                                        onClick={() => {
+                                            if (order && "orderId" in order && "id" in order.vendor) {
+                                                navigate(`/ReviewForm/${order.orderId}/${order.vendor.id}`);
+                                            } else {
+                                                console.error("order, order.orderId or order.vendor.id is undefined!");
+                                            }
+                                        }}
+                                    >
+                                        리뷰 작성하기
+                                    </button>
+                                </div>
+                            </li>
+                        ))
+                    ) : (
+                        <p>주문 내역이 없습니다.</p>
+                    )}
+                </ul>
             </div>
             <Footer type="mytakeout" />
         </div>

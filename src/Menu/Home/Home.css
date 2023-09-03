@@ -3,30 +3,33 @@
     box-sizing: border-box;
 }
 
+.scroll::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .scroll {
+    -ms-overflow-style: none; /* 인터넷 익스플로러 */
+    scrollbar-width: none; /* 파이어폭스 */
+  }
+
 body {
     flex-direction: column;
-    min-height: 100vh; 
+    min-height: 100vh;
     position: relative;
-    
+
 }
 
 .App-main2 {
     width: 100%;
     border: 1px solid #ff0000;
     overflow: auto;
-    height: 170vh; /* 뷰포트의 높이를 기준으로 100% */
-   
-}
+    height: 100vh;
+    /* 뷰포트의 높이를 기준으로 100% */
 
-p {
-    font-size: 16px;  
-    font-weight: bold; 
-    margin: 1% 5%;
-    margin-bottom: 3px;
 }
 
 p.small-text {
-    font-size: 12px;  
+    font-size: 12px;
     color: #555;
 }
 
@@ -36,9 +39,9 @@ p.small-text {
     background-color: #ffffff;
     border: 1px solid #ff0000;
     border-radius: 20px;
-    margin: auto 0 10%;
+    margin: 5% auto;
     width: 90%;
-    height: 10%;
+    height: 5vh;
 }
 
 .Home-search-input {
@@ -47,20 +50,28 @@ p.small-text {
     border: none;
     outline: none;
     background-color: #ffffff;
-    padding: 5px;
+    padding: 3%;
     border-radius: 15px;
     margin: 10px;
+    height: 3vh;
 }
 
-.Home-search-button, .Home-search-button img {
+.Home-search-button {
     cursor: pointer;
     background: transparent;
     border: none;
-    width: 15px;
-    height: 15px;
+    width: 10%;
+    height: 50%;
 }
 
-.custom-text-container, .custom-text-container2, .custom-text-container3 {
+.Home-search-button img {
+    width: 100%;
+    height: 100%;
+}
+
+.custom-text-container,
+.custom-text-container2,
+.custom-text-container3 {
     padding-left: 5%;
     width: 95%;
 }
@@ -73,7 +84,9 @@ p.small-text {
     margin-top: -1%;
 }
 
-.custom-text, .custom-text2, .custom-text3 {
+.custom-text,
+.custom-text2,
+.custom-text3 {
     font-weight: bold;
 }
 
@@ -114,17 +127,19 @@ p.small-text {
     background-color: #717171;
 }
 
-.outer-container, .macha-button-container {
+.outer-container,
+.macha-button-container {
     margin: auto;
     width: 90%;
     overflow-x: auto;
     white-space: nowrap;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    margin: 5% 0;
+   
 }
 
-.outer-container::-webkit-scrollbar, .macha-button-container::-webkit-scrollbar {
+.outer-container::-webkit-scrollbar,
+.macha-button-container::-webkit-scrollbar {
     width: 0;
     height: 0;
 }
@@ -132,14 +147,16 @@ p.small-text {
 .inner-container {
     display: flex;
     justify-content: flex-start;
+    margin: 5% 0;
+
 }
 
 .button-round {
-    width: 60px;
-    height: 60px;
+    width: 5em;
+    height: 5em;
     border-radius: 50%;
     background-color: #f0f0f0;
-    display: flex;
+    display: block;
     justify-content: center;
     align-items: center;
     position: relative;
@@ -156,7 +173,7 @@ p.small-text {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    cursor: pointer;
+    border: none !important;
 }
 
 .button-round span {
@@ -167,24 +184,22 @@ p.small-text {
 
 .macha-button {
     border: none;
-    border-radius: 20px;
+    border-radius: 10px;
     width: 40%;
-    height: 80%;
+    aspect-ratio: 1/1;
     display: inline-block;
     background: transparent;
-    cursor: pointer;
     outline: none;
-    margin-right: -3%;
     transition: transform 0.3s, opacity 0.3s;
 }
 
 .macha-button img {
     width: 100%;
-    height: 25vh;
     border-radius: 20px;
 }
 
-.macha-button:hover, .macha-button:active {
+.macha-button:hover,
+.macha-button:active {
     transform: scale(1.1);
 }
 
@@ -200,19 +215,18 @@ p.small-text {
     opacity: 1;
 }
 
+.textbar {
+    color: #717171;
+    margin: 5%;
+}
+
 .footer-text-container {
-    margin-top: auto;
     background-color: #f7f7f7;
-    padding: 20px 0;
+    padding: 10%;
     text-align: center;
     border-top: 1px solid #e0e0e0;
     width: 100%;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 40px; /* Adjust according to footer height */
-    display: none;
+    margin: 10% 0;
 }
 
 .footer-text-container-text {
@@ -228,35 +242,56 @@ p.small-text {
     line-height: 1.5;
     margin: 0;
 }
+.title {
+    font-size: 110%;
+    margin: 5%;
+    font-weight: bold;
+}
 
 .footer-text-container-text p br {
     margin-bottom: 8px;
     display: block;
 }
+
 .favorite-menu-container {
     display: flex;
     justify-content: space-between;
-    gap: 2rem; 
-  }
-  
-  .menu-box {
+    gap: 2rem;
+}
+
+.menu-box {
     display: flex;
     flex-direction: column;
-  }
-  
-  .menu-button {
+    margin: 0 5%;
+    width: 50%;
+}
+
+.menu-button {
     border: none;
     background: none;
-    cursor: pointer;
     text-align: left;
-  }
-  
-  .menu-button:hover {
+    margin-bottom: 15%;
+    font-size: 90%;
+}
+
+.menu-button:hover {
     text-decoration: underline;
+}
+  .swiper-slide {
+    text-align: center;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   
+  .swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
   
-  
-  
-  
-  
+  .swiper-pagination-bullet-active {
+    background-color: #FD5E53 !important;
+  }

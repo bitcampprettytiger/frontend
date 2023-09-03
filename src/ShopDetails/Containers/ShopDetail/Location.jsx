@@ -7,15 +7,23 @@ import useVendor from '../../SDCustomHooks/useVendor';
 import { useParams } from 'react-router-dom';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import useCopyToClipboard from '../../SDCustomHooks/useCopyToClipboard';
+import usePopup from '../../SDCustomHooks/usePopup';
+import '../../SDCustomHooks/PopUp.css';
 
 function Location(props, ref) {
-  const {vendorId} = useParams();
+  const { vendorId } = useParams();
   const { vendor, error, loading } = useVendor(vendorId);
   const copyToClipboard = useCopyToClipboard();
+  const { isPopupVisible, showPopup } = usePopup(500);
+
+  const handleCopyClick = () => {
+    copyToClipboard(address);
+    showPopup();
+  };
 
   if (loading) return <div>로딩 중</div>;
   if (error) return <div>Error: {error.message}</div>;
-  if (!vendor) return <div>없는 가게 입니다.</div>; 
+  if (!vendor) return <div>없는 가게 입니다.</div>;
 
   const address = vendor.address;
 
@@ -32,11 +40,20 @@ function Location(props, ref) {
         <Box sx={{ width: '80vw', height: '20vh', marginBottom: '1vh' }}>
           {/* 지도 추가할 곳,,, */}
         </Box>
-        <Box sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={() => copyToClipboard(address)}>
-          <ContentCopyIcon sx={{ color: 'black', fontSize: '90%' }} />
-          <Typography variant="body2" sx={{ marginLeft: '1vw', fontSize: '90%', color: 'black' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer', marginBottom: '5%', }} onClick={handleCopyClick}>
+          <ContentCopyIcon sx={{ color: 'black', fontSize: '90%', '&:hover': {
+              color: '#FD5E53'
+            } }} />
+          <Typography variant="body2" sx={{ marginLeft: '1vw', fontSize: '90%', color: 'black', '&:hover': {
+              color: '#FD5E53'}, '&:click': {color: '#FD5E53'}
+             }}>
             주소 복사하기
           </Typography>
+          {isPopupVisible && (
+            <div className="popup">
+              <span className="popuptext show">복사</span>
+            </div>
+          )}
         </Box>
         <Typography variant="body2" sx={{ fontSize: '95%', color: 'black', marginBottom: '20%' }}>
           {address}
@@ -44,12 +61,12 @@ function Location(props, ref) {
         <Button
           variant="outlined"
           sx={{
-              width: '100%', 
-              borderColor: '#000000',
-              borderWidth: '1px',
-              color: '#000000',
-              fontSize: '90%',
-              justifyContent: 'center'
+            width: '100%',
+            borderColor: '#000000',
+            borderWidth: '1px',
+            color: '#000000',
+            fontSize: '90%',
+            justifyContent: 'center',
           }}
         >
           길 찾기

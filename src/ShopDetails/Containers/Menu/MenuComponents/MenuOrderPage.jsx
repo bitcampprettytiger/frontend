@@ -22,7 +22,6 @@ function groupByMenuType(menuDataList) {
   return menuGroups;
 }
 
-
 function MenuOrderPage() {
   const [selectedMenu, setSelectedMenu] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -39,14 +38,24 @@ function MenuOrderPage() {
 
   const handleMenuAdd = (selectedMenuId) => {
     addMenuItem(selectedMenuId);
-    setAddedMenus(prevMenus => [...prevMenus, selectedMenuId]);
-    setIsModalVisible(false); 
+    console.log('셀렉메뉴아이디', selectedMenuId);
+    setAddedMenus((prevMenus) => [...prevMenus, selectedMenuId]);
+    setIsModalVisible(false);
   };
 
   const handleMenuClick = (menu) => {
     setSelectedMenu(menu);
+    console.log('메뉴클릭', menu);
     setIsModalVisible(true);
   };
+
+  const adjustWidth = (originalWidth) => {
+    const numericValue = parseInt(originalWidth, 10);
+    const adjustedValue = numericValue - 10;
+    return `${adjustedValue}%`;
+  };
+
+  const adjustedWidth = adjustWidth(width);
 
   return (
     <>
@@ -54,18 +63,23 @@ function MenuOrderPage() {
         {Object.keys(menuGroups).map((menuType) => (
           <React.Fragment key={menuType}>
             <h4 className="category-header">{menuType}</h4>
-            {menuGroups[menuType].map(menuDataItem => (
+            {menuGroups[menuType].map((menuDataItem) => (
               <React.Fragment key={menuDataItem.id}>
-                
                 <StyledMenuItem onClick={() => handleMenuClick(menuDataItem)}>
-                  
                   <div className="menu-image">
-                    <img src={menuDataItem.menuImageList[0]?.url} alt={menuDataItem.menuName} />
+                    <img
+                      src={menuDataItem.menuImageList[0]?.url}
+                      alt={menuDataItem.menuName}
+                    />
                   </div>
                   <div className="menu-info">
-                    <h3>{menuDataItem.menuName}</h3>
-                    <p className="menu-description">{menuDataItem.menuContent}</p>
-                    <p className="menu-price">가격: {menuDataItem.price.toLocaleString()}원</p>
+                    <h3 style={{fontWeight: 'bold'}}>{menuDataItem.menuName}</h3>
+                    <div className="menu-description">
+                      {menuDataItem.menuContent}
+                    </div>
+                    <div className="menu-price" style={{fontWeight: 'bold'}}>
+                      가격: {menuDataItem.price.toLocaleString()}원
+                    </div>
                   </div>
                 </StyledMenuItem>
                 <Divider sx={{ my: 0, height: '0.2px', bgcolor: 'gray.300' }} />
@@ -75,37 +89,37 @@ function MenuOrderPage() {
         ))}
       </StyledMenuList>
 
-
-
       {isModalVisible && (
-          <MenuOptionalModal 
-          open={isModalVisible} 
+        <MenuOptionalModal
+          open={isModalVisible}
           onClose={handleClose}
           selectedMenu={selectedMenu}
           onMenuAdd={() => handleMenuAdd(selectedMenu.id)}
         />
       )}
       {addedMenus.length > 0 && (
-
         <Button
-        sx={{
-          backgroundColor: '#FF745A',
-          width: width,
-          height: '7%',
-          color: 'white',
-          fontSize: '17px',
-          position: 'fixed',
-          bottom: '16px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-        }}
-        onClick={() =>
-          navigate(`/cart`, { state: { addedMenus: addedMenus } })
-        }
-      >
-        담은 메뉴
-      </Button>
-    )}
+          sx={{
+            backgroundColor: '#FD5E53',
+            width: adjustedWidth,
+            height: '7%',
+            color: 'white',
+            fontSize: '17px',
+            position: 'fixed',
+            bottom: '2%',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            '&:hover': {
+              backgroundColor: '#FD5E53',
+            },
+          }}
+          onClick={() =>
+            navigate(`/cart`, { state: { addedMenus: addedMenus } })
+          }
+        >
+          장바구니
+        </Button>
+      )}
     </>
   );
 }

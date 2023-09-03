@@ -4,7 +4,7 @@ import axios from 'axios';
 const instance = axios.create({
   baseURL: 'http://27.96.135.75',
 });
-console.log("인스턴스",instance.interceptors.response);
+console.log("인스턴스", instance.interceptors.response);
 
 // 응답 인터셉터 설정
 instance.interceptors.response.use(

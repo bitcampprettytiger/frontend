@@ -29,7 +29,6 @@ export const fetchPopularPlaces = (address, latitude, longitude) => {
 // 상위 8개 가게 중에서 즐겨찾기가 가장 많은 가게들을 가져옴
 
 export const fetchMostFavoritedVendors = () => {
-
     return axios.get('http://27.96.135.75/api/favoritePick/top8Favorites', {
         headers: getHeaders()
     });
@@ -85,18 +84,6 @@ export const fetchReviewsByVendorId = (vendorId) => {
     return axios.get(`http://27.96.135.75/vendor/review-list/${vendorId}`);
 };
 
-//새로운 리뷰를 생성
-export const createReview = (reviewDto, files) => {
-    const formData = new FormData();
-    formData.append('reviewDto', JSON.stringify(reviewDto));
-    files.forEach((file) => {
-        formData.append('uploadFiles', file);
-    });
-
-    return axios.post('http://27.96.135.75/review', formData, {
-        headers: getHeaders(),
-    });
-};
 //리뷰업데이트
 export const updateReview = (reviewDto, uploadFiles, changeFileList, originFileList) => {
     const formData = new FormData();
@@ -108,7 +95,6 @@ export const updateReview = (reviewDto, uploadFiles, changeFileList, originFileL
         formData.append('changeFileList', file);
     });
     formData.append('originFileList', JSON.stringify(originFileList));
-
     return axios.put('http://27.96.135.75/review', formData, {
         headers: getHeaders(),
     });
@@ -124,12 +110,12 @@ export const fetchFavoriteShopsByUserId = (memberId, token) => {
     };
     return axios.get(`http://27.96.135.75/api/favorite/${memberId}`, config);
 };
-// 즐겨찾기에서 가게를 삭제
-export const deleteFavoriteShop = (memberId, vendorId) => {
-    return axios.delete(`http:/27.96.135.75/api/favoritePick/${memberId}/remove/${vendorId}`, {
-        headers: getHeaders()
-    });
-};
+// // 즐겨찾기에서 가게를 삭제
+// export const deleteFavoriteShop = (memberId, vendorId) => {
+//     return axios.delete(`http:/27.96.135.75/api/favoritePick/${memberId}/remove/${vendorId}`, {
+//         headers: getHeaders()
+//     });
+// };
 
 
 
@@ -138,7 +124,7 @@ export const getMyCart = (memberId, token) => {
     const config = {
         headers: getHeaders(),
     };
-    return axios.get(`http://27.96.135.75/cart/member/${memberId}`, config);
+    return axios.get(`http://27.96.135.75/cart/info/${memberId}`, config);
 };
 
 
@@ -172,4 +158,134 @@ export const fetchTop10RecommendedMenus = async () => {
     }
 };
 
+//회원 정보 조회
+export const fetchMyInfo = async () => {
+    try {
+        const response = await axios.get('http://27.96.135.75/myInfo', {
+            headers: getHeaders()
+        });
+        if (response.status === 200) {
+            return response.data;
+        } else {
+            throw new Error('Failed to fetch user info');
+        }
+    } catch (error) {
+        console.error('There was a problem fetching user info: ', error);
+    }
+};
 
+// 회원 찜내역 조회
+export const fetchMyFavoriteVendors = async () => {
+    try {
+        const response = await axios.get('http://27.96.135.75/myPage/myFavoriteVendors', {
+            headers: getHeaders()
+        });
+        if (response.status === 200) {
+            return response.data;
+        } else {
+            throw new Error('Failed to fetch favorite vendors');
+        }
+    } catch (error) {
+        console.error('There was a problem fetching favorite vendors: ', error);
+    }
+};
+
+
+export const fetchOrderDetail = async (MEMBER_ID) => {
+    try {
+        const response = await fetch(`http://27.96.135.75/myPage/myOrders`, {
+            headers: getHeaders()
+        });
+
+        // 서버 응답을 JSON 형태로 파싱
+        const data = await response.json();
+
+        // 1. Log the received data
+        console.log("Data received:", data);
+
+        // 'orders' 필드가 배열로 있다고 가정
+        if (Array.isArray(data.item)) {
+            console.log()
+            return data.item;
+        } else {
+            // 2. Log the error message
+            console.error('item is not an array');
+            return [];  // 배열이 아니면 빈 배열 반환
+        }
+
+    } catch (error) {
+        console.error('Error fetching order details:', error);
+        throw error;  // 오류를 상위로 전파
+    }
+};
+//주문내역함수 
+export const fetchPaymentList = async (token) => {
+    try {
+        const response = await fetch('http://27.96.135.75/myPage/myPaymentList', {
+            headers: getHeaders(),
+        });
+
+        const data = await response.json();
+
+        if (data.statusCode === 200 && Array.isArray(data.item)) {
+            return data.item;
+        } else {
+            console.error('No payment data found or Bad Request:', data.errorMessage);
+            return null;
+        }
+    } catch (error) {
+        console.error('Error fetching payment list:', error);
+        return null;
+    }
+};
+
+export const createReview = async (reviewDto, file, token) => {
+
+    const url = 'http://27.96.135.75  /reviews/review';
+    const formData = new FormData();
+    console.log("이거 리뷰 디티오임" + reviewDto);
+
+    // 리뷰 데이터 추가
+    Object.keys(reviewDto).forEach(key => {
+        formData.append(key, reviewDto[key]);
+    });
+
+    // 파일(이미지 등) 추가
+    if (file) {
+        file.forEach((file, index) => {
+            formData.append(`file${index + 1}`, file);
+        });
+    }
+
+    // 토큰 유효성 검사
+    if (!token) {
+        throw new Error("액세스 토큰이 누락되었거나 유효하지 않습니다!");
+    }
+
+    // 새로운 헤더를 생성
+    const headers = {
+        Authorization: `Bearer ${token}`
+    };
+
+    // axios 사용
+    try {
+        const response = await axios.post(url, formData, { headers });
+        console.log("이거 리뷰 디티오임" + reviewDto);
+
+        if (response.status === 200) {
+            return response.data;
+        } else {
+            throw new Error(response.data.errorMessage || "리뷰 생성 실패");
+        }
+    } catch (error) {
+        console.error('리뷰 생성 중 오류 발생:', error);
+        console.log("이거 리뷰 디티오 아이디임" + reviewDto.id);
+        console.log("이거 리뷰 디티오 오더아이디임" + reviewDto.orderId);
+
+        if (error.response) {
+            console.error("서버 응답:", error.response.data);
+        }
+
+        throw error;
+    }
+};

@@ -17,8 +17,8 @@ const SellerPage = () => {
   };
   
   useEffect(() => {
-
-    if(!isReserved){
+    // const socket = io('http://localhost:8081'); // 판매자 엔드포인트로 연결
+    if (!isReserved) {
       socket.emit('enter_room', data);
       setIsReserved(true);
       setPosition(prevPosition => prevPosition + 1);
@@ -95,7 +95,7 @@ const SellerPage = () => {
           <p>Vendor: {reservation.vendor}</p>
           <p>Name: {reservation.name}</p>
           <p>Phone Number: {reservation.phoneNumber}</p>
-         <button onClick={() => handleDisconnect(reservation.phoneNumber)}>
+          <button onClick={() => handleDisconnect(reservation.phoneNumber)}>
             연결 끊기
           </button>
         </div>

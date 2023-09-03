@@ -10,7 +10,7 @@ import {
   Grid,
 } from '@mui/material';
 
-const SSUsaup = ({setNextButtonEnabled }) => {
+const SSUsaup = ({ setNextButtonEnabled }) => {
   const [region, setRegion] = useState('');
   const [value1, setValue1] = useState('');
   const [value2, setValue2] = useState('');
@@ -39,7 +39,7 @@ const SSUsaup = ({setNextButtonEnabled }) => {
       // 응답에서 일치 여부 확인 (서버 응답 형식에 따라 수정 필요)
       setResponseMessage('정보가 일치합니다.');
       setNextButtonEnabled(true); // 정보 일치시 버튼 활성화
-      setButtonColor('#f0f0f0'); 
+      setButtonColor('#f0f0f0');
       setFontColor('black');
     } catch (error) {
       setResponseMessage('정보가 일치하지 않습니다.');
@@ -67,7 +67,7 @@ const SSUsaup = ({setNextButtonEnabled }) => {
               value={value2}
               onChange={(e) => setValue2(e.target.value)}
               fullWidth
-              sx={{marginTop : '10%'}}
+              sx={{ marginTop: '10%' }}
             />
           </>
         );
@@ -94,7 +94,7 @@ const SSUsaup = ({setNextButtonEnabled }) => {
               value={value2}
               onChange={(e) => setValue2(e.target.value)}
               fullWidth
-              sx={{marginTop : '10%'}}
+              sx={{ marginTop: '10%' }}
             />
           </div>
         );
@@ -112,7 +112,7 @@ const SSUsaup = ({setNextButtonEnabled }) => {
               value={value2}
               onChange={(e) => setValue2(e.target.value)}
               fullWidth
-              sx={{marginTop : '10%'}}
+              sx={{ marginTop: '10%' }}
             />
           </div>
         );
@@ -141,7 +141,7 @@ const SSUsaup = ({setNextButtonEnabled }) => {
               value={value2}
               onChange={(e) => setValue2(e.target.value)}
               fullWidth
-              sx={{marginTop : '10%'}}
+              sx={{ marginTop: '10%' }}
             />
           </div>
         );
@@ -159,7 +159,7 @@ const SSUsaup = ({setNextButtonEnabled }) => {
               value={value2}
               onChange={(e) => setValue2(e.target.value)}
               fullWidth
-              sx={{marginTop : '10%'}}
+              sx={{ marginTop: '10%' }}
             />
           </div>
         );
@@ -192,7 +192,11 @@ const SSUsaup = ({setNextButtonEnabled }) => {
         </Grid>
         <Grid item xs={12} style={{ textAlign: 'center' }}>
           {/* 버튼 중앙 배치 */}
-          <button onClick={handleSubmit} style={{width: '90%', marginTop: '5%', backgroundColor: buttonColor, color: fontColor}}>전송</button>
+          <button onClick={handleSubmit} style={{
+            width: '90%', marginTop: '5%', height: '5vh',
+            backgroundColor: buttonColor, color: fontColor, borderStyle: 'none',
+            borderRadius: '5px', fontSize: '110%'
+          }}>전송</button>
         </Grid>
         <Grid
           item

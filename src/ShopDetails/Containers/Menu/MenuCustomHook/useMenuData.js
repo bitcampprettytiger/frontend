@@ -7,11 +7,11 @@ function useMenuData() {
   const { vendorId } = useParams();
   const accessToken = localStorage.getItem('accessToken');
   const headers = {
-    'Content-Type' : 'application/json;charset=UTF-8',
+    'Content-Type': 'application/json;charset=UTF-8',
     Authorization: `Bearer ${accessToken}`,
   };
 
-//메뉴 데이터 조회
+  //메뉴 데이터 조회
   useEffect(() => {
     axios.get(`http://27.96.135.75/menu/info/${vendorId}`, { headers })
       .then(response => {
