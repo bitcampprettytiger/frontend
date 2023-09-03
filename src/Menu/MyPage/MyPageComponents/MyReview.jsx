@@ -125,7 +125,7 @@ function MyReview() {
                     <div key={review.id || index} className="review-item"> {/* 고유한 값으로 key 설정 */}
                         <div className="review-header">
                             <span className="store-name">
-                                <Link to={`/store/${review.storeId}`}>{review.storeName}</Link>
+                                <Link to={`/store/${review.vendorId}`}>{review.vendorName}</Link>
                             </span>
                             <button className="delete-btn" onClick={() => handleDeleteReview(review.id)}>
                                 <KeyboardArrowRightIcon className="navigate-icon" />

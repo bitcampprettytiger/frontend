@@ -51,12 +51,19 @@ function Mypage() {
   useEffect(() => {
     const fetchAllData = async () => {
       try {
+        console.log("!!!!!!!!")
         const [reviewResponse, favoriteVendorsResponse] = await Promise.all([
           fetch('/myPage/myReviews'),
           fetch('/myPage/myFavoriteVendors')
         ]);
+        console.log(reviewResponse);
+        // const response = fetchMyFavoriteVendors();
+
+        // console.log(response);
+
 
         const reviewData = await reviewResponse.json();
+        console.log(reviewData);
         const favoriteVendorsData = await favoriteVendorsResponse.json();
 
         setReviewCount(reviewData.count);
@@ -70,6 +77,7 @@ function Mypage() {
     };
 
     fetchAllData();
+
   }, []);
 
 

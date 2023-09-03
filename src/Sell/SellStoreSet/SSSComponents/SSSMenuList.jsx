@@ -4,11 +4,9 @@ import { Box, Grid, Button, Typography, Checkbox } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useParams } from 'react-router-dom';
 const SSSMenuList = ({ menus, onDeleteMenu }) => {
-  const { vendorId } = useParams();
-
-  console.log('Received menus: ', menus);
+  console.log('메뉴받기', menus);
   console.log(
-    'Current menu.menuImage states in menus: ',
+    '메뉴 - 메뉴 이미지 : ',
     menus.map((menu) => menu.menuImage)
   );
   useEffect(() => {
@@ -63,7 +61,7 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
       // vendor.id도 추가한다면
 
       const response = await axios.post(
-        'http://192.168.0.58/menu/info/insertMenu', // 서버 주소
+        'http://192.168.0.240/menu/info/insertMenu', // 서버 주소
         formData,
         {
           headers: {
