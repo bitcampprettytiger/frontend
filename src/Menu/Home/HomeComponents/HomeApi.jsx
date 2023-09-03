@@ -67,7 +67,6 @@ export const fetchTop5ReviewVendors = async () => {
         const url = '/review/averageReviewScore';
         console.log(`Sending request to ${url}`); // 실제로 어떤 URL로 요청이 가는지 출력
         const response = await axios.get('http://192.168.0.240/vendor/review/averageReviewScore', {
-
             headers: getHeaders()
         });
         console.log(response)  // 백엔드 엔드포인트 주소
@@ -96,7 +95,6 @@ export const updateReview = (reviewDto, uploadFiles, changeFileList, originFileL
         formData.append('changeFileList', file);
     });
     formData.append('originFileList', JSON.stringify(originFileList));
-
     return axios.put('http://192.168.0.240/review', formData, {
         headers: getHeaders(),
     });
