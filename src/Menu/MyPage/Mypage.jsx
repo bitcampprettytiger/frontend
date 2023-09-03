@@ -8,6 +8,7 @@ import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { Link } from 'react-router-dom';
 import { useFavorite } from '../../Menu/MyPage/MyPageComponents/FavoriteContext';
+import axios from 'axios';
 
 function Mypage() {
   const [isEditing, setIsEditing] = useState(false);
@@ -17,12 +18,23 @@ function Mypage() {
   const [reviewCount, setReviewCount] = useState(0);
   const { favoriteCount, setFavoriteCount, favoriteShops, setFavoriteShops } = useFavorite();
 
+  const getHeaders = (navigate) => {
+
+    const accessToken = localStorage.getItem('accessToken');
+    if (!accessToken) {
+      navigate("/");
+      return;
+    }
+    return {
+      'Content-Type': 'application/json;charset=UTF-8',
+      Authorization: `Bearer ${accessToken}`,
+    };
+  };
 
   const fetchFavorites = async () => {
     try {
-      const response = await fetch('/myPage/myFavoriteVendors');
-      const data = await response.json();
-      setFavoriteShops(data.favoriteShops || []);
+      const response = await axios.get('http://27.96.135.75/myPage/myFavoriteVendors');  // <-- 수정
+      setFavoriteShops(response.data.favoriteShops || []);
     } catch (error) {
       console.error('Could not fetch favorite shops:', error);
     }
@@ -48,38 +60,32 @@ function Mypage() {
   const handleChange = (e) => {
     setNewNickname(e.target.value);
   };
+
   useEffect(() => {
     const fetchAllData = async () => {
       try {
-        console.log("!!!!!!!!")
         const [reviewResponse, favoriteVendorsResponse] = await Promise.all([
-          fetch('/myPage/myReviews'),
-          fetch('/myPage/myFavoriteVendors')
+          axios.get('http://27.96.135.75/myPage/myReviews', {
+            headers: getHeaders()
+          }),
+          axios.get('http://27.96.135.75/myPage/myFavoriteVendors', {
+            headers: getHeaders()
+          })
         ]);
-        console.log(reviewResponse);
-        // const response = fetchMyFavoriteVendors();
 
-        // console.log(response);
-
-
-        const reviewData = await reviewResponse.json();
-        console.log(reviewData);
-        const favoriteVendorsData = await favoriteVendorsResponse.json();
+        const reviewData = reviewResponse.data;
+        const favoriteVendorsData = favoriteVendorsResponse.data;
 
         setReviewCount(reviewData.count);
         setFavoriteShops(favoriteVendorsData.favoriteShops || []);
         setFavoriteCount(favoriteShops.length);
       } catch (error) {
         console.error('Could not fetch data:', error);
-
-
       }
     };
 
     fetchAllData();
-
   }, []);
-
 
 
 

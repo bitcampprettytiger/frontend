@@ -14,6 +14,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Link } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { fetchReviewsByVendorId, createReview, updateReview, deleteReview as deleteReviewAPI } from '../../Home/HomeComponents/HomeApi.jsx';
+import { Reviews } from '@mui/icons-material';
 
 
 
@@ -69,8 +70,10 @@ function MyReview() {
         const fetchReviews = async () => {
             try {
                 const response = await fetchReviewsByVendorId(vendorId);
+                console.log(response);
                 if (response.status === 200) {
-                    setReviews(response.data);
+                    setReviews(response.data.itemlist);
+                    console.log(response.data.itemlist);
                 }
             } catch (error) {
                 alert('Failed to fetch reviews. Please try again.');  // User-friendly error message
@@ -125,40 +128,48 @@ function MyReview() {
                     <div key={review.id || index} className="review-item"> {/* 고유한 값으로 key 설정 */}
                         <div className="review-header">
                             <span className="store-name">
-                                <Link to={`/store/${review.vendorId}`}>{review.vendorName}</Link>
+                                <Link to={`/store/${review.reviewId}`}>
+                                    {review.orders.vendor.vendorName}</Link>
                             </span>
-                            <button className="delete-btn" onClick={() => handleDeleteReview(review.id)}>
+                            <button className="delete-btn" onClick={() => handleDeleteReview(review.reviewId)}>
                                 <KeyboardArrowRightIcon className="navigate-icon" />
                             </button>
 
-                            <button className="delete-btn" onClick={() => handleDeleteReviewApiCall(review.id)}>
+                            <button className="delete-btn" onClick={() => handleDeleteReviewApiCall(review.reviewId)}>
                                 <DeleteForeverIcon className="delete-icon" />
                             </button>
 
                         </div>
                         <div className="star-container">
-                            {Array.from({ length: review.starCount }).map((_, idx) => (
+                            {Array.from({ length: review.reviewScore }).map((_, idx) => (
                                 <StarIcon key={idx} className="star-icon" style={{ color: yellow[500] }} />
                             ))}
                         </div>
 
-                        <div className="images-container">
-                            {review.images.slice(0, 4).map((img, idx) => (
-                                <img key={idx} src={img} alt={`review-${idx}`} className="review-image" />
-                            ))}
-                            {review.images.length > 4 &&
+                        {/* <div className="images-container">
+                            {review.reviewFileList && review.reviewFileList.length > 0 ? (
+
+                                review.reviewFileList.slice(0, 4).map((img, idx) => (
+                                    <img key={idx} src={img} alt={`review-${idx}`} className="review-image" />
+                                ))
+                            )
+                                : (
+                                    <div>No images available</div>
+                                )
+                            }
+                            {review.reviewFileList.length > 4 &&
                                 <div className="more-images" onClick={() => handleOpen(review)}>+</div>
                             }
-                        </div>
+                        </div> */}
 
                         <Typography
                             className={isExpanded ? 'expanded-class' : 'collapsed-class'}  // added class names
                         >
 
-                            {review.text}
+                            {review.reviewContent}
                         </Typography>
 
-                        {review.text.split('\n').length > 3 && (
+                        {review.reviewContent.split('\n').length > 3 && (
                             <button
                                 onClick={() => {
                                     setIsExpanded(!isExpanded);

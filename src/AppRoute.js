@@ -53,7 +53,7 @@ const menuRoutes = [
   { path: '/geolocationcomponent', element: <GeolocationComponent /> },
   { path: '/search', element: <Search /> },
   { path: '/waiting', element: <Waiting /> },
-  { path: '/myreview', element: <MyReview /> },
+  { path: '/myreview', element: <FavoriteProvider><MyReview /> </FavoriteProvider> },
   { path: '/waitingDetail', element: <WaitingDetail /> },
   { path: '/shopHome/:vendorId', element: <ShopMain /> },
   { path: '/reviewform/:orderId/:vendorId', element: <ReviewForm /> },
@@ -132,7 +132,7 @@ function InnerAppRoute() {
       <ThemeProvider theme={muitheme}>
         <NoticeProvider>
           <BrowserView className='BV'>
-            <AnimatedCursor/>
+            <AnimatedCursor />
             <Routes>
               {browserRoutes.map((route, index) => (
                 <Route key={index} path={route.path} element={route.element} />
