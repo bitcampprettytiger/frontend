@@ -133,7 +133,7 @@ p.small-text {
     white-space: nowrap;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    margin: 5% 0;
+   
 }
 
 .outer-container::-webkit-scrollbar,
@@ -145,6 +145,8 @@ p.small-text {
 .inner-container {
     display: flex;
     justify-content: flex-start;
+    margin: 5% 0;
+
 }
 
 .button-round {

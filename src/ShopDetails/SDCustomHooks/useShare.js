@@ -10,7 +10,7 @@ const useShare = (vendorId) => {
         navigator.share({
           title: "[먹자취]",
           text: vendor.address,
-          url: "https://192.168.0.58/vendor/infoDetail/${vendorId}",
+          url: "https://192.168.0.240/vendor/infoDetail/${vendorId}",
         });
       }
     } else {
@@ -18,17 +18,17 @@ const useShare = (vendorId) => {
     }
   }, [vendor, loading]);
 
-//   const shareToKakao = useCallback(() => {
-//     if (!loading && vendor) {
-//       Kakao.Share.sendCustom({
-//         templateId: 82775,
-//         templateArgs: {
-//           title: '[먹자취]',
-//           description: vendor.address,
-//         },
-//       });
-//     }
-//   }, [vendor, loading]);
+  //   const shareToKakao = useCallback(() => {
+  //     if (!loading && vendor) {
+  //       Kakao.Share.sendCustom({
+  //         templateId: 82775,
+  //         templateArgs: {
+  //           title: '[먹자취]',
+  //           description: vendor.address,
+  //         },
+  //       });
+  //     }
+  //   }, [vendor, loading]);
 
   return {
     shareToWeb,

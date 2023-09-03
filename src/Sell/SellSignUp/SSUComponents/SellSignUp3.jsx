@@ -20,12 +20,12 @@ import SSUHeader from './SSUHeader';
 import SSUAddressModal from './SSUAddressModal';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import VendorAPI from './VendorAPI';
-import {Scrollbar} from 'smooth-scrollbar-react';
+import { Scrollbar } from 'smooth-scrollbar-react';
 import { Scrollbar as BaseScrollbar } from "smooth-scrollbar/scrollbar";
 const SellSignUp3 = () => {
   const location = useLocation();
   const username = location.state.username;
-  console.log("이름",username)
+  console.log("이름", username)
   const [file, setFile] = useState(null);
   const [address, setAddress] = useState('');
   const [showPostcode, setShowPostcode] = useState(false);
@@ -126,7 +126,7 @@ const SellSignUp3 = () => {
 
   return (
     <>
-      
+
       <SSUAddressModal
         open={showPostcode}
         onClose={() => setShowPostcode(false)}
@@ -229,8 +229,8 @@ const SellSignUp3 = () => {
               />
               <label htmlFor="file" style={{ alignSelf: 'center' }}> {/* alignSelf: 'center' 추가 */}
                 <Button variant="contained" color="primary" component="span" sx={{ color: 'white' }}>
-                  파일 선택 
-                  <AttachFileIcon sx={{fontSize:'130%'}}/>
+                  파일 선택
+                  <AttachFileIcon sx={{ fontSize: '130%' }} />
                 </Button>
               </label>
             </Grid>

@@ -18,7 +18,7 @@ export const getHeaders = (navigate) => {
 
 export const fetchPopularPlaces = (address, latitude, longitude) => {
     console.log(address, latitude, longitude)
-    return axios.post('http://101.101.210.23:80/vendor/search', {
+    return axios.post('http://192.168.0.240/vendor/search', {
         address: address,
         latitude: latitude,
         hardness: longitude
@@ -29,8 +29,7 @@ export const fetchPopularPlaces = (address, latitude, longitude) => {
 // 상위 8개 가게 중에서 즐겨찾기가 가장 많은 가게들을 가져옴
 
 export const fetchMostFavoritedVendors = () => {
-
-    return axios.get('http://101.101.210.23:80/api/favoritePick/top8Favorites', {
+    return axios.get('http://192.168.0.240/api/favoritePick/top8Favorites', {
         headers: getHeaders()
     });
 
@@ -67,7 +66,8 @@ export const fetchTop5ReviewVendors = async () => {
         console.log("1111111귀찮거든")
         const url = '/review/averageReviewScore';
         console.log(`Sending request to ${url}`); // 실제로 어떤 URL로 요청이 가는지 출력
-        const response = await axios.get('http://101.101.210.23:80/vendor/review/averageReviewScore', {
+        const response = await axios.get('http://192.168.0.240/vendor/review/averageReviewScore', {
+
             headers: getHeaders()
         });
         console.log(response)  // 백엔드 엔드포인트 주소
@@ -82,21 +82,9 @@ export const fetchTop5ReviewVendors = async () => {
 // 가게리뷰를 가져옴
 
 export const fetchReviewsByVendorId = (vendorId) => {
-    return axios.get(`http://101.101.210.23:80/vendor/review-list/${vendorId}`);
+    return axios.get(`http://192.168.0.240/vendor/review-list/${vendorId}`);
 };
 
-//새로운 리뷰를 생성
-export const createReview = (reviewDto, files) => {
-    const formData = new FormData();
-    formData.append('reviewDto', JSON.stringify(reviewDto));
-    files.forEach((file) => {
-        formData.append('uploadFiles', file);
-    });
-
-    return axios.post('http://101.101.210.23:80/review', formData, {
-        headers: getHeaders(),
-    });
-};
 //리뷰업데이트
 export const updateReview = (reviewDto, uploadFiles, changeFileList, originFileList) => {
     const formData = new FormData();
@@ -109,24 +97,24 @@ export const updateReview = (reviewDto, uploadFiles, changeFileList, originFileL
     });
     formData.append('originFileList', JSON.stringify(originFileList));
 
-    return axios.put('http://101.101.210.23:80/review', formData, {
+    return axios.put('http://192.168.0.240/review', formData, {
         headers: getHeaders(),
     });
 };
 //리뷰삭제
 export const deleteReview = (reviewDto) => {
-    return axios.delete('http://101.101.210.23:80/review', { data: reviewDto });
+    return axios.delete('http://192.168.0.240/review', { data: reviewDto });
 };
 //즐겨찾기가 되어 있는 가게리스트
 export const fetchFavoriteShopsByUserId = (memberId, token) => {
     const config = {
         headers: getHeaders()
     };
-    return axios.get(`http://101.101.210.23:80/api/favorite/${memberId}`, config);
+    return axios.get(`http://192.168.0.240/api/favorite/${memberId}`, config);
 };
 // // 즐겨찾기에서 가게를 삭제
 // export const deleteFavoriteShop = (memberId, vendorId) => {
-//     return axios.delete(`https:/101.101.210.23:80/api/favoritePick/${memberId}/remove/${vendorId}`, {
+//     return axios.delete(`http:/192.168.0.240/api/favoritePick/${memberId}/remove/${vendorId}`, {
 //         headers: getHeaders()
 //     });
 // };
@@ -138,7 +126,7 @@ export const getMyCart = (memberId, token) => {
     const config = {
         headers: getHeaders(),
     };
-    return axios.get(`http://101.101.210.23:80/cart/info/${memberId}`, config);
+    return axios.get(`http://192.168.0.240/cart/info/${memberId}`, config);
 };
 
 
@@ -147,19 +135,19 @@ export const deleteCartItem = (cartItemDTO, token) => {
     const config = {
         headers: getHeaders(),
     };
-    return axios.delete(`http://101.101.210.23:80/cart/deletecartitem`, { data: cartItemDTO, headers: config.headers });
+    return axios.delete(`http://192.168.0.240/cart/deletecartitem`, { data: cartItemDTO, headers: config.headers });
 };
 //장바구니비우기
 export const deleteCart = (cartItemDTO, token) => {
     const config = {
         headers: getHeaders(),
     };
-    return axios.delete(`http://101.101.210.23:80/cart/info`, { data: cartItemDTO, headers: config.headers });
+    return axios.delete(`http://192.168.0.240/cart/info`, { data: cartItemDTO, headers: config.headers });
 };
 //조회수가높은10개
 export const fetchTop10RecommendedMenus = async () => {
     try {
-        const response = await axios.get('http://101.101.210.23:80/menu/recommendedMenus10', {
+        const response = await axios.get('http://192.168.0.240/menu/recommendedMenus10', {
             headers: getHeaders()
         });
         if (response.status === 200) {
@@ -175,7 +163,7 @@ export const fetchTop10RecommendedMenus = async () => {
 //회원 정보 조회
 export const fetchMyInfo = async () => {
     try {
-        const response = await axios.get('http://101.101.210.23:80/myInfo', {
+        const response = await axios.get('http://192.168.0.240/myInfo', {
             headers: getHeaders()
         });
         if (response.status === 200) {
@@ -191,7 +179,7 @@ export const fetchMyInfo = async () => {
 // 회원 찜내역 조회
 export const fetchMyFavoriteVendors = async () => {
     try {
-        const response = await axios.get('http://101.101.210.23:80/myPage/myFavoriteVendors', {
+        const response = await axios.get('http://192.168.0.240/myPage/myFavoriteVendors', {
             headers: getHeaders()
         });
         if (response.status === 200) {
@@ -207,7 +195,7 @@ export const fetchMyFavoriteVendors = async () => {
 
 export const fetchOrderDetail = async (MEMBER_ID) => {
     try {
-        const response = await fetch(`http://101.101.210.23:80/myPage/myOrders`, {
+        const response = await fetch(`http://192.168.0.240/myPage/myOrders`, {
             headers: getHeaders()
         });
 
@@ -219,6 +207,7 @@ export const fetchOrderDetail = async (MEMBER_ID) => {
 
         // 'orders' 필드가 배열로 있다고 가정
         if (Array.isArray(data.item)) {
+            console.log()
             return data.item;
         } else {
             // 2. Log the error message
@@ -234,7 +223,7 @@ export const fetchOrderDetail = async (MEMBER_ID) => {
 //주문내역함수 
 export const fetchPaymentList = async (token) => {
     try {
-        const response = await fetch('http://101.101.210.23:80/myPage/myPaymentList', {
+        const response = await fetch('http://192.168.0.240/myPage/myPaymentList', {
             headers: getHeaders(),
         });
 
@@ -252,8 +241,53 @@ export const fetchPaymentList = async (token) => {
     }
 };
 
+export const createReview = async (reviewDto, file, token) => {
 
+    const url = 'http://192.168.0.240  /reviews/review';
+    const formData = new FormData();
+    console.log("이거 리뷰 디티오임" + reviewDto);
 
+    // 리뷰 데이터 추가
+    Object.keys(reviewDto).forEach(key => {
+        formData.append(key, reviewDto[key]);
+    });
 
+    // 파일(이미지 등) 추가
+    if (file) {
+        file.forEach((file, index) => {
+            formData.append(`file${index + 1}`, file);
+        });
+    }
 
+    // 토큰 유효성 검사
+    if (!token) {
+        throw new Error("액세스 토큰이 누락되었거나 유효하지 않습니다!");
+    }
 
+    // 새로운 헤더를 생성
+    const headers = {
+        Authorization: `Bearer ${token}`
+    };
+
+    // axios 사용
+    try {
+        const response = await axios.post(url, formData, { headers });
+        console.log("이거 리뷰 디티오임" + reviewDto);
+
+        if (response.status === 200) {
+            return response.data;
+        } else {
+            throw new Error(response.data.errorMessage || "리뷰 생성 실패");
+        }
+    } catch (error) {
+        console.error('리뷰 생성 중 오류 발생:', error);
+        console.log("이거 리뷰 디티오 아이디임" + reviewDto.id);
+        console.log("이거 리뷰 디티오 오더아이디임" + reviewDto.orderId);
+
+        if (error.response) {
+            console.error("서버 응답:", error.response.data);
+        }
+
+        throw error;
+    }
+};
