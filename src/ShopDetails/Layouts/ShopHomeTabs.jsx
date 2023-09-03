@@ -66,7 +66,7 @@ export default function ShopHomeTabs({ images, locationRef, vendorId }) {
         <ShopFacilities />
         <MenuSeeMore />
         <PhotoSeeMore images={images} />
-        <Location ref={locationRef} />
+        <Location ref={locationRef} vendorId={vendorId} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         <MenuOrderPage vendorId={vendorId} />

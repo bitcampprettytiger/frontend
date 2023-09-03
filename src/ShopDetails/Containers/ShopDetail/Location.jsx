@@ -7,15 +7,32 @@ import useVendor from '../../SDCustomHooks/useVendor';
 import { useParams } from 'react-router-dom';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import useCopyToClipboard from '../../SDCustomHooks/useCopyToClipboard';
+import { useEffect, useRef } from 'react';
 
 function Location(props, ref) {
-  const {vendorId} = useParams();
+  const { vendorId } = useParams();
   const { vendor, error, loading } = useVendor(vendorId);
+  const mapRef = useRef(); // 지도가 생성될 div를 위한 ref
   const copyToClipboard = useCopyToClipboard();
+
+  useEffect(() => {
+    if (vendor && window.kakao) {
+      const container = mapRef.current;
+      const options = {
+        center: new window.kakao.maps.LatLng(vendor.y, vendor.x), // 지도의 중심좌표
+        level: 3, // 지도의 레벨 (확대, 축소 정도)
+      };
+      const map = new window.kakao.maps.Map(container, options); // 지도 생성 및 객체 리턴
+      const marker = new window.kakao.maps.Marker({
+        position: map.getCenter(), // 마커의 위치
+      });
+      marker.setMap(map); // 지도에 마커를 표시
+    }
+  }, [vendor]);
 
   if (loading) return <div>로딩 중</div>;
   if (error) return <div>Error: {error.message}</div>;
-  if (!vendor) return <div>없는 가게 입니다.</div>; 
+  if (!vendor) return <div>없는 가게 입니다.</div>;
 
   const address = vendor.address;
 
@@ -29,27 +46,39 @@ function Location(props, ref) {
         상세 위치 안내
       </Typography>
       <Box>
-        <Box sx={{ width: '80vw', height: '20vh', marginBottom: '1vh' }}>
+        <Box
+          ref={mapRef}
+          sx={{ width: '100%', height: '40vh', marginBottom: '1vh' }}
+        >
           {/* 지도 추가할 곳,,, */}
         </Box>
-        <Box sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }} onClick={() => copyToClipboard(address)}>
+        <Box
+          sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
+          onClick={() => copyToClipboard(address)}
+        >
           <ContentCopyIcon sx={{ color: 'black', fontSize: '90%' }} />
-          <Typography variant="body2" sx={{ marginLeft: '1vw', fontSize: '90%', color: 'black' }}>
+          <Typography
+            variant="body2"
+            sx={{ marginLeft: '1vw', fontSize: '90%', color: 'black' }}
+          >
             주소 복사하기
           </Typography>
         </Box>
-        <Typography variant="body2" sx={{ fontSize: '95%', color: 'black', marginBottom: '20%' }}>
+        <Typography
+          variant="body2"
+          sx={{ fontSize: '95%', color: 'black', marginBottom: '20%' }}
+        >
           {address}
         </Typography>
         <Button
           variant="outlined"
           sx={{
-              width: '100%', 
-              borderColor: '#000000',
-              borderWidth: '1px',
-              color: '#000000',
-              fontSize: '90%',
-              justifyContent: 'center'
+            width: '100%',
+            borderColor: '#000000',
+            borderWidth: '1px',
+            color: '#000000',
+            fontSize: '90%',
+            justifyContent: 'center',
           }}
         >
           길 찾기
@@ -60,4 +89,4 @@ function Location(props, ref) {
   );
 }
 
-export default React.forwardRef(Location);;
+export default React.forwardRef(Location);
