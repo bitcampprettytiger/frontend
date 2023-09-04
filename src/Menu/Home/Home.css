@@ -272,10 +272,11 @@ p.small-text {
     text-align: left;
     margin-bottom: 15%;
     font-size: 90%;
+    text-decoration: none;
 }
 
 .menu-button:hover {
-    text-decoration: underline;
+    font-weight: bold;
 }
   .swiper-slide {
     text-align: center;
