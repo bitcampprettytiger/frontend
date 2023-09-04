@@ -247,22 +247,24 @@ function Home() {
         <div className="menu-box">
           {top10Menus.slice(0, 5).map((menu, index) => (
             <button className="menu-button" key={index} onClick={() => handleMenuItemClick(menu)}>
-              <span>{index + 1}위</span>
+              <span style={{fontWeight: 'bold'}}>{index + 1}위</span>
               {" "}
               <span className='textbar'>|</span>
               {" "}
               <span>{menu}</span>
+              <div key={index} style={{ borderBottom: '1px solid #ccc', paddingBottom: '8%' }}></div>
             </button>
           ))}
         </div>
         <div className="menu-box">
           {top10Menus.slice(5, 10).map((menu, index) => (
             <button className="menu-button" key={index + 5}>
-              <span>{index + 6}위</span>
+              <span style={{fontWeight: 'bold'}}>{index + 6}위</span>
               {" "}
               <span className='textbar'>|</span>
               {" "}
               <span>{menu}</span>
+              <div key={index} style={{ borderBottom: '1px solid #ccc', paddingBottom: '8%' }}></div>
             </button>
           ))}
         </div>

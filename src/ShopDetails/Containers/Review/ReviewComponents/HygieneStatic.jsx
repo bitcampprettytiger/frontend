@@ -2,16 +2,11 @@ import React from "react";
 import {
   Box,
   Typography,
-  Grid,
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
 } from "@mui/material";
-import {
-  BarChart,
-  XAxis,
-  YAxis,
-  Bar,
-  ResponsiveContainer,
-  LabelList
-} from "recharts";
 import useReview from "../ReviewCustomHook/useReview";
 import { useParams } from "react-router-dom";
 
@@ -21,7 +16,6 @@ const HygieneStatic = () => {
 
   const countHygieneRatings = (reviews) => {
     const result = { good: 0, bad: 0 };
-
     reviews.forEach((review) => {
       if (review.isLiked) {
         result.good += 1;
@@ -29,12 +23,11 @@ const HygieneStatic = () => {
         result.bad += 1;
       }
     });
-
     return result;
   };
 
   const calculatePercentage = (value, total) => {
-    return ((value / total) * 100);
+    return ((value / total) * 100).toFixed(1);
   };
 
   const hygieneCounts = countHygieneRatings(reviews);
@@ -42,73 +35,46 @@ const HygieneStatic = () => {
   const goodPercentage = calculatePercentage(hygieneCounts.good, totalCount);
   const badPercentage = calculatePercentage(hygieneCounts.bad, totalCount);
 
-  const renderCustomBarLabel = (props) => {
-    const { x, y, width, height, value, dataKey } = props;
-    const text = `${value}%`;
-    const label = dataKey;
-
-    const labelX = dataKey === '좋아요' ? x - 60 : x + width + 60;
-    const labelY = y + height / 2 - 15;
-    
-    const percentX = labelX;
-    const percentY = y + height / 2 + 15;
-
-    return (
-      <g>
-        <text x={labelX} y={labelY} fill="#000" textAnchor="middle">
-          {label}
-        </text>
-        <text x={percentX} y={percentY} fill="#000" textAnchor="middle">
-          {text}
-        </text>
-      </g>
-    );
-  };
-
-  const barData = [
-    {
-      name: "위생",
-      좋아요: hygieneCounts.good,
-      아쉬워요: hygieneCounts.bad,
-      total: totalCount,
-    },
-  ];
-
   return (
-    <Box>
+    <Box sx={{marginTop: '5%'}}>
       <Typography variant="h6" marginBottom={2}>
         위생
       </Typography>
-      <Grid container spacing={2} alignItems="center">
-        <Grid item>
-          <Typography>좋아요: {goodPercentage}%</Typography>
-        </Grid>
-        <Grid item xs style={{ width: "100%" }}>
-          <ResponsiveContainer height={25}>
-            <BarChart data={barData} layout="vertical">
-              <XAxis type="number" hide />
-              <YAxis type="category" dataKey="name" hide />
-              <Bar dataKey="좋아요" fill="#FFE500" stackId="a" radius={[5, 0, 0, 5]}>
-                <LabelList
-                  dataKey="좋아요"
-                  position="insideLeft"
-                  content={renderCustomBarLabel}
-                />
-              </Bar>
-              <Bar dataKey="아쉬워요" fill="#E2E2E2" stackId="a" radius={[0, 5, 5, 0]}>
-                <LabelList
-                  dataKey="아쉬워요"
-                  position="insideRight"
-                  content={renderCustomBarLabel}
-                />
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
-        </Grid>
-        <Grid item>
-          <Typography>아쉬워요: {badPercentage}%</Typography>
-        </Grid>
-      </Grid>
+      <Table>
+        <TableBody>
+          <TableRow>
+            <TableCell valign="top">
+              <Typography align="center">좋아요</Typography>
+              <Typography align="center" sx={{color: '#ababab', fontSize: '100%', marginTop: '5%'}}>{goodPercentage}%</Typography>
+            </TableCell>
+            <TableCell>
+              <div style={{
+                display: "flex",
+                alignItems: "center",
+                width: '100%',
+                position: 'relative'
+              }}>
+                <div style={{
+                  backgroundColor: "#FFE500",
+                  width: `${goodPercentage}%`,
+                  height: "10px",
+                  borderRadius: "5px",
+                }}></div>
+                <div style={{
+                  backgroundColor: "#E2E2E2",
+                  width: `${badPercentage}%`,
+                  height: "10px",
+                  borderRadius: "5px",
+                }}></div>
+              </div>
+            </TableCell>
+            <TableCell valign="top">
+              <Typography align="center">아쉬워요</Typography>
+              <Typography align="center" sx={{color: '#ababab', fontSize: '100%', marginTop: '5%'}}>{badPercentage}%</Typography>
+            </TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
     </Box>
   );
 };
