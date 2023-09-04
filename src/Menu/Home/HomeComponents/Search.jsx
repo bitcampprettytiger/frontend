@@ -54,13 +54,13 @@ const Search = () => {
         setSearchInput(text);
         handleSearchClick();
     };
-    useEffect(() => {
-        // 로컬 스토리지에서 최근 검색어 가져오기
-        const storedRecentSearches = localStorage.getItem('recentSearches');
-        if (storedRecentSearches) {
-            setRecentSearches(JSON.parse(storedRecentSearches));
-        }
-    }, []);
+    // useEffect(() => {
+    //     // 로컬 스토리지에서 최근 검색어 가져오기
+    //     const storedRecentSearches = localStorage.getItem('recentSearches');
+    //     if (storedRecentSearches) {
+    //         setRecentSearches(JSON.parse(storedRecentSearches));
+    //     }
+    // }, []);
 
     useEffect(() => {
         if (searchQuery) {

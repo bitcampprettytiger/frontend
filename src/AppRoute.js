@@ -24,7 +24,6 @@ import SellLogin from './Sell/SellJoin/SellLogin';
 import SellStoreSet from './Sell/SellStoreSet/SellStroreSet';
 import SellHome from './Sell/SellHome/SellHome';
 import SellMySet from './Sell/SellMySet/SellMySet';
-import PopularResult from './Menu/Home/HomeComponents/PopularResult';
 import CartPage from './ShopDetails/Containers/Menu/MenuComponents/Cart';
 import { FavoriteProvider } from './Menu/MyPage/MyPageComponents/FavoriteContext';
 import { useLocation } from 'react-router-dom';
@@ -63,7 +62,6 @@ const menuRoutes = [
   { path: '/mytakeout', element: <MyTakeout /> },
   { path: '/order/:orderNumber', element: <MyTakeoutDetail /> },
   { path: '/myedit', element: <MyEdit /> },
-  { path: '/popularresult', element: <PopularResult /> },
   { path: '/cart', element: <CartPage /> },
   { path: '*', element: <NotFound /> },
 

@@ -12,14 +12,15 @@ import {
   fetchTop5Vendors,
   fetchMostFavoritedVendors,
   fetchTop10RecommendedMenus,
-  fetchTop5ReviewVendors
+  fetchTop5ReviewVendors,
+  fetchShopsInArea
 } from '../Home/HomeComponents/HomeApi';
 
 function Home() {
 
   const navigate = useNavigate(); // 페이지 이동을 위한 훅
   const [searchInput, setSearchInput] = useState(''); // 검색 인풋 관리
-  const [popularPlaces, setPopularPlaces] = useState([]); // 인기 장소 관리
+  const [popularPlaces, setPopularPlaces, getShopsInArea, shopsAroundArea] = useState([]); // 인기 장소 관리
   const [top5Vendors, setTop5Vendors] = useState([]); // Top 5 판매자 관리
   const [mostFavoritedVendors, setMostFavoritedVendors] = useState([]); // 가장 많이 즐겨찾기 된 판매자 관리
   const [top10Menus, setTop10Menus] = useState([]); // Top 5 메뉴 관리
@@ -28,6 +29,8 @@ function Home() {
   const [location, setLocation] = useState({ latitude: "", longitude: "" }); // 사용자의 위치 (위도, 경도)
   const [top5ReviewVendors, setTop5ReviewVendors] = useState([]); // 이달의 유저 픽 BEST NO.5 판매자 관리
   const [headerText, setHeaderText] = useState(''); // 초기값은 빈 문자열
+  const [selectedStation, setSelectedStation] = useState(''); // 선택된 역 정보를 상태로 관리
+  const [shopsAroundStation, setShopsAroundStation] = useState([]); // 선택된 역의 주변 가게 정보를 상태로 관리
 
   const images = ['/images/slide-4.png', '/images/slide-2.png', '/images/slide-3.png']; // 이미지 슬라이더에 사용될 이미지들
 
@@ -151,7 +154,8 @@ function Home() {
     navigate(`/search?query=${menuText}`);
   };
   //역버튼 누르면 검색창이동
-  const navigateToSearchWithInfo = (areaName, shopsAroundArea) => {
+  const navigateToSearchWithInfo = async (areaName) => {
+    await getShopsInArea(areaName);
     navigate('/search', {
       state: {
         headerText: `${areaName}지역의 인기 매장 BEST`,
@@ -159,6 +163,7 @@ function Home() {
       }
     });
   };
+
 
   return (
     <div className='App-main2'>

@@ -1,39 +1,30 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+// usePopularPlaces.js
 
-export default function usePopularPlaces(address, location) {
+import { useState, useEffect } from 'react';
+import { fetchPopularPlaces, fetchShopsInArea } from '../Home/HomeComponents/HomeApi';
+
+const usePopularPlaces = (initialAddress, initialLocation) => {
     const [popularPlaces, setPopularPlaces] = useState([]);
+    const [shopsAroundArea, setShopsAroundArea] = useState([]);
 
     useEffect(() => {
-        if (address && location.latitude && location.longitude) {
-            console.log("여기1!1")
-            console.log(address)
-            console.log(location.latitude)
-            console.log(location.longitude)
-            console.log("여기!!!!")
-            axios.post('http://27.96.135.75/vendor/search', {
-                address: address,
-                latitude: location.latitude,
-                hardness: location.longitude  // 오타 수정됨
-            },
-                {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(response => {
-                    console.log(response)
-                    // isSuccess 필드 확인 추가됨
-                    if (response.data.isSuccess) {
-                        const itemList = Array.isArray(response.data.result.itemlist) ? response.data.result.itemlist : [];
-                        setPopularPlaces(itemList);
-                    }
-                })
-                .catch(error => {
-                    console.error("Error fetching popular places", error);
-                });
-        }
-    }, [address, location]);  // 종속성 수정됨
+        const fetchData = async () => {
+            const data = await fetchPopularPlaces(initialAddress, initialLocation.latitude, initialLocation.longitude);
+            if (data) {
+                setPopularPlaces(data);
+            }
+        };
+        fetchData();
+    }, [initialAddress, initialLocation]);
 
-    return popularPlaces;
-}
+    const getShopsInArea = async (areaName) => {
+        const data = await fetchShopsInArea(areaName);
+        if (data) {
+            setShopsAroundArea(data);
+        }
+    };
+
+    return { popularPlaces, getShopsInArea, shopsAroundArea };
+};
+
+export default usePopularPlaces;

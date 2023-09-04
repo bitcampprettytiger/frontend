@@ -31,13 +31,34 @@ export const fetchPopularPlaces = (address, latitude, longitude) => {
     });
 };
 
-// 가장 많이 즐겨찾기된 상위 8개 가게 정보 가져오기
-export const fetchMostFavoritedVendors = () => {
-    return axios.get(`${API_BASE_URL}/api/favoritePick/top8Favorites`, {
-        headers: getHeaders()
-    });
+// 지정된 지역명에 따라 주변 가게 정보를 가져오는 함수
+export const fetchShopsAroundStation = async (areaName) => {
+    try {
+        // API 호출을 통해 areaName에 해당하는 지역의 주변 가게 정보를 가져옵니다.
+        const response = await axios.get(`${API_BASE_URL}/search/search10vendor=${areaName}`, {
+            headers: getHeaders(),
+        });
+        return response.data;
+    } catch (error) {
+        // 에러가 발생하면 콘솔에 에러 정보를 출력합니다.
+        console.error(error);
+        return null;
+    }
 };
 
+// 지정된 지역명에 따라 주변 가게 정보를 가져오는 함수 (일반적인 지역)
+export const fetchShopsInArea = async (areaName) => {
+    try {
+        const response = await axios.get(`${API_BASE_URL}/api/shopsInArea?areaName=${areaName}`, {
+            headers: getHeaders(),
+        });
+        return response.data;
+    } catch (error) {
+        // 에러가 발생하면 콘솔에 에러 정보를 출력합니다.
+        console.error(error);
+        return null;
+    }
+};
 
 
 
@@ -164,6 +185,13 @@ export const fetchTop5Vendors = async () => {
         console.error('An error occurred while fetching the top 5 vendors: ', error);
         return null;
     }
+};
+
+// 가장 많이 즐겨찾기된 상위 8개 가게 정보 가져오기
+export const fetchMostFavoritedVendors = () => {
+    return axios.get(`${API_BASE_URL}/api/favoritePick/top8Favorites`, {
+        headers: getHeaders()
+    });
 };
 
 // 즐겨찾기한 가게를 가져오는 함수
