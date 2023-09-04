@@ -113,24 +113,6 @@ const RatingAvg = () => {
             </BarChart>
           </ResponsiveContainer>
         </Grid>
-
-        {/* 음식 평점을 위한 Rating 컴포넌트 */}
-        <Grid item xs={6}>
-          <Typography variant="body1">음식 평점:</Typography>
-          <Rating
-            value={foodRating}
-            onChange={(e, newValue) => setFoodRating(newValue)}
-          />
-        </Grid>
-
-        {/* 위생 평점을 위한 Rating 컴포넌트 */}
-        <Grid item xs={6}>
-          <Typography variant="body1">위생 평점:</Typography>
-          <Rating
-            value={hygieneRating}
-            onChange={(e, newValue) => setHygieneRating(newValue)}
-          />
-        </Grid>
       </Grid>
     </Box>
   );

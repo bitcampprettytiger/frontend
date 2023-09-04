@@ -82,10 +82,8 @@ export const fetchTop5ReviewVendors = async () => {
 // 가게리뷰를 가져옴
 
 export const fetchReviewsByVendorId = (vendorId) => {
-
     return axios.get(`http://27.96.135.75/vendor/review-list/${vendorId}`);
 };
-
 
 //리뷰업데이트
 export const updateReview = (reviewDto, uploadFiles, changeFileList, originFileList) => {
@@ -98,7 +96,6 @@ export const updateReview = (reviewDto, uploadFiles, changeFileList, originFileL
         formData.append('changeFileList', file);
     });
     formData.append('originFileList', JSON.stringify(originFileList));
-
     return axios.put('http://27.96.135.75/review', formData, {
         headers: getHeaders(),
     });

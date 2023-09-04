@@ -31,9 +31,12 @@ import { useLocation } from 'react-router-dom';
 import { BrowserView, MobileView } from 'react-device-detect';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { NoticeProvider } from './Menu/Home/HomeComponents/NoticeContext';
-import { ThemeProvider, createTheme } from '@mui/material';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import './App.css';
 import NotFound from './NotFound';
+import SellerPage from './Seller/SellerPage ';
+import Tackout from './Seller/Tackout';
+import CustomerPage from './Seller/CustomerPage';
 import AnimatedCursor from './Layout/AnimatedCursor';
 
 
@@ -43,7 +46,7 @@ const muitheme = createTheme({
       main: '#21BF73',
     },
     secondary: {
-      main: '#D9D9D9',
+      main: '##FD5E53',
     },
   },
 });
@@ -76,6 +79,9 @@ const authRoutes = [
 
 const sellAuthRoutes = [
   { path: '/selllogin', element: <SellLogin /> },
+  { path: '/sellPage', element: <SellerPage /> },
+  { path: '/sellTake', element: <Tackout /> },
+  { path: '/sellcustom', element: <CustomerPage /> },
   { path: '/sellsign1', element: <SellSignUp1 /> },
   { path: '/sellsign2', element: <SellSignUp2 /> },
   { path: '/sellsign3', element: <SellSignUp3 /> },

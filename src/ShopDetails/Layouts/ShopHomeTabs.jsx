@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import ShopFacilities from '../Containers/ShopDetail/ShopFacilities';
 import Location from '../Containers/ShopDetail/Location';
@@ -15,6 +15,20 @@ import useResponsive from '../SDCustomHooks/useResponsive';
 import MenuSeeMore from '../Containers/Menu/MenuComponents/MenuSeeMore';
 import PhotoSeeMore from '../Containers/Review/ReviewComponents/PhotoSeeMore';
 import { useEffect } from 'react';
+import { motion } from 'framer-motion';
+
+const getSlideInFromRight = (index) => ({
+  hidden: { opacity: 0, x: 50 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      delay: index * 0.3,
+      duration: 1,
+      ease: 'easeOut',
+    },
+  },
+});
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -42,12 +56,40 @@ function a11yProps(index) {
   };
 }
 
-export default function ShopHomeTabs({ images, locationRef, vendorId }) {
+export default function ShopHomeTabs({ images, locationRef }) {
   const { value, setValue, handleChange } = useContext(ShopHomeTabsContext);
   const viewType = useResponsive();
+
+  const [isInView, setIsInView] = useState({
+    ShopFacilities: false,
+    MenuSeeMore: false,
+    PhotoSeeMore: false,
+    Location: false,
+  });
+
   useEffect(() => {
-    console.log('벤더아이디', vendorId);
+    const checkScroll = () => {
+      const elements = [
+        {
+          id: 'ShopFacilities',
+          ref: document.getElementById('ShopFacilities'),
+        },
+        { id: 'MenuSeeMore', ref: document.getElementById('MenuSeeMore') },
+        { id: 'PhotoSeeMore', ref: document.getElementById('PhotoSeeMore') },
+        { id: 'Location', ref: document.getElementById('Location') },
+      ];
+
+      elements.forEach(({ id, ref }, index) => {
+        if (ref && window.scrollY + window.innerHeight > ref.offsetTop) {
+          setIsInView((prevState) => ({ ...prevState, [id]: true }));
+        }
+      });
+    };
+
+    window.addEventListener('scroll', checkScroll);
+    return () => window.removeEventListener('scroll', checkScroll);
   }, []);
+
   return (
     <Box sx={{ width: '100%' }}>
       <WrapBox>
@@ -63,13 +105,41 @@ export default function ShopHomeTabs({ images, locationRef, vendorId }) {
         </StyledAppBar>
       </WrapBox>
       <CustomTabPanel value={value} index={0}>
-        <ShopFacilities />
-        <MenuSeeMore />
-        <PhotoSeeMore images={images} />
-        <Location ref={locationRef} vendorId={vendorId} />
+        <motion.div
+          id="ShopFacilities"
+          initial="hidden"
+          animate={isInView.ShopFacilities ? 'visible' : 'hidden'}
+          variants={getSlideInFromRight(0)}
+        >
+          <ShopFacilities />
+        </motion.div>
+        <motion.div
+          id="MenuSeeMore"
+          initial="hidden"
+          animate={isInView.MenuSeeMore ? 'visible' : 'hidden'}
+          variants={getSlideInFromRight(1)}
+        >
+          <MenuSeeMore />
+        </motion.div>
+        <motion.div
+          id="PhotoSeeMore"
+          initial="hidden"
+          animate={isInView.PhotoSeeMore ? 'visible' : 'hidden'}
+          variants={getSlideInFromRight(2)}
+        >
+          <PhotoSeeMore images={images} />
+        </motion.div>
+        <motion.div
+          id="Location"
+          initial="hidden"
+          animate={isInView.Location ? 'visible' : 'hidden'}
+          variants={getSlideInFromRight(3)}
+        >
+          <Location ref={locationRef} vendorId={vendorId} />
+        </motion.div>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <MenuOrderPage vendorId={vendorId} />
+        <MenuOrderPage />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
         <RatingAvg />

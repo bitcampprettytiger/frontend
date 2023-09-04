@@ -8,12 +8,20 @@ import { useParams } from 'react-router-dom';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import useCopyToClipboard from '../../SDCustomHooks/useCopyToClipboard';
 import { useEffect, useRef } from 'react';
+import usePopup from '../../SDCustomHooks/usePopup';
+import '../../SDCustomHooks/PopUp.css';
 
 function Location(props, ref) {
   const { vendorId } = useParams();
   const { vendor, error, loading } = useVendor(vendorId);
   const mapRef = useRef(); // 지도가 생성될 div를 위한 ref
   const copyToClipboard = useCopyToClipboard();
+  const { isPopupVisible, showPopup } = usePopup(500);
+
+  const handleCopyClick = () => {
+    copyToClipboard(address);
+    showPopup();
+  };
 
   useEffect(() => {
     if (vendor && window.kakao) {
@@ -52,17 +60,20 @@ function Location(props, ref) {
         >
           {/* 지도 추가할 곳,,, */}
         </Box>
-        <Box
-          sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
-          onClick={() => copyToClipboard(address)}
-        >
-          <ContentCopyIcon sx={{ color: 'black', fontSize: '90%' }} />
-          <Typography
-            variant="body2"
-            sx={{ marginLeft: '1vw', fontSize: '90%', color: 'black' }}
-          >
+        <Box sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer', marginBottom: '5%', }} onClick={handleCopyClick}>
+          <ContentCopyIcon sx={{ color: 'black', fontSize: '90%', '&:hover': {
+              color: '#FD5E53'
+            } }} />
+          <Typography variant="body2" sx={{ marginLeft: '1vw', fontSize: '90%', color: 'black', '&:hover': {
+              color: '#FD5E53'}, '&:click': {color: '#FD5E53'}
+             }}>
             주소 복사하기
           </Typography>
+          {isPopupVisible && (
+            <div className="popup">
+              <span className="popuptext show">복사</span>
+            </div>
+          )}
         </Box>
         <Typography
           variant="body2"

@@ -11,7 +11,7 @@ const ReviewDetail = () => {
   return (
     <Box padding={2} textAlign={'left'}>
       {reviews.map(review => (
-        <Card key={review.reviewNum}>
+        <Card key={review.reviewNum} sx={{marginBottom: '5%'}}>
           <CardContent>
             <Box>
               <Typography fontWeight={'bold'}>{review.memberId}</Typography>

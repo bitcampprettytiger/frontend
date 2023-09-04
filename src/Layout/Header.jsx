@@ -3,16 +3,16 @@ import '../App.css';
 import './Header.css';
 import MenuIcon from '@mui/icons-material/Menu';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import SearchIcon from '@mui/icons-material/Search';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { useNavigate } from 'react-router-dom';
 import ShareIcon from '@mui/icons-material/Share';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import SettingsIcon from '@mui/icons-material/Settings';
-import HomeIcon from '@mui/icons-material/Home';
+import {FiSettings} from 'react-icons/fi'
+import {TbHome} from 'react-icons/tb'
 import { convertCoordsToAddress } from '../Utils/kakaoUtils';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import Notice from '../Menu/Home/HomeComponents/Notice';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 
 function Header({ page, searchInput, handleSearchChange, handleDeleteClick, handleSearchClick, setAddressToHome, handleKeyUp }) {
 
@@ -103,8 +103,14 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
                     : "위치 정보를 가져오는 중..."}
             </div>
             <div className="Home-header-right-section">
+                <div className='cart-container'
+                onClick={() =>
+                        navigate(`/cart`)}>
+                        <ShoppingCartOutlinedIcon/>
+                </div>
                 <div className="notification-container">
-                    <NotificationsNoneIcon onClick={navigateToNotificationPage} />
+                    <NotificationsNoneIcon
+                    onClick={navigateToNotificationPage} />
                     {notifications.length > 0 && (
                         <div className="notification-count">
                             {notifications.length}
@@ -240,13 +246,13 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
                 {/* 다른 페이지의 왼쪽 섹션 내용 */}
             </div>
             <div className="mypage-header-center-section">
-                {/* 여기에 원하는 내용을 넣거나 비워둘 수 있습니다. */}
+                나의 먹자취
             </div>
             <div className="mypage-header-right-section">
                 <button
                     className="mypage-settings-button"
                     onClick={() => navigate('/myedit')}>
-                    <SettingsIcon />
+                    <FiSettings className='icon-btn'/>
                 </button>
             </div>
         </div>
@@ -278,7 +284,7 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
                     style={{ border: 'none', background: 'none' }}
                     onClick={handleGoToHome}
                 >
-                    <HomeIcon style={{ color: 'black' }} />
+                    <TbHome className='icon-btn'/>
                 </button>
             </div>
         </div>
@@ -301,7 +307,7 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
                     style={{ border: 'none', background: 'none' }}
                     onClick={handleGoToHome}
                 >
-                    <HomeIcon style={{ color: 'black' }} />
+                    <TbHome className='icon-btn'/>
                 </button>
             </div>
         </div>
@@ -326,7 +332,7 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
                     style={{ border: 'none', background: 'none' }}
                     onClick={handleGoToHome}
                 >
-                    <HomeIcon style={{ color: 'black' }} />
+                    <TbHome className='icon-btn'/>
                 </button>
             </div>
         </div>
@@ -349,7 +355,7 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
                     style={{ border: 'none', background: 'none' }}
                     onClick={handleGoToHome}
                 >
-                    <HomeIcon style={{ color: 'black' }} />
+                    <TbHome className='icon-btn'/>
                 </button>
             </div>
         </div>
