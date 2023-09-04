@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // 인스턴스 생성
 const instance = axios.create({
-  baseURL: 'http://27.96.135.75',
+  baseURL: 'http://192.168.0.240',
 });
 console.log(instance.interceptors.response);
 
@@ -21,7 +21,7 @@ instance.interceptors.response.use(
       // 리프레시 토큰 가져오기
       const refreshToken = localStorage.getItem('refreshToken');
 
-      // 새 엑세스 토큰 발급받기 (서버에서 리프레쉬 토큰을 사용해 엑세스 토큰을 발급하는 엔드포인트 필요)
+      // 새 엑세스 토큰 발급받기 (서버에서 리프레쉬 토큰을 사용해 엑세스 토큰을 발급하는 엔드포인트 필요)w
       const { data } = await instance.post('/member/board', { refreshToken });
 
       // 새 엑세스 토큰 저장

@@ -60,9 +60,10 @@ io.on('connection', (socket) => {
 
   
   socket.on("enter_room", (data) => { 
+
     socket.join(data.vendor); // 해당 vendor를 방 이름으로 사용
     socket.to(data.vendor).emit("welcome", socket.nickname, countRoom(data.vendor));
-    socketToVendor.set(socket.id, data.vendor);
+    socketToVendor.set(data.vendor,socket.id);
     phoneNumberToVendor.set(data.phoneNumber, data.vendor); // 전화번호와 vendor ID를 맵에 저장
     io.sockets.emit("room_change", data.vendor); // vendor를 방 이름으로 전달
     // io.sockets.emit("room_change", publicRooms());
@@ -76,6 +77,11 @@ io.on('connection', (socket) => {
     vendorConnections[data.phoneNumber] = socket;
     console.log("data.vendor"+data.vendor)
     // io.to("1").emit('update_position', 100);
+
+
+
+
+
   });
 
   socket.on('disconnect_user', (phoneNumber) => {
@@ -126,8 +132,12 @@ io.on('connection', (socket) => {
     
 });
 socket.on('order', ({ phoneNumber, orderArray }) => {
+  console.log(orderArray);
+  // socket.join(orderArray);
+  socket.join("vendorId");
+  phoneNumberToVendor.set(phoneNumber, { socket , orderArray })
+  const socketId = phoneNumberToSocketId.get(phoneNumber);
   console.log(`Received an order from ${phoneNumber}:`, orderArray);
-  
   // 판매자에게 주문 정보 전달
   io.emit('new_order', { phoneNumber, orderArray });
 });

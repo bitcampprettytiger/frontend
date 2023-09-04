@@ -10,7 +10,7 @@ const useReview = (vendorId) => {
   
   useEffect(() => {
     setLoading(true);
-    axios.get(`http://27.96.135.75/reviews/review-list/${vendorId}`)
+    axios.get(`http://192.168.0.240/reviews/review-list/${vendorId}`)
       .then((res) => {
         setLoading(false);
         if (res.data.statusCode === 200) {

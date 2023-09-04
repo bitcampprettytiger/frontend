@@ -48,7 +48,7 @@ function CartPage({ vendorid }) {
   };
   const fetchUserInfo = async () => {
     try {
-      const response = await axios.get('http://localhost/member/info', { headers: getHeaders() });
+      const response = await axios.get('http://192.168.0.240/member/info', { headers: getHeaders() });
       console.log(response);
       if (response.status === 200) {
         setPhoneNumber(response.data.tel);
@@ -163,7 +163,7 @@ function CartPage({ vendorid }) {
       try {
         // 서버로 데이터를 전송합니다.
         const serverResponse = await axios.post(
-          'http://27.96.135.75/payment/addPayment',
+          'http://192.168.0.240/payment/addPayment',
           payload,
           { headers }
           );
