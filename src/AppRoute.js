@@ -35,6 +35,9 @@ import { ThemeProvider, createTheme } from '@mui/material';
 import './App.css';
 import NotFound from './NotFound';
 import AnimatedCursor from './Layout/AnimatedCursor';
+import Seller from './WebSocket/Seller';
+import Buyer from './WebSocket/Buyer';
+
 
 
 const muitheme = createTheme({
@@ -65,7 +68,8 @@ const menuRoutes = [
   { path: '/myedit', element: <MyEdit /> },
   { path: '/popularresult', element: <PopularResult /> },
   { path: '/cart', element: <CartPage /> },
-  { path: '/new-order', element: <ChatApp />},
+  { path: '/buyer', element: <Buyer />},
+  { path: '/seller', element: <Seller />},
   { path: '*', element: <NotFound /> },
 
 ];

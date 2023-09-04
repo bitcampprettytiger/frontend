@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 
-const WebSocketExample = () => {
+const WebSocket = () => {
   useEffect(() => {
     // 웹소켓 전역 객체 생성
-    const ws = new WebSocket("ws://localhost:3000");
+    const ws = new WebSocket("ws://localhost:3030");
 
     // 연결이 수립되면 서버에 메시지를 전송한다
-    ws.onopen = (event) => {
+    ws.on = (event) => {
       ws.send("Client message: Hi!");
     };
 

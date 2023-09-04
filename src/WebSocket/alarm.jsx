@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 
-const socket = io('http://localhost:3000');
+const socket = io('http://localhost:3030');
 
-function ChatApp() {
+function Alarm() {
     // 주문 목록을 관리하는 상태
     const [orders, setOrders] = useState([]);
 
@@ -36,4 +36,4 @@ function ChatApp() {
     );
 }
 
-export default ChatApp;
+export default Alarm;
