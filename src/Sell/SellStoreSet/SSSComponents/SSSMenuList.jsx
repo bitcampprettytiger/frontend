@@ -119,34 +119,24 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
           <Grid item xs={2} sx={{ textAlign: 'center' }}>
             금액
           </Grid>
+
         </Grid>
         <Box
           sx={{
             maxHeight: '180px',
             minHeight: '180px',
-            justifyContent: 'center', // 가로 방향 중앙 정렬
-            alignItems: 'center', // 세로 방향 중앙 정렬
             overflowY: 'scroll',
             width: '100%',
           }}
         >
-          <Grid
-            container
-            spacing={3}
-            justifyContent="center" // 가로 방향 중앙 정렬
-            alignItems="center" // 세로 방향 중앙 정렬
-            sx={{ textAlign: 'center' }}
-          >
+          <Grid container spacing={3} justifyContent="center">
             {menus.map((menu, index) => (
               <React.Fragment key={index}>
-                <Grid
-                  item
-                  xs={2}
-                  sx={{ textAlign: 'center', border: '1px solid black' }}
-                >
+                <Grid item xs={3} sx={{ textAlign: 'center' }}>
                   {menu.menuImage ? (
                     <img
                       src={menu.menuImage}
+                      alt="menu preview"
                       style={{ width: '50px', height: '50px' }}
                     />
                   ) : (
@@ -162,7 +152,7 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
                 <Grid item xs={3} sx={{ textAlign: 'center' }}>
                   {menu.menuContent}
                 </Grid>
-                <Grid item xs={3} sx={{ textAlign: 'center' }}>
+                <Grid item xs={2} sx={{ textAlign: 'center' }}>
                   {formatPrice(menu.price)}
                 </Grid>
               </React.Fragment>
