@@ -42,6 +42,7 @@ function CartPage() {
   useEffect(() => {
     console.log('주문하기 벤더아이디 ===============', vendorId);
   }, []);
+
   const onIncrease = (menuId) => {
     const newCartItems = cartItems.map((item) => {
       if (item.menu.id === menuId) {
@@ -76,7 +77,6 @@ function CartPage() {
 
   //전체 메뉴 개수 (완)
   const getTotalItems = () => {
-    console.log('aaaaaaaaaaaa', cartItems);
     return cartItems.reduce((sum, item) => sum + item.cartQuantity, 0);
   };
   //전체 가격 (완)
@@ -103,7 +103,6 @@ function CartPage() {
       m_redirect_url: '/Paid',
     };
     IMP.request_pay(data, callback);
-    console.log('데이터@@@', data);
   };
 
   const callback = async (rsp) => {
@@ -115,11 +114,9 @@ function CartPage() {
       error_msg,
       name,
       paymentOK,
-      // vendorId,
     } = rsp;
-    console.log('rsp@@@', rsp);
-
-    //페이먼트 아이디
+    console.log('콜백 벤더아이디@@@@@@@@@@@@@@@@@@@@', rsp);
+    console.log('콜백ㄱㄱㄱㄱㄱㄱㄱㄱㄱ', vendorId); //페이먼트 아이디
     //벤더아이디
 
     if (success) {
@@ -131,7 +128,7 @@ function CartPage() {
         amount: paid_amount,
         name: name,
         paymentOK: paymentOK,
-        // vendorId: vendorId,
+        vendorId: vendorId,
       };
       console.log('페이로드', payload);
       try {
@@ -142,10 +139,7 @@ function CartPage() {
           { headers }
         );
         setpaymentOK(true);
-        console.log('서버 응답:', serverResponse);
-      } catch (error) {
-        console.error('서버로 전송 실패:', error);
-      }
+      } catch (error) {}
     } else {
       alert(`결제 실패: ${error_msg}`);
     }

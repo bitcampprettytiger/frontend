@@ -14,7 +14,6 @@ import { WrapBox } from './ShopHomeTabsStyle';
 import useResponsive from '../SDCustomHooks/useResponsive';
 import MenuSeeMore from '../Containers/Menu/MenuComponents/MenuSeeMore';
 import PhotoSeeMore from '../Containers/Review/ReviewComponents/PhotoSeeMore';
-import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 const getSlideInFromRight = (index) => ({
@@ -56,7 +55,7 @@ function a11yProps(index) {
   };
 }
 
-export default function ShopHomeTabs({ images, locationRef }) {
+export default function ShopHomeTabs({ images, locationRef,vendorId }) {
   const { value, setValue, handleChange } = useContext(ShopHomeTabsContext);
   const viewType = useResponsive();
 
@@ -139,7 +138,7 @@ export default function ShopHomeTabs({ images, locationRef }) {
         </motion.div>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <MenuOrderPage />
+        <MenuOrderPage vendorId={vendorId}/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
         <RatingAvg />

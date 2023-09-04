@@ -116,7 +116,8 @@ function MenuOrderPage({ vendorId }) {
           onClick={() =>
             navigate(`/cart`, {
               state: { addedMenus: addedMenus, vendorId: vendorId },
-            })
+            },console.log('카트로 이동하는 벤더아읻',vendorId)
+            )
           }
         >
           장바구니
