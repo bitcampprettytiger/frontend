@@ -13,19 +13,22 @@ import Button from '@mui/material/Button';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Link } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
-import { fetchReviewsByVendorId, createReview, updateReview, deleteReview as deleteReviewAPI } from '../../Home/HomeComponents/HomeApi.jsx';
+import { fetchReviewsByVendorId, createReview, updateReview, deleteReview as deleteReviewAPI, API_BASE_URL, getHeaders } from '../../Home/HomeComponents/HomeApi.jsx';
 import { Reviews } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 
-
-function MyReview() {
+function MyReview({ reviewsData, setReviewsData, token }) {
     const [reviews, setReviews] = useState([]);
     const [isModalOpen, setModalOpen] = useState(false);
     const [currentReview, setCurrentReview] = useState(null);
 
+
     const [isButtonClicked, setButtonClicked] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
-    const vendorId = 1; // 임시로 1로 설정. 실제 로직에서는 변경 필요.
+    const vendorId = 1;
+    const navigate = useNavigate();
 
 
     const handleOpen = () => {
@@ -50,21 +53,45 @@ function MyReview() {
     };
 
 
-    // 임의의 리뷰 개수 (실제 데이터로 바꿔야 함)
-    const reviewCount = 4;
-    //임의 리뷰데이터
+    const deleteReviewAPI = async (reviewId, navigate) => {
+        try {
+            // getHeaders 함수를 사용하여 헤더를 가져옵니다.
+            const headers = getHeaders(navigate);
+
+            const response = await axios.delete(`${API_BASE_URL}/reviews/review?reviewId=${reviewId}`
+                , {
+
+
+                    headers: headers
+                });
+
+            if (response.status !== 200) {
+                throw new Error('Server returned an unexpected status code');
+            }
+
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    };
+
+
+
+
+
+
 
     // 리뷰를 삭제하는 함수
     const handleDeleteReview = async (reviewId) => {
         try {
-            await deleteReviewAPI(reviewId);
+            await deleteReviewAPI(reviewId, token, navigate);
             const updatedReviews = reviews.filter(review => review.id !== reviewId);
             setReviews(updatedReviews);
         } catch (error) {
-            // More robust error handling
             alert('Failed to delete review. Please try again.');
         }
     };
+
 
     useEffect(() => {
         const fetchReviews = async () => {
@@ -101,75 +128,49 @@ function MyReview() {
         }
     };
 
-    const handleDeleteReviewApiCall = async (reviewId) => {
-        try {
-            const response = await deleteReviewAPI(reviewId); // deleteReview API 호출
-            if (response.status === 200) {
-                // 성공적으로 삭제한 후에 다시 리뷰 목록을 로드
-                const newReviews = await fetchReviewsByVendorId(vendorId);
-                setReviews(newReviews.data);
-            }
-        } catch (error) {
-            console.error('Failed to delete review:', error);
-        }
-    };
-
-
-
-
     return (
         <div className='App-main2'>
             <Header page="myreview" />
             <div className='myreview-container'>
-                <h2>내가 쓴 총 {reviews.length}개의 리뷰</h2>
+                <h2>내가 쓴 총 {reviews?.length || 0}개의 리뷰</h2>
                 <hr className="review-divider" />
 
-                {reviews.map((review, index) => (
-                    <div key={review.id || index} className="review-item"> {/* 고유한 값으로 key 설정 */}
+                {Array.isArray(reviews) && reviews.map((review, index) => (
+                    <div key={review.id || index} className="review-item">
+                        {/* 리뷰 이미지 추가 */}
+                        <div className="review-images">
+                            {Array.isArray(review.images) && review.images.slice(0, 3).map((image, imgIdx) => (
+                                <img
+                                    key={imgIdx}
+                                    src={image}
+                                    alt={`Review Image ${imgIdx}`}
+                                    className="review-image"
+                                />
+                            ))}
+                        </div>
                         <div className="review-header">
                             <span className="store-name">
-                                <Link to={`/store/${review.reviewId}`}>
-                                    {review.orders.vendor.vendorName}</Link>
+                                <Link to={`/review-detail/${review.reviewId}`}>
+
+                                    {/* <Link to={`/store/${review.reviewId}`}> */}
+                                    {review.orders?.vendor?.vendorName}
+                                </Link>
                             </span>
                             <button className="delete-btn" onClick={() => handleDeleteReview(review.reviewId)}>
-                                <KeyboardArrowRightIcon className="navigate-icon" />
-                            </button>
-
-                            <button className="delete-btn" onClick={() => handleDeleteReviewApiCall(review.reviewId)}>
                                 <DeleteForeverIcon className="delete-icon" />
                             </button>
-
                         </div>
                         <div className="star-container">
-                            {Array.from({ length: review.reviewScore }).map((_, idx) => (
+                            {Array.from({ length: review.reviewScore || 0 }).map((_, idx) => (
                                 <StarIcon key={idx} className="star-icon" style={{ color: yellow[500] }} />
                             ))}
                         </div>
-
-                        {/* <div className="images-container">
-                            {review.reviewFileList && review.reviewFileList.length > 0 ? (
-
-                                review.reviewFileList.slice(0, 4).map((img, idx) => (
-                                    <img key={idx} src={img} alt={`review-${idx}`} className="review-image" />
-                                ))
-                            )
-                                : (
-                                    <div>No images available</div>
-                                )
-                            }
-                            {review.reviewFileList.length > 4 &&
-                                <div className="more-images" onClick={() => handleOpen(review)}>+</div>
-                            }
-                        </div> */}
-
                         <Typography
                             className={isExpanded ? 'expanded-class' : 'collapsed-class'}  // added class names
                         >
-
                             {review.reviewContent}
                         </Typography>
-
-                        {review.reviewContent.split('\n').length > 3 && (
+                        {review.reviewContent?.split('\n').length > 3 && (
                             <button
                                 onClick={() => {
                                     setIsExpanded(!isExpanded);
@@ -203,7 +204,7 @@ function MyReview() {
                         alignItems: 'center'
                     }}>
                         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-                            {currentReview?.images.map((img, idx) => (
+                            {currentReview?.images?.map((img, idx) => (
                                 <img
                                     key={idx}
                                     src={img}
@@ -215,7 +216,7 @@ function MyReview() {
                         <Typography id="modal-modal-description" sx={{ mt: 2 }} className={isExpanded ? '' : 'review-text'}>
                             {currentReview?.text}
                         </Typography>
-                        {currentReview?.text.split('\n').length > 3 && (
+                        {currentReview?.text?.split('\n').length > 3 && (
                             <button
                                 onClick={() => {
                                     setIsExpanded(!isExpanded);
@@ -243,6 +244,5 @@ function MyReview() {
             <Footer type="myreview" />
         </div>
     );
-}
-
-export default MyReview;
+};
+export default MyReview;    

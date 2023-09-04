@@ -34,6 +34,7 @@ import { ThemeProvider, createTheme } from '@mui/material';
 import './App.css';
 import NotFound from './NotFound';
 import AnimatedCursor from './Layout/AnimatedCursor';
+import ReviewDetail from './ShopDetails/Containers/Review/ReviewComponents/ReviewDetail';
 
 
 const muitheme = createTheme({
@@ -56,6 +57,7 @@ const menuRoutes = [
   { path: '/waitingDetail', element: <WaitingDetail /> },
   { path: '/shopHome/:vendorId', element: <ShopMain /> },
   { path: '/reviewform/:orderId/:vendorId', element: <ReviewForm /> },
+  { path: '/review-detail/:vendorId', element: <ReviewDetail /> },
   { path: '/notice', element: <Notice /> },
   { path: '/mypage', element: <FavoriteProvider><Mypage /></FavoriteProvider> },
   { path: '/myfavorite', element: <FavoriteProvider><MyFavorite /></FavoriteProvider> },

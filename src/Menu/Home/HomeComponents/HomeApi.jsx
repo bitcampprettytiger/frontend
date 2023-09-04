@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+// export const API_BASE_URL = "http://27.96.135.75";
 export const API_BASE_URL = "http://27.96.135.75";
 
 // API 요청을 위한 헤더 가져오기
@@ -89,16 +90,17 @@ export const updateReview = (reviewDto, uploadFiles, changeFileList, originFileL
 };
 
 
-// 리뷰 삭제하기
-export const deleteReview = (reviewDto) => {
-    return axios.delete(`${API_BASE_URL}/review`, { data: reviewDto });
-};
 
 // 리뷰를 생성함
 export const createReview = async (reviewDto, file, token) => {
     const url = `${API_BASE_URL}/reviews/review`;
     const formData = new FormData();
 
+
+    // vendorId를 명세서에 맞게 수정
+    reviewDto["vendor.id"] = parseInt(reviewDto["vendorId"]);
+    reviewDto["orders.id"] = parseInt(reviewDto["orderId"]);
+    console.log(reviewDto);
     // 리뷰 데이터를 FormData에 추가
     Object.keys(reviewDto).forEach(key => {
         formData.append(key, reviewDto[key]);
@@ -106,34 +108,71 @@ export const createReview = async (reviewDto, file, token) => {
 
     // 파일(이미지 등)을 FormData에 추가
     if (file) {
-        file.forEach((file, index) => {
-            formData.append(`file${index + 1}`, file);
+        file.forEach((f) => {
+            formData.append("file", f);
         });
     }
 
-    // 토큰을 검사함
-    if (!token) {
-        throw new Error("액세스 토큰이 누락되었거나 유효하지 않습니다!");
-    }
+    // 기존 헤더 가져오기
+    const headers = getHeaders();
 
-    // 헤더 설정
-    const headers = {
-        Authorization: `Bearer ${token}`
-    };
+    // 토큰을 헤더에 추가
+    headers['Authorization'] = `Bearer ${token}`;
+
+    // 'Content-Type'을 제거하여 브라우저가 자동으로 설정하게 함
+    delete headers['Content-Type'];
 
     try {
         // 리뷰 생성 요청
         const response = await axios.post(url, formData, { headers });
-        if (response.status === 200) {
-            return response.data;
-        } else {
+
+        if (response.status !== 200 || response.data.errorMessage) {
             throw new Error(response.data.errorMessage || "리뷰 생성 실패");
         }
+
+        // 주어진 응답에서 리뷰 상세 정보를 반환
+        return response.data;
     } catch (error) {
         console.error('리뷰 생성 중 오류 발생:', error);
         throw error;
     }
 };
+// 리뷰 삭제
+export const deleteReview = async (reviewId, token, navigate) => {
+    const url = `${API_BASE_URL}/reviews/review?reviewId=${reviewId}`;
+    console.log("요청 URL:", url);
+
+    // 기존 헤더 가져오기
+    const headers = getHeaders();
+
+    // 토큰을 헤더에 추가
+    headers['Authorization'] = `Bearer ${token}`;
+
+    if (!headers) {
+        throw new Error('Authorization failed. Redirecting to login.');
+    }
+
+    try {
+        const response = await axios.delete(url, { headers });
+
+        if (response.status !== 200 || response.data.errorMessage) {
+            throw new Error(response.data.errorMessage || 'Failed to delete review.');
+        }
+
+        navigate("/myreview"); // 여기에서 리다이렉트 로직 추가
+
+        return response.data;
+
+    } catch (error) {
+        console.error('리뷰 삭제 중 오류 발생:', error);
+        console.error('오류 상세:', error.response);
+
+        throw error;
+    }
+};
+
+
+
 
 // 리뷰가 많으면서 별점이 높은순으로 가게를 가져옴
 export const fetchTop5ReviewVendors = async () => {
@@ -275,7 +314,7 @@ export const fetchOrderDetail = async (MEMBER_ID) => {
         const response = await axios.get(`${API_BASE_URL}/myPage/myOrders`, {
             headers: getHeaders()
         });
-        console.log("Data received:", response.data);
+        console.log("Data received:", response);
         if (Array.isArray(response.data.item)) {
             return response.data.item;
         } else {

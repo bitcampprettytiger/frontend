@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import './Mypage.css';
 import Footer from '../../Layout/Footer';
 import Header from '../../Layout/Header';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useFavorite } from '../../Menu/MyPage/MyPageComponents/FavoriteContext';
 import axios from 'axios';
 
@@ -15,11 +13,10 @@ function Mypage() {
   const [nickname, setNickname] = useState("닉네임");
   const [newNickname, setNewNickname] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [reviewCount, setReviewCount] = useState(0);
-  const { favoriteCount, setFavoriteCount, favoriteShops, setFavoriteShops } = useFavorite();
+  const { setFavoriteShops, favoriteShops } = useFavorite();
+  const navigate = useNavigate();
 
-  const getHeaders = (navigate) => {
-
+  const getHeaders = () => {
     const accessToken = localStorage.getItem('accessToken');
     if (!accessToken) {
       navigate("/");
@@ -31,26 +28,16 @@ function Mypage() {
     };
   };
 
-  const fetchFavorites = async () => {
-    try {
-      const response = await axios.get('http://27.96.135.75/myPage/myFavoriteVendors');  // <-- 수정
-      setFavoriteShops(response.data.favoriteShops || []);
-    } catch (error) {
-      console.error('Could not fetch favorite shops:', error);
-    }
-  };
-
-
   const handleEditClick = () => {
     setIsEditing(true);
-    setNewNickname(nickname); // 이전 닉네임을 표시하기 위해
+    setNewNickname(nickname);
   };
 
   const handleSaveClick = () => {
     setNickname(newNickname);
     setIsEditing(false);
     setShowModal(true);
-    setTimeout(() => setShowModal(false), 2000); // 2초 후 모달을 숨깁니다.
+    setTimeout(() => setShowModal(false), 2000);
   };
 
   const handleCancelClick = () => {
@@ -64,21 +51,13 @@ function Mypage() {
   useEffect(() => {
     const fetchAllData = async () => {
       try {
-        const [reviewResponse, favoriteVendorsResponse] = await Promise.all([
-          axios.get('http://27.96.135.75/myPage/myReviews', {
-            headers: getHeaders()
-          }),
-          axios.get('http://27.96.135.75/myPage/myFavoriteVendors', {
-            headers: getHeaders()
-          })
-        ]);
+        const favoriteVendorsResponse = await axios.get('http://27.96.135.75/myPage/myFavoriteVendors', {
+          headers: getHeaders()
+        });
 
-        const reviewData = reviewResponse.data;
         const favoriteVendorsData = favoriteVendorsResponse.data;
 
-        setReviewCount(reviewData.count);
         setFavoriteShops(favoriteVendorsData.favoriteShops || []);
-        setFavoriteCount(favoriteShops.length);
       } catch (error) {
         console.error('Could not fetch data:', error);
       }
@@ -86,10 +65,6 @@ function Mypage() {
 
     fetchAllData();
   }, []);
-
-
-
-
 
   return (
     <>
@@ -117,35 +92,6 @@ function Mypage() {
           )}
 
           {showModal && <div className="modal">닉네임이 변경 되었습니다.</div>}
-
-          <Box
-            component="div"
-            sx={{
-              p: 2,
-              border: '1px dashed grey',
-              width: '100%', // 박스의 너비 설정
-              backgroundColor: 'white', // 박스의 배경색 설정
-              display: 'flex',
-              justifyContent: 'space-between' // 버튼들을 박스 양 끝으로 분리
-            }}
-          >
-            {/* 리뷰 버튼 및 카운트 */}
-            <div style={{ cursor: 'pointer' }}>
-              <Link to="/myreview">
-                <Button sx={{ border: 'none', textTransform: 'none' }}>리뷰</Button>
-                <div>{reviewCount}</div>
-              </Link>
-            </div>
-
-            {/* 찜해찜 버튼 및 카운트 */}
-            <div style={{ cursor: 'pointer' }}>
-              <Link to="/myfavorite">
-                <Button sx={{ border: 'none', textTransform: 'none' }}>찜해찜</Button>
-                <div>{favoriteCount}</div>
-              </Link>
-            </div>
-          </Box>
-
 
           <div className="button-group">
             <Link to="/myreview">
