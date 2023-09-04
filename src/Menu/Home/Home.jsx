@@ -49,16 +49,19 @@ function Home() {
   };
   const getShopsInArea = async (areaName) => {
     try {
-      const data = await fetchShopsInArea(areaName); // 이 부분은 API 호출 방식에 따라 약간 변경될 수 있습니다.
+      const data = await fetchShopsInArea(areaName);
+      console.log(`[${areaName}] 지역의 매장 정보를 세팅 중...`);
       if (data) {
         setPopularPlaces(data);
         setShopsAroundArea(data);
-
+      } else {
+        console.log(`[${areaName}] 지역의 매장 정보가 없습니다.`);
       }
     } catch (error) {
-      console.error(`Error fetching shops in area: ${error}`);
+      console.error(`[${areaName}] 지역의 매장 정보 세팅 중 오류 발생:`, error);
     }
   };
+
 
 
 
@@ -167,7 +170,9 @@ function Home() {
   };
   //역버튼 누르면 검색창이동
   const navigateToSearchWithInfo = async (areaName) => {
+    console.log(`[${areaName}] 지역의 매장 정보를 검색하고 페이지로 이동하는 중...`);
     await getShopsInArea(areaName);
+    console.log(`[${areaName}] 지역의 매장 정보 검색 완료, 검색 페이지로 이동합니다.`);
     navigate('/search', {
       state: {
         headerText: `${areaName}지역의 인기 매장 BEST`,

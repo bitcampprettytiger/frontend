@@ -14,7 +14,6 @@ import GeolocationComponent from './Menu/GeolocationCustomHooks/GeolocationCompo
 import MyEdit from './Menu/MyPage/MyPageComponents/MyEdit';
 import ShopMain from './ShopDetails/ShopMain';
 import ReviewForm from './ShopDetails/Containers/Review/ReviewComponents/ReviewForm';
-import MyTakeoutDetail from './Menu/MyPage/MyPageComponents/MyTakeoutDetail';
 import AppLogin from './Login,Join/login/Login';
 import AppSignup from './Login,Join/join/Register';
 import SellSignUp3 from './Sell/SellSignUp/SSUComponents/SellSignUp3';
@@ -35,7 +34,7 @@ import './App.css';
 import NotFound from './NotFound';
 import AnimatedCursor from './Layout/AnimatedCursor';
 import ReviewDetail from './ShopDetails/Containers/Review/ReviewComponents/ReviewDetail';
-
+import MyTakeoutDetail from './Menu/MyPage/MyPageComponents/MyTakeoutDetail';
 
 const muitheme = createTheme({
   palette: {
@@ -62,10 +61,11 @@ const menuRoutes = [
   { path: '/mypage', element: <FavoriteProvider><Mypage /></FavoriteProvider> },
   { path: '/myfavorite', element: <FavoriteProvider><MyFavorite /></FavoriteProvider> },
   { path: '/mytakeout', element: <MyTakeout /> },
-  { path: '/order/:orderNumber', element: <MyTakeoutDetail /> },
+  { path: '/mytakeoutdetail/order/:orderId', element: <MyTakeoutDetail /> },
   { path: '/myedit', element: <MyEdit /> },
   { path: '/cart', element: <CartPage /> },
   { path: '*', element: <NotFound /> },
+
 
 ];
 

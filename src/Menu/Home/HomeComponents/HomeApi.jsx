@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { ar } from 'date-fns/locale';
 import { useNavigate } from 'react-router-dom';
 
 // export const API_BASE_URL = "http://27.96.135.75";
@@ -50,12 +51,14 @@ export const fetchPopularPlaces = (address, latitude, longitude) => {
 // 지정된 지역명에 따라 주변 가게 정보를 가져오는 함수 (일반적인 지역)
 export const fetchShopsInArea = async (areaName) => {
     try {
-        const response = await axios.post(`${API_BASE_URL}/vendor/search/search10vendor`, { areaName }, {
+        console.log(`[${areaName}] 지역의 매장 정보를 가져오는 중...`);
+        const response = await axios.post(`${API_BASE_URL}/vendor/search10vendor`, { name: areaName }, {
             headers: getHeaders(),
         });
+        console.log(`[${areaName}] 지역의 매장 정보:`, response.data);
         return response.data;
     } catch (error) {
-        console.error(error);
+        console.error(`${areaName} 지역의 매장 정보를 가져오는 중 오류 발생:`, error);
         return null;
     }
 };
@@ -441,4 +444,25 @@ export const getVendorInfo = (searchInput) => {
     return axios.get(`${API_BASE_URL}/vendor/info?search=${searchInput}`, {
         headers: getHeaders()
     });
+};
+
+// 판매자의 ID를 이용하여 해당 판매자의 주문 리스트를 가져오는 함수
+export const fetchVendorOrders = async (orderId, navigate) => {
+    try {
+        const response = await axios.get(`${API_BASE_URL}/orderInfo/orderList/${orderId}`, {
+            headers: getHeaders(navigate)
+        });
+
+        console.log("Vendor Orders received:", response);
+
+        if (Array.isArray(response.data.itemlist)) {
+            return response.data.itemlist;
+        } else {
+            console.error('itemlist is not an array');
+            return [];
+        }
+    } catch (error) {
+        console.error('Error fetching vendor orders:', error);
+        throw error;
+    }
 };
