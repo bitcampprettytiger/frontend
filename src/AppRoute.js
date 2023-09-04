@@ -38,6 +38,9 @@ import SellerPage from './Seller/SellerPage ';
 import Tackout from './Seller/Tackout';
 import CustomerPage from './Seller/CustomerPage';
 import AnimatedCursor from './Layout/AnimatedCursor';
+import Seller from './WebSocket/Seller';
+import Buyer from './WebSocket/Buyer';
+
 
 
 const muitheme = createTheme({
@@ -68,7 +71,8 @@ const menuRoutes = [
   { path: '/myedit', element: <MyEdit /> },
   { path: '/popularresult', element: <PopularResult /> },
   { path: '/cart', element: <CartPage /> },
-  { path: '/new-order', element: <ChatApp />},
+  { path: '/buyer', element: <Buyer />},
+  { path: '/seller', element: <Seller />},
   { path: '*', element: <NotFound /> },
 
 ];
