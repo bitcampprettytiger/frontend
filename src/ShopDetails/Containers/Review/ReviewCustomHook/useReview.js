@@ -3,32 +3,32 @@ import axios from "axios";
 
 const useReview = (vendorId) => {
   const [reviews, setReviews] = useState([]);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  const isLiked = () => reviews.filter(review => review.likeCount > 0).length;
-  const isDisliked = () => reviews.filter(review => review.disLikeCount > 0).length;
-
+  const [loading, setLoading] = useState(false);
+  
+  const isLiked = (review) => review.likeCount > 0;
+  const isDisliked = (review) => review.disLikeCount > 0;
+  
   useEffect(() => {
-    const getReview = async () => {
-      try {
-        setLoading(true);
-        const res = await axios.get(`http://27.96.135.75/reviews/review-list/${vendorId}`);
-        if (res.data.statusCode === 200) {
-          setReviews(res.data.itemlist);
-        } else {
-          setError(new Error(res.data.errorMessage));
-        }
-      } catch (err) {
-        setError(err);
-      } finally {
+    setLoading(true);
+    axios.get(`http://27.96.135.75/reviews/review-list/${vendorId}`)
+      .then((res) => {
         setLoading(false);
-      }
-    };
-    getReview();
+        if (res.data.statusCode === 200) {
+          const modifiedReviews = res.data.itemlist.map((review) => ({
+            ...review,
+            isLiked: isLiked(review),
+            isDisliked: isDisliked(review),
+          }));
+          setReviews(modifiedReviews);
+        }
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.error("Error fetching data:", error);
+      });
   }, [vendorId]);
-
-  return { reviews, error, loading, isLiked, isDisliked };
+  
+  return { reviews, loading };
 };
 
 export default useReview;

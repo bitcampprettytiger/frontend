@@ -127,7 +127,7 @@ io.on('connection', (socket) => {
 });
 socket.on('order', ({ phoneNumber, orderArray }) => {
   console.log(`Received an order from ${phoneNumber}:`, orderArray);
-
+  
   // 판매자에게 주문 정보 전달
   io.emit('new_order', { phoneNumber, orderArray });
 });

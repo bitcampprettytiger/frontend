@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import {
   Typography,
   IconButton,
@@ -24,18 +24,51 @@ import axios from 'axios';
 import { da } from 'date-fns/locale';
 import CardModal from './CardModal';
 import { redirect, useNavigate } from 'react-router-dom/dist';
+import { io } from 'socket.io-client';
+
 function CartPage({ vendorid }) {
   const navigate = useNavigate();
   const accessToken = localStorage.getItem('accessToken');
   const [showModal, setShowModal] = useState(false);
   const [paymentOK, setpaymentOK] = useState(false);
+  const [phoneNumber,setPhoneNumber] = useState(null); // 초기값을 null로 설정
+  const [socket, setSocket] = useState(null); // socket state 추가
   const headers = {
     'Content-Type': 'application/json;charset=UTF-8',
     Authorization: `Bearer ${accessToken}`,
   };
+  const [menuCount, setMenuCount] = useState(0); // 초기값으로 0 설정
+  const [menuName, setMenuName] = useState(""); // 초기값으로 빈 문자열 설정
+  const getHeaders = () => {
+    const accessToken = localStorage.getItem('accessToken');
+    return {
+      'Content-Type': 'application/json;charset=UTF-8',
+      Authorization: `Bearer ${accessToken}`,
+    };
+  };
+  const fetchUserInfo = async () => {
+    try {
+      const response = await axios.get('http://localhost/member/info', { headers: getHeaders() });
+      console.log(response);
+      if (response.status === 200) {
+        setPhoneNumber(response.data.tel);
+      }
+    } catch (error) {
+      console.error('Failed to fetch user info:', error);
+    }
+  };
+  
+  useEffect(() => {
+    const socket = io('http://192.168.0.77:8081', { query: `phoneNumber=${phoneNumber}` });
+    setSocket(socket);
+    fetchUserInfo();
+
+
+    return () => socket.close(); // 컴포넌트 unmount 시 socket 연결 종료
+  }, [phoneNumber]);
 
   const { cartItems, clearCart, deleteCartItem, setCartItems } = useCart();
-  // 수량 +
+  // 수량 
   const onIncrease = (menuId) => {
     const newCartItems = cartItems.map((item) => {
       if (item.menu.id === menuId) {
@@ -43,6 +76,7 @@ function CartPage({ vendorid }) {
       }
       return item;
     });
+
     setCartItems(newCartItems);
     console.log('카트아이템', newCartItems);
   };
@@ -87,7 +121,7 @@ function CartPage({ vendorid }) {
   const onClickPayment = async () => {
     const { IMP } = window;
     IMP.init('imp45381601');
-
+    
     const data = {
       pg: 'html5_inicis',
       pay_method: 'card',
@@ -99,7 +133,7 @@ function CartPage({ vendorid }) {
     IMP.request_pay(data, callback);
     console.log('데이터@@@', data);
   };
-
+  
   const callback = async (rsp) => {
     const {
       success,
@@ -111,11 +145,11 @@ function CartPage({ vendorid }) {
       paymentOK,
     } = rsp;
     console.log('rsp@@@', rsp);
-
+    
     //페이먼트 아이디
     //벤더아이디
-
-    if (success) {
+    
+    // if (success) {
       setShowModal(true); // 결제 성공 시 모달 표시
       const payload = {
         payMethod: 'card',
@@ -132,15 +166,23 @@ function CartPage({ vendorid }) {
           'http://27.96.135.75/payment/addPayment',
           payload,
           { headers }
-        );
-        setpaymentOK(true);
-        console.log('서버 응답:', serverResponse);
-      } catch (error) {
-        console.error('서버로 전송 실패:', error);
-      }
-    } else {
+          );
+          setpaymentOK(true);
+          console.log('서버 응답:', serverResponse);
+          console.log("phoneNumber"+phoneNumber);
+          console.log("serverResponse"+serverResponse)
+          // if (socket) socket.emit('order', { phoneNumber, serverResponse });
+          if (socket) socket.emit('order', { phoneNumber, orderArray: serverResponse.data.item });
+          if(paymentOK){
+          }
+          
+        } catch (error) {
+          console.error('서버로 전송 실패:', error);
+        }
+    // }
+    //  else {
       alert(`결제 실패: ${error_msg}`);
-    }
+    // }
   };
   const onModalConfirm = () => {
     setShowModal(false); // 모달 닫기

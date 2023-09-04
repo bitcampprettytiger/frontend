@@ -5,11 +5,14 @@ const SellerPage = () => {
   const userId = '1';
   const [reservationList, setReservationList] = useState([]);
   const [reservationList2, setReservationList2] = useState([]);
+  
   const socket = io('http://172.30.1.60:8081', {
     query: { userId }
   });
+
   const [position, setPosition] = useState(0);
   const [isReserved, setIsReserved] = useState(false);
+  
   const data = {
     vendor: "1", // 판매자 ID, 혹은 다른 값으로 변경해야 함
     name: "name",
