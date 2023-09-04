@@ -29,6 +29,7 @@ export const fetchPopularPlaces = (address, latitude, longitude) => {
 // 상위 8개 가게 중에서 즐겨찾기가 가장 많은 가게들을 가져옴
 
 export const fetchMostFavoritedVendors = () => {
+
     return axios.get('http://27.96.135.75/api/favoritePick/top8Favorites', {
         headers: getHeaders()
     });

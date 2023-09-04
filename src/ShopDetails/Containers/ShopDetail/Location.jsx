@@ -7,12 +7,14 @@ import useVendor from '../../SDCustomHooks/useVendor';
 import { useParams } from 'react-router-dom';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import useCopyToClipboard from '../../SDCustomHooks/useCopyToClipboard';
+import { useEffect, useRef } from 'react';
 import usePopup from '../../SDCustomHooks/usePopup';
 import '../../SDCustomHooks/PopUp.css';
 
 function Location(props, ref) {
   const { vendorId } = useParams();
   const { vendor, error, loading } = useVendor(vendorId);
+  const mapRef = useRef(); // 지도가 생성될 div를 위한 ref
   const copyToClipboard = useCopyToClipboard();
   const { isPopupVisible, showPopup } = usePopup(500);
 
@@ -20,6 +22,21 @@ function Location(props, ref) {
     copyToClipboard(address);
     showPopup();
   };
+
+  useEffect(() => {
+    if (vendor && window.kakao) {
+      const container = mapRef.current;
+      const options = {
+        center: new window.kakao.maps.LatLng(vendor.y, vendor.x), // 지도의 중심좌표
+        level: 3, // 지도의 레벨 (확대, 축소 정도)
+      };
+      const map = new window.kakao.maps.Map(container, options); // 지도 생성 및 객체 리턴
+      const marker = new window.kakao.maps.Marker({
+        position: map.getCenter(), // 마커의 위치
+      });
+      marker.setMap(map); // 지도에 마커를 표시
+    }
+  }, [vendor]);
 
   if (loading) return <div>로딩 중</div>;
   if (error) return <div>Error: {error.message}</div>;
@@ -37,7 +54,10 @@ function Location(props, ref) {
         상세 위치 안내
       </Typography>
       <Box>
-        <Box sx={{ width: '80vw', height: '20vh', marginBottom: '1vh' }}>
+        <Box
+          ref={mapRef}
+          sx={{ width: '100%', height: '40vh', marginBottom: '1vh' }}
+        >
           {/* 지도 추가할 곳,,, */}
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center', cursor: 'pointer', marginBottom: '5%', }} onClick={handleCopyClick}>
@@ -55,7 +75,10 @@ function Location(props, ref) {
             </div>
           )}
         </Box>
-        <Typography variant="body2" sx={{ fontSize: '95%', color: 'black', marginBottom: '20%' }}>
+        <Typography
+          variant="body2"
+          sx={{ fontSize: '95%', color: 'black', marginBottom: '20%' }}
+        >
           {address}
         </Typography>
         <Button
@@ -77,4 +100,4 @@ function Location(props, ref) {
   );
 }
 
-export default React.forwardRef(Location);;
+export default React.forwardRef(Location);

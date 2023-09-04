@@ -14,7 +14,7 @@ import { WrapBox } from './ShopHomeTabsStyle';
 import useResponsive from '../SDCustomHooks/useResponsive';
 import MenuSeeMore from '../Containers/Menu/MenuComponents/MenuSeeMore';
 import PhotoSeeMore from '../Containers/Review/ReviewComponents/PhotoSeeMore';
-import { motion } from "framer-motion";
+import { motion } from 'framer-motion';
 
 const getSlideInFromRight = (index) => ({
   hidden: { opacity: 0, x: 50 },
@@ -24,9 +24,9 @@ const getSlideInFromRight = (index) => ({
     transition: {
       delay: index * 0.3,
       duration: 1,
-      ease: 'easeOut'
-    }
-  }
+      ease: 'easeOut',
+    },
+  },
 });
 
 function CustomTabPanel(props) {
@@ -55,29 +55,32 @@ function a11yProps(index) {
   };
 }
 
-export default function ShopHomeTabs({ images, locationRef }) {
+export default function ShopHomeTabs({ images, locationRef,vendorId }) {
   const { value, setValue, handleChange } = useContext(ShopHomeTabsContext);
   const viewType = useResponsive();
-  
+
   const [isInView, setIsInView] = useState({
     ShopFacilities: false,
     MenuSeeMore: false,
     PhotoSeeMore: false,
-    Location: false
+    Location: false,
   });
 
   useEffect(() => {
     const checkScroll = () => {
       const elements = [
-        { id: 'ShopFacilities', ref: document.getElementById('ShopFacilities') },
+        {
+          id: 'ShopFacilities',
+          ref: document.getElementById('ShopFacilities'),
+        },
         { id: 'MenuSeeMore', ref: document.getElementById('MenuSeeMore') },
         { id: 'PhotoSeeMore', ref: document.getElementById('PhotoSeeMore') },
-        { id: 'Location', ref: document.getElementById('Location') }
+        { id: 'Location', ref: document.getElementById('Location') },
       ];
-      
+
       elements.forEach(({ id, ref }, index) => {
         if (ref && window.scrollY + window.innerHeight > ref.offsetTop) {
-          setIsInView(prevState => ({ ...prevState, [id]: true }));
+          setIsInView((prevState) => ({ ...prevState, [id]: true }));
         }
       });
     };
@@ -101,21 +104,41 @@ export default function ShopHomeTabs({ images, locationRef }) {
         </StyledAppBar>
       </WrapBox>
       <CustomTabPanel value={value} index={0}>
-        <motion.div id="ShopFacilities" initial="hidden" animate={isInView.ShopFacilities ? "visible" : "hidden"} variants={getSlideInFromRight(0)}>
+        <motion.div
+          id="ShopFacilities"
+          initial="hidden"
+          animate={isInView.ShopFacilities ? 'visible' : 'hidden'}
+          variants={getSlideInFromRight(0)}
+        >
           <ShopFacilities />
         </motion.div>
-        <motion.div id="MenuSeeMore" initial="hidden" animate={isInView.MenuSeeMore ? "visible" : "hidden"} variants={getSlideInFromRight(1)}>
+        <motion.div
+          id="MenuSeeMore"
+          initial="hidden"
+          animate={isInView.MenuSeeMore ? 'visible' : 'hidden'}
+          variants={getSlideInFromRight(1)}
+        >
           <MenuSeeMore />
         </motion.div>
-        <motion.div id="PhotoSeeMore" initial="hidden" animate={isInView.PhotoSeeMore ? "visible" : "hidden"} variants={getSlideInFromRight(2)}>
+        <motion.div
+          id="PhotoSeeMore"
+          initial="hidden"
+          animate={isInView.PhotoSeeMore ? 'visible' : 'hidden'}
+          variants={getSlideInFromRight(2)}
+        >
           <PhotoSeeMore images={images} />
         </motion.div>
-        <motion.div id="Location" initial="hidden" animate={isInView.Location ? "visible" : "hidden"} variants={getSlideInFromRight(3)}>
-          <Location ref={locationRef} />
+        <motion.div
+          id="Location"
+          initial="hidden"
+          animate={isInView.Location ? 'visible' : 'hidden'}
+          variants={getSlideInFromRight(3)}
+        >
+          <Location ref={locationRef} vendorId={vendorId} />
         </motion.div>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <MenuOrderPage />
+        <MenuOrderPage vendorId={vendorId}/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
         <RatingAvg />
