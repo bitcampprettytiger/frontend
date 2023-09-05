@@ -10,38 +10,31 @@ import {
 } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useParams } from 'react-router-dom';
+import MenuInfoModal from './MenuInfoModal';
 
 const SellMyList = () => {
-  // useParams를 통해 URL 파라미터에서 vendorId를 가져옵니다.
   const { vendorId } = useParams();
-
-  // 메뉴와 품절 상태를 관리하는 상태 변수를 선언합니다.
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedMenu, setSelectedMenu] = useState(null);
   const [menus, setMenus] = useState([]);
   const [outOfStock, setOutOfStock] = useState({});
 
-  // 품절 상태를 변경하는 함수입니다.
-  const handleStockChange = (e, index) => {
-    setOutOfStock({
-      ...outOfStock,
-      [index]: e.target.checked,
-    });
+  const handleEdit = (menuId) => {
+    setSelectedMenu(menuId);
+    setModalOpen(true);
+  };
+  const handleClose = () => {
+    setModalOpen(false);
+    setSelectedMenu(null); // 상태값 초기화
   };
 
-  // 메뉴를 삭제하는 함수입니다.
-  const handleDelete = (index) => {
-    const updatedMenus = [...menus];
-    updatedMenus.splice(index, 1);
-    setMenus(updatedMenus);
+  const updateMenus = (updatedMenu) => {
+    const newMenus = menus.map((menu) =>
+      menu.menuId === updatedMenu.menuId ? updatedMenu : menu
+    );
+    setMenus(newMenus);
   };
-
   // 메뉴 리스트가 변경될 때마다 품절 상태를 초기화하는 useEffect입니다.
-  useEffect(() => {
-    let initialStock = {};
-    menus.forEach((menu, index) => {
-      initialStock[index] = false;
-    });
-    setOutOfStock(initialStock);
-  }, [menus]);
 
   // 가격을 형식화하는 함수입니다.
   const formatPrice = (price) =>
@@ -150,11 +143,8 @@ const SellMyList = () => {
           <Grid item xs={2} sx={{ textAlign: 'center' }}>
             금액
           </Grid>
-          <Grid item xs={1} sx={{ textAlign: 'center' }}>
-            품절
-          </Grid>
-          <Grid item xs={1} sx={{ textAlign: 'center' }}>
-            삭제
+          <Grid item xs={2} sx={{ textAlign: 'center' }}>
+            수정
           </Grid>
         </Grid>
         <Box
@@ -164,7 +154,7 @@ const SellMyList = () => {
             overflowY: 'scroll',
             width: '100%',
             height: '100%',
-            fontSize: '70%'
+            fontSize: '70%',
           }}
         >
           <Grid container spacing={2} justifyContent="center">
@@ -189,41 +179,22 @@ const SellMyList = () => {
                       )}
                     </Grid>
                     <Grid item xs={2} sx={{ textAlign: 'center' }}>
-                      <TextField
-                        value={menu.menuType}
-                        onChange={(e) => handleInputChange(e, index, 'menuType')}
-                        disabled={outOfStock[index]}
-                      />
+                      {menu.menuType}
                     </Grid>
                     <Grid item xs={2} sx={{ textAlign: 'center' }}>
-                      <TextField
-                        value={menu.menuName}
-                        onChange={(e) => handleInputChange(e, index, 'menuName')}
-                        disabled={outOfStock[index]}
-                      />
+                      {menu.menuName}
                     </Grid>
                     <Grid item xs={2} sx={{ textAlign: 'center' }}>
-                      <TextField
-                        value={menu.menuContent}
-                        onChange={(e) => handleInputChange(e, index, 'menuContent')}
-                        disabled={outOfStock[index]}
-                      />
+                      {menu.menuContent}
                     </Grid>
                     <Grid item xs={2} sx={{ textAlign: 'center' }}>
-                      <TextField
-                        value={menu.price}
-                        onChange={(e) => handleInputChange(e, index, 'price')}
-                        disabled={outOfStock[index]}
-                      />
+                      {menu.price}
                     </Grid>
+
                     <Grid item xs={1} sx={{ textAlign: 'center' }}>
-                      <Checkbox
-                        checked={outOfStock[index] || false}
-                        onChange={(e) => handleStockChange(e, index)}
-                      />
-                    </Grid>
-                    <Grid item xs={1} sx={{ textAlign: 'center' }}>
-                      <Button onClick={() => handleDelete(index)}>삭제</Button>
+                      <Button onClick={() => handleEdit(menu.menuId)}>
+                        수정
+                      </Button>
                     </Grid>
                   </Grid>
                 </Grid>
@@ -240,6 +211,13 @@ const SellMyList = () => {
           수정하러 가기
         </Button>
       </Grid>
+      <MenuInfoModal
+        open={modalOpen}
+        handleClose={handleClose}
+        menuId={selectedMenu}
+        menus={menus}
+        updateMenus={updateMenus}
+      />
     </ThemeProvider>
   );
 };
