@@ -40,6 +40,7 @@ import ReviewDetail from './ShopDetails/Containers/Review/ReviewComponents/Revie
 import MyTakeoutDetail from './Menu/MyPage/MyPageComponents/MyTakeoutDetail';
 import Seller from './WebSocket/Seller';
 import Buyer from './WebSocket/Buyer';
+import SellList from './Sell/SellStoreSet/SellList';
 
 
 
@@ -97,7 +98,7 @@ const sellAuthRoutes = [
 const sellRoutes = [
   { path: '/sellset/:vendorId', element: <SellStoreSet /> },
   { path: '/sellhome/', element: <SellHome /> },
-  { path: '/sellmyset/:vendorId', element: <SellMySet /> },
+  { path: '/sellmyset/:vendorId', element: <SellList /> },
 ];
 const mapRoutes = [
   { path: '/trfood', element: <TrFood /> },

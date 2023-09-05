@@ -22,7 +22,7 @@ function SellFooter({vendorId}) {
       }}
     >
       <Toolbar sx={{ justifyContent: 'space-around', alignItems: 'center' }}>
-        <Link to={`/sellset/${vendorId}`}>
+        <Link to={`/sellmyset/${vendorId}`}>
           <IconButton
             color={activeButton === 'streetFood' ? 'primary' : 'default'}
             onClick={() => handleButtonClick('streetFood')}

@@ -11,26 +11,33 @@ import {
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useParams } from 'react-router-dom';
 import MenuInfoModal from './MenuInfoModal';
-
+import { useNavigate } from 'react-router-dom';
 const SellMyList = () => {
+  const navigate = useNavigate();
+  const accessToken = localStorage.getItem('accessToken');
   const { vendorId } = useParams();
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedMenu, setSelectedMenu] = useState(null);
   const [menus, setMenus] = useState([]);
   const [outOfStock, setOutOfStock] = useState({});
+  const handleButtonClick = () => {
+    navigate(`/sellset/${vendorId}`);
+  };
 
-  const handleEdit = (menuId) => {
-    setSelectedMenu(menuId);
+  const handleEdit = (id) => {
+    console.log('에딧하는 메뉴: ', id); // 이 부분 추가
+    setSelectedMenu(id);
     setModalOpen(true);
   };
   const handleClose = () => {
     setModalOpen(false);
+    console.log('모달 닫으면', selectedMenu);
     setSelectedMenu(null); // 상태값 초기화
   };
 
   const updateMenus = (updatedMenu) => {
     const newMenus = menus.map((menu) =>
-      menu.menuId === updatedMenu.menuId ? updatedMenu : menu
+      menu.id === updatedMenu.id ? updatedMenu : menu
     );
     setMenus(newMenus);
   };
@@ -48,14 +55,13 @@ const SellMyList = () => {
   });
 
   // 로컬 스토리지에서 액세스 토큰을 가져옵니다.
-  const accessToken = localStorage.getItem('accessToken');
 
-  // 컴포넌트가 마운트될 때 메뉴 데이터를 가져옵니다.
+  // Get
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://mukjachi.site:7443/menu/info/${vendorId}`,
+          `https://mukjachi.site:6443/menu/info/${vendorId}`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -71,6 +77,7 @@ const SellMyList = () => {
             return 0; // 하나 또는 둘 다 menuType이 없을 경우 그대로 둡니다.
           });
           setMenus(sortedMenus);
+          console.log('메뉴를 받아와', menus);
         }
       } catch (error) {
         console.error('Failed to fetch menu data', error);
@@ -79,30 +86,6 @@ const SellMyList = () => {
     fetchData();
   }, []);
 
-  // 수정하러 가기 버튼을 클릭했을 때 메뉴 데이터를 업데이트하는 함수입니다.
-  const handleUpdateClick = async () => {
-    try {
-      const response = await axios.post(
-        'https://mukjachi.site:7443/menu/info/changeMenu',
-        { menus },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-      if (response.status === 200) {
-        console.log('Menus updated successfully');
-      }
-    } catch (error) {
-      console.error('Failed to update menus', error);
-    }
-  };
-  const handleInputChange = (event, index, field) => {
-    const updatedMenus = [...menus];
-    updatedMenus[index][field] = event.target.value;
-    setMenus(updatedMenus);
-  };
   return (
     <ThemeProvider theme={theme}>
       <Box
@@ -192,9 +175,7 @@ const SellMyList = () => {
                     </Grid>
 
                     <Grid item xs={1} sx={{ textAlign: 'center' }}>
-                      <Button onClick={() => handleEdit(menu.menuId)}>
-                        수정
-                      </Button>
+                      <Button onClick={() => handleEdit(menu.id)}>수정</Button>
                     </Grid>
                   </Grid>
                 </Grid>
@@ -207,6 +188,7 @@ const SellMyList = () => {
         <Button
           variant="contained"
           sx={{ background: '#21BF73', marginTop: '5%' }}
+          onClick={handleButtonClick}
         >
           수정하러 가기
         </Button>
