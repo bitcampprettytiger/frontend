@@ -4,6 +4,9 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import axios from 'axios';
+import useResponsive from '../../ShopDetails/SDCustomHooks/useResponsive';
+
+
 
 const FindPW = ({ openModal, handleModalClose }) => {
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -19,6 +22,8 @@ const FindPW = ({ openModal, handleModalClose }) => {
     setIsVerified(false);
     setErrorMessage('');
   };
+
+  const width = useResponsive();
 
   const findPhoneNumber = async () => {
     try {
@@ -78,7 +83,7 @@ const FindPW = ({ openModal, handleModalClose }) => {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: '50%',
+          width: width, 
           bgcolor: 'background.paper',
           boxShadow: 24,
           p: 4,
@@ -96,7 +101,17 @@ const FindPW = ({ openModal, handleModalClose }) => {
           margin="normal"
         />
         {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-        <Button variant="contained" color="primary" onClick={findPhoneNumber}>
+        <Button variant="contained" onClick={findPhoneNumber} 
+        sx= {{background: '#FD5E53', 
+        color : 'white',
+        '&:hover': {
+          backgroundColor: '#FD5E53',
+          color: 'white',
+        },
+        '&:active': {
+          backgroundColor: '#FD5E53',
+          color: 'white',}
+        }}>
           번호 확인
         </Button>
         {isVerified && (
@@ -119,7 +134,7 @@ const FindPW = ({ openModal, handleModalClose }) => {
               fullWidth
               margin="normal"
             />
-            <Button variant="contained" color="secondary" onClick={updatePassword}>
+            <Button variant="contained" color="secondary" onClick={updatePassword} sx = {{background : '#FD5E53', color : 'white'}}>
               수정완료
             </Button>
           </div>
@@ -127,7 +142,7 @@ const FindPW = ({ openModal, handleModalClose }) => {
         <Button variant="text" onClick={() => {
           handleModalClose();
           resetState();
-        }}>
+        }} sx= {{color : '#FD5E53'}}>
           닫기
         </Button>
       </Box>

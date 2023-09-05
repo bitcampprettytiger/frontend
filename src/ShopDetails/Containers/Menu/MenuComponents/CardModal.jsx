@@ -20,10 +20,11 @@ const CardModal = ({ show, onClose }) => {
         padding={2}
       >
         <Button 
-          variant="contained" 
-          color="primary" 
-          onClick={onClose} 
-          style={{ textTransform: 'none', fontSize: '1rem' }}
+          variant="contained"
+          onClick={onClose}
+          sx= {{ textTransform: 'none', 
+          fontSize: '1rem',
+          background: '#FD5E53'  }}
         >
           확인
         </Button>
