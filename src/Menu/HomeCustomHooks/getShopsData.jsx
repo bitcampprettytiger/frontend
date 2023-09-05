@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const getShopsData = async () => {
-    const API_URL = "https://mukjachi.site:7443/vendor/info/vendorId";
+    const API_URL = "https://mukjachi.site:6443/vendor/info/vendorId";
     try {
         const response = await axios.get(API_URL);
         return response.data;
