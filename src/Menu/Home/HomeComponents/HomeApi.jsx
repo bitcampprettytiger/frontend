@@ -67,9 +67,10 @@ export const fetchReviewsByMemberId = async () => {
 
         if (response.status !== 200) {
             throw new Error('서버가 예상치 못한 상태 코드를 반환했습니다.');
+
         }
 
-        return response.data;
+        return response;
     } catch (error) {
         console.error("리뷰 정보 가져오기 오류:", error); // 오류 발생 시 오류 내용 확인
         throw error;
