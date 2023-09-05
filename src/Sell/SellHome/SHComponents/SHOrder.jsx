@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import {
   Box,
-  Typography,
   Grid,
   Button,
   Dialog,
   DialogTitle,
+  List,
+  ListItem,
+  Typography
 } from '@mui/material';
 
-const OrderDetail = ({ onClick }) => {
+const OrderDetail = ({order, onClick }) => {
   const [openDialog, setOpenDialog] = useState(false);
 
   useEffect(() => {
@@ -21,6 +23,12 @@ const OrderDetail = ({ onClick }) => {
       };
     }
   }, [openDialog]);
+
+  useEffect(() => {
+    if (order) {
+      console.log(order);
+    }
+  }, [order]);
 
   // 주문 반려 버튼 클릭 이벤트 핸들러
   const handleOrderBack = () => {
@@ -44,7 +52,7 @@ const OrderDetail = ({ onClick }) => {
         width: '100%',
         maxWidth: '400px',
         margin: 'auto',
-        padding: 2,
+        padding: '5%',
         borderRadius: '10px',
         backgroundColor: '#f5f5f5',
         boxShadow: '0 3px 5px 2px rgba(0, 0, 0, 0.1)',
@@ -58,25 +66,23 @@ const OrderDetail = ({ onClick }) => {
       >
         포장주문하기
       </Typography>
-      <Grid container spacing={1}>
-        <Grid item xs={6} sx={{ fontWeight: 'bold', color: '#555' }}>
-          주문번호
-        </Grid>
-        <Grid item xs={6} sx={{ color: '#555' }}>
-          1번
-        </Grid>
-        <Grid item xs={12} sx={{ color: '#555' }}>
-          떡볶이 3인분 순대1인분
-        </Grid>
+          <Grid container spacing={1}>
+      <Grid item xs={6} sx={{ fontWeight: 'bold', color: '#555' }}>
+        주문번호
       </Grid>
+      <Grid item xs={6} sx={{ color: '#555' }}>
+        {order[0] && order[0].menu && order[0].menu.id}
+      </Grid>
+      <Grid item xs={12} sx={{ color: '#555' }}>
+        {order[0] && order[0].menu && order[0].menu.menuName}
+      </Grid>
+</Grid>
       <Grid container spacing={1} sx={{ marginTop: '2%' }}>
         <Grid item xs={6}>
           <Button variant="contained" onClick={handleOrderBack}>
             주문반려
           </Button>
-        </Grid>
-        <Grid item xs={6}>
-          <Button variant="contained" onClick={handleOrderDetail}>
+          <Button variant="contained" onClick={handleOrderDetail} style={{ color: 'white', marginLeft: '3%' }}>
             주문상세내역
           </Button>
         </Grid>

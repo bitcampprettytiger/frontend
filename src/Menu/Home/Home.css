@@ -222,11 +222,13 @@ p.small-text {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-.macha-button-container:hover .macha-button {
+.macha-button-container:hover .macha-button,
+.macha-button-container:active .macha-button  {
     opacity: 0.6;
 }
 
-.macha-button-container:hover .macha-button:hover {
+.macha-button-container:hover .macha-button:hover
+.macha-button-container:active .macha-button:active {
     opacity: 1;
 }
 
@@ -290,7 +292,8 @@ p.small-text {
     text-decoration: none;
 }
 
-.menu-button:hover {
+.menu-button:hover,
+.menu-button:active {
     font-weight: bold;
 }
   .swiper-slide {

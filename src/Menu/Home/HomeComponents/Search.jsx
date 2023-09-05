@@ -84,26 +84,30 @@ const Search = () => {
     }, [location]);
     return (
         <div>
-            <Header
-                page="search"
-                searchInput={searchInput}
-                handleSearchChange={handleSearchChange}
-                handleSearchClick={handleSearchClick}
-                handleDeleteClick={handleDeleteClick}
-                handleKeyUp={handleKeyUp}
-            />
             <div className="App-main2">
-                {/* 최근 검색어와 최근 확인한 가게를 표시합니다. */}
+                <Header
+                    page="search"
+                    searchInput={searchInput}
+                    handleSearchChange={handleSearchChange}
+                    handleSearchClick={handleSearchClick}
+                    handleDeleteClick={handleDeleteClick}
+                    handleKeyUp={handleKeyUp}
+                />
+                {/* 최근 검색어와 최근 확인한 가게는 검색어가 없거나 검색 결과가 없을 때만 보입니다. */}
                 {(!searchInput || searchResults.length === 0) && (
-                    <>
-                        <div>
+                    <div style={{ padding: '5%' }}>
+                        <div >
                             <h3>최근 검색어</h3>
-                            <div className="hashtag-container">
-                                <div className="hashtag-buttons">
-                                    {recentSearches.map((item, index) => (
-                                        <button key={index} onClick={() => handleRecenthandleSearchClick(item.text)}>{item.text}</button>
-                                    ))}
-                                </div>
+                            <div className="hashtag-buttons">
+                                {recentSearches.map((item, index) => (
+                                    <button
+                                        key={index}
+                                        className="hashtag-button"
+                                        onClick={() => handleRecenthandleSearchClick(item.text)}
+                                    >
+                                        #{item.text}
+                                    </button>
+                                ))}
                             </div>
                         </div>
                         <div>
@@ -119,7 +123,7 @@ const Search = () => {
                                 </div>
                             </div>
                         </div>
-                    </>
+                    </div>
                 )}
 
                 {/* 검색 결과에 따라 가게 목록을 표시합니다. */}

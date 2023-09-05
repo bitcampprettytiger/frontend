@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import axios from 'axios';
+import useResponsive from '../../ShopDetails/SDCustomHooks/useResponsive';
 
 const FindPW = ({ openModal, handleModalClose }) => {
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -19,6 +20,7 @@ const FindPW = ({ openModal, handleModalClose }) => {
     setIsVerified(false);
     setErrorMessage('');
   };
+  const { width } = useResponsive();
 
   const findPhoneNumber = async () => {
     try {
@@ -74,15 +76,15 @@ const FindPW = ({ openModal, handleModalClose }) => {
     >
       <Box
         sx={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: 400,
+          position: 'relative',
+          left: `calc((100% - ${width}) / 2)`,
+          right: `calc((100% - ${width}) / 2)`,
+          width: width,
           bgcolor: 'background.paper',
           boxShadow: 24,
           p: 4,
           textAlign: 'center',
+          top: '30%'
         }}
       >
         <h2 id="modal-modal-title">비밀번호 찾기 및 업데이트</h2>
@@ -96,7 +98,7 @@ const FindPW = ({ openModal, handleModalClose }) => {
           margin="normal"
         />
         {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-        <Button variant="contained" color="primary" onClick={findPhoneNumber}>
+        <Button variant="contained" color="primary" onClick={findPhoneNumber} sx= {{color: 'white'}}>
           검증
         </Button>
         {isVerified && (

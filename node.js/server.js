@@ -60,9 +60,10 @@ io.on('connection', (socket) => {
 
   
   socket.on("enter_room", (data) => { 
+
     socket.join(data.vendor); // 해당 vendor를 방 이름으로 사용
     socket.to(data.vendor).emit("welcome", socket.nickname, countRoom(data.vendor));
-    socketToVendor.set(socket.id, data.vendor);
+    socketToVendor.set(data.vendor,socket.id);
     phoneNumberToVendor.set(data.phoneNumber, data.vendor); // 전화번호와 vendor ID를 맵에 저장
     io.sockets.emit("room_change", data.vendor); // vendor를 방 이름으로 전달
     // io.sockets.emit("room_change", publicRooms());
@@ -76,6 +77,11 @@ io.on('connection', (socket) => {
     vendorConnections[data.phoneNumber] = socket;
     console.log("data.vendor"+data.vendor)
     // io.to("1").emit('update_position', 100);
+
+
+
+
+
   });
 
   socket.on('disconnect_user', (phoneNumber) => {
@@ -125,11 +131,45 @@ io.on('connection', (socket) => {
      }
     
 });
-socket.on('order', ({ phoneNumber, orderArray }) => {
-  console.log(`Received an order from ${phoneNumber}:`, orderArray);
+socket.on('order', ({  phoneNumber, orderArray, cartItems }) => {
+  console.log(orderArray);
+  console.log(orderArray.payMethod);
+  if (Array.isArray(orderArray)) {
+    // orderArray가 배열인 경우
+    for (let order of orderArray) {
+    const roomName = phoneNumber + "room" + String(order.vendorId);
+    socket.join(roomName);
+    socket.join(String(order.vendorId));
+    console.log(order);
+    console.log(String(order.vendorId));
+    // 해당 vendorId 방의 다른 모든 클라이언트들에게 주문 정보 전송
+    socket.broadcast.to(String(order.vendorId)).emit('new_order', { phoneNumber, order ,cartItems});
 
-  // 판매자에게 주문 정보 전달
-  io.emit('new_order', { phoneNumber, orderArray });
+    // 각 전화번호가 마지막으로 보낸 주문 정보 저장
+    phoneNumberToVendor.set(phoneNumber, { socket, order });
+
+    console.log(`Socket joined to the room: ${roomName}`);
+  }
+}else{
+  const roomName = phoneNumber + "room" + String(orderArray.vendorId);
+  socket.join(roomName);
+  socket.join(String(orderArray.vendorId));
+  console.log(orderArray);
+  console.log(String(orderArray.vendorId));
+  // 해당 vendorId 방의 다른 모든 클라이언트들에게 주문 정보 전송
+  socket.broadcast.to(String(orderArray.vendorId)).emit('new_order', { phoneNumber, orderArray,cartItems });
+
+  // 각 전화번호가 마지막으로 보낸 주문 정보 저장
+  phoneNumberToVendor.set(phoneNumber, { socket, orderArray });
+
+  console.log(`Socket joined to the room: ${roomName}`);
+}
+
+});
+socket.on("enter_room", (data) => { 
+  const vendorId = parseInt(data.data); // 문자열을 정수로 변환
+  console.log(vendorId); // 14
+  socket.join(String(vendorId)); // 해당 vendor를 방 이름으로 사용
 });
 
 });

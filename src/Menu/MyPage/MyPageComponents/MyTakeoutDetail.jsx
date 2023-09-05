@@ -57,7 +57,7 @@ function MyTakeoutDetail() {
         <div className='App-main2'>
             <Header page="mytakeoutdetail" />
             <div className='mytakeoutdetail-container'>
-                <p>포장이 완료되었어요</p>
+                <p className='takeout-complete'>포장이 완료되었어요</p>
                 <div className='mytakeout-detail'>
                     <div>
                         <p>{orderDetail && orderDetail.vendor ? orderDetail.vendor.vendorName : "가게명"}</p>

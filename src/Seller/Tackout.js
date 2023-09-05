@@ -12,7 +12,7 @@ const Tackout = () => {
     socket.on('update', (updatedReservationList) => {
       setReservationList(updatedReservationList);
     });
-
+    
     socket.on('notification', (message) => {
       alert(message);
     });

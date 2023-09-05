@@ -65,9 +65,10 @@ function MyTakeout() {
             <Header page="mytakeout" />
             <div className='mytakeout-container'>
                 <div className="order-summary">
-                    <p>{localStorage.getItem('nickname')}님이 오늘 주문한 가게는 {todayStoreCount}개 입니다.</p>
-                    <p>총 {orderDetail.length} 개의 결제 내역이 있습니다.</p>
+                    <p><span className="boldText">{localStorage.getItem('nickname')}님의 주문 가게 </span><span className="boldNumber">{todayStoreCount}</span>개</p>
+                    <p>결제내역 : 총 <span className="boldNumber">{orderDetail.length}</span> 개</p>
                 </div>
+
                 <ul className='mytakeout-list'>
                     {orderDetail.length > 0 ? (
                         orderDetail.map((order, index) => (
@@ -78,6 +79,7 @@ function MyTakeout() {
                                         주문 상세
                                     </Link>
                                 </div>
+
                                 <div className='mytakeout-store'>
                                     <img src="/images/roopy.png" alt="Store Logo" />
                                     <div className='mytakeout-store-info'>
@@ -89,7 +91,7 @@ function MyTakeout() {
                                     </div>
                                     {!order.hasReviewed ? (
                                         <button
-                                            className="write-review-button"
+                                            className="mytakeout-review-button"
                                             disabled={!order || !"orderId" in order || !"id" in order.vendor}
                                             onClick={() => {
                                                 if (order && "orderId" in order && "id" in order.vendor) {

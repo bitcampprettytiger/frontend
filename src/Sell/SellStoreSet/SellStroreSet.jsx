@@ -18,12 +18,13 @@ const SellStoreSet = () => {
     setMenus(newMenus);
   };
   useEffect(() => {
-
-    Scrollbar.init(document.getElementById("my-scrollbar"), {damping: 0.01,
+    Scrollbar.init(document.getElementById('my-scrollbar'), {
+      damping: 0.01,
       thumbMinSize: 20,
       renderByPixels: !('ontouchstart' in document),
       alwaysShowTracks: false,
-      continuousScrolling: true,});
+      continuousScrolling: true,
+    });
   }, []);
   return (
     <div
@@ -37,12 +38,17 @@ const SellStoreSet = () => {
     >
       <style>{`::-webkit-scrollbar { display: none; }`}</style>
       <SellHeader></SellHeader>
-      <div style={{
-        padding: '5%'
-      }}
+      <div
+        style={{
+          padding: '5%',
+          height: '80vh',
+        }}
       >
         <SSSMenuInputs onAddMenu={handleAddMenu}></SSSMenuInputs>
-        <SSSMenuList menus={menus} onDeleteMenu={handleDeleteMenu}></SSSMenuList>
+        <SSSMenuList
+          menus={menus}
+          onDeleteMenu={handleDeleteMenu}
+        ></SSSMenuList>
       </div>
       {/* <SSSReserveBtn></SSSReserveBtn> */}
       <SellFooter></SellFooter>
