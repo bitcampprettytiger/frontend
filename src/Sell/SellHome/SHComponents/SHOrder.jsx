@@ -6,10 +6,11 @@ import {
   Dialog,
   DialogTitle,
   List,
-  ListItem
+  ListItem,
+  Typography
 } from '@mui/material';
 
-const OrderDetail = ({ onClick }) => {
+const OrderDetail = ({order, onClick }) => {
   const [openDialog, setOpenDialog] = useState(false);
 
   useEffect(() => {
@@ -22,6 +23,12 @@ const OrderDetail = ({ onClick }) => {
       };
     }
   }, [openDialog]);
+
+  useEffect(() => {
+    if (order) {
+      console.log(order);
+    }
+  }, [order]);
 
   // 주문 반려 버튼 클릭 이벤트 핸들러
   const handleOrderBack = () => {
@@ -52,26 +59,27 @@ const OrderDetail = ({ onClick }) => {
         marginBottom: '10px',
       }}
     >
-      <Grid container spacing={1} className="주문정보" style={{ marginBottom: '2%' }}>
-        <Grid item xs={6} style={{ fontWeight: 'bold', color: '#555', fontSize: '100%', marginBottom: '2%' }}>
-          주문번호
-        </Grid>
-        <Grid item xs={6} style={{ color: '#555', fontSize: '100%', marginBottom: '2%' }}>
-          1번
-        </Grid>
-        <Grid item xs={6} style={{ fontWeight: 'bold', color: '#555', fontSize: '100%', marginBottom: '2%' }}>
-          주문 메뉴
-        </Grid>
-        <Grid item xs={6} style={{ color: '#555', fontSize: '100%', marginBottom: '2%' }}>
-          <List sx={{padding: 0, margin: 0}}>
-            <ListItem sx={{padding: 0, margin: '0 0 3% 0'}}>떡볶이 3인분</ListItem>
-            <ListItem sx={{padding: 0, margin: '0 0 3% 0'}}>순대 1인분</ListItem>
-          </List>
-        </Grid>
+      <Typography
+        variant="h6"
+        align="center"
+        sx={{ marginBottom: '2%', color: '#333' }}
+      >
+        포장주문하기
+      </Typography>
+          <Grid container spacing={1}>
+      <Grid item xs={6} sx={{ fontWeight: 'bold', color: '#555' }}>
+        주문번호
       </Grid>
-      <Grid container spacing={1} style={{ marginTop: '3%' }}>
-        <Grid item xs={12} style={{ display: 'flex', justifyContent: 'center' }}>
-          <Button variant="contained" onClick={handleOrderBack} style={{ color: 'white', marginRight: '3%' }}>
+      <Grid item xs={6} sx={{ color: '#555' }}>
+        {order[0] && order[0].menu && order[0].menu.id}
+      </Grid>
+      <Grid item xs={12} sx={{ color: '#555' }}>
+        {order[0] && order[0].menu && order[0].menu.menuName}
+      </Grid>
+</Grid>
+      <Grid container spacing={1} sx={{ marginTop: '2%' }}>
+        <Grid item xs={6}>
+          <Button variant="contained" onClick={handleOrderBack}>
             주문반려
           </Button>
           <Button variant="contained" onClick={handleOrderDetail} style={{ color: 'white', marginLeft: '3%' }}>

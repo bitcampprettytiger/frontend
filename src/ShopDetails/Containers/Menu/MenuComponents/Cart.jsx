@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import {
   Typography,
   IconButton,
@@ -23,6 +23,7 @@ import axios from 'axios';
 import { da } from 'date-fns/locale';
 import CardModal from './CardModal';
 import { redirect, useNavigate } from 'react-router-dom/dist';
+import { io } from 'socket.io-client';
 import { useLocation } from 'react-router-dom';
 function CartPage() {
   const location = useLocation();
@@ -31,10 +32,41 @@ function CartPage() {
   const accessToken = localStorage.getItem('accessToken');
   const [showModal, setShowModal] = useState(false);
   const [paymentOK, setpaymentOK] = useState(false);
+  const [phoneNumber,setPhoneNumber] = useState(null); // 초기값을 null로 설정
+  const [socket, setSocket] = useState(null); // socket state 추가
   const headers = {
-    'Content-Type': 'application/json;charset=UTF-8',
+    'Content-Type': 'application/json',
     Authorization: `Bearer ${accessToken}`,
   };
+  const [menuCount, setMenuCount] = useState(0); // 초기값으로 0 설정
+  const [menuName, setMenuName] = useState(""); // 초기값으로 빈 문자열 설정
+  const getHeaders = () => {
+    const accessToken = localStorage.getItem('accessToken');
+    return {
+      'Content-Type': 'application/json;charset=UTF-8',
+      Authorization: `Bearer ${accessToken}`,
+    };
+  };
+  const fetchUserInfo = async () => {
+    try {
+      const response = await axios.get('http://192.168.0.240:1004/member/info', { headers: getHeaders() });
+      console.log(response);
+      if (response.status === 200) {
+        setPhoneNumber(response.data.tel);
+      }
+    } catch (error) {
+      console.error('Failed to fetch user info:', error);
+    }
+  };
+  
+  useEffect(() => {
+    const socket = io('http://192.168.0.63:8081', { query: `phoneNumber=${phoneNumber}` });
+    setSocket(socket);
+    fetchUserInfo();
+
+
+    return () => socket.close(); 
+  }, [phoneNumber]);
 
   const { cartItems, clearCart, deleteCartItem, setCartItems } = useCart();
   // 수량 +
@@ -49,6 +81,7 @@ function CartPage() {
       }
       return item;
     });
+
     setCartItems(newCartItems);
     console.log('카트아이템', newCartItems);
   };
@@ -92,7 +125,7 @@ function CartPage() {
   const onClickPayment = async () => {
     const { IMP } = window;
     IMP.init('imp45381601');
-
+    
     const data = {
       pg: 'html5_inicis',
       pay_method: 'card',
@@ -103,7 +136,7 @@ function CartPage() {
     };
     IMP.request_pay(data, callback);
   };
-
+  
   const callback = async (rsp) => {
     const {
       success,
@@ -114,11 +147,14 @@ function CartPage() {
       name,
       paymentOK,
     } = rsp;
+    console.log('rsp@@@', rsp);
+    
+    //페이먼트 아이디
     console.log('콜백 벤더아이디@@@@@@@@@@@@@@@@@@@@', rsp);
     console.log('콜백ㄱㄱㄱㄱㄱㄱㄱㄱㄱ', vendorId); //페이먼트 아이디
     //벤더아이디
-
-    if (success) {
+    
+    // if (success) {
       setShowModal(true); // 결제 성공 시 모달 표시
       const payload = {
         payMethod: 'card',
@@ -128,20 +164,32 @@ function CartPage() {
         name: name,
         paymentOK: paymentOK,
         vendorId: vendorId,
+        
       };
       console.log('페이로드', payload);
       try {
         // 서버로 데이터를 전송합니다.
         const serverResponse = await axios.post(
-          'https://mukjachi.site:6443/payment/addPayment',
+          'http://192.168.0.240:1004/payment/addPayment',
           payload,
           { headers }
-        );
-        setpaymentOK(true);
-      } catch (error) { }
-    } else {
+          );
+          setpaymentOK(true);
+          console.log('서버 응답:', serverResponse);
+          console.log("phoneNumber"+phoneNumber);
+          console.log("serverResponse"+serverResponse)
+          // if (socket) socket.emit('order', { phoneNumber, serverResponse });
+
+          
+          if (socket) socket.emit('order', { phoneNumber, orderArray: serverResponse.data.item , cartItems: cartItems});
+          
+        } catch (error) {
+          console.error('서버로 전송 실패:', error);
+        }
+    // }
+    //  else {
       alert(`결제 실패: ${error_msg}`);
-    }
+    // }
   };
   const onModalConfirm = () => {
     setShowModal(false); // 모달 닫기
