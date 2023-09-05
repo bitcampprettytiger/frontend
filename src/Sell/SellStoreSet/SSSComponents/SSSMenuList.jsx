@@ -61,7 +61,7 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
       // vendor.id도 추가한다면
 
       const response = await axios.post(
-        'http://27.96.135.75/menu/info/insertMenu', // 서버 주소
+        'https://mukjachi.site:6443/menu/info/insertMenu', // 서버 주소
         formData,
         {
           headers: {
@@ -104,7 +104,7 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
           justifyContent="center"
           sx={{ marginBottom: '5%' }}
         >
-          <Grid item xs={2} sx={{ textAlign: 'center' }}>
+          <Grid item xs={3} sx={{ textAlign: 'center' }}>
             사진
           </Grid>
           <Grid item xs={2} sx={{ textAlign: 'center' }}>
@@ -113,18 +113,13 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
           <Grid item xs={2} sx={{ textAlign: 'center' }}>
             이름
           </Grid>
-          <Grid item xs={2} sx={{ textAlign: 'center' }}>
+          <Grid item xs={3} sx={{ textAlign: 'center' }}>
             내용
           </Grid>
           <Grid item xs={2} sx={{ textAlign: 'center' }}>
             금액
           </Grid>
-          <Grid item xs={1} sx={{ textAlign: 'center' }}>
-            품절
-          </Grid>
-          <Grid item xs={1} sx={{ textAlign: 'center' }}>
-            삭제
-          </Grid>
+
         </Grid>
         <Box
           sx={{
@@ -137,7 +132,7 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
           <Grid container spacing={3} justifyContent="center">
             {menus.map((menu, index) => (
               <React.Fragment key={index}>
-                <Grid item xs={2} sx={{ textAlign: 'center' }}>
+                <Grid item xs={3} sx={{ textAlign: 'center' }}>
                   {menu.menuImage ? (
                     <img
                       src={menu.menuImage}
@@ -154,25 +149,11 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
                 <Grid item xs={2} sx={{ textAlign: 'center' }}>
                   {menu.menuName}
                 </Grid>
-                <Grid item xs={2} sx={{ textAlign: 'center' }}>
+                <Grid item xs={3} sx={{ textAlign: 'center' }}>
                   {menu.menuContent}
                 </Grid>
                 <Grid item xs={2} sx={{ textAlign: 'center' }}>
                   {formatPrice(menu.price)}
-                </Grid>
-                <Grid item xs={1} sx={{ textAlign: 'center' }}>
-                  <Checkbox
-                    checked={outOfStock[index] || false}
-                    onChange={(e) => handleStockChange(e, index)}
-                  />
-                </Grid>
-                <Grid item xs={1} sx={{ textAlign: 'center' }}>
-                  <img
-                    src="delete-icon-path.jpg" // 삭제 아이콘 이미지 경로
-                    alt="Delete"
-                    style={{ cursor: 'pointer' }}
-                    onClick={() => handleDelete(index)}
-                  />
                 </Grid>
               </React.Fragment>
             ))}

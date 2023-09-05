@@ -17,32 +17,26 @@ import AppBarWithTitle from '../../../Components/AppBarWithTitle';
 
 function ReviewForm({ onReviewSubmit }) {
   const { orderId, vendorId } = useParams();
-  const { reviews, error, loading, isLiked, isDisliked } = useReview(vendorId); // 추출한 vendorId를 useReview에 넘김
 
-  const [likeCount, setLikeCount] = useState(false);
-
-  const [disLikeCount, setDisLikeCount] = useState(false);
-  const [rereviewContent, setRereviewContent] = useState(""); // 리뷰 텍스트를 위한 상태
-  const [rating, setRating] = useState(0); // 평점을 위한 상태
-  const [selectedFiles, setSelectedFiles] = useState([]); // 선택된 파일을 위한 상태
-  const [reviewScore, setReviewScore] = useState(0); // 음식 별점을 위한 상태
-
+  const [isLike, setIsLike] = useState(false);
+  const [reviewContent, setReviewContent] = useState("");
+  const [rating, setRating] = useState(0);
+  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [reviewScore, setReviewScore] = useState(0);
 
   const handleLikeBtnClick = () => {
     console.log("Like button clicked");
 
-    setLikeCount(true);
-    setDisLikeCount(false);
+    setIsLike(true);
   };
 
   const handleDislikeBtnClick = () => {
     console.log("Dislike button clicked");
 
-    setLikeCount(false);
-    setDisLikeCount(true);
+    setIsLike(false);
   };
   const handleReviewChange = (e) => {
-    setRereviewContent(e.target.value); // 리뷰 텍스트 업데이트
+    setReviewContent(e.target.value); // 리뷰 텍스트 업데이트
   };
 
   const handleRatingChange = (e, newValue) => {
@@ -61,23 +55,19 @@ function ReviewForm({ onReviewSubmit }) {
   };
 
   const handleReviewSubmit = async () => {
-    // if (!vendorId) {
-    //   console.error("vendorId가 없어!!!!");
-    //   return;
-    // }
 
     console.log("handleReviewSubmit called");
 
     console.log("useParams:", { orderId, vendorId });
 
-    console.log("Current State - rereviewContent:", rereviewContent, "rating:", rating);
+    console.log("Current State - reviewContent:", reviewContent, "rating:", rating);
 
     const reviewDto = {
-      reviewContent: rereviewContent,
-      reviewScore,  // 음식 별점 
-      likeCount,
-      disLikeCount,
-      vendorId,
+      reviewContent: reviewContent,
+      reviewScore: reviewScore,  //l 음식 별점 
+      isLike: isLike,
+      vendorId: vendorId,
+      orderId: orderId
     };
 
     console.log("Review DTO:", reviewDto);
@@ -91,25 +81,25 @@ function ReviewForm({ onReviewSubmit }) {
       const result = await createReview(reviewDto, selectedFiles, token);
       console.log("API Call Result:", result);
 
-      if (onReviewSubmit) {
-        onReviewSubmit(reviewDto, files);  // 상위 컴포넌트로 리뷰 데이터를 전달합니다.
-      }
+      const { item } = result;
 
-      if (result) {
+      console.log("item:", item);
+      if (item && item.msg === "정상적으로 저장되었습니다.") {
         console.log("리뷰가 성공적으로 저장되었습니다.", result);
-        alert('리뷰가 성공적으로 저장되었습니다.');  // 여기에 추가
+        alert('리뷰가 성공적으로 저장되었습니다.');
 
       } else {
         console.log("리뷰 저장에 실패했습니다. 결과가 없습니다.");
+      }
+
+
+      if (onReviewSubmit) {
+        onReviewSubmit(reviewDto, selectedFiles);  // 상위 컴포넌트로 리뷰 데이터를 전달합니다.
       }
     } catch (error) {
       console.error("리뷰 저장 중 오류가 발생했습니다.", error);
     }
   };
-  useEffect(() => {
-    setLikeCount(isLiked);  // 좋아요 상태 업데이트
-    setDisLikeCount(isDisliked); // 아쉬워요 상태 업데이트
-  }, [isLiked, isDisliked]);
 
   return (
     <div style={{height: '100vh' , margin:'0'}}>
@@ -152,9 +142,9 @@ function ReviewForm({ onReviewSubmit }) {
           }}
         >
           <Button
-            variant={likeCount ? "contained" : "outlined"}
+            variant={isLike ? "contained" : "outlined"}
             startIcon={
-              likeCount ? (
+              isLike ? (
                 <SentimentSatisfiedAltIcon sx={{ color: "white" }} />
               ) : (
                 <SentimentSatisfiedAltIcon />
@@ -163,9 +153,9 @@ function ReviewForm({ onReviewSubmit }) {
             onClick={handleLikeBtnClick}
             sx={{
               borderRadius: "20px",
-              borderColor: !likeCount && "#D9D9D9",
-              backgroundColor: likeCount ? "#FF745A" : "white",
-              color: likeCount ? "white" : "black",
+              borderColor: !isLike && "#D9D9D9",
+              backgroundColor: isLike ? "#FF745A" : "white",
+              color: isLike ? "white" : "black",
               "&:hover": {
                 borderWidth: "1.5px",
                 borderColor: "#FF745A",
@@ -182,9 +172,9 @@ function ReviewForm({ onReviewSubmit }) {
             좋아요
           </Button>
           <Button
-            variant={disLikeCount ? "contained" : "outlined"}
+            variant={!isLike ? "contained" : "outlined"}
             startIcon={
-              disLikeCount ? (
+              !isLike ? (
                 <SentimentDissatisfiedIcon sx={{ color: "white" }} />
               ) : (
                 <SentimentDissatisfiedIcon />
@@ -193,9 +183,9 @@ function ReviewForm({ onReviewSubmit }) {
             onClick={handleDislikeBtnClick}
             sx={{
               borderRadius: "20px",
-              borderColor: !disLikeCount && "#D9D9D9",
-              backgroundColor: disLikeCount ? "#FF745A" : "white",
-              color: disLikeCount ? "white" : "black",
+              borderColor: isLike && "#D9D9D9",
+              backgroundColor: !isLike ? "#FF745A" : "white",
+              color: !isLike ? "white" : "black",
               "&:hover": {
                 borderWidth: "1.5px",
                 borderColor: "#FF745A",
@@ -219,7 +209,7 @@ function ReviewForm({ onReviewSubmit }) {
           variant="outlined"
           multiline
           rows={4}
-          value={rereviewContent}
+          value={reviewContent}
           onChange={handleReviewChange}
           placeholder="다른 사람들이 볼 수 있게 남겨주세요. :)"
           fullWidth

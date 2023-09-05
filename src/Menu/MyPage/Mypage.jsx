@@ -17,11 +17,8 @@ import { useFavorite } from '../../Menu/MyPage/MyPageComponents/FavoriteContext'
 import { LuFootprints } from 'react-icons/lu';
 import { FaHeart } from 'react-icons/fa';
 import { MdOutlineShoppingBasket } from 'react-icons/md';
-import { auto } from 'async';
-
-const Transition = React.forwardRef((props, ref) => {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Mypage() {
   const [isEditing, setIsEditing] = useState(false);
@@ -40,9 +37,20 @@ function Mypage() {
       setFavoriteShops(data.favoriteShops || []);
     } catch (error) {
       console.error('Could not fetch favorite shops:', error);
-    }
-  };
+  const { setFavoriteShops, favoriteShops } = useFavorite();
+  const navigate = useNavigate();
 
+  const getHeaders = () => {
+    const accessToken = localStorage.getItem('accessToken');
+    if (!accessToken) {
+      navigate("/");
+      return;
+    }
+    return {
+      'Content-Type': 'application/json;charset=UTF-8',
+      Authorization: `Bearer ${accessToken}`,
+    };
+  };
   const handleClickOpen = (type) => {
     setModalType(type);
     setOpen(true);
@@ -51,18 +59,16 @@ function Mypage() {
   const handleClose = () => {
     setOpen(false);
   };
-
-
   const handleEditClick = () => {
     setIsEditing(true);
-    setNewNickname(nickname); // 이전 닉네임을 표시하기 위해
+    setNewNickname(nickname);
   };
 
   const handleSaveClick = () => {
     setNickname(newNickname);
     setIsEditing(false);
     setShowModal(true);
-    setTimeout(() => setShowModal(false), 2000); // 2초 후 모달을 숨깁니다.
+    setTimeout(() => setShowModal(false), 2000);
   };
 
   const handleCancelClick = () => {
@@ -72,42 +78,31 @@ function Mypage() {
   const handleChange = (e) => {
     setNewNickname(e.target.value);
   };
+
   useEffect(() => {
     const fetchAllData = async () => {
       try {
-        console.log("!!!!!!!!")
-        const [reviewResponse, favoriteVendorsResponse] = await Promise.all([
-          fetch('/myPage/myReviews'),
-          fetch('/myPage/myFavoriteVendors')
-        ]);
-        console.log(reviewResponse);
-        // const response = fetchMyFavoriteVendors();
+        const headers = getHeaders();
 
-        // console.log(response);
+        // 사용자 정보 가져오기
+        const userInfoResponse = await axios.get('https://mukjachi.site:6443/myPage/myInfo', { headers });
+        const userData = userInfoResponse.data;
 
+        setNickname(userData.nickname || "닉네임");
 
-        const reviewData = await reviewResponse.json();
-        console.log(reviewData);
-        const favoriteVendorsData = await favoriteVendorsResponse.json();
+        // 즐겨찾기 정보 가져오기
+        const favoriteVendorsResponse = await axios.get('https://mukjachi.site:6443/myPage/myFavoriteVendors', { headers });
+        const favoriteVendorsData = favoriteVendorsResponse.data;
 
-        setReviewCount(reviewData.count);
         setFavoriteShops(favoriteVendorsData.favoriteShops || []);
-        setFavoriteCount(favoriteShops.length);
+
       } catch (error) {
         console.error('Could not fetch data:', error);
-
-
       }
     };
 
     fetchAllData();
-
   }, []);
-
-
-
-
-
 
   return (
     <>

@@ -17,8 +17,15 @@ function MyFavorite() {
     const memberId = localStorage.getItem('memberId');
     const { favoriteShops, setFavoriteShops } = useFavorite(); // Using context to manage state
 
+    // 가게를 클릭했을 때 동작하는 함수
+    const handleShopClick = (vendorId) => {
+        navigate(`/shophome/${vendorId}`);
+        // 이 부분은 커스텀 훅에서도 처리할 수 있습니다.
+    };
+
     useEffect(() => {
         if (!token || !memberId) {
+            console.log("Component re-rendered with favoriteShops: ", favoriteShops);
             console.error("JWT Token is not available in localStorage");
             navigate('/');
             return;
@@ -27,6 +34,7 @@ function MyFavorite() {
         const fetchFavorites = async () => {
             try {
                 const response = await fetchMyFavoriteVendors();
+
                 if (response) {
                     setFavoriteShops(response.item || []);
                 }
@@ -35,13 +43,15 @@ function MyFavorite() {
             }
         };
 
+
         fetchFavorites();
-    }, [token, memberId, setFavoriteShops]);
+    }, [token, memberId, favoriteShops]);
 
     const deleteFavorite = async (vendorName, vendorId) => {
         try {
-            await toggleFavorite(vendorId, true);
-            const updatedFavorites = favoriteShops.filter(vendor => vendor.name !== vendorName);
+            const response = await toggleFavorite(vendorId, true);
+
+            const updatedFavorites = favoriteShops.filter(vendor => vendor.vendor.vendorName !== vendorName);
             setFavoriteShops(updatedFavorites);
         } catch (error) {
             console.error("Error toggling favorite:", error);
@@ -54,37 +64,30 @@ function MyFavorite() {
     return (
         <div className='App-main2'>
             <Header page="myfavorite" />
+            <h3>찜한 가게는 {favoriteShops.length}개 입니다.</h3>
 
             <div className="myfavorite-container">
                 {favoriteShops.map(vendor => (
-                    <div key={vendor.id} className="favorite-item">
-                        <div className="store-image-container">
-                            <img
-                                src={vendor.image || `${process.env.PUBLIC_URL}/images/roopy.png`}
-                                alt="가게 이미지"
-                                className="shop-image"
-                            />
+                    <div key={vendor.id} className="result-item">
+                        <img
+                            src={vendor.image || `${process.env.PUBLIC_URL}/images/roopy.png`}
+                            alt="가게 이미지"
+                            className="store-image"
+                            onClick={() => handleShopClick(vendor.vendor.id)} // 가게 이미지를 클릭하면 가게 상세 페이지로 이동
+
+                        />
+                        <div className="result-info">
+                            <p className="shop-name" onClick={() => handleShopClick(vendor.vendor.id)}>{vendor.vendor.vendorName}</p> {/* 가게명을 클릭하면 가게 상세 페이지로 이동 */}
+                            <div className="rating">
+                                <StarIcon style={{ color: 'goldenrod' }} /> {/* 노란색 별 아이콘 */}
+                                {vendor.vendor.averageReviewScore}
+                            </div>
+                            <p>{vendor.vendor.vendorType} / {vendor.vendor.address}</p>
+                            <p onClick={() => handleShopClick(vendor.vendor.id)}>상세 정보 보기</p> {/* 나머지 정보를 클릭하면 가게 상세 페이지로 이동 */}
+
                         </div>
-                        <div className="store-info-container">
-                            <div className="store-info">
-                                <p className="store-name">{vendor.vendor.vendorName}</p>
-                                <div className="rating">
-                                    <StarIcon style={{ color: 'goldenrod', marginRight: '8%' }} />
-                                    {vendor.vendor.averageReviewScore}
-                                </div>
-                                <p className='fstore-address'>{vendor.vendor.vendorType} / {vendor.vendor.address}</p>
-                            </div>
-                            <div className="delete-btn">
-                                <IconButton
-                                    aria-label="like"
-                                    onClick={() => deleteFavorite(vendor.vendorName, vendor.id)}
-                                    sx={{
-                                        color: '#FD5E53',
-                                    }}
-                                >
-                                    <FavoriteIcon />
-                                </IconButton>
-                            </div>
+                        <div className="favorite-container">
+                            <button onClick={() => deleteFavorite(vendor.vendorName, vendor.vendor.id)}>즐겨찾기 삭제</button>
                         </div>
                     </div>
                 ))}
