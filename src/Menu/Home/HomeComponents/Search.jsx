@@ -6,14 +6,14 @@ import './Search.css';
 import { useSearch } from '../SearchCustomHooks/useSearch';
 import { useGeolocation } from '../../GeolocationCustomHooks/useGeolocation';
 import StarIcon from '@mui/icons-material/Star';
-
+import getShopsData from '../../HomeCustomHooks/getShopsData';
 
 const Search = () => {
     const location = useLocation(); //추가
     const [searchQuery, setSearchQuery] = useState(''); //추가
     const navigate = useNavigate();
     const headerText = location.state?.headerText || 'Default Header'; //추가
-    const shops = location.state?.shops || [];  //추가
+    const [shops, setShops] = useState([]); // 상점 정보를 저장하는 상태
 
     const {
         searchInput,
@@ -55,11 +55,13 @@ const Search = () => {
         handleSearchClick();
     };
     useEffect(() => {
-        // 로컬 스토리지에서 최근 검색어 가져오기
-        const storedRecentSearches = localStorage.getItem('recentSearches');
-        if (storedRecentSearches) {
-            setRecentSearches(JSON.parse(storedRecentSearches));
+        async function fetchData() {
+            const data = await getShopsData(); // 공통 함수를 통해 상점 정보를 가져옴
+            if (data && data.result && data.result.itemlist) {
+                setShops(data.result.itemlist);  // 가져온 상점 정보를 상태에 저장
+            }
         }
+        fetchData();
     }, []);
 
     useEffect(() => {
@@ -91,8 +93,7 @@ const Search = () => {
                 handleKeyUp={handleKeyUp}
             />
             <div className="App-main2">
-                {/* 최근 검색어와 최근 확인한 가게는 검색어가 없거나 검색 결과가 없을 때만 보입니다. */}
-
+                {/* 최근 검색어와 최근 확인한 가게를 표시합니다. */}
                 {(!searchInput || searchResults.length === 0) && (
                     <>
                         <div>
@@ -102,7 +103,6 @@ const Search = () => {
                                     {recentSearches.map((item, index) => (
                                         <button key={index} onClick={() => handleRecenthandleSearchClick(item.text)}>{item.text}</button>
                                     ))}
-
                                 </div>
                             </div>
                         </div>
@@ -122,32 +122,41 @@ const Search = () => {
                     </>
                 )}
 
-
+                {/* 검색 결과에 따라 가게 목록을 표시합니다. */}
                 <div className="results-container">
                     {searchResults.map(vendor => (
                         <div key={vendor.id} className="result-item"
-                            onClick={() => handleShopClick(vendor.id)} // 클릭 이벤트를 추가
-                        >
+                            onClick={() => handleShopClick(vendor.id)}>
                             <img src={vendor.imgSrc ? vendor.imgSrc : "/images/roopy.png"} alt={vendor.vendorName} />
                             <div className="result-info">
                                 <p className="shop-name">{vendor.vendorName}</p>
                                 <div className="rating">
-                                    <StarIcon style={{ color: 'goldenrod' }} /> {/* 노란색 별 아이콘 */}
+                                    <StarIcon style={{ color: 'goldenrod' }} /> {/* 별 아이콘으로 평점을 표시합니다. */}
                                     {vendor.averageReviewScore}
                                 </div>
                                 <p>{vendor.vendorType} / {vendor.address}</p>
                             </div>
                             <div className="favorite-container">
-                                {/* Favorite icon here */}
+                                {/* 즐겨찾기 아이콘을 추가할 위치 */}
                             </div>
                         </div>
                     ))}
-
                 </div>
+
+                {/* 상점 정보를 화면에 출력합니다. */}
+                {shops.map(shop => (
+                    <div key={shop.id}>
+                        <h2>{shop.vendorName}</h2>
+                        <p>{shop.address}</p>
+                        <p>영업 시간: {shop.open} - {shop.close} ({shop.businessDay})</p>
+                    </div>
+                ))}
+
             </div>
             <Footer type="search" />
         </div>
     );
+
 
 }
 

@@ -1,10 +1,12 @@
 import axios from 'axios';
+import { ar } from 'date-fns/locale';
 import { useNavigate } from 'react-router-dom';
 
+// export const API_BASE_URL = "http://27.96.135.75";
+export const API_BASE_URL = "http://27.96.135.75";
 
-
+// API 요청을 위한 헤더 가져오기
 export const getHeaders = (navigate) => {
-
     const accessToken = localStorage.getItem('accessToken');
     if (!accessToken) {
         navigate("/");
@@ -16,9 +18,13 @@ export const getHeaders = (navigate) => {
     };
 };
 
+// -------------------------------------
+// 가게 정보 관련 함수
+// -------------------------------------
+
+// 주소, 위도, 경도를 기반으로 인기 장소 가져오기
 export const fetchPopularPlaces = (address, latitude, longitude) => {
-    console.log(address, latitude, longitude)
-    return axios.post('http://27.96.135.75/vendor/search', {
+    return axios.post(`${API_BASE_URL}/vendor/search`, {
         address: address,
         latitude: latitude,
         hardness: longitude
@@ -26,66 +32,37 @@ export const fetchPopularPlaces = (address, latitude, longitude) => {
         headers: getHeaders(),
     });
 };
-// 상위 8개 가게 중에서 즐겨찾기가 가장 많은 가게들을 가져옴
 
-export const fetchMostFavoritedVendors = () => {
+// 지정된 지역명에 따라 주변 가게 정보를 가져오는 함수 (일반적인 지역)
+export const fetchShopsInArea = async (areaName) => {
 
-    return axios.get('http://27.96.135.75/api/favoritePick/top8Favorites', {
-        headers: getHeaders()
-    });
-
-};
-// 즐겨찾기가 가장 많이 된 상위 5개 가게 정보를 가져옴
-export const fetchTop5Vendors = async () => {
     try {
-        const response = await fetchMostFavoritedVendors(); // 상위 8개 가게 정보를 불러옵니다.
-
-        if (!response || !response.data) {
-            console.error('Response or response data is undefined');
-            return null;
-        }
-
-        console.log("나타나라");
-        console.log(response.data);
-
-        if (response.status === 200) {
-            return response.data.slice(0, 5);  // 상위 8개 중에서 상위 5개만 반환합니다.
-        } else {
-            console.error('Failed to fetch top 5 vendors: ', response);
-            return null;
-        }
+        console.log(`[${areaName}] 지역의 매장 정보를 가져오는 중...`);
+        const response = await axios.post(`${API_BASE_URL}/vendor/search10vendor`, { name: areaName }, {
+            headers: getHeaders(),
+        });
+        console.log(`[${areaName}] 지역의 매장 정보:`, response.data);
+        return response.data;
     } catch (error) {
-        console.error('An error occurred while fetching the top 5 vendors: ', error);
+        console.error(`${areaName} 지역의 매장 정보를 가져오는 중 오류 발생:`, error);
         return null;
     }
-
 };
 
-//리뷰가 많으면서 별점이 높은순 
-export const fetchTop5ReviewVendors = async () => {
-    try {
-        console.log("1111111귀찮거든")
-        const url = '/review/averageReviewScore';
-        console.log(`Sending request to ${url}`); // 실제로 어떤 URL로 요청이 가는지 출력
-        const response = await axios.get('http://27.96.135.75/vendor/review/averageReviewScore', {
-            headers: getHeaders()
-        });
-        console.log(response)  // 백엔드 엔드포인트 주소
-        const top5Vendors = response.data.itemlist.slice(0, 5);  // 상위 5개의 vendor만 선택
-        return top5Vendors;
-    } catch (error) {
-        console.error(`Error fetching top 5 vendors: ${error}`);
-        throw error;
-    }
-};
 
-// 가게리뷰를 가져옴
 
+// -------------------------------------
+// 리뷰 관련 함수
+// -------------------------------------
+
+// 가게 ID를 통해 리뷰 가져오기
 export const fetchReviewsByVendorId = (vendorId) => {
-    return axios.get(`http://27.96.135.75/vendor/review-list/${vendorId}`);
+    return axios.get(`${API_BASE_URL}/reviews/review-list/${vendorId}`, {
+        headers: getHeaders()
+    });
 };
 
-//리뷰업데이트
+// 리뷰 업데이트하기
 export const updateReview = (reviewDto, uploadFiles, changeFileList, originFileList) => {
     const formData = new FormData();
     formData.append('reviewDto', JSON.stringify(reviewDto));
@@ -96,73 +73,191 @@ export const updateReview = (reviewDto, uploadFiles, changeFileList, originFileL
         formData.append('changeFileList', file);
     });
     formData.append('originFileList', JSON.stringify(originFileList));
-    return axios.put('http://27.96.135.75/review', formData, {
+    return axios.put(`${API_BASE_URL}/review`, formData, {
         headers: getHeaders(),
     });
 };
-//리뷰삭제
-export const deleteReview = (reviewDto) => {
-    return axios.delete('http://27.96.135.75/review', { data: reviewDto });
-};
-//즐겨찾기가 되어 있는 가게리스트
-export const fetchFavoriteShopsByUserId = (memberId, token) => {
-    const config = {
-        headers: getHeaders()
-    };
-    return axios.get(`http://27.96.135.75/api/favorite/${memberId}`, config);
-};
-// // 즐겨찾기에서 가게를 삭제
-// export const deleteFavoriteShop = (memberId, vendorId) => {
-//     return axios.delete(`http:/27.96.135.75/api/favoritePick/${memberId}/remove/${vendorId}`, {
-//         headers: getHeaders()
-//     });
-// };
 
 
 
-//장바구니
-export const getMyCart = (memberId, token) => {
-    const config = {
-        headers: getHeaders(),
-    };
-    return axios.get(`http://27.96.135.75/cart/info/${memberId}`, config);
-};
+// 리뷰를 생성함
+export const createReview = async (reviewDto, file, token) => {
+    const url = `${API_BASE_URL}/reviews/review`;
+    const formData = new FormData();
 
 
-//장바구니 특정 아이템삭제
-export const deleteCartItem = (cartItemDTO, token) => {
-    const config = {
-        headers: getHeaders(),
-    };
-    return axios.delete(`http://27.96.135.75/cart/deletecartitem`, { data: cartItemDTO, headers: config.headers });
-};
-//장바구니비우기
-export const deleteCart = (cartItemDTO, token) => {
-    const config = {
-        headers: getHeaders(),
-    };
-    return axios.delete(`http://27.96.135.75/cart/info`, { data: cartItemDTO, headers: config.headers });
-};
-//조회수가높은10개
-export const fetchTop10RecommendedMenus = async () => {
+    // vendorId를 명세서에 맞게 수정
+    reviewDto["vendor.id"] = parseInt(reviewDto["vendorId"]);
+    reviewDto["orders.id"] = parseInt(reviewDto["orderId"]);
+    console.log(reviewDto);
+    // 리뷰 데이터를 FormData에 추가
+    Object.keys(reviewDto).forEach(key => {
+        formData.append(key, reviewDto[key]);
+    });
+
+    // 파일(이미지 등)을 FormData에 추가
+    if (file) {
+        file.forEach((f) => {
+            formData.append("file", f);
+        });
+    }
+
+    // 기존 헤더 가져오기
+    const headers = getHeaders();
+
+    // 토큰을 헤더에 추가
+    headers['Authorization'] = `Bearer ${token}`;
+
+    // 'Content-Type'을 제거하여 브라우저가 자동으로 설정하게 함
+    delete headers['Content-Type'];
+
     try {
-        const response = await axios.get('http://27.96.135.75/menu/recommendedMenus10', {
+        // 리뷰 생성 요청
+        const response = await axios.post(url, formData, { headers });
+
+        if (response.status !== 200 || response.data.errorMessage) {
+            throw new Error(response.data.errorMessage || "리뷰 생성 실패");
+        }
+
+        // 주어진 응답에서 리뷰 상세 정보를 반환
+        return response.data;
+    } catch (error) {
+        console.error('리뷰 생성 중 오류 발생:', error);
+        throw error;
+    }
+};
+// 리뷰 삭제
+export const deleteReview = async (reviewId, token, navigate) => {
+    const url = `${API_BASE_URL}/reviews/review?reviewId=${reviewId}`;
+    console.log("요청 URL:", url);
+
+    // 기존 헤더 가져오기
+    const headers = getHeaders();
+
+    // 토큰을 헤더에 추가
+    headers['Authorization'] = `Bearer ${token}`;
+
+    if (!headers) {
+        throw new Error('Authorization failed. Redirecting to login.');
+    }
+
+    try {
+        const response = await axios.delete(url, { headers });
+
+        if (response.status !== 200 || response.data.errorMessage) {
+            throw new Error(response.data.errorMessage || 'Failed to delete review.');
+        }
+
+        navigate("/myreview"); // 여기에서 리다이렉트 로직 추가
+
+        return response.data;
+
+    } catch (error) {
+        console.error('리뷰 삭제 중 오류 발생:', error);
+        console.error('오류 상세:', error.response);
+
+        throw error;
+    }
+};
+
+
+
+
+// 리뷰가 많으면서 별점이 높은순으로 가게를 가져옴
+export const fetchTop5ReviewVendors = async () => {
+    try {
+        const url = `${API_BASE_URL}/vendor/review/averageReviewScore`;
+        console.log(`Sending request to ${url}`);
+
+        const response = await axios.get(url, {
+            headers: getHeaders()
+        });
+
+        const top5Vendors = response.data.itemlist.slice(0, 5);
+        return top5Vendors;
+    } catch (error) {
+        console.error(`Error fetching top 5 vendors: ${error}`);
+        throw error;
+    }
+};
+
+// -------------------------------------
+// 즐겨찾기 관련 함수
+// -------------------------------------
+
+// 사용자 ID로 즐겨찾기 가게 목록 가져오기
+export const fetchFavoriteShopsByUserId = (memberId, token) => {
+    return axios.get(`${API_BASE_URL}/api/favorite/${memberId}`, {
+        headers: getHeaders()
+    });
+};
+
+
+// 즐겨찾기가 가장 많이 된 상위 5개 가게 정보를 가져옴
+export const fetchTop5Vendors = async () => {
+    try {
+        const response = await fetchMostFavoritedVendors();
+        if (!response || !response.data) {
+            console.error('Response or response data is undefined');
+            return null;
+        }
+
+        if (response.status === 200) {
+            return response.data.slice(0, 5);
+        } else {
+            console.error('Failed to fetch top 5 vendors: ', response);
+            return null;
+        }
+    } catch (error) {
+        console.error('An error occurred while fetching the top 5 vendors: ', error);
+        return null;
+    }
+};
+
+// 가장 많이 즐겨찾기된 상위 8개 가게 정보 가져오기
+export const fetchMostFavoritedVendors = () => {
+    return axios.get(`${API_BASE_URL}/api/favoritePick/top8Favorites`, {
+        headers: getHeaders()
+    });
+};
+
+// 즐겨찾기한 가게를 가져오는 함수
+export const fetchMyFavoriteVendors = async () => {
+    try {
+        const response = await axios.get(`${API_BASE_URL}/myPage/myFavoriteVendors`, {
             headers: getHeaders()
         });
         if (response.status === 200) {
             return response.data;
         } else {
-            throw new Error('Failed to fetch data');
+            throw new Error('Failed to fetch favorite vendors');
         }
     } catch (error) {
-        console.error('There was a problem with the fetch operation: ', error);
+        console.error('There was a problem fetching favorite vendors: ', error);
     }
 };
+// -------------------------------------
+// 사용자 정보 관련 함수
+// -------------------------------------
 
-//회원 정보 조회
+// 사용자 정보 가져오기
+export const fetchUserInfo = (userId) => {
+    return axios.get(`${API_BASE_URL}/api/users/${userId}`, {
+        headers: getHeaders()
+    });
+};
+
+// 사용자 정보 업데이트하기
+export const updateUserInfo = (userInfo) => {
+    return axios.put(`${API_BASE_URL}/api/users/${userInfo.userId}`, userInfo, {
+        headers: getHeaders()
+    });
+};
+
+// 회원 정보를 조회함
 export const fetchMyInfo = async () => {
     try {
-        const response = await axios.get('http://27.96.135.75/myInfo', {
+        const response = await axios.get(`${API_BASE_URL}/myInfo`, {
             headers: getHeaders()
         });
         if (response.status === 200) {
@@ -175,59 +270,84 @@ export const fetchMyInfo = async () => {
     }
 };
 
-// 회원 찜내역 조회
-export const fetchMyFavoriteVendors = async () => {
-    try {
-        const response = await axios.get('http://27.96.135.75/myPage/myFavoriteVendors', {
-            headers: getHeaders()
-        });
-        if (response.status === 200) {
-            return response.data;
-        } else {
-            throw new Error('Failed to fetch favorite vendors');
-        }
-    } catch (error) {
-        console.error('There was a problem fetching favorite vendors: ', error);
-    }
+// -------------------------------------
+// 주문 관련 함수
+// -------------------------------------
+
+// 사용자의 주문 목록 가져오기
+export const fetchUserOrders = (userId) => {
+    return axios.get(`${API_BASE_URL}/api/orders/${userId}`, {
+        headers: getHeaders()
+    });
 };
 
 
+// 새로운 주문 추가하기
+export const createNewOrder = (orderInfo) => {
+    return axios.post(`${API_BASE_URL}/api/orders`, orderInfo, {
+        headers: getHeaders()
+    });
+};
+// 주문 취소하기
+export const cancelOrder = (orderId) => {
+    return axios.delete(`${API_BASE_URL}/api/orders/${orderId}`, {
+        headers: getHeaders()
+    });
+};
+
+
+
+// 주문 상세 정보를 가져오는 함수
 export const fetchOrderDetail = async (MEMBER_ID) => {
     try {
-        const response = await fetch(`http://27.96.135.75/myPage/myOrders`, {
+        const response = await axios.get(`${API_BASE_URL}/myPage/myOrders`, {
             headers: getHeaders()
         });
-
-        // 서버 응답을 JSON 형태로 파싱
-        const data = await response.json();
-
-        // 1. Log the received data
-        console.log("Data received:", data);
-
-        // 'orders' 필드가 배열로 있다고 가정
-        if (Array.isArray(data.item)) {
-            console.log()
-            return data.item;
+        console.log("Data received:", response);
+        if (Array.isArray(response.data.item)) {
+            return response.data.item;
         } else {
-            // 2. Log the error message
             console.error('item is not an array');
-            return [];  // 배열이 아니면 빈 배열 반환
+            return [];
         }
-
     } catch (error) {
         console.error('Error fetching order details:', error);
-        throw error;  // 오류를 상위로 전파
+        throw error;
     }
 };
-//주문내역함수 
+// -------------------------------------
+// 결제 관련 함수
+// -------------------------------------
+
+// 결제 정보 가져오기
+export const fetchPaymentInfo = (userId) => {
+    return axios.get(`${API_BASE_URL}/api/payments/${userId}`, {
+        headers: getHeaders()
+    });
+};
+
+// 결제 정보 업데이트하기
+export const updatePaymentInfo = (paymentInfo) => {
+    return axios.put(`${API_BASE_URL}/api/payments/${paymentInfo.userId}`, paymentInfo, {
+        headers: getHeaders()
+    });
+};
+
+// 결제 실행하기
+export const executePayment = (paymentData) => {
+    return axios.post(`${API_BASE_URL}/api/payments/execute`, paymentData, {
+        headers: getHeaders()
+    });
+};
+
+
+// 결제 목록을 가져오는 함수
 export const fetchPaymentList = async (token) => {
     try {
-        const response = await fetch('http://27.96.135.75/myPage/myPaymentList', {
-            headers: getHeaders(),
+        const response = await axios.get(`${API_BASE_URL}/myPage/myPaymentList`, {
+            headers: getHeaders()
         });
-
-        const data = await response.json();
-
+        const data = response.data;
         if (data.statusCode === 200 && Array.isArray(data.item)) {
             return data.item;
         } else {
@@ -240,53 +360,95 @@ export const fetchPaymentList = async (token) => {
     }
 };
 
-export const createReview = async (reviewDto, file, token) => {
 
-    const url = 'http://27.96.135.75  /reviews/review';
-    const formData = new FormData();
-    console.log("이거 리뷰 디티오임" + reviewDto);
 
-    // 리뷰 데이터 추가
-    Object.keys(reviewDto).forEach(key => {
-        formData.append(key, reviewDto[key]);
+// 장바구니 특정 아이템을 삭제함
+export const deleteCartItem = (cartItemDTO, token) => {
+    return axios.delete(`${API_BASE_URL}/cart/deletecartitem`, {
+        data: cartItemDTO,
+        headers: getHeaders()
     });
+};
 
-    // 파일(이미지 등) 추가
-    if (file) {
-        file.forEach((file, index) => {
-            formData.append(`file${index + 1}`, file);
-        });
-    }
 
-    // 토큰 유효성 검사
-    if (!token) {
-        throw new Error("액세스 토큰이 누락되었거나 유효하지 않습니다!");
-    }
+// 장바구니를 비움
+export const deleteCart = (cartItemDTO, token) => {
+    return axios.delete(`${API_BASE_URL}/cart/info`, {
+        data: cartItemDTO,
+        headers: getHeaders()
+    });
+};
 
-    // 새로운 헤더를 생성
-    const headers = {
-        Authorization: `Bearer ${token}`
-    };
 
-    // axios 사용
+
+
+// Top 10 추천 메뉴를 가져오는 함수
+export const fetchTop10RecommendedMenus = async () => {
     try {
-        const response = await axios.post(url, formData, { headers });
-        console.log("이거 리뷰 디티오임" + reviewDto);
-
+        const response = await axios.get(`${API_BASE_URL}/menu/recommendedMenus10`, {
+            headers: getHeaders()
+        });
         if (response.status === 200) {
             return response.data;
         } else {
-            throw new Error(response.data.errorMessage || "리뷰 생성 실패");
+            throw new Error('Failed to fetch data');
         }
     } catch (error) {
-        console.error('리뷰 생성 중 오류 발생:', error);
-        console.log("이거 리뷰 디티오 아이디임" + reviewDto.id);
-        console.log("이거 리뷰 디티오 오더아이디임" + reviewDto.orderId);
+        console.error('There was a problem with the fetch operation: ', error);
+    }
+};
 
-        if (error.response) {
-            console.error("서버 응답:", error.response.data);
+
+// // 즐겨찾기 목록 가져오기
+export const fetchFavoriteShops = () => {
+    return axios.get(`${API_BASE_URL}/myPage/myFavoriteVendors`, {
+        headers: getHeaders()
+    });
+};
+
+// 즐겨찾기 추가하기
+export const addFavoriteShop = (vendorId) => {
+    return axios.post(`${API_BASE_URL}/api/favoritePick/add/${vendorId}`, null, {
+        headers: getHeaders()
+    });
+};
+
+// 즐겨찾기 삭제하기
+export const removeFavoriteShop = (vendorId, headers) => {
+    return axios.delete(`${API_BASE_URL}/api/favoritePick/remove/${vendorId}`, {
+        headers: getHeaders()
+    });
+};
+
+export const getVendorByCategory = (searchInput) => {
+    return axios.get(`${API_BASE_URL}/vendor/category?address=${searchInput}&menuName=${searchInput}&vendorName=${searchInput}`, {
+        headers: getHeaders()
+    });
+};
+
+export const getVendorInfo = (searchInput) => {
+    return axios.get(`${API_BASE_URL}/vendor/info?search=${searchInput}`, {
+        headers: getHeaders()
+    });
+};
+
+// 판매자의 ID를 이용하여 해당 판매자의 주문 리스트를 가져오는 함수
+export const fetchVendorOrders = async (orderId, navigate) => {
+    try {
+        const response = await axios.get(`${API_BASE_URL}/orderInfo/orderList/${orderId}`, {
+            headers: getHeaders(navigate)
+        });
+
+        console.log("Vendor Orders received:", response);
+
+        if (Array.isArray(response.data.itemlist)) {
+            return response.data.itemlist;
+        } else {
+            console.error('itemlist is not an array');
+            return [];
         }
-
+    } catch (error) {
+        console.error('Error fetching vendor orders:', error);
         throw error;
     }
 };

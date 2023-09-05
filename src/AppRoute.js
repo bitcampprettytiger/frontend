@@ -14,7 +14,6 @@ import GeolocationComponent from './Menu/GeolocationCustomHooks/GeolocationCompo
 import MyEdit from './Menu/MyPage/MyPageComponents/MyEdit';
 import ShopMain from './ShopDetails/ShopMain';
 import ReviewForm from './ShopDetails/Containers/Review/ReviewComponents/ReviewForm';
-import MyTakeoutDetail from './Menu/MyPage/MyPageComponents/MyTakeoutDetail';
 import AppLogin from './Login,Join/login/Login';
 import AppSignup from './Login,Join/join/Register';
 import SellSignUp3 from './Sell/SellSignUp/SSUComponents/SellSignUp3';
@@ -24,7 +23,6 @@ import SellLogin from './Sell/SellJoin/SellLogin';
 import SellStoreSet from './Sell/SellStoreSet/SellStroreSet';
 import SellHome from './Sell/SellHome/SellHome';
 import SellMySet from './Sell/SellMySet/SellMySet';
-import PopularResult from './Menu/Home/HomeComponents/PopularResult';
 import CartPage from './ShopDetails/Containers/Menu/MenuComponents/Cart';
 import { FavoriteProvider } from './Menu/MyPage/MyPageComponents/FavoriteContext';
 import { useLocation } from 'react-router-dom';
@@ -38,8 +36,11 @@ import SellerPage from './Seller/SellerPage ';
 import Tackout from './Seller/Tackout';
 import CustomerPage from './Seller/CustomerPage';
 import AnimatedCursor from './Layout/AnimatedCursor';
+import ReviewDetail from './ShopDetails/Containers/Review/ReviewComponents/ReviewDetail';
+import MyTakeoutDetail from './Menu/MyPage/MyPageComponents/MyTakeoutDetail';
 import Seller from './WebSocket/Seller';
 import Buyer from './WebSocket/Buyer';
+
 
 
 
@@ -59,21 +60,22 @@ const menuRoutes = [
   { path: '/geolocationcomponent', element: <GeolocationComponent /> },
   { path: '/search', element: <Search /> },
   { path: '/waiting', element: <Waiting /> },
-  { path: '/myreview', element: <MyReview /> },
+  { path: '/myreview', element: <FavoriteProvider><MyReview /> </FavoriteProvider> },
   { path: '/waitingDetail', element: <WaitingDetail /> },
   { path: '/shopHome/:vendorId', element: <ShopMain /> },
   { path: '/reviewform/:orderId/:vendorId', element: <ReviewForm /> },
+  { path: '/review-detail/:vendorId', element: <ReviewDetail /> },
   { path: '/notice', element: <Notice /> },
   { path: '/mypage', element: <FavoriteProvider><Mypage /></FavoriteProvider> },
   { path: '/myfavorite', element: <FavoriteProvider><MyFavorite /></FavoriteProvider> },
   { path: '/mytakeout', element: <MyTakeout /> },
-  { path: '/order/:orderNumber', element: <MyTakeoutDetail /> },
+  { path: '/mytakeoutdetail/order/:orderId', element: <MyTakeoutDetail /> },
   { path: '/myedit', element: <MyEdit /> },
-  { path: '/popularresult', element: <PopularResult /> },
   { path: '/cart', element: <CartPage /> },
-  { path: '/buyer', element: <Buyer />},
-  { path: '/seller', element: <Seller />},
+  { path: '/buyer', element: <Buyer /> },
+  { path: '/seller', element: <Seller /> },
   { path: '*', element: <NotFound /> },
+
 
 ];
 
@@ -143,7 +145,7 @@ function InnerAppRoute() {
       <ThemeProvider theme={muitheme}>
         <NoticeProvider>
           <BrowserView className='BV'>
-            <AnimatedCursor/>
+            <AnimatedCursor />
             <Routes>
               {browserRoutes.map((route, index) => (
                 <Route key={index} path={route.path} element={route.element} />

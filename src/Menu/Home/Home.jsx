@@ -16,7 +16,8 @@ import {
   fetchTop5Vendors,
   fetchMostFavoritedVendors,
   fetchTop10RecommendedMenus,
-  fetchTop5ReviewVendors
+  fetchTop5ReviewVendors,
+  fetchShopsInArea
 } from '../Home/HomeComponents/HomeApi';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 
@@ -35,6 +36,11 @@ function Home() {
   const [location, setLocation] = useState({ latitude: "", longitude: "" }); // 사용자의 위치 (위도, 경도)
   const [top5ReviewVendors, setTop5ReviewVendors] = useState([]); // 이달의 유저 픽 BEST NO.5 판매자 관리
   const [headerText, setHeaderText] = useState(''); // 초기값은 빈 문자열
+  const [selectedStation, setSelectedStation] = useState(''); // 선택된 역 정보를 상태로 관리
+  const [shopsAroundArea, setShopsAroundArea] = useState([]);
+
+
+
   const images = ['/images/slide-4.png', '/images/slide-2.png', '/images/slide-3.png']; // 이미지 슬라이더에 사용될 이미지들
   const swiperRef = useSlider(images); //이미지 추가
 
@@ -52,6 +58,21 @@ function Home() {
       longitude: newlocation.longitude
     });
   };
+  const getShopsInArea = async (areaName) => {
+    try {
+      const data = await fetchShopsInArea(areaName);
+      console.log(`[${areaName}] 지역의 매장 정보를 세팅 중...`);
+      if (data) {
+        setPopularPlaces(data);
+        setShopsAroundArea(data);
+      } else {
+        console.log(`[${areaName}] 지역의 매장 정보가 없습니다.`);
+      }
+    } catch (error) {
+      console.error(`[${areaName}] 지역의 매장 정보 세팅 중 오류 발생:`, error);
+    }
+  };
+
 
 
 
@@ -159,7 +180,10 @@ function Home() {
     navigate(`/search?query=${menuText}`);
   };
   //역버튼 누르면 검색창이동
-  const navigateToSearchWithInfo = (areaName, shopsAroundArea) => {
+  const navigateToSearchWithInfo = async (areaName) => {
+    console.log(`[${areaName}] 지역의 매장 정보를 검색하고 페이지로 이동하는 중...`);
+    await getShopsInArea(areaName);
+    console.log(`[${areaName}] 지역의 매장 정보 검색 완료, 검색 페이지로 이동합니다.`);
     navigate('/search', {
       state: {
         headerText: `${areaName}지역의 인기 매장 BEST`,
@@ -167,6 +191,7 @@ function Home() {
       }
     });
   };
+
 
   return (
     <div className='App-main2'>
@@ -196,7 +221,7 @@ function Home() {
           onChange={(e) => setSearchInput(e.target.value)}
         />
         <button className="Home-search-button" onClick={handleSearch}>
-          <SearchOutlinedIcon sx={{color: '#FD5E53'}}/>
+          <SearchOutlinedIcon sx={{ color: '#FD5E53' }} />
         </button>
       </div>
 
@@ -247,7 +272,7 @@ function Home() {
         <div className="menu-box">
           {top10Menus.slice(0, 5).map((menu, index) => (
             <button className="menu-button" key={index} onClick={() => handleMenuItemClick(menu)}>
-              <span style={{fontWeight: 'bold'}}>{index + 1}위</span>
+              <span style={{ fontWeight: 'bold' }}>{index + 1}위</span>
               {" "}
               <span className='textbar'>|</span>
               {" "}
@@ -259,7 +284,7 @@ function Home() {
         <div className="menu-box">
           {top10Menus.slice(5, 10).map((menu, index) => (
             <button className="menu-button" key={index + 5}>
-              <span style={{fontWeight: 'bold'}}>{index + 6}위</span>
+              <span style={{ fontWeight: 'bold' }}>{index + 6}위</span>
               {" "}
               <span className='textbar'>|</span>
               {" "}

@@ -14,6 +14,17 @@ function MyTakeout() {
     const MEMBER_ID = localStorage.getItem('member_id');
     const navigate = useNavigate();
 
+    const formatDateTime = (isoString) => {
+        const date = new Date(isoString);
+        const yyyy = date.getFullYear();
+        const mm = String(date.getMonth() + 1).padStart(2, '0'); // January is 0!
+        const dd = String(date.getDate()).padStart(2, '0');
+        const hh = String(date.getHours()).padStart(2, '0');
+        const min = String(date.getMinutes()).padStart(2, '0');
+        return `${yyyy}-${mm}-${dd}, ${hh}:${min}`;
+    };
+
+
     useEffect(() => {
         const fetchOrderAndPaymentData = async () => {
             try {
@@ -62,8 +73,8 @@ function MyTakeout() {
                         orderDetail.map((order, index) => (
                             <li className='mytakeout-item' key={order.id || index}>
                                 <div className='mytakeout-date'>
-                                    {order.orderDate} 포장완료
-                                    <Link to={`/order/${order.orderNumber}`} className='mytakeout-detail-button'>
+                                    {formatDateTime(order.orderDate)} 포장완료
+                                    <Link to={`mytakeoutdetail/order/${order.orderNumber}`} className='mytakeout-detail-button'>
                                         주문 상세
                                     </Link>
                                 </div>
@@ -76,19 +87,23 @@ function MyTakeout() {
                                             <p>{order.totalPrice}원</p>
                                         </div>
                                     </div>
-                                    <button
-                                        className="write-review-button"
-                                        disabled={!order || !"orderId" in order || !"id" in order.vendor}
-                                        onClick={() => {
-                                            if (order && "orderId" in order && "id" in order.vendor) {
-                                                navigate(`/ReviewForm/${order.orderId}/${order.vendor.id}`);
-                                            } else {
-                                                console.error("order, order.orderId or order.vendor.id is undefined!");
-                                            }
-                                        }}
-                                    >
-                                        리뷰 작성하기
-                                    </button>
+                                    {!order.hasReviewed ? (
+                                        <button
+                                            className="write-review-button"
+                                            disabled={!order || !"orderId" in order || !"id" in order.vendor}
+                                            onClick={() => {
+                                                if (order && "orderId" in order && "id" in order.vendor) {
+                                                    navigate(`/ReviewForm/${order.orderId}/${order.vendor.id}`);
+                                                } else {
+                                                    console.error("order, order.orderId or order.vendor.id is undefined!");
+                                                }
+                                            }}
+                                        >
+                                            리뷰 작성하기
+                                        </button>
+                                    ) : (
+                                        <p>리뷰 작성완료</p>
+                                    )}
                                 </div>
                             </li>
                         ))
