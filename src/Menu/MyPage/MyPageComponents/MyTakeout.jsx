@@ -74,8 +74,10 @@ function MyTakeout() {
                         orderDetail.map((order, index) => (
                             <li className='mytakeout-item' key={order.id || index}>
                                 <div className='mytakeout-date'>
-                                    <span className="dateAndStatus">{formatDateTime(order.orderDate)} 포장완료</span>
-                                    <Link to={`mytakeoutdetail/order/${order.orderNumber}`} className='mytakeout-detail-button'>주문 상세</Link>
+                                    {formatDateTime(order.orderDate)} 포장완료
+                                    <Link to={`/mytakeoutdetail/order/${order.orderId}`} className='mytakeout-detail-button'>
+                                        주문 상세
+                                    </Link>
                                 </div>
 
                                 <div className='mytakeout-store'>
