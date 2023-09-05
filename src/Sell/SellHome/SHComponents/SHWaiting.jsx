@@ -11,34 +11,30 @@ const SHWaiting = ({ onClick }) => {
         width: '100%',
         maxWidth: '400px',
         margin: 'auto',
-        padding: 2,
+        padding: '5%',
         borderRadius: '10px',
         backgroundColor: '#f5f5f5',
         boxShadow: '0 3px 5px 2px rgba(0, 0, 0, 0.1)',
-        marginBottom: '10px',
+        marginBottom: '3%',
       }}
     >
-      <Typography
-        variant="h6"
-        align="center"
-        sx={{ marginBottom: '2%', color: '#333' }}
-      >
-        줄서기 목록
-      </Typography>
-      <Grid container spacing={1} className="줄서기">
-        <Grid item xs={4} sx={{ fontWeight: 'bold', color: '#555' }}>
-          대기번호
+      <Grid container spacing={1} className="줄서기" style={{ marginBottom: '2%' }}>
+        <Grid item xs={4} style={{ fontWeight: 'bold', color: 'black', fontSize: '100%', marginBottom: '2%' }}>
+          대기 순번
         </Grid>
-        <Grid item xs={8} sx={{ fontWeight: 'bold', color: '#555' }}>
+        <Grid item xs={8} style={{ color: 'black', fontSize: '100%', marginBottom: '2%' }}>
           1번
         </Grid>
-        <Grid item xs={4} sx={{ color: '#555' }}>
-          PN
+        <Grid item xs={4} style={{ fontWeight: 'bold', color: 'black', fontSize: '100%', marginBottom: '2%' }}>
+          전화 번호
         </Grid>
-        <Grid item xs={6} sx={{ textAlign: 'left', color: '#555' }}>
+        <Grid item xs={8} style={{ textAlign: 'left', color: 'black', fontSize: '100%', marginBottom: '2%' }}>
           111-111-1111
         </Grid>
-        <Grid item xs={2} sx={{ textAlign: 'right', color: '#555' }}>
+        <Grid item xs={4} style={{ fontWeight: 'bold', color: 'black', fontSize: '100%' }}>
+          대기 인원
+        </Grid>
+        <Grid item xs={8} style={{ textAlign: 'left', color: 'black', fontSize: '100%' }}>
           5명
         </Grid>
       </Grid>

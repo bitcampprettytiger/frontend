@@ -47,9 +47,12 @@ const Choice = ({ moveToCurrentPosition, toggleSIGmenu, selectedSIGmenus }) => {
             color: 'white',
             fontWeight: 'bold',
             borderRadius: '10px',
+            display: 'flex',        // Flexbox 사용
+            justifyContent: 'center', // 수평 가운데 정렬
+            alignItems: 'center',     // 수직 가운데 정렬
           }}>
-            <ImSpoonKnife />
-            길거리음식
+            <ImSpoonKnife style={{marginRight: '3%'}} />
+            길거리
           </Box>
         </Box>
         {/* search로 이동 */}
@@ -57,26 +60,24 @@ const Choice = ({ moveToCurrentPosition, toggleSIGmenu, selectedSIGmenus }) => {
           onClick={() => navigate('/search')}
           sx={{
             width: '65%',
-            borderColor: 'black',
-            border: 'none',
-            boxShadow: '1px 1px 4px 1px grey',
+            border: '1px solid #FD5E53',
             textAlign: 'center',
             margin: '0 auto',
             pointerEvents: 'auto',
             backgroundColor: 'white',
-            borderRadius: '5px',
+            borderRadius: '30px',
             height: '90%',
             textAlign: 'left',
-            position: 'relative'
+            display: 'flex', 
+            alignItems: 'center', 
           }}
         >
           <AiOutlineSearch style={{
             fontSize: '150%',
-            position: 'absolute',
-            top: '25%',
-            marginLeft: '4%',
-            color: 'gray'
+            color: '#FD5E53',
+            margin: '0 4%'
           }} />
+          <span style={{color : 'grey', fontSize: '90%'}}>검색하기</span>
         </Box>
 
       </Box>
@@ -98,7 +99,7 @@ const Choice = ({ moveToCurrentPosition, toggleSIGmenu, selectedSIGmenus }) => {
               borderStyle: 'none',
               borderRadius: '20px',
               backgroundColor: 'white',
-              width: '15%',
+              width: '13%',
               height: '30%',
               fontSize: '100%',
               fontWeight: 700,

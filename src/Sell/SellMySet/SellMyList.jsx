@@ -105,6 +105,8 @@ const SellMyList = () => {
   };
   return (
     <ThemeProvider theme={theme}>
+      <Box sx={{padding: '5%', 
+          height: '80vh',}}>
       <Box
         sx={{
           display: 'flex',
@@ -114,12 +116,12 @@ const SellMyList = () => {
           margin: 'auto',
           marginTop: '5%',
           border: '1px solid black',
-          height: '72vh',
+          height: '60vh',
           padding: '3%',
         }}
       >
         {' '}
-        <Typography variant="h4" sx={{ marginBottom: '2%' }}>
+        <Typography sx={{ marginBottom: '5%', fontSize: '130%', fontWeight: 'bold' }}>
           메뉴 관리
         </Typography>
         <Grid
@@ -218,6 +220,7 @@ const SellMyList = () => {
         menus={menus}
         updateMenus={updateMenus}
       />
+      </Box>
     </ThemeProvider>
   );
 };
