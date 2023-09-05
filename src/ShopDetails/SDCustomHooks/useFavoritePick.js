@@ -16,7 +16,7 @@ function useFavoritePick() {
 
     const updateFavoriteShops = async () => {
         try {
-            const response = await axios.get("http://192.168.0.240/myPage/myFavoriteVendors", { headers });
+            const response = await axios.get("http://192.168.0.240:1004/myPage/myFavoriteVendors", { headers });
             if(response.data && Array.isArray(response.data.item)) {
                 setFavoriteShops(response.data.item);
             } else {
@@ -34,9 +34,9 @@ function useFavoritePick() {
         try {
             let response;
             if (isFavorite) {
-                response = await axios.delete(`http://192.168.0.240/api/favoritePick/remove/${vendorId}`, { headers });
+                response = await axios.delete(`http://192.168.0.240:1004/api/favoritePick/remove/${vendorId}`, { headers });
             } else {
-                response = await axios.post(`http://192.168.0.240/api/favoritePick/add/${vendorId}`, null, { headers });
+                response = await axios.post(`http://192.168.0.240:1004/api/favoritePick/add/${vendorId}`, null, { headers });
             }
 
             // 목록 업데이트

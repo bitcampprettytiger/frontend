@@ -61,7 +61,7 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
       // vendor.id도 추가한다면
 
       const response = await axios.post(
-        'http://192.168.0.240/menu/info/insertMenu', // 서버 주소
+        'http://192.168.0.240:1004/menu/info/insertMenu', // 서버 주소
         formData,
         {
           headers: {

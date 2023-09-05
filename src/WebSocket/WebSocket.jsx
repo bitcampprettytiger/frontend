@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 const WebSocket = () => {
   useEffect(() => {
     // 웹소켓 전역 객체 생성
-    const ws = new WebSocket("ws://192.168.0.240:3030");
+    const ws = new WebSocket("ws://192.168.0.240:1004:3030");
 
     // 연결이 수립되면 서버에 메시지를 전송한다
     ws.on = (event) => {

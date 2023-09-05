@@ -36,7 +36,7 @@ function CartPage() {
   const [phoneNumber,setPhoneNumber] = useState(null); // 초기값을 null로 설정
   const [socket, setSocket] = useState(null); // socket state 추가
   const headers = {
-    'Content-Type': 'application/json;charset=UTF-8',
+    'Content-Type': 'application/json',
     Authorization: `Bearer ${accessToken}`,
   };
   const [menuCount, setMenuCount] = useState(0); // 초기값으로 0 설정
@@ -50,7 +50,7 @@ function CartPage() {
   };
   const fetchUserInfo = async () => {
     try {
-      const response = await axios.get('http://192.168.0.240/member/info', { headers: getHeaders() });
+      const response = await axios.get('http://192.168.0.240:1004/member/info', { headers: getHeaders() });
       console.log(response);
       if (response.status === 200) {
         setPhoneNumber(response.data.tel);
@@ -61,12 +61,12 @@ function CartPage() {
   };
   
   useEffect(() => {
-    const socket = io('http://192.168.0.77:8081', { query: `phoneNumber=${phoneNumber}` });
+    const socket = io('http://192.168.0.63:8081', { query: `phoneNumber=${phoneNumber}` });
     setSocket(socket);
     fetchUserInfo();
 
 
-    return () => socket.close(); // 컴포넌트 unmount 시 socket 연결 종료
+    return () => socket.close(); 
   }, [phoneNumber]);
 
   const { cartItems, clearCart, deleteCartItem, setCartItems } = useCart();
@@ -165,12 +165,13 @@ function CartPage() {
         name: name,
         paymentOK: paymentOK,
         vendorId: vendorId,
+        
       };
       console.log('페이로드', payload);
       try {
         // 서버로 데이터를 전송합니다.
         const serverResponse = await axios.post(
-          'http://192.168.0.240/payment/addPayment',
+          'http://192.168.0.240:1004/payment/addPayment',
           payload,
           { headers }
           );
@@ -179,7 +180,9 @@ function CartPage() {
           console.log("phoneNumber"+phoneNumber);
           console.log("serverResponse"+serverResponse)
           // if (socket) socket.emit('order', { phoneNumber, serverResponse });
-          if (socket) socket.emit('order', { phoneNumber, orderArray: serverResponse.data.item });
+
+          
+          if (socket) socket.emit('order', { phoneNumber, orderArray: serverResponse.data.item , cartItems: cartItems});
           
         } catch (error) {
           console.error('서버로 전송 실패:', error);

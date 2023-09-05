@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // 인스턴스 생성
 const instance = axios.create({
-  baseURL: 'http://192.168.0.240',
+  baseURL: 'http://192.168.0.240:1004',
 });
 console.log(instance.interceptors.response);
 
