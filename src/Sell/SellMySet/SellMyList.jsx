@@ -62,6 +62,7 @@ const SellMyList = () => {
       try {
         const response = await axios.get(
           `https://mukjachi.site:6443/menu/info/${vendorId}`,
+          `https://mukjachi.site:6443/menu/info/${vendorId}`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -86,8 +87,34 @@ const SellMyList = () => {
     fetchData();
   }, []);
 
+  // 수정하러 가기 버튼을 클릭했을 때 메뉴 데이터를 업데이트하는 함수입니다.
+  const handleUpdateClick = async () => {
+    try {
+      const response = await axios.post(
+        'https://mukjachi.site:7443/menu/info/changeMenu',
+        { menus },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      if (response.status === 200) {
+        console.log('Menus updated successfully');
+      }
+    } catch (error) {
+      console.error('Failed to update menus', error);
+    }
+  };
+  const handleInputChange = (event, index, field) => {
+    const updatedMenus = [...menus];
+    updatedMenus[index][field] = event.target.value;
+    setMenus(updatedMenus);
+  };
   return (
     <ThemeProvider theme={theme}>
+      <Box sx={{padding: '5%', 
+          height: '80vh',}}>
       <Box
         sx={{
           display: 'flex',
@@ -97,12 +124,12 @@ const SellMyList = () => {
           margin: 'auto',
           marginTop: '5%',
           border: '1px solid black',
-          height: '72vh',
+          height: '60vh',
           padding: '3%',
         }}
       >
         {' '}
-        <Typography variant="h4" sx={{ marginBottom: '2%' }}>
+        <Typography sx={{ marginBottom: '5%', fontSize: '130%', fontWeight: 'bold' }}>
           메뉴 관리
         </Typography>
         <Grid
@@ -200,6 +227,7 @@ const SellMyList = () => {
         menus={menus}
         updateMenus={updateMenus}
       />
+      </Box>
     </ThemeProvider>
   );
 };

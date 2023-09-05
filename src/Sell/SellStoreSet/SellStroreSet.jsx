@@ -38,7 +38,8 @@ const SellStoreSet = () => {
       <style>{`::-webkit-scrollbar { display: none; }`}</style>
       <SellHeader></SellHeader>
       <div style={{
-        padding: '5%'
+        padding: '5%',
+        height: '80vh' 
       }}
       >
         <SSSMenuInputs onAddMenu={handleAddMenu}></SSSMenuInputs>

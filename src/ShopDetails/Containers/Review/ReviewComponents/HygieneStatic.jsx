@@ -37,7 +37,7 @@ const HygieneStatic = () => {
 
   return (
     <Box sx={{marginTop: '5%'}}>
-      <Typography variant="h6" marginBottom={2}>
+      <Typography variant="h6" marginBottom={2} sx={{fontWeight: 'bold', fontSize: '110%'}}>
         위생
       </Typography>
       <Table>

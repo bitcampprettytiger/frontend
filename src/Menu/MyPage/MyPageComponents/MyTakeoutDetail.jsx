@@ -3,6 +3,8 @@ import Header from '../../../Layout/Header.jsx';
 import Footer from '../../../Layout/Footer.jsx';
 import './MyTakeoutDetail.css';
 import { useParams } from 'react-router-dom';
+import {IoIosCall} from 'react-icons/io';
+import {BiStoreAlt} from 'react-icons/bi'
 import { fetchVendorOrders } from '../../Home/HomeComponents/HomeApi.jsx';
 
 // React 컴포넌트 시작
@@ -66,35 +68,34 @@ function MyTakeoutDetail() {
         <div className='App-main2'>
             <Header page="mytakeoutdetail" />
             <div className='mytakeoutdetail-container'>
-                <p>포장이 완료되었어요</p>
+                <p className='takeout-complete'>포장이 완료되었어요</p>
                 <div className='mytakeout-detail'>
                     <div>
-                        <p>{orderDetail.item.member ? orderDetail.item.member.shopName : "가게명"}</p>
-                        <p>
-                            {formattedMenu(orderDetail.item.orderedMenuDTOList)} // 주문한 메뉴와 갯수 표시
-                        </p>
-                        <p>
-                            주문일시 : {formatDateTime(orderDetail.item.orderDate)} // 주문일시 표시
-                        </p>
-                        <p>
-                            주문번호 : {orderDetail.item.orderDate} // 주문번호를 orderDate로 설정함(실제 주문번호가 따로 있으면 수정 필요)
-                        </p>
-
-                        <button>가게전화</button>
-                        <button>가게보기</button>
-
-                        <ul>
+                        <div className='tdstorename margin-btm'><strong>{orderDetail.item.member ? orderDetail.item.member.shopName : "가게명"}</strong></div>
+                        <div className='tdorderedate margin-btm'>주문일시 : {formatDateTime(orderDetail.item.orderDate)}</div>
+                        <div className='tdordernum margin-btm'>주문번호 : {orderDetail.item.orderDate}</div>
+                        <div className='tdstoremenu margin-btm'>
+                            {Array.isArray(orderDetail.orderMenu) ? (
+                                orderDetail.orderMenu.map(menu => <div>{menu}</div>)
+                            ) : (
+                                <div>{formattedMenu(orderDetail.item.orderedMenuDTOList)}</div>
+                            )}
+                        </div>
+                        <div className='button-container margin-btm'>
+                            <button
+                                onClick={() => window.location.href = `tel:${orderDetail.storeTelNumber}`}
+                                className='tdbtn'><IoIosCall className='tdicon'/>가게 전화</button>
+                            <button className='tdbtn'><BiStoreAlt className='tdicon'/>재주문 하기</button>
+                        </div>
+                           <ul>
                             {orderDetail.item.orderedMenuDTOList.map((menuDetail, index) => (
                                 <li key={index}>
                                     {menuDetail.menu.menuName}
                                 </li>
                             ))}
                         </ul>
-
-                        <p>{orderDetail.item.totalPrice} 원</p>
-                        <p>
-                            총결제금액 : {orderDetail.item.totalPrice} 원
-                        </p>
+                        <div className='tdprice margin-btm'>총 금액 | {orderDetail.item.totalPrice}원</div>
+                        <div className='divider'></div>
                         <p>결제방법 : 카드결제</p> {/* 실제 결제 방법 정보가 주어진다면 이 부분을 수정해야 함 */}
                     </div>
                 </div>
