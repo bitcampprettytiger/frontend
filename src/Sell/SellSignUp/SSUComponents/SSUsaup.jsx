@@ -31,11 +31,7 @@ const SSUsaup = ({ setNextButtonEnabled }) => {
       console.log(value2);
       console.log(region);
       const response = await axios.post(
-<<<<<<< HEAD
-        'http://192.168.0.240:1004/API/validateByRegion',
-=======
         'https://mukjachi.site:6443/API/validateByRegion',
->>>>>>> dfbbd0f7aed48255a114d10846631cf192d41633
         payload
       );
       // 성공적으로 응답을 받은 경우 처리 로직

@@ -10,11 +10,7 @@ const useReview = (vendorId) => {
 
   useEffect(() => {
     setLoading(true);
-<<<<<<< HEAD
-    axios.get(`http://192.168.0.240:1004/reviews/review-list/${vendorId}`)
-=======
     axios.get(`https://mukjachi.site:6443/reviews/review-list/${vendorId}`)
->>>>>>> dfbbd0f7aed48255a114d10846631cf192d41633
       .then((res) => {
         setLoading(false);
         if (res.data.statusCode === 200) {

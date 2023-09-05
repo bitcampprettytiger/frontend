@@ -9,9 +9,6 @@ const useSearch = () => {
     const [data, setData] = useState([]);
 
     useEffect(() => {
-<<<<<<< HEAD
-        const API_URL = "http://192.168.0.240:1004/info/vendorId"; // 예시 API URL
-=======
         const fetchData = async () => {
             const shopData = await getShopsData(); // 공통 함수 호출
             setData(shopData);
@@ -22,7 +19,6 @@ const useSearch = () => {
 
     useEffect(() => {
         const API_URL = "https://mukjachi.site:6443/info/vendorId"; // 예시 API URL
->>>>>>> dfbbd0f7aed48255a114d10846631cf192d41633
         axios.get(API_URL)
             .then(response => {
                 setData(response.data);

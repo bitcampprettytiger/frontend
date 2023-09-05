@@ -20,33 +20,6 @@ export const useSearch = (initialSearchInput, location) => {
 
         try {
             if (geoLocation && geoLocation.lat && geoLocation.lng) {
-<<<<<<< HEAD
-                const nowLocationDto = {
-                    latitude: geoLocation.lat,
-                    longitude: geoLocation.lng,
-                };
-
-                const response = await axios.get(`http://192.168.0.240:1004/vendor/info?search=${searchInput}`, {
-                    headers: getHeaders()
-                });
-
-                console.log("API Response: ", response);  // Debugging line
-
-                if (response.status === 200 && response.data.result && response.data.result.itemlist) {
-                    const data = response.data.result.itemlist;
-
-                    // 필터링 수행
-                    data = data.filter(vendor =>
-                        (vendor.vendorName && vendor.vendorName.includes(searchInput)) ||
-                        (vendor.SIGMenu && vendor.SIGMenu.includes(searchInput)) ||
-                        (vendor.address && vendor.address.includes(searchInput)) ||
-                        (vendor.vendorType && vendor.vendorType.includes(searchInput))
-                    );
-
-                    setSearchResults(data || []);
-                } else {
-                    console.error('API Request Failed:', response);
-=======
                 const response1 = await getVendorByCategory(searchInput);
                 if (response1.status === 200 && response1.data && response1.data.itemlist) {
                     setVendors(response1.data.itemlist);
@@ -89,7 +62,6 @@ export const useSearch = (initialSearchInput, location) => {
                         localStorage.setItem(userSpecificKey, JSON.stringify(updatedSearches));
                         setRecentSearches(updatedSearches);
                     }
->>>>>>> dfbbd0f7aed48255a114d10846631cf192d41633
                 }
             }
         } catch (error) {
@@ -98,26 +70,11 @@ export const useSearch = (initialSearchInput, location) => {
     };
 
     useEffect(() => {
-<<<<<<< HEAD
-        if (searchInput) {
-            axios.get(`http://192.168.0.240:1004/vendor/category?address=${searchInput}&menuName=${searchInput}&vendorName=${searchInput}`, {
-                headers: getHeaders()
-            })
-                .then(response => {
-                    console.log('Response data:', response.data); // 디버깅 코드 추가
-                    console.log('Type of response data:', typeof response.data); // 디버깅 코드 추가
-                    setVendors(response.data.itemlist || []);
-                })
-                .catch(error => {
-                    console.error('There was an error!', error);
-                });
-=======
         try {
             const storedSearches = JSON.parse(localStorage.getItem(userSpecificKey) || '[]');
             setRecentSearches(storedSearches);
         } catch (error) {
             console.error('최근 검색어 불러오기 에러:', error);
->>>>>>> dfbbd0f7aed48255a114d10846631cf192d41633
         }
     }, [accessToken, searchInput]); // 액세스 토큰 또는 검색 입력이 변경될 때 실행
 

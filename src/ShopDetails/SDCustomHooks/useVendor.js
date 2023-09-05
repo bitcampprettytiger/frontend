@@ -24,11 +24,7 @@ const useVendor = (vendorId) => {
       try {
         setLoading(true);
 
-<<<<<<< HEAD
-        const res = await axios.get(`http://192.168.0.240:1004/vendor/infoDetail/${vendorId}`, { headers });
-=======
         const res = await axios.get(`https://mukjachi.site:6443/vendor/infoDetail/${vendorId}`, { headers });
->>>>>>> dfbbd0f7aed48255a114d10846631cf192d41633
 
         setVendor(res.data);
       } catch (err) {

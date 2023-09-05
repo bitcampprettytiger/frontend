@@ -55,11 +55,7 @@ const SellMyList = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-<<<<<<< HEAD
-          `http://192.168.0.240:1004/menu/info/${vendorId}`,
-=======
           `https://mukjachi.site:6443/menu/info/${vendorId}`,
->>>>>>> dfbbd0f7aed48255a114d10846631cf192d41633
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -87,11 +83,7 @@ const SellMyList = () => {
   const handleUpdateClick = async () => {
     try {
       const response = await axios.post(
-<<<<<<< HEAD
-        'http://192.168.0.240:1004/menu/info/changeMenu',
-=======
         'https://mukjachi.site:6443/menu/info/changeMenu',
->>>>>>> dfbbd0f7aed48255a114d10846631cf192d41633
         { menus },
         {
           headers: {

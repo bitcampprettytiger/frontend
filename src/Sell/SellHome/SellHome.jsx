@@ -18,11 +18,7 @@ const SellHome = () => {
   useEffect(() => {
     const getVendor = async () => {
       try {
-<<<<<<< HEAD
-        const response = await axios.get('http://192.168.0.240:1004/vendor/getVendorInfo', {
-=======
         const response = await axios.get('https://mukjachi.site:6443/vendor/getVendorInfo', {
->>>>>>> dfbbd0f7aed48255a114d10846631cf192d41633
           headers: {
             Authorization: `Bearer ${localStorage.getItem('accessToken')}`
           }
@@ -115,12 +111,6 @@ const SellHome = () => {
           줄서기 목록
         </Typography>
         <SHWaiting onClick={handleWaitingClick}></SHWaiting>
-<<<<<<< HEAD
-       {order.map((item, index) => (
-        <SHOrder key={index} order={item} onClick={handlePackagingClick} />
-      ))}        
-      <Modal open={!!message}>
-=======
         </Box>
         <Box sx={{height: '40vh'}}>
         <Typography
@@ -130,10 +120,11 @@ const SellHome = () => {
         >
           포장주문하기
         </Typography>
-        <SHOrder onClick={handlePackagingClick}></SHOrder>
-        </Box>
+        {order.map((item, index) => (
+        <SHOrder key={index} order={item} onClick={handlePackagingClick} />
+      ))}               
+       </Box>
         <Modal open={!!message}>
->>>>>>> dfbbd0f7aed48255a114d10846631cf192d41633
           <Box
             sx={{
               position: 'absolute',

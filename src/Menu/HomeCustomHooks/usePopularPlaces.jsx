@@ -8,37 +8,6 @@ const usePopularPlaces = (initialAddress, initialLocation) => {
     const [shopsAroundArea, setShopsAroundArea] = useState([]);
 
     useEffect(() => {
-<<<<<<< HEAD
-        if (address && location.latitude && location.longitude) {
-            console.log("여기1!1")
-            console.log(address)
-            console.log(location.latitude)
-            console.log(location.longitude)
-            console.log("여기!!!!")
-            axios.post('http://192.168.0.240:1004/vendor/search', {
-                address: address,
-                latitude: location.latitude,
-                hardness: location.longitude  // 오타 수정됨
-            },
-                {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(response => {
-                    console.log(response)
-                    // isSuccess 필드 확인 추가됨
-                    if (response.data.isSuccess) {
-                        const itemList = Array.isArray(response.data.result.itemlist) ? response.data.result.itemlist : [];
-                        setPopularPlaces(itemList);
-                    }
-                })
-                .catch(error => {
-                    console.error("Error fetching popular places", error);
-                });
-        }
-    }, [address, location]);  // 종속성 수정됨
-=======
         const fetchData = async () => {
             try {
                 const data = await fetchPopularPlaces(initialAddress, initialLocation.latitude, initialLocation.longitude);
@@ -52,7 +21,6 @@ const usePopularPlaces = (initialAddress, initialLocation) => {
         };
         fetchData();
     }, [initialAddress, initialLocation]);
->>>>>>> dfbbd0f7aed48255a114d10846631cf192d41633
 
     const loadShopsInArea = async (areaName) => {
         try {

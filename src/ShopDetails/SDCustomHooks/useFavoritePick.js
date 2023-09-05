@@ -21,16 +21,10 @@ function useFavoritePick(setExternalFavoriteShops) {
 
     const updateFavoriteShops = async () => {
         try {
-<<<<<<< HEAD
-            const response = await axios.get("http://192.168.0.240:1004/myPage/myFavoriteVendors", { headers });
-            if(response.data && Array.isArray(response.data.item)) {
-                setFavoriteShops(response.data.item);
-=======
             const response = await fetchFavoriteShops();
             if (response.data && Array.isArray(response.data.item)) {  // Array 확인 추가
                 setInternalFavoriteShops(response.data.item);
 
->>>>>>> dfbbd0f7aed48255a114d10846631cf192d41633
             } else {
                 console.error("No items found or not an array in the response");
             }
@@ -46,17 +40,11 @@ function useFavoritePick(setExternalFavoriteShops) {
         try {
             let response;
             if (isFavorite) {
-<<<<<<< HEAD
-                response = await axios.delete(`http://192.168.0.240:1004/api/favoritePick/remove/${vendorId}`, { headers });
-            } else {
-                response = await axios.post(`http://192.168.0.240:1004/api/favoritePick/add/${vendorId}`, null, { headers });
-=======
                 response = await removeFavoriteShop(vendorId, headers);
             } else {
                 // console.error("No items found or not an array in the response");
                 response = await addFavoriteShop(vendorId, headers);  // 이 부분이 추가되어야 합니다.
 
->>>>>>> dfbbd0f7aed48255a114d10846631cf192d41633
             }
             setLoading(false);
             return response;

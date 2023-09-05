@@ -6,7 +6,8 @@ import {
   Dialog,
   DialogTitle,
   List,
-  ListItem
+  ListItem,
+  Typography
 } from '@mui/material';
 
 const OrderDetail = ({order, onClick }) => {
@@ -58,7 +59,6 @@ const OrderDetail = ({order, onClick }) => {
         marginBottom: '10px',
       }}
     >
-<<<<<<< HEAD
       <Typography
         variant="h6"
         align="center"
@@ -80,28 +80,6 @@ const OrderDetail = ({order, onClick }) => {
       <Grid container spacing={1} sx={{ marginTop: '2%' }}>
         <Grid item xs={6}>
           <Button variant="contained" onClick={handleOrderBack}>
-=======
-      <Grid container spacing={1} className="주문정보" style={{ marginBottom: '2%' }}>
-        <Grid item xs={6} style={{ fontWeight: 'bold', color: '#555', fontSize: '100%', marginBottom: '2%' }}>
-          주문번호
-        </Grid>
-        <Grid item xs={6} style={{ color: '#555', fontSize: '100%', marginBottom: '2%' }}>
-          1번
-        </Grid>
-        <Grid item xs={6} style={{ fontWeight: 'bold', color: '#555', fontSize: '100%', marginBottom: '2%' }}>
-          주문 메뉴
-        </Grid>
-        <Grid item xs={6} style={{ color: '#555', fontSize: '100%', marginBottom: '2%' }}>
-          <List sx={{padding: 0, margin: 0}}>
-            <ListItem sx={{padding: 0, margin: '0 0 3% 0'}}>떡볶이 3인분</ListItem>
-            <ListItem sx={{padding: 0, margin: '0 0 3% 0'}}>순대 1인분</ListItem>
-          </List>
-        </Grid>
-      </Grid>
-      <Grid container spacing={1} style={{ marginTop: '3%' }}>
-        <Grid item xs={12} style={{ display: 'flex', justifyContent: 'center' }}>
-          <Button variant="contained" onClick={handleOrderBack} style={{ color: 'white', marginRight: '3%' }}>
->>>>>>> dfbbd0f7aed48255a114d10846631cf192d41633
             주문반려
           </Button>
           <Button variant="contained" onClick={handleOrderDetail} style={{ color: 'white', marginLeft: '3%' }}>
