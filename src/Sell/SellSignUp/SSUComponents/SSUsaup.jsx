@@ -57,13 +57,13 @@ const SSUsaup = ({ setNextButtonEnabled }) => {
         return (
           <>
             <TextField
-              label="정보1"
+              label="승인번호"
               value={value1}
               onChange={(e) => setValue1(e.target.value)}
               fullWidth
             />
             <TextField
-              label="정보2"
+              label="가게이름"
               value={value2}
               onChange={(e) => setValue2(e.target.value)}
               fullWidth
@@ -74,7 +74,7 @@ const SSUsaup = ({ setNextButtonEnabled }) => {
       case '노량진':
         return (
           <TextField
-            label="정보1"
+            label="위치"
             value={value1}
             onChange={(e) => setValue1(e.target.value)}
             fullWidth
@@ -84,13 +84,13 @@ const SSUsaup = ({ setNextButtonEnabled }) => {
         return (
           <div>
             <TextField
-              label="정보1"
+              label="거리가게명"
               value={value1}
               onChange={(e) => setValue1(e.target.value)}
               fullWidth
             />
             <TextField
-              label="정보2"
+              label="위치"
               value={value2}
               onChange={(e) => setValue2(e.target.value)}
               fullWidth
@@ -102,13 +102,13 @@ const SSUsaup = ({ setNextButtonEnabled }) => {
         return (
           <div>
             <TextField
-              label="value1"
+              label="위치"
               value={value1}
               onChange={(e) => setValue1(e.target.value)}
               fullWidth
             />
             <TextField
-              label="value2"
+              label="판매품목"
               value={value2}
               onChange={(e) => setValue2(e.target.value)}
               fullWidth
@@ -120,7 +120,7 @@ const SSUsaup = ({ setNextButtonEnabled }) => {
         return (
           <div>
             <TextField
-              label="value1"
+              label="소재지주소"
               value={value1}
               onChange={(e) => setValue1(e.target.value)}
               fullWidth
