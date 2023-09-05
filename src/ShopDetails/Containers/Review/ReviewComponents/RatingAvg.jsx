@@ -1,15 +1,6 @@
-import { Rating, Box, Typography, Grid } from "@mui/material";
+import { Rating, Box, Typography, Grid, Table, TableBody, TableCell, TableRow  } from "@mui/material";
 import useReview from '../ReviewCustomHook/useReview';
 import React, { useState } from 'react';
-
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  ResponsiveContainer,
-} from "recharts";
 import { useParams } from "react-router-dom";
 
 const RatingAvg = () => {
@@ -41,7 +32,7 @@ const RatingAvg = () => {
     if (!Array.isArray(reviews)) {
       return 0;
     }
-    return reviews.filter((review) => review.reviewscore === rating).length;
+    return reviews.filter((review) => review.reviewScore === rating).length;  // reviewScore로 변경
   };
 
   const ratingCounts = [
@@ -52,22 +43,29 @@ const RatingAvg = () => {
     { rating: 1, count: calculateRatingCounts(reviews, 1) },
   ];
 
-  const CustomLabel = (props, color) => {
-    const { x, y, width, height, value } = props;
-    return (
-      <text
-        x={x + width + 10}
-        y={y + height / 2}
-        fill={color}
-        dominantBaseline="middle"
-      >
-        ({value})
-      </text>
-    );
-  };
+  const generateTableRow = (rating, count) => (
+    <TableRow key={rating} sx={{ height: '20px' }}>
+      <TableCell component="th" scope="row" sx={{ padding: '0' }}>
+        {rating}점
+      </TableCell>
+      <TableCell align="left" sx={{ padding: '0 5%' }}>
+        <div style={{
+          backgroundColor: "#FFE500",
+          width: `${count * 10}px`,
+          height: "10px",
+          borderRadius: "5px",
+          padding: 0
+        }}>
+        </div>
+      </TableCell>
+      <TableCell align="right" sx={{ padding: '3% 5%', color: '#ababab', fontSize: '70%' }}>
+        ({count}명)
+      </TableCell>
+    </TableRow>
+  );
 
   return (
-    <Box>
+    <Box sx={{width: '100%', height: ''}}>
       <Grid container spacing={2}>
         <Grid item xs={6}>
           <Box
@@ -92,44 +90,11 @@ const RatingAvg = () => {
         </Grid>
 
         <Grid item xs={6}>
-          <ResponsiveContainer width={"100%"} height={100}>
-            <BarChart data={ratingCounts} layout="vertical" barCategoryGap={20}>
-              <XAxis type="number" hide />
-              <YAxis
-                dataKey="rating"
-                type="category"
-                axisLine={false}
-                width={30}
-                interval={0}
-              />
-              <CartesianGrid horizontal={false} vertical={false} />
-              <Bar
-                dataKey="count"
-                fill="#FFE500"
-                barSize={30}
-                radius={[5, 5, 5, 5]}
-                label={props => CustomLabel(props, "#E2E2E2")}
-              />
-            </BarChart>
-          </ResponsiveContainer>
-        </Grid>
-
-        {/* 음식 평점을 위한 Rating 컴포넌트 */}
-        <Grid item xs={6}>
-          <Typography variant="body1">음식 평점:</Typography>
-          <Rating
-            value={foodRating}
-            onChange={(e, newValue) => setFoodRating(newValue)}
-          />
-        </Grid>
-
-        {/* 위생 평점을 위한 Rating 컴포넌트 */}
-        <Grid item xs={6}>
-          <Typography variant="body1">위생 평점:</Typography>
-          <Rating
-            value={hygieneRating}
-            onChange={(e, newValue) => setHygieneRating(newValue)}
-          />
+            <Table>
+              <TableBody>
+                {ratingCounts.map((item) => generateTableRow(item.rating, item.count))}
+              </TableBody>
+            </Table>
         </Grid>
       </Grid>
     </Box>

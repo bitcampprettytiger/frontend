@@ -1,22 +1,26 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
-function useSlider(images = []) {
-    const [currentIndex, setCurrentIndex] = useState(0);
+const useSlider = (images) => {
+  const swiperRef = useRef(null);
 
-    useEffect(() => {
-        if (!Array.isArray(images)) {
-            console.error('The provided images are not an array!');
-            return;
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const swiper = swiperRef.current?.swiper;
+      if (swiper) {
+        if (swiper.activeIndex === images.length - 1) {
+          swiper.slideTo(0);
+        } else {
+          swiper.slideNext();
         }
+      }
+    }, 2000);
 
-        const interval = setInterval(() => {
-            setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-        }, 3000);
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [images]);
 
-        return () => clearInterval(interval);
-    }, [images]);
-
-    return [currentIndex, setCurrentIndex];
-}
+  return swiperRef;
+};
 
 export default useSlider;

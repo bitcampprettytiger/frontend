@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import './Mypage.css';
 import Footer from '../../Layout/Footer';
 import Header from '../../Layout/Header';
-import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
+import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useFavorite } from '../../Menu/MyPage/MyPageComponents/FavoriteContext';
+import { LuFootprints } from 'react-icons/lu';
+import { FaHeart } from 'react-icons/fa';
+import { MdOutlineShoppingBasket } from 'react-icons/md';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Mypage() {
   const [isEditing, setIsEditing] = useState(false);
@@ -93,7 +99,7 @@ function Mypage() {
             <div className="nickname-display">
               <p className="nickname-text">{nickname}</p>
               <button onClick={handleEditClick} className="nickname-edit-button">
-                <PlayCircleOutlineIcon />
+                <ArrowForwardIosRoundedIcon />
               </button>
             </div>
           )}
@@ -103,25 +109,25 @@ function Mypage() {
           <div className="button-group">
             <Link to="/myreview">
               <div className="custom-button">
-                <img src="/path-to-your-first-image.jpg" alt="Review" className="button-icon" />
-                나의 먹자취 리뷰
-                <KeyboardArrowRightIcon />
+                <LuFootprints className="button-icon icon-left" />
+                <span class="button-text">나의 먹자취 리뷰</span>
+                <KeyboardArrowRightIcon className='icon-right' />
               </div>
             </Link>
 
             <Link to="/myfavorite">
               <div className="custom-button">
-                <img src="/path-to-your-second-image.jpg" alt="Favorites" className="button-icon" />
-                내가 찜해찜!
-                <KeyboardArrowRightIcon />
+                <FaHeart className="button-icon themeColor icon-left" />
+                <span class="button-text">내가 찜해찜!</span>
+                <KeyboardArrowRightIcon className='icon-right' />
               </div>
             </Link>
 
             <Link to="/mytakeout">
               <div className="custom-button">
-                <img src="/path-to-your-third-image.jpg" alt="Order" className="button-icon" />
-                포장주문내역
-                <KeyboardArrowRightIcon />
+                <MdOutlineShoppingBasket className="button-icon icon-left" />
+                <span class="button-text">포장주문내역</span>
+                <KeyboardArrowRightIcon className='icon-right' />
               </div>
             </Link>
           </div>

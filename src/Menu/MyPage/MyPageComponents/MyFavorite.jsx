@@ -5,7 +5,10 @@ import Footer from '../../../Layout/Footer';
 import { fetchMyFavoriteVendors } from '../../Home/HomeComponents/HomeApi';
 import useFavoritePick from '../../../ShopDetails/SDCustomHooks/useFavoritePick';
 import StarIcon from '@mui/icons-material/Star';
+import { IconButton } from '@mui/material';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useFavorite } from './FavoriteContext';
+import './MyFavorite.css';
 
 function MyFavorite() {
     const { toggleFavorite } = useFavoritePick();
@@ -63,7 +66,7 @@ function MyFavorite() {
             <Header page="myfavorite" />
             <h3>찜한 가게는 {favoriteShops.length}개 입니다.</h3>
 
-            <div className="results-container">
+            <div className="myfavorite-container">
                 {favoriteShops.map(vendor => (
                     <div key={vendor.id} className="result-item">
                         <img

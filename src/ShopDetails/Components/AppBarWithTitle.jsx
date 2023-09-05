@@ -22,11 +22,14 @@ const AppBarWithTitle = ({ title }) => {
                 left: `calc((100% - ${width}) / 2)`,
                 right: `calc((100% - ${width}) / 2)`,
                 backgroundColor: 'white', 
-                height: '8%', 
+                height: '10vh', 
                 position: 'fixed', 
                 top : 0,
+                boxShadow: 0,
+                borderBottom: '1px solid #e7e7e7',
+                verticalAlign: 'middle'
             }}>
-                <Toolbar sx={{ minHeight: '0', display: 'flex' }}>
+                <Toolbar sx={{ minHeight: '0', display: 'flex', height: '10vh' }}>
                     <Box sx={{
                         height: '50%',
                         width: 'auto',

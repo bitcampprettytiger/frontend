@@ -33,23 +33,9 @@ export const fetchPopularPlaces = (address, latitude, longitude) => {
     });
 };
 
-// // 지정된 지역명에 따라 주변 가게 정보를 가져오는 함수
-// export const fetchShopsAroundStation = async (areaName) => {
-//     try {
-//         // API 호출을 통해 areaName에 해당하는 지역의 주변 가게 정보를 가져옵니다.
-//         const response = await axios.get(`${API_BASE_URL}/search/search10vendor?areaName=${areaName}`, {
-//             headers: getHeaders(),
-//         });
-//         return response.data;
-//     } catch (error) {
-//         // 에러가 발생하면 콘솔에 에러 정보를 출력합니다.
-//         console.error(error);
-//         return null;
-//     }
-// };
-
 // 지정된 지역명에 따라 주변 가게 정보를 가져오는 함수 (일반적인 지역)
 export const fetchShopsInArea = async (areaName) => {
+
     try {
         console.log(`[${areaName}] 지역의 매장 정보를 가져오는 중...`);
         const response = await axios.post(`${API_BASE_URL}/vendor/search10vendor`, { name: areaName }, {
