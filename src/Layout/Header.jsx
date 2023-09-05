@@ -3,16 +3,15 @@ import '../App.css';
 import './Header.css';
 import MenuIcon from '@mui/icons-material/Menu';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { useNavigate } from 'react-router-dom';
 import ShareIcon from '@mui/icons-material/Share';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import {FiSettings} from 'react-icons/fi'
-import {TbHome} from 'react-icons/tb'
 import { convertCoordsToAddress } from '../Utils/kakaoUtils';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import Notice from '../Menu/Home/HomeComponents/Notice';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import { AiOutlineSearch } from 'react-icons/ai'
+import { IoIosCloseCircleOutline } from 'react-icons/io'
 
 function Header({ page, searchInput, handleSearchChange, handleDeleteClick, handleSearchClick, setAddressToHome, handleKeyUp }) {
 
@@ -164,9 +163,9 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
                 </button>
             </div>
             <div className="search-header-center-section">
-                <div className="search-container">
+                <div className="search-container" style={{padding: '0 5%', height: '5vh'}}>
                     <button className="search-button" onClick={handleSearchClick}>
-                        <img src="/images/inputsearch.png" alt="검색아이콘" />
+                        <AiOutlineSearch style={{fontSize: '160%', color: '#FD5E53'}}/>
                     </button>
                     <input
                         className="search-input"
@@ -175,10 +174,10 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
                         onChange={handleSearchChange}
                         onKeyDown={handleKeyDown}
                         onKeyUp={handleKeyUp}  // 이렇게 handleKeyUp를 추가합니다.
-
+                        style={{height: '2vh'}}
                     />
                     <button style={{ border: 'none', background: 'none' }} onClick={handleDeleteClick}>
-                        <HighlightOffIcon style={{ color: '#ff813d' }} />
+                        <IoIosCloseCircleOutline style={{ color: '#FD5E53', fontSize: '160%' }} />
                     </button>
                 </div>
             </div>
@@ -241,19 +240,9 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
     );
 
     const renderMypageHeader = () => (
-        <div className="App-header">
-            <div className="mypage-header-left-section">
-                {/* 다른 페이지의 왼쪽 섹션 내용 */}
-            </div>
+        <div className="App-header" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <div className="mypage-header-center-section">
                 나의 먹자취
-            </div>
-            <div className="mypage-header-right-section">
-                <button
-                    className="mypage-settings-button"
-                    onClick={() => navigate('/myedit')}>
-                    <FiSettings className='icon-btn'/>
-                </button>
             </div>
         </div>
     );
@@ -280,12 +269,6 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
                 나의 먹자취 리뷰
             </div>
             <div className="header-right-section">
-                <button
-                    style={{ border: 'none', background: 'none' }}
-                    onClick={handleGoToHome}
-                >
-                    <TbHome className='icon-btn'/>
-                </button>
             </div>
         </div>
     );
@@ -303,12 +286,6 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
                 내가 찜해찜!
             </div>
             <div className="header-right-section">
-                <button
-                    style={{ border: 'none', background: 'none' }}
-                    onClick={handleGoToHome}
-                >
-                    <TbHome className='icon-btn'/>
-                </button>
             </div>
         </div>
     );
@@ -328,16 +305,10 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
                 포장주문내역
             </div>
             <div className="header-right-section">
-                <button
-                    style={{ border: 'none', background: 'none' }}
-                    onClick={handleGoToHome}
-                >
-                    <TbHome className='icon-btn'/>
-                </button>
             </div>
         </div>
     );
-    const renderMyEditHeader = () => (
+    const takeOutDetailHeader = () => (
         <div className="App-header">
             <div className="header-left-section">
                 <button
@@ -347,16 +318,10 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
                     <ArrowBackIcon style={{ color: 'black' }} />
                 </button>
             </div>
-            <div className="header-center-section">
-                회원 정보 설정
+            <div className="header-center-section header-center-section-with-back">
+                주문 상세 내역 
             </div>
             <div className="header-right-section">
-                <button
-                    style={{ border: 'none', background: 'none' }}
-                    onClick={handleGoToHome}
-                >
-                    <TbHome className='icon-btn'/>
-                </button>
             </div>
         </div>
     );
@@ -381,7 +346,7 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
             {page === 'myreview' && renderMyReviewHeader()}
             {page === 'myfavorite' && renderMyFavoriteHeader()}
             {page === 'mytakeout' && renderMyTakeoutHeader()}
-            {page === 'myedit' && renderMyEditHeader()}
+            {page === 'mytakeoutdetail' && takeOutDetailHeader()}
         </div>
 
     );

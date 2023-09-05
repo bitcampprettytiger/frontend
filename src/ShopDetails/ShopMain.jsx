@@ -9,6 +9,7 @@ import ShopInfo from "./Containers/ShopDetail/ShopInfo";
 import CircularProgress from '@mui/material/CircularProgress';
 import { Stack } from "@mui/material";
 import useVendor from "./SDCustomHooks/useVendor";
+import { Box } from '@mui/system';
 
 const ShopMain = () => {
   const { vendorId } = useParams();
@@ -32,12 +33,14 @@ const ShopMain = () => {
 
     return (
         <>
+            <Box sx={{border: '1px solid #ff0000'}}>
             <ShopAppBar/>
             {vendor && <ShopImage vendor={vendor} />}
             <ShopInfo vendor={vendor} onViewLocation={goToLocationSection}/>
             <ShopHomeTabsProvider value={goToLocationSection} >
                 <ShopHomeTabs images={imagesFromReviews} locationRef={locationRef}/>
             </ShopHomeTabsProvider>
+            </Box>
         </>
     );
 }

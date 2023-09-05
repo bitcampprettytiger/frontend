@@ -12,6 +12,7 @@ import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied
 import { useParams } from 'react-router-dom';
 import useReview from '../ReviewCustomHook/useReview';
 import { createReview } from '../../../../Menu/Home/HomeComponents/HomeApi';
+import AppBarWithTitle from '../../../Components/AppBarWithTitle';
 
 
 function ReviewForm({ onReviewSubmit }) {
@@ -111,21 +112,9 @@ function ReviewForm({ onReviewSubmit }) {
   }, [isLiked, isDisliked]);
 
   return (
-    <div>
-      <AppBar position="static" sx={{ backgroundColor: 'white' }}>
-        <Toolbar>
-          <IconButton edge="start" aria-label="back">
-            <ArrowBackIcon />
-          </IconButton>
-          <Typography
-            sx={{ ml: 2, flex: 1, color: 'black', fontSize: '110%' }}
-            component="div"
-          >
-            리뷰 작성
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <div style={{ textAlign: 'left', paddingLeft: '10%' }}>
+    <div style={{height: '100vh' , margin:'0'}}>
+      <AppBarWithTitle title='리뷰 작성하기'/>
+      <div style={{ textAlign: 'left', paddingLeft: '10%', marginTop: '5vh' }}>
         <Typography
           variant="h6"
           component="div"
@@ -133,7 +122,6 @@ function ReviewForm({ onReviewSubmit }) {
             fontSize: '17px',
             fontWeight: 'bold',
             color: 'black',
-            paddingTop: '20px',
           }}
         >
           가게 이름
@@ -142,15 +130,16 @@ function ReviewForm({ onReviewSubmit }) {
       <div style={{ textAlign: 'center' }}>
         <Typography
           sx={{
-            fontSize: '15px',
+            fontSize: '100%',
             color: 'black',
-            paddingTop: '20px',
+            paddingTop: '2%',
             fontWeight: 'bold',
           }}
         >
           음식은 어떠셨나요?
         </Typography>
-        <Rating value={reviewScore} onChange={(e, newValue) => setReviewScore(newValue)} />
+        <Rating value={reviewScore} onChange={(e, newValue) => setReviewScore(newValue)} 
+        sx={{marginTop: '5%'}}/>
 
 
         <div
@@ -158,7 +147,8 @@ function ReviewForm({ onReviewSubmit }) {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            gap: '10vw',
+            gap: '5vw',
+            marginTop: '5%'
           }}
         >
           <Button
@@ -179,7 +169,14 @@ function ReviewForm({ onReviewSubmit }) {
               "&:hover": {
                 borderWidth: "1.5px",
                 borderColor: "#FF745A",
-              },
+                background: "#FF745A",
+                color: 'white'
+              }, "&:active": {
+                borderWidth: "1.5px",
+                borderColor: "#FF745A",
+                background: "#FF745A",
+                color: 'white'
+              }, 
             }}
           >
             좋아요
@@ -202,7 +199,14 @@ function ReviewForm({ onReviewSubmit }) {
               "&:hover": {
                 borderWidth: "1.5px",
                 borderColor: "#FF745A",
-              },
+                background: "#FF745A",
+                color: 'white'
+              }, "&:active": {
+                borderWidth: "1.5px",
+                borderColor: "#FF745A",
+                background: "#FF745A",
+                color: 'white'
+              }, 
             }}
           >
             아쉬워요
@@ -219,6 +223,8 @@ function ReviewForm({ onReviewSubmit }) {
           onChange={handleReviewChange}
           placeholder="다른 사람들이 볼 수 있게 남겨주세요. :)"
           fullWidth
+          color='secondary'
+          sx={{margin: '2%', width: '90%'}}
         />
         <input
           type="file"
@@ -227,7 +233,8 @@ function ReviewForm({ onReviewSubmit }) {
           style={{
             display: 'none',
             width: '80%',
-            marginTop: '30%'
+            marginTop: '30%',
+            color: '#FD5E53'
           }
           }
           id="fileInput"
@@ -240,7 +247,12 @@ function ReviewForm({ onReviewSubmit }) {
             backgroundColor: 'white',
             borderColor: '#D9D9D9',
             borderWidth: '1px',
-            marginTop: '2vh'
+            marginTop: '2vh',
+            color: 'black',
+            '&:hover': {
+              backgroundColor: '#E2E2E2',
+              borderColor: '#FD5E53'
+            },
           }}
           onClick={() => document.getElementById('fileInput').click()}
 
@@ -262,7 +274,6 @@ function ReviewForm({ onReviewSubmit }) {
                   top: 0,
                   right: 0,
                   background: 'red',
-                  color: 'white'
                 }}
               >
                 X
@@ -280,6 +291,16 @@ function ReviewForm({ onReviewSubmit }) {
             height: '48px',
             backgroundColor: '#FF745A',
             color: 'white',
+            '&:hover': {
+              backgroundColor: '#E3634D',
+              borderWidth: "1.5px",
+              borderColor: "#FF745A",
+            },
+            '&:action': {
+              backgroundColor: '#E3634D',
+              borderWidth: "1.5px",
+              borderColor: "#FF745A",
+            },
           }}
           onClick={handleReviewSubmit}
         >

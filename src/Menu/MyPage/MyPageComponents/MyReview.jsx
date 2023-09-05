@@ -118,7 +118,7 @@ function MyReview() {
         <div className='App-main2'>
             <Header page="myreview" />
             <div className='myreview-container'>
-                <h2>내가 쓴 총 {reviews.length}개의 리뷰</h2>
+                <h3>내가 쓴 총 {reviews.length}개의 리뷰</h3>
                 <hr className="review-divider" />
 
                 {reviews.map((review, index) => (

@@ -3,6 +3,9 @@ import Header from '../../../Layout/Header.jsx';
 import Footer from '../../../Layout/Footer.jsx';
 import './MyTakeoutDetail.css';
 import { useParams } from 'react-router-dom';
+import {IoIosCall} from 'react-icons/io';
+import {BiStoreAlt} from 'react-icons/bi'
+
 function MyTakeoutDetail() {
 
     const { orderNumber } = useParams();  // URL 파라미터로부터 주문 번호 가져오기
@@ -40,21 +43,29 @@ function MyTakeoutDetail() {
         <div className='App-main2'>
             <Header page="mytakeoutdetail" />
             <div className='mytakeoutdetail-container'>
-                <p>포장이 완료되었어요</p>
+                <p className='takeout-complete'>포장이 완료되었어요</p>
                 <div className='mytakeout-detail'>
                     <div>
-                        <div><strong>{orderDetail.storeName}</strong></div>
-                        <div>{orderDetail.orderMenu}</div>
-                        <div>{orderDetail.orderDate}</div>
-                        <div>{orderDetail.orderNumber}</div>
-                        <button
-                            onClick={() => window.location.href = `tel:${orderDetail.storeTelNumber}`}
-                            className='storeTelNumber'>가게 전화</button>
-                        <button>가게 보기</button>
-                        <div>{orderDetail.totalPrice}원</div>
+                        <div className='tdstorename margin-btm'><strong>{orderDetail.storeName}</strong></div>
+                        <div className='tdorderedate margin-btm'>주문일시 : {orderDetail.orderDate}</div>
+                        <div className='tdordernum margin-btm'>주문번호 : {orderDetail.orderNumber}</div>
+                        <div className='tdstoremenu margin-btm'>
+                            {Array.isArray(orderDetail.orderMenu) ? (
+                                orderDetail.orderMenu.map(menu => <div>{menu}</div>)
+                            ) : (
+                                <div>{orderDetail.orderMenu}</div>
+                            )}
+                        </div>
+                        <div className='button-container margin-btm'>
+                            <button
+                                onClick={() => window.location.href = `tel:${orderDetail.storeTelNumber}`}
+                                className='tdbtn'><IoIosCall className='tdicon'/>가게 전화</button>
+                            <button className='tdbtn'><BiStoreAlt className='tdicon'/>재주문 하기</button>
+                        </div>
+                        <div className='tdprice margin-btm'>총 금액 | {orderDetail.totalPrice}원</div>
+                        <div className='divider'></div>
                     </div>
                 </div>
-
             </div>
             <Footer type="mytakeoutdetail" />
         </div>

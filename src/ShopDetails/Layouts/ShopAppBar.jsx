@@ -23,7 +23,6 @@ function ShopAppBar(props) {
     const { vendorId, memberId } = useParams();
     const { vendor, error, loading } = useVendor(vendorId);
     const [open, setOpen] = React.useState(false);
-    const { width } = useResponsive();
     const { toggleFavorite, favoriteShops } = useFavoritePick();
     const [liked, setLiked] = useState(false);
 
@@ -56,14 +55,11 @@ function ShopAppBar(props) {
     return (
         <React.Fragment>
             <CssBaseline />
-            <AppBar sx={{
-                width: width,
-                left: `calc((100% - ${width}) / 2)`,
-                right: `calc((100% - ${width}) / 2)`,
+            <AppBar position='sticky' sx={{
+                width: '100%',
                 backgroundColor: 'white', 
-                height: '10vh', 
-                position: 'fixed', 
-                top : 0,
+                height: '10vh',  
+                top : '0',
                 boxShadow: 0,
                 borderBottom: '1px solid #e7e7e7',
                 verticalAlign: 'middle'

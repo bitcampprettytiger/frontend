@@ -93,7 +93,12 @@ export default function ShopHomeTabs({ images, locationRef }) {
           value={value}
           onChange={handleChange}
           aria-label="ShophHomeTabs"
-          variant="sticky"
+          sx={{
+            position: '-webkit-sticky', /* Safari */
+            position: 'sticky',
+            top: '10vh',
+            zIndex: 5
+          }}
         >
           <StyledTab label="홈" {...a11yProps(0)} />
           <StyledTab label="메뉴" {...a11yProps(1)} />
