@@ -15,7 +15,9 @@ function MyFavorite() {
     const navigate = useNavigate();
     const token = localStorage.getItem('accessToken');
     const memberId = localStorage.getItem('memberId');
-    const { favoriteShops, setFavoriteShops } = useFavorite(); // Using context to manage state
+    const { favoriteShops, setFavoriteShops } = useFavorite();
+
+    const nickname = localStorage.getItem('nickName');  // 닉네임 가져오기
 
     // 가게를 클릭했을 때 동작하는 함수
     const handleShopClick = (vendorId) => {
@@ -30,11 +32,9 @@ function MyFavorite() {
             navigate('/');
             return;
         }
-
         const fetchFavorites = async () => {
             try {
                 const response = await fetchMyFavoriteVendors();
-
                 if (response) {
                     setFavoriteShops(response.item || []);
                 }
@@ -42,10 +42,9 @@ function MyFavorite() {
                 console.error("API 호출이 실패하였습니다.", error);
             }
         };
-
-
         fetchFavorites();
-    }, [token, memberId, favoriteShops]);
+    }, [token, memberId]);  // favoriteShops를 제거함
+
 
     const deleteFavorite = async (vendorName, vendorId) => {
         try {
@@ -66,6 +65,7 @@ function MyFavorite() {
             <Header page="myfavorite" />
 
             <div className="myfavorite-container">
+                <h3>{nickname}님이 즐겨찾기한 가게는 {favoriteShops.length}개입니다.</h3>
                 {favoriteShops.map(vendor => (
                     <div key={vendor.id} className="favorite-item">
                         <div className="store-image-container">

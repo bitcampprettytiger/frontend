@@ -15,15 +15,15 @@ import { fetchReviewsByMemberId, deleteReview as deleteReviewAPI } from '../../H
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { yellow } from '@mui/material/colors';
-
+import { useReviewContext } from './ReviewContext.jsx';
 function MyReview({ reviewsData, setReviewsData, token }) {
     // 상태 변수들을 정의합니다.
-    const [reviews, setReviews] = useState(reviewsData);
+
     const [isModalOpen, setModalOpen] = useState(false); // 모달 오픈 여부
     const [currentReview, setCurrentReview] = useState(null); // 현재 선택된 리뷰
     const [isButtonClicked, setButtonClicked] = useState(false); // 버튼 클릭 여부
     const [isExpanded, setIsExpanded] = useState(false); // 리뷰 내용 확장 여부
-
+    const { reviews: contextReviews, setReviews: setContextReviews } = useReviewContext();
     const handleClose = () => {
         setModalOpen(false);
         setCurrentReview(null);
@@ -49,7 +49,8 @@ function MyReview({ reviewsData, setReviewsData, token }) {
                 const response = await fetchReviewsByMemberId();
                 console.log("가져온 리뷰 데이터:", response);
                 if (response.status === 200) {
-                    setReviews(response.data.item.reviews || []);
+                    const fetchedReviews = response.data.item.reviews || [];
+                    setContextReviews(fetchedReviews);
                 }
             } catch (error) {
                 alert('리뷰를 가져오는데 실패했습니다. 다시 시도해주세요.');
@@ -57,27 +58,25 @@ function MyReview({ reviewsData, setReviewsData, token }) {
         };
         fetchReviews();
     }, []);
-    useEffect(() => {
-        console.log("현재 리뷰 상태:", reviews);
-    }, [reviews]); // 리뷰 상태 변화를 콘솔에 출력하는 함수
+
 
     const handleDeleteReview = async (reviewId) => {
         try {
             await deleteReviewAPI(reviewId, token);
-            const updatedReviews = reviews.filter(review => review.id !== reviewId);
-            setReviews(updatedReviews);
+            const updatedReviews = contextReviews.filter(review => review.id !== reviewId);
+            setContextReviews(updatedReviews);
         } catch (error) {
             alert('리뷰 삭제에 실패했습니다. 다시 시도해주세요.');
         }
-    }; // 리뷰를 삭제하는 함수
+    };
 
     return (
         <div className='App-main2'>
             <Header page="myreview" />
             <div className='myreview-container'>
-                <h3>내가 쓴 총{reviews?.length || 0}개의 리뷰</h3>
+                <h3>내가 쓴 총{contextReviews?.length || 0}개의 리뷰</h3>
                 <hr className="review-divider" />
-                {Array.isArray(reviews) && reviews.map((review, index) => {
+                {Array.isArray(contextReviews) && contextReviews.map((review, index) => {
                     if (!review) {
                         console.log(`인덱스 ${index}의 리뷰 데이터가 누락되었습니다.`);
                         return null;
@@ -140,6 +139,8 @@ function MyReview({ reviewsData, setReviewsData, token }) {
             <Footer type="myreview" />
         </div>
     );
+
 };
 
-export default MyReview;
+const MemoizedMyReview = React.memo(MyReview);
+export default MemoizedMyReview;

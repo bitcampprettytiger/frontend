@@ -42,6 +42,7 @@ import Seller from './WebSocket/Seller';
 import Buyer from './WebSocket/Buyer';
 import SellList from './Sell/SellStoreSet/SellList';
 import SellMyinfo from './Sell/SellMyinfoList';
+import { ReviewContextProvider } from './Menu/MyPage/MyPageComponents/ReviewContext';
 
 const muitheme = createTheme({
   palette: {
@@ -61,11 +62,9 @@ const menuRoutes = [
   { path: '/waiting', element: <Waiting /> },
   {
     path: '/myreview',
-    element: (
-      <FavoriteProvider>
-        <MyReview />{' '}
-      </FavoriteProvider>
-    ),
+    element:
+
+      <MyReview />
   },
   { path: '/waitingDetail', element: <WaitingDetail /> },
   { path: '/shopHome/:vendorId', element: <ShopMain /> },
@@ -74,18 +73,16 @@ const menuRoutes = [
   { path: '/notice', element: <Notice /> },
   {
     path: '/mypage',
-    element: (
-      <FavoriteProvider>
-        <Mypage />
-      </FavoriteProvider>
-    ),
+    element:
+      <Mypage />
+
   },
   {
     path: '/myfavorite',
     element: (
-      <FavoriteProvider>
-        <MyFavorite />
-      </FavoriteProvider>
+
+      <MyFavorite />
+
     ),
   },
   { path: '/mytakeout', element: <MyTakeout /> },
