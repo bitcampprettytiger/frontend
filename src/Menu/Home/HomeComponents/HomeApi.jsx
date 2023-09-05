@@ -59,9 +59,11 @@ export const fetchShopsInArea = async (areaName) => {
 // 사용자의 리뷰를 가져오는 함수
 export const fetchReviewsByMemberId = async () => {
     const headers = getHeaders();
+    console.log("헤더 정보:", headers); // 헤더 정보 확인
 
     try {
-        const response = await axios.get(`${API_BASE_URL}/reviews/review`, { headers: headers });
+        const response = await axios.get(`${API_BASE_URL}/myPage/myReviews`, { headers: headers });
+        console.log("서버 응답:", response); // 서버에서 반환된 전체 응답 확인
 
         if (response.status !== 200) {
             throw new Error('서버가 예상치 못한 상태 코드를 반환했습니다.');
@@ -69,9 +71,11 @@ export const fetchReviewsByMemberId = async () => {
 
         return response.data;
     } catch (error) {
+        console.error("리뷰 정보 가져오기 오류:", error); // 오류 발생 시 오류 내용 확인
         throw error;
     }
 };
+
 // 리뷰 업데이트하기
 export const updateReview = (reviewDto, uploadFiles, changeFileList, originFileList) => {
     const formData = new FormData();
