@@ -51,7 +51,6 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
           'menuSellStatus',
           outOfStock[index] ? 'OUT_OF_STOCK' : 'SELL'
         );
-
         if (menu.menuImage) {
           formData.append('file', menu.menuImage);
         }
@@ -72,6 +71,7 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
       );
 
       if (response.status === 200) {
+        console.log('메뉴정보들', response);
         alert('메뉴 정보 전송 성공');
       } else {
         alert('서버코드실패');
@@ -119,7 +119,6 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
           <Grid item xs={2} sx={{ textAlign: 'center' }}>
             금액
           </Grid>
-
         </Grid>
         <Box
           sx={{

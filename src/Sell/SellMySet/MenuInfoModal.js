@@ -10,16 +10,14 @@ import {
   Checkbox,
 } from '@mui/material';
 import axios from 'axios';
-const MenuInfoModal = ({ open, handleClose, menuId, menus,updateMenus }) => {
+const MenuInfoModal = ({ open, handleClose, menuId, menus, updateMenus }) => {
   // menus를 props로 받음
   const accessToken = localStorage.getItem('accessToken');
-  const selectedMenu = menus.find((menu) => menu.menuId === menuId); // menuId로 menu 정보를 찾음
-
-  const [updatedMenu, setUpdatedMenu] = useState(selectedMenu); // 초기값을 selectedMenu로 설정
-
+  const selectedMenu = menus.find((menu) => menu.menuId === menuId);
+  const [updatedMenu, setUpdatedMenu] = useState(selectedMenu || null);
   useEffect(() => {
-    const newSelectedMenu = menus.find((menu) => menu.menuId === menuId); // menuId가 변경되면 다시 찾음
-    setUpdatedMenu(newSelectedMenu); // 그리고 updatedMenu를 업데이트
+    const newSelectedMenu = menus.find((menu) => menu.id === menuId);
+    setUpdatedMenu(newSelectedMenu);
   }, [menuId, menus]);
 
   const handleInputChange = (e, field) => {
@@ -32,37 +30,55 @@ const MenuInfoModal = ({ open, handleClose, menuId, menus,updateMenus }) => {
     updateMenus(updatedMenu); // updatedMenu 값이 채워져 있어야 함
     handleClose();
   };
-  const handleDelete = async (menuId) => {
+
+  const handleDelete = async () => {
     try {
-      // 모달창이 나옴 (예: '정말로 삭제하시겠습니까?')
       const confirmDelete = window.confirm('정말로 삭제하시겠습니까?');
       if (!confirmDelete) return;
 
-      // DB에서 메뉴 삭제
-      const response = await axios.delete(`/menu/info/deleteMenu/${menuId}`);
+      const formData = new FormData();
+      formData.append('id', menuId);
+      const response = await axios.delete(
+        `https://mukjachi.site:6443/menu/info/deleteMenu`,
+        {
+          data: formData,
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
 
       if (response.status === 200) {
         alert('삭제가 완료되었습니다.');
-        // 여기에 메뉴 목록을 다시 가져오는 로직이나, 상태 업데이트 로직을 넣을 수 있습니다.
         handleClose();
       }
     } catch (error) {
-      console.error('메뉴 삭제 실패:', error);
       alert('삭제를 실패했습니다.');
     }
   };
+
   const handleModalClose = () => {
     setUpdatedMenu(null); // 원래의 selectedMenu 값으로 되돌림
     handleClose(); // 원래 handleClose 로직
   };
+
   const handleUpdate = async () => {
     try {
+      const formData = new FormData();
+      formData.append('id', menuId);
+      formData.append('menuName', updatedMenu.menuName);
+      formData.append('menuContent', updatedMenu.menuContent);
+      formData.append('price', updatedMenu.price);
+      // 추가적으로 필요한 필드가 있다면 이곳에 추가
+
       const response = await axios.put(
-        `/menu/update/${updatedMenu.menuId}`,
-        updatedMenu,
+        `https://mukjachi.site:6443/menu/info/changeMenu`,
+        formData,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'multipart/form-data', // 필요한 경우에만 이 부분을 추가
           },
         }
       );
@@ -72,6 +88,9 @@ const MenuInfoModal = ({ open, handleClose, menuId, menus,updateMenus }) => {
       }
     } catch (error) {
       console.error('메뉴 수정 실패:', error);
+      if (error.response) {
+        console.error('서버 에러:', error.response.data); // 서버에서 반환하는 에러 메시지
+      }
       alert('수정을 실패했습니다.');
     }
   };
@@ -80,6 +99,13 @@ const MenuInfoModal = ({ open, handleClose, menuId, menus,updateMenus }) => {
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle>메뉴 수정</DialogTitle>
       <DialogContent>
+        {updatedMenu?.imageURL && (
+          <img
+            src={updatedMenu.imageURL}
+            alt="Menu"
+            style={{ width: '100px', height: '100px' }}
+          />
+        )}
         <TextField
           autoFocus
           margin="dense"
@@ -89,6 +115,16 @@ const MenuInfoModal = ({ open, handleClose, menuId, menus,updateMenus }) => {
           value={updatedMenu?.menuName || ''}
           fullWidth
           onChange={(e) => handleInputChange(e, 'menuName')}
+        />
+        <TextField
+          autoFocus
+          margin="dense"
+          id="type"
+          label="메뉴 타입"
+          type="text"
+          value={updatedMenu?.menuType || ''}
+          fullWidth
+          onChange={(e) => handleInputChange(e, 'menuType')}
         />
         <TextField
           margin="dense"
@@ -109,7 +145,7 @@ const MenuInfoModal = ({ open, handleClose, menuId, menus,updateMenus }) => {
           onChange={(e) => handleInputChange(e, 'price')}
         />
         <Button
-          onClick={() => handleDelete(updatedMenu.menuId)}
+          onClick={() => handleDelete(updatedMenu?.menuId)}
           color="secondary"
         >
           삭제하기
