@@ -51,13 +51,20 @@ function Mypage() {
   useEffect(() => {
     const fetchAllData = async () => {
       try {
-        const favoriteVendorsResponse = await axios.get('http://27.96.135.75/myPage/myFavoriteVendors', {
-          headers: getHeaders()
-        });
+        const headers = getHeaders();
 
+        // 사용자 정보 가져오기
+        const userInfoResponse = await axios.get('http://27.96.135.75/myPage/myInfo', { headers });
+        const userData = userInfoResponse.data;
+
+        setNickname(userData.nickname || "닉네임");
+
+        // 즐겨찾기 정보 가져오기
+        const favoriteVendorsResponse = await axios.get('http://27.96.135.75/myPage/myFavoriteVendors', { headers });
         const favoriteVendorsData = favoriteVendorsResponse.data;
 
         setFavoriteShops(favoriteVendorsData.favoriteShops || []);
+
       } catch (error) {
         console.error('Could not fetch data:', error);
       }

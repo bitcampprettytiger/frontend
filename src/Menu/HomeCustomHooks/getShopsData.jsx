@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const getShopsData = async () => {
-    const API_URL = "http://27.96.135.75/info/vendorId"; // 예시 API URL
+    const API_URL = "http://27.96.135.75/vendor/info/vendorId";
     try {
         const response = await axios.get(API_URL);
         return response.data;
