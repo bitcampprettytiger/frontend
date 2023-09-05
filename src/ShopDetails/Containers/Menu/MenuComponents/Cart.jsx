@@ -134,7 +134,7 @@ function CartPage() {
       try {
         // 서버로 데이터를 전송합니다.
         const serverResponse = await axios.post(
-          'https://27.96.135.75/payment/addPayment',
+          'https://mukjachi.site:7443/payment/addPayment',
           payload,
           { headers }
         );
