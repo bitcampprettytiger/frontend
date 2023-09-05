@@ -62,7 +62,7 @@ const SellMyList = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://27.96.135.75/menu/info/${vendorId}`,
+          `https://27.96.135.75/menu/info/${vendorId}`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -90,7 +90,7 @@ const SellMyList = () => {
   const handleUpdateClick = async () => {
     try {
       const response = await axios.post(
-        'http://27.96.135.75/menu/info/changeMenu',
+        'https://27.96.135.75/menu/info/changeMenu',
         { menus },
         {
           headers: {
@@ -164,7 +164,7 @@ const SellMyList = () => {
             overflowY: 'scroll',
             width: '100%',
             height: '100%',
-            fontSize:'70%'
+            fontSize: '70%'
           }}
         >
           <Grid container spacing={2} justifyContent="center">
@@ -189,33 +189,33 @@ const SellMyList = () => {
                       )}
                     </Grid>
                     <Grid item xs={2} sx={{ textAlign: 'center' }}>
-                    <TextField
-                      value={menu.menuType}
-                      onChange={(e) => handleInputChange(e, index, 'menuType')}
-                      disabled={outOfStock[index]}
-                    />
-                  </Grid>
-                  <Grid item xs={2} sx={{ textAlign: 'center' }}>
-                    <TextField
-                      value={menu.menuName}
-                      onChange={(e) => handleInputChange(e, index, 'menuName')}
-                      disabled={outOfStock[index]}
-                    />
-                  </Grid>
-                  <Grid item xs={2} sx={{ textAlign: 'center' }}>
-                    <TextField
-                      value={menu.menuContent}
-                      onChange={(e) => handleInputChange(e, index, 'menuContent')}
-                      disabled={outOfStock[index]}
-                    />
-                  </Grid>
-                  <Grid item xs={2} sx={{ textAlign: 'center' }}>
-                    <TextField
-                      value={menu.price}
-                      onChange={(e) => handleInputChange(e, index, 'price')}
-                      disabled={outOfStock[index]}
-                    />
-                  </Grid>
+                      <TextField
+                        value={menu.menuType}
+                        onChange={(e) => handleInputChange(e, index, 'menuType')}
+                        disabled={outOfStock[index]}
+                      />
+                    </Grid>
+                    <Grid item xs={2} sx={{ textAlign: 'center' }}>
+                      <TextField
+                        value={menu.menuName}
+                        onChange={(e) => handleInputChange(e, index, 'menuName')}
+                        disabled={outOfStock[index]}
+                      />
+                    </Grid>
+                    <Grid item xs={2} sx={{ textAlign: 'center' }}>
+                      <TextField
+                        value={menu.menuContent}
+                        onChange={(e) => handleInputChange(e, index, 'menuContent')}
+                        disabled={outOfStock[index]}
+                      />
+                    </Grid>
+                    <Grid item xs={2} sx={{ textAlign: 'center' }}>
+                      <TextField
+                        value={menu.price}
+                        onChange={(e) => handleInputChange(e, index, 'price')}
+                        disabled={outOfStock[index]}
+                      />
+                    </Grid>
                     <Grid item xs={1} sx={{ textAlign: 'center' }}>
                       <Checkbox
                         checked={outOfStock[index] || false}
