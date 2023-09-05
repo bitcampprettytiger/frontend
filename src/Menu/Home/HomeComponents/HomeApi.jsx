@@ -2,8 +2,8 @@ import axios from 'axios';
 import { ar } from 'date-fns/locale';
 import { useNavigate } from 'react-router-dom';
 
-// export const API_BASE_URL = "http://27.96.135.75";
-export const API_BASE_URL = "http://27.96.135.75";
+
+export const API_BASE_URL = "https://27.96.135.75";
 
 // API 요청을 위한 헤더 가져오기
 export const getHeaders = (navigate) => {

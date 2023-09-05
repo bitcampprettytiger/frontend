@@ -23,7 +23,7 @@ const FindPW = ({ openModal, handleModalClose }) => {
   const findPhoneNumber = async () => {
     try {
       const response = await axios.post(
-        'http://27.96.135.75/member/findPhoneNumber',
+        'https://27.96.135.75/member/findPhoneNumber',
         {
           phoneNumber,
         }
@@ -46,7 +46,7 @@ const FindPW = ({ openModal, handleModalClose }) => {
 
     try {
       const response = await axios.post(
-        'http://27.96.135.75/member/updatePassword',
+        'https://27.96.135.75/member/updatePassword',
         {
           newPassword,
         }
@@ -125,9 +125,9 @@ const FindPW = ({ openModal, handleModalClose }) => {
           </div>
         )}
         <Button variant="text" onClick={() => {
-            handleModalClose();
-            resetState();
-          }}>
+          handleModalClose();
+          resetState();
+        }}>
           닫기
         </Button>
       </Box>

@@ -24,7 +24,7 @@ const useVendor = (vendorId) => {
       try {
         setLoading(true);
 
-        const res = await axios.get(`http://27.96.135.75/vendor/infoDetail/${vendorId}`, { headers });
+        const res = await axios.get(`https://27.96.135.75/vendor/infoDetail/${vendorId}`, { headers });
 
         setVendor(res.data);
       } catch (err) {
