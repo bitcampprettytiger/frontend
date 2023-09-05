@@ -161,10 +161,6 @@ function Home() {
     };
   }, [address, location.latitude, location.longitude]);
 
-  // 검색 이벤트 핸들러
-  const handleSearch = () => {
-    navigate('/search', { state: { query: searchInput } });
-  };
 
   // 검색 페이지로 이동
   const navigateToSearch = () => {
@@ -219,8 +215,10 @@ function Home() {
           placeholder="지역, 음식, 가게명을 검색해보세요"
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
+          onClick={navigateToSearch}  // 여기에 클릭 이벤트 추가
+          readOnly  // 입력을 방지하기 위해 추가
         />
-        <button className="Home-search-button" onClick={handleSearch}>
+        <button className="Home-search-button" onClick={navigateToSearch}>
           <SearchOutlinedIcon sx={{ color: '#FD5E53' }} />
         </button>
       </div>
