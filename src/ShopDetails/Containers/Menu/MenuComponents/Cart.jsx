@@ -83,8 +83,8 @@ function CartPage() {
   const getTotalPrice = () => {
     return cartItems.length > 0
       ? cartItems.reduce((sum, item) => {
-          return sum + item.menu.price * item.cartQuantity;
-        }, 0)
+        return sum + item.menu.price * item.cartQuantity;
+      }, 0)
       : 0;
   };
   const { width } = useResponsive();
@@ -134,12 +134,12 @@ function CartPage() {
       try {
         // 서버로 데이터를 전송합니다.
         const serverResponse = await axios.post(
-          'http://27.96.135.75/payment/addPayment',
+          'https://mukjachi.site:7443/payment/addPayment',
           payload,
           { headers }
         );
         setpaymentOK(true);
-      } catch (error) {}
+      } catch (error) { }
     } else {
       alert(`결제 실패: ${error_msg}`);
     }

@@ -57,7 +57,7 @@ const CustomerPage = () => {
     return () => {
       socket.off('disconnect');
     };
-    
+
   }, [socket]);
 
   return (
