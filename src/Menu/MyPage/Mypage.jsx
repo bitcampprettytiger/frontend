@@ -29,6 +29,12 @@ function Mypage() {
   const { favoriteCount, setFavoriteCount, favoriteShops, setFavoriteShops } = useFavorite();
   const [open, setOpen] = useState(false);
   const [modalType, setModalType] = useState('');
+  const navigate = useNavigate();
+
+  const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+  });
+  
 
   const fetchFavorites = async () => {
     try {
@@ -36,9 +42,9 @@ function Mypage() {
       const data = await response.json();
       setFavoriteShops(data.favoriteShops || []);
     } catch (error) {
-      console.error('Could not fetch favorite shops:', error);
-  const { setFavoriteShops, favoriteShops } = useFavorite();
-  const navigate = useNavigate();
+      console.error('Could not fetch favorite shops:', error)
+    }
+  };
 
   const getHeaders = () => {
     const accessToken = localStorage.getItem('accessToken');
@@ -252,5 +258,6 @@ function Mypage() {
     </>
   );
 }
+
 
 export default Mypage;

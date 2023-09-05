@@ -64,7 +64,7 @@ function MyTakeout() {
         <div className='App-main2'>
             <Header page="mytakeout" />
             <div className='mytakeout-container'>
-                <div className="order-summary">  {/*닉네임 삽입*/}
+                <div className="order-summary">
                     <p><span className="boldText">{localStorage.getItem('nickname')}님의 주문 가게 </span><span className="boldNumber">{todayStoreCount}</span>개</p>
                     <p>결제내역 : 총 <span className="boldNumber">{orderDetail.length}</span> 개</p>
                 </div>
@@ -75,13 +75,13 @@ function MyTakeout() {
                             <li className='mytakeout-item' key={order.id || index}>
                                 <div className='mytakeout-date'>
                                     <span className="dateAndStatus">{formatDateTime(order.orderDate)} 포장완료</span>
-                                    <Link to={mytakeoutdetail/order/${order.orderNumber}`} className='mytakeout-detail-button'>주문 상세</Link>
+                                    <Link to={`mytakeoutdetail/order/${order.orderNumber}`} className='mytakeout-detail-button'>주문 상세</Link>
                                 </div>
 
                                 <div className='mytakeout-store'>
                                     <img src="/images/roopy.png" alt="Store Logo" />
                                     <div className='mytakeout-store-info'>
-                                        <p>{order.menuType}</p> {/*가게 이름으로 수정할 것*/}
+                                        <p>{order.menuType}</p>
                                         <div className='menu-detail'>
                                             <p>{order.orderMenu}</p>
                                             <p>{order.totalPrice}원</p>

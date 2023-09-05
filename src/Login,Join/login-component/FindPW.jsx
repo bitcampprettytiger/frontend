@@ -78,7 +78,7 @@ const FindPW = ({ openModal, handleModalClose }) => {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: 400,
+          width: '50%',
           bgcolor: 'background.paper',
           boxShadow: 24,
           p: 4,
@@ -97,7 +97,7 @@ const FindPW = ({ openModal, handleModalClose }) => {
         />
         {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
         <Button variant="contained" color="primary" onClick={findPhoneNumber}>
-          검증
+          번호 확인
         </Button>
         {isVerified && (
           <div>

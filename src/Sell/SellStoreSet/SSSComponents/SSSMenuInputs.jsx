@@ -30,7 +30,7 @@ const SSSMenuInputs = ({ onAddMenu }) => {
       component="form"
       noValidate
       autoComplete="off"
-      sx={{ maxWidth: '400px', margin: 'auto' }}
+      sx={{ maxWidth: '400px', margin: 'auto'}}
     >
       <Grid variant="h5" sx={{ textAlign: 'center', marginBottom: '5%' }}>
         메뉴 정보 입력
