@@ -25,8 +25,10 @@ import { da } from 'date-fns/locale';
 import CardModal from './CardModal';
 import { redirect, useNavigate } from 'react-router-dom/dist';
 import { io } from 'socket.io-client';
-
-function CartPage({ vendorid }) {
+import { useLocation } from 'react-router-dom';
+function CartPage() {
+  const location = useLocation();
+  const vendorId = location.state?.vendorId; // state에서 vendorId 가져오기
   const navigate = useNavigate();
   const accessToken = localStorage.getItem('accessToken');
   const [showModal, setShowModal] = useState(false);
@@ -68,7 +70,11 @@ function CartPage({ vendorid }) {
   }, [phoneNumber]);
 
   const { cartItems, clearCart, deleteCartItem, setCartItems } = useCart();
-  // 수량 
+  // 수량 +
+  useEffect(() => {
+    console.log('주문하기 벤더아이디 ===============', vendorId);
+  }, []);
+
   const onIncrease = (menuId) => {
     const newCartItems = cartItems.map((item) => {
       if (item.menu.id === menuId) {
@@ -104,15 +110,14 @@ function CartPage({ vendorid }) {
 
   //전체 메뉴 개수 (완)
   const getTotalItems = () => {
-    console.log('aaaaaaaaaaaa', cartItems);
     return cartItems.reduce((sum, item) => sum + item.cartQuantity, 0);
   };
   //전체 가격 (완)
   const getTotalPrice = () => {
     return cartItems.length > 0
       ? cartItems.reduce((sum, item) => {
-        return sum + item.menu.price * item.cartQuantity;
-      }, 0)
+          return sum + item.menu.price * item.cartQuantity;
+        }, 0)
       : 0;
   };
   const { width } = useResponsive();
@@ -131,7 +136,6 @@ function CartPage({ vendorid }) {
       m_redirect_url: '/Paid',
     };
     IMP.request_pay(data, callback);
-    console.log('데이터@@@', data);
   };
   
   const callback = async (rsp) => {
@@ -147,6 +151,8 @@ function CartPage({ vendorid }) {
     console.log('rsp@@@', rsp);
     
     //페이먼트 아이디
+    console.log('콜백 벤더아이디@@@@@@@@@@@@@@@@@@@@', rsp);
+    console.log('콜백ㄱㄱㄱㄱㄱㄱㄱㄱㄱ', vendorId); //페이먼트 아이디
     //벤더아이디
     
     // if (success) {
@@ -158,6 +164,7 @@ function CartPage({ vendorid }) {
         amount: paid_amount,
         name: name,
         paymentOK: paymentOK,
+        vendorId: vendorId,
       };
       console.log('페이로드', payload);
       try {
@@ -173,8 +180,6 @@ function CartPage({ vendorid }) {
           console.log("serverResponse"+serverResponse)
           // if (socket) socket.emit('order', { phoneNumber, serverResponse });
           if (socket) socket.emit('order', { phoneNumber, orderArray: serverResponse.data.item });
-          if(paymentOK){
-          }
           
         } catch (error) {
           console.error('서버로 전송 실패:', error);
