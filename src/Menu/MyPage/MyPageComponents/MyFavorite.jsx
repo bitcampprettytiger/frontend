@@ -64,37 +64,44 @@ function MyFavorite() {
     return (
         <div className='App-main2'>
             <Header page="myfavorite" />
-            <h3>찜한 가게는 {favoriteShops.length}개 입니다.</h3>
 
             <div className="myfavorite-container">
                 {favoriteShops.map(vendor => (
-                    <div key={vendor.id} className="result-item">
-                        <img
-                            src={vendor.image || `${process.env.PUBLIC_URL}/images/roopy.png`}
-                            alt="가게 이미지"
-                            className="store-image"
-                            onClick={() => handleShopClick(vendor.vendor.id)} // 가게 이미지를 클릭하면 가게 상세 페이지로 이동
-
-                        />
-                        <div className="result-info">
-                            <p className="shop-name" onClick={() => handleShopClick(vendor.vendor.id)}>{vendor.vendor.vendorName}</p> {/* 가게명을 클릭하면 가게 상세 페이지로 이동 */}
-                            <div className="rating">
-                                <StarIcon style={{ color: 'goldenrod' }} /> {/* 노란색 별 아이콘 */}
-                                {vendor.vendor.averageReviewScore}
-                            </div>
-                            <p>{vendor.vendor.vendorType} / {vendor.vendor.address}</p>
-                            <p onClick={() => handleShopClick(vendor.vendor.id)}>상세 정보 보기</p> {/* 나머지 정보를 클릭하면 가게 상세 페이지로 이동 */}
-
+                    <div key={vendor.id} className="favorite-item">
+                        <div className="store-image-container">
+                            <img
+                                src={vendor.image || `${process.env.PUBLIC_URL}/images/roopy.png`}
+                                alt="가게 이미지"
+                                className="shop-image"
+                            />
                         </div>
-                        <div className="favorite-container">
-                            <button onClick={() => deleteFavorite(vendor.vendorName, vendor.vendor.id)}>즐겨찾기 삭제</button>
+                        <div className="store-info-container">
+                            <div className="store-info">
+                                <p className="store-name" onClick={() => handleShopClick(vendor.vendor.id)}>{vendor.vendor.vendorName}</p>
+                                <div className="rating">
+                                    <StarIcon style={{ color: 'goldenrod' }} />
+                                    {vendor.vendor.averageReviewScore}
+                                </div>
+                                <p className='fstore-address'>{vendor.vendor.vendorType} / {vendor.vendor.address}</p>
+                            </div>
+                            <div className="delete-btn">
+                                <IconButton
+                                    aria-label="like"
+                                    onClick={() => deleteFavorite(vendor.vendorName, vendor.vendor.id)}
+                                    sx={{
+                                        color: '#FD5E53',
+                                    }}
+                                >
+                                    <FavoriteIcon />
+                                </IconButton>
+                            </div>
                         </div>
                     </div>
                 ))}
             </div>
 
             <Footer type="myfavorite" />
-        </div>
+        </div >
     );
 
 
