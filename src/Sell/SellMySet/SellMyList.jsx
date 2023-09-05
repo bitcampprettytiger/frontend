@@ -55,7 +55,11 @@ const SellMyList = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
+<<<<<<< HEAD
           `http://192.168.0.240:1004/menu/info/${vendorId}`,
+=======
+          `https://mukjachi.site:6443/menu/info/${vendorId}`,
+>>>>>>> dfbbd0f7aed48255a114d10846631cf192d41633
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -83,7 +87,11 @@ const SellMyList = () => {
   const handleUpdateClick = async () => {
     try {
       const response = await axios.post(
+<<<<<<< HEAD
         'http://192.168.0.240:1004/menu/info/changeMenu',
+=======
+        'https://mukjachi.site:6443/menu/info/changeMenu',
+>>>>>>> dfbbd0f7aed48255a114d10846631cf192d41633
         { menus },
         {
           headers: {
@@ -105,6 +113,8 @@ const SellMyList = () => {
   };
   return (
     <ThemeProvider theme={theme}>
+      <Box sx={{padding: '5%', 
+          height: '80vh',}}>
       <Box
         sx={{
           display: 'flex',
@@ -114,12 +124,12 @@ const SellMyList = () => {
           margin: 'auto',
           marginTop: '5%',
           border: '1px solid black',
-          height: '72vh',
+          height: '60vh',
           padding: '3%',
         }}
       >
         {' '}
-        <Typography variant="h4" sx={{ marginBottom: '2%' }}>
+        <Typography sx={{ marginBottom: '5%', fontSize: '130%', fontWeight: 'bold' }}>
           메뉴 관리
         </Typography>
         <Grid
@@ -218,6 +228,7 @@ const SellMyList = () => {
         menus={menus}
         updateMenus={updateMenus}
       />
+      </Box>
     </ThemeProvider>
   );
 };

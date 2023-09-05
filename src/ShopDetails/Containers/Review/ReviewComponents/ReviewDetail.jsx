@@ -11,7 +11,7 @@ const ReviewDetail = () => {
   return (
     <Box padding={2} textAlign={'left'}>
       {reviews.map(review => (
-        <Card key={review.reviewNum} sx={{marginBottom: '5%'}}>
+        <Card key={review.reviewNum} sx={{ marginBottom: '5%' }}>
           <CardContent>
             <Box>
               <Typography fontWeight={'bold'}>{review.memberId}</Typography>
@@ -22,27 +22,27 @@ const ReviewDetail = () => {
                 {review.reviewScore}
               </Typography>
             </Box>
-            <Box 
-              sx={{ 
-                overflowX: 'auto', 
+            <Box
+              sx={{
+                overflowX: 'auto',
                 whiteSpace: 'nowrap',
                 mt: 2
               }}
             >
               {(review.reviewFileList || [review.reviewFile]).map(file => (
-              file && <CardMedia 
-                key={file.id} 
-                component="img" 
-                image={file.reviewFilePath + file.reviewFileName} 
-                alt="Review image"
-                sx={{ 
-                  width: '20%', 
-                  height: '20%', 
-                  display: 'inline-block',
-                  marginX: 1
-                }}
-              />
-            ))}
+                file && <CardMedia
+                  key={file.id}
+                  component="img"
+                  image={file.reviewFilePath + file.reviewFileName}
+                  alt="Review image"
+                  sx={{
+                    width: '20%',
+                    height: '20%',
+                    display: 'inline-block',
+                    marginX: 1
+                  }}
+                />
+              ))}
             </Box>
             <Box mt={2}>
               <Typography variant="body1">{review.reviewContent}</Typography>

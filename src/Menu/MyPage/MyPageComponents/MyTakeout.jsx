@@ -14,6 +14,17 @@ function MyTakeout() {
     const MEMBER_ID = localStorage.getItem('member_id');
     const navigate = useNavigate();
 
+    const formatDateTime = (isoString) => {
+        const date = new Date(isoString);
+        const yyyy = date.getFullYear();
+        const mm = String(date.getMonth() + 1).padStart(2, '0'); // January is 0!
+        const dd = String(date.getDate()).padStart(2, '0');
+        const hh = String(date.getHours()).padStart(2, '0');
+        const min = String(date.getMinutes()).padStart(2, '0');
+        return `${yyyy}-${mm}-${dd}, ${hh}:${min}`;
+    };
+
+
     useEffect(() => {
         const fetchOrderAndPaymentData = async () => {
             try {
@@ -54,19 +65,19 @@ function MyTakeout() {
             <Header page="mytakeout" />
             <div className='mytakeout-container'>
                 <div className="order-summary">
-                    <p>{localStorage.getItem('nickname')}님이 오늘 주문한 가게는 {todayStoreCount}개 입니다.</p>
-                    <p>총 {orderDetail.length} 개의 결제 내역이 있습니다.</p>
+                    <p><span className="boldText">{localStorage.getItem('nickname')}님의 주문 가게 </span><span className="boldNumber">{todayStoreCount}</span>개</p>
+                    <p>결제내역 : 총 <span className="boldNumber">{orderDetail.length}</span> 개</p>
                 </div>
+
                 <ul className='mytakeout-list'>
                     {orderDetail.length > 0 ? (
                         orderDetail.map((order, index) => (
                             <li className='mytakeout-item' key={order.id || index}>
                                 <div className='mytakeout-date'>
-                                    {order.orderDate} 포장완료
-                                    <Link to={`/order/${order.orderNumber}`} className='mytakeout-detail-button'>
-                                        주문 상세
-                                    </Link>
+                                    <span className="dateAndStatus">{formatDateTime(order.orderDate)} 포장완료</span>
+                                    <Link to={`mytakeoutdetail/order/${order.orderNumber}`} className='mytakeout-detail-button'>주문 상세</Link>
                                 </div>
+
                                 <div className='mytakeout-store'>
                                     <img src="/images/roopy.png" alt="Store Logo" />
                                     <div className='mytakeout-store-info'>
@@ -76,19 +87,23 @@ function MyTakeout() {
                                             <p>{order.totalPrice}원</p>
                                         </div>
                                     </div>
-                                    <button
-                                        className="write-review-button"
-                                        disabled={!order || !"orderId" in order || !"id" in order.vendor}
-                                        onClick={() => {
-                                            if (order && "orderId" in order && "id" in order.vendor) {
-                                                navigate(`/ReviewForm/${order.orderId}/${order.vendor.id}`);
-                                            } else {
-                                                console.error("order, order.orderId or order.vendor.id is undefined!");
-                                            }
-                                        }}
-                                    >
-                                        리뷰 작성하기
-                                    </button>
+                                    {!order.hasReviewed ? (
+                                        <button
+                                            className="mytakeout-review-button"
+                                            disabled={!order || !"orderId" in order || !"id" in order.vendor}
+                                            onClick={() => {
+                                                if (order && "orderId" in order && "id" in order.vendor) {
+                                                    navigate(`/ReviewForm/${order.orderId}/${order.vendor.id}`);
+                                                } else {
+                                                    console.error("order, order.orderId or order.vendor.id is undefined!");
+                                                }
+                                            }}
+                                        >
+                                            리뷰 작성하기
+                                        </button>
+                                    ) : (
+                                        <p>리뷰 작성완료</p>
+                                    )}
                                 </div>
                             </li>
                         ))

@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import axios from 'axios';
+import useResponsive from '../../ShopDetails/SDCustomHooks/useResponsive';
 
 const FindPW = ({ openModal, handleModalClose }) => {
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -19,11 +20,16 @@ const FindPW = ({ openModal, handleModalClose }) => {
     setIsVerified(false);
     setErrorMessage('');
   };
+  const { width } = useResponsive();
 
   const findPhoneNumber = async () => {
     try {
       const response = await axios.post(
+<<<<<<< HEAD
         'http://192.168.0.240:1004/member/findPhoneNumber',
+=======
+        'https://mukjachi.site:6443/member/findPhoneNumber',
+>>>>>>> dfbbd0f7aed48255a114d10846631cf192d41633
         {
           phoneNumber,
         }
@@ -46,7 +52,11 @@ const FindPW = ({ openModal, handleModalClose }) => {
 
     try {
       const response = await axios.post(
+<<<<<<< HEAD
         'http://192.168.0.240:1004/member/updatePassword',
+=======
+        'https://mukjachi.site:6443/member/updatePassword',
+>>>>>>> dfbbd0f7aed48255a114d10846631cf192d41633
         {
           newPassword,
         }
@@ -74,15 +84,15 @@ const FindPW = ({ openModal, handleModalClose }) => {
     >
       <Box
         sx={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: 400,
+          position: 'relative',
+          left: `calc((100% - ${width}) / 2)`,
+          right: `calc((100% - ${width}) / 2)`,
+          width: width,
           bgcolor: 'background.paper',
           boxShadow: 24,
           p: 4,
           textAlign: 'center',
+          top: '30%'
         }}
       >
         <h2 id="modal-modal-title">비밀번호 찾기 및 업데이트</h2>
@@ -96,7 +106,7 @@ const FindPW = ({ openModal, handleModalClose }) => {
           margin="normal"
         />
         {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-        <Button variant="contained" color="primary" onClick={findPhoneNumber}>
+        <Button variant="contained" color="primary" onClick={findPhoneNumber} sx= {{color: 'white'}}>
           검증
         </Button>
         {isVerified && (
@@ -125,9 +135,9 @@ const FindPW = ({ openModal, handleModalClose }) => {
           </div>
         )}
         <Button variant="text" onClick={() => {
-            handleModalClose();
-            resetState();
-          }}>
+          handleModalClose();
+          resetState();
+        }}>
           닫기
         </Button>
       </Box>

@@ -30,7 +30,11 @@ const Login = () => {
 
     try {
       const response = await instance.post(
+<<<<<<< HEAD
         'http://192.168.0.240:1004/member/login',
+=======
+        'https://mukjachi.site:6443/member/login',
+>>>>>>> dfbbd0f7aed48255a114d10846631cf192d41633
         data,
         {
           headers: {

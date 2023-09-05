@@ -17,8 +17,15 @@ function MyFavorite() {
     const memberId = localStorage.getItem('memberId');
     const { favoriteShops, setFavoriteShops } = useFavorite(); // Using context to manage state
 
+    // 가게를 클릭했을 때 동작하는 함수
+    const handleShopClick = (vendorId) => {
+        navigate(`/shophome/${vendorId}`);
+        // 이 부분은 커스텀 훅에서도 처리할 수 있습니다.
+    };
+
     useEffect(() => {
         if (!token || !memberId) {
+            console.log("Component re-rendered with favoriteShops: ", favoriteShops);
             console.error("JWT Token is not available in localStorage");
             navigate('/');
             return;
@@ -27,6 +34,7 @@ function MyFavorite() {
         const fetchFavorites = async () => {
             try {
                 const response = await fetchMyFavoriteVendors();
+
                 if (response) {
                     setFavoriteShops(response.item || []);
                 }
@@ -35,13 +43,15 @@ function MyFavorite() {
             }
         };
 
+
         fetchFavorites();
-    }, [token, memberId, setFavoriteShops]);
+    }, [token, memberId, favoriteShops]);
 
     const deleteFavorite = async (vendorName, vendorId) => {
         try {
-            await toggleFavorite(vendorId, true);
-            const updatedFavorites = favoriteShops.filter(vendor => vendor.name !== vendorName);
+            const response = await toggleFavorite(vendorId, true);
+
+            const updatedFavorites = favoriteShops.filter(vendor => vendor.vendor.vendorName !== vendorName);
             setFavoriteShops(updatedFavorites);
         } catch (error) {
             console.error("Error toggling favorite:", error);
@@ -67,9 +77,9 @@ function MyFavorite() {
                         </div>
                         <div className="store-info-container">
                             <div className="store-info">
-                                <p className="store-name">{vendor.vendor.vendorName}</p>
+                                <p className="store-name" onClick={() => handleShopClick(vendor.vendor.id)}>{vendor.vendor.vendorName}</p>
                                 <div className="rating">
-                                    <StarIcon style={{ color: 'goldenrod', marginRight: '8%' }} />
+                                    <StarIcon style={{ color: 'goldenrod' }} />
                                     {vendor.vendor.averageReviewScore}
                                 </div>
                                 <p className='fstore-address'>{vendor.vendor.vendorType} / {vendor.vendor.address}</p>
@@ -77,7 +87,7 @@ function MyFavorite() {
                             <div className="delete-btn">
                                 <IconButton
                                     aria-label="like"
-                                    onClick={() => deleteFavorite(vendor.vendorName, vendor.id)}
+                                    onClick={() => deleteFavorite(vendor.vendorName, vendor.vendor.id)}
                                     sx={{
                                         color: '#FD5E53',
                                     }}
@@ -91,7 +101,7 @@ function MyFavorite() {
             </div>
 
             <Footer type="myfavorite" />
-        </div>
+        </div >
     );
 
 

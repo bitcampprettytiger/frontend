@@ -13,7 +13,11 @@ function useMenuData() {
 
   //메뉴 데이터 조회
   useEffect(() => {
+<<<<<<< HEAD
     axios.get(`http://192.168.0.240:1004/menu/info/${vendorId}`, { headers })
+=======
+    axios.get(`https://mukjachi.site:6443/menu/info/${vendorId}`, { headers })
+>>>>>>> dfbbd0f7aed48255a114d10846631cf192d41633
       .then(response => {
         const menuDTOList = response.data.itemlist;
         setMenuDataList(menuDTOList);

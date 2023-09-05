@@ -31,7 +31,11 @@ const SSUsaup = ({ setNextButtonEnabled }) => {
       console.log(value2);
       console.log(region);
       const response = await axios.post(
+<<<<<<< HEAD
         'http://192.168.0.240:1004/API/validateByRegion',
+=======
+        'https://mukjachi.site:6443/API/validateByRegion',
+>>>>>>> dfbbd0f7aed48255a114d10846631cf192d41633
         payload
       );
       // 성공적으로 응답을 받은 경우 처리 로직
@@ -44,7 +48,7 @@ const SSUsaup = ({ setNextButtonEnabled }) => {
     } catch (error) {
       setResponseMessage('정보가 일치하지 않습니다.');
       setNextButtonEnabled(false); // 정보 불일치시 버튼 활성화
-      setButtonColor('#FF745A');
+      setButtonColor('#21BF73');
       setFontColor('white');
       // 에러 발생 시 처리 로직
       console.error(error);

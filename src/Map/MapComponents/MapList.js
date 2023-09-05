@@ -59,12 +59,16 @@ export default function MapList({ vendorInfo, moveTo }) {
             <Card
               onClick={() => handleClick(info, index)}
               sx={{
-                width: '100%', // 25% - margin
-                height: '100%',
+                width: '90%', // 25% - margin
+                height: '90%',
                 borderColor:
-                  selectedItem === index ? 'primary.main' : 'grey.300',
-                borderWidth: 2,
+                  selectedItem === index ? '#FD5E53' : 'grey.300',
+                borderWidth: 1,
+                marginLeft: '5%',
                 borderStyle: 'solid',
+                transform: selectedItem === index ? 'scale(1.0)' : 'scale(0.9)',
+                opacity: selectedItem === index ? 1 : 0.8,
+                transition: 'transform 0.3s ease-in-out',
               }}
             >
               <CardMedia
@@ -74,12 +78,14 @@ export default function MapList({ vendorInfo, moveTo }) {
                   height: '50%', // 실제 높이는 50%
                   objectFit: 'contain', // 이미지 비율 유지
                   objectPosition: 'center', // 중앙 정렬
+                  margin: '10% 0',
+
                 }}
                 image={imageMap[info.vendorSIG] || '../images/default.png'}
                 alt={info.vendorSIG}
               />
               <CardContent>
-                <Typography variant="h8" component="div">
+                <Typography variant="h8" component="div" sx={{ marginBottom: '5%' }}>
                   {info.vendorName}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">

@@ -7,8 +7,16 @@ const Header = () => {
   const navigate = useNavigate();
 
   return (
-    <AppBar position='static' color="default" sx={{ marginBottom: '5%', height: '8vh' }}>
-      <Toolbar sx={{ backgroundColor: '#ffffff' }}>
+    <AppBar position='sticky' sx={{
+      width: '100%',
+      height: '10vh',
+      backgroundColor: 'white',
+      top: 0,
+      boxShadow: 0,
+      borderBottom: '1px solid #e7e7e7',
+      verticalAlign: 'middle',
+    }}>
+      <Toolbar sx={{ display: 'flex', height: '10vh', }}>
         <Grid container alignItems="center" justifyContent="space-between">
           <Grid item xs={1}>
             <IconButton edge="start" aria-label="back" onClick={() => { navigate(-1) }}>

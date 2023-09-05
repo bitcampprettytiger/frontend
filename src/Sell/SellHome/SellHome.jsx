@@ -18,7 +18,11 @@ const SellHome = () => {
   useEffect(() => {
     const getVendor = async () => {
       try {
+<<<<<<< HEAD
         const response = await axios.get('http://192.168.0.240:1004/vendor/getVendorInfo', {
+=======
+        const response = await axios.get('https://mukjachi.site:6443/vendor/getVendorInfo', {
+>>>>>>> dfbbd0f7aed48255a114d10846631cf192d41633
           headers: {
             Authorization: `Bearer ${localStorage.getItem('accessToken')}`
           }
@@ -74,20 +78,20 @@ const SellHome = () => {
     setMessage('대기가 승인되었습니다.');
     setTimeout(() => {
       setMessage(null);
-    }, 3000);
+    }, 2000);
   };
 
   const handlePackagingClick = () => {
     setMessage('포장이 승인되었습니다.');
     setTimeout(() => {
       setMessage(null);
-    }, 3000);
+    }, 2000);
   };
 
   return (
     <>
+      <Box sx={{width: '100%', height: '100vh'}}>
       <SellHeader></SellHeader>
-
       <Box
         sx={{
           display: 'flex',
@@ -95,31 +99,46 @@ const SellHome = () => {
           width: '100%',
           maxWidth: '400px',
           margin: 'auto',
-          padding: 2,
-          borderRadius: '10px',
+          padding: '3%',
           backgroundColor: '#f5f5f5',
-          boxShadow: '0 3px 5px 2px rgba(0, 0, 0, 0.1)',
           marginBottom: '10px',
+          height:'79vh',
         }}
       >
-        <Typography
+
+        <Box sx={{height: '40vh'}}>
+          <Typography
           variant="h6"
           align="center"
-          sx={{ marginBottom: '2%', color: '#333' }}
+          sx={{ margin: '2% 0', color: '#333', fontWeight: 'bold' }}
         >
           줄서기 목록
         </Typography>
         <SHWaiting onClick={handleWaitingClick}></SHWaiting>
+<<<<<<< HEAD
        {order.map((item, index) => (
         <SHOrder key={index} order={item} onClick={handlePackagingClick} />
       ))}        
       <Modal open={!!message}>
+=======
+        </Box>
+        <Box sx={{height: '40vh'}}>
+        <Typography
+          variant="h6"
+          align="center"
+          sx={{ margin: '2% 0', color: '#333', fontWeight: 'bold' }}
+        >
+          포장주문하기
+        </Typography>
+        <SHOrder onClick={handlePackagingClick}></SHOrder>
+        </Box>
+        <Modal open={!!message}>
+>>>>>>> dfbbd0f7aed48255a114d10846631cf192d41633
           <Box
             sx={{
               position: 'absolute',
-              width: 300,
-              bgcolor: 'background.paper',
-              border: '2px solid #000',
+              width: '80%',
+              borderRadius:'5px',
               boxShadow: 24,
               p: 4,
               top: '50%',
@@ -129,13 +148,13 @@ const SellHome = () => {
           >
             <Typography variant="h6" align="center">
               {message}<br />
-              3초 후 사라집니다.
+              2초 후 사라집니다.
             </Typography>
           </Box>
         </Modal>
       </Box>
       {vendor ? <SellFooter vendorId={vendor.id}></SellFooter> : <SellFooter></SellFooter>}
-
+      </Box>
     </>
   );
 };

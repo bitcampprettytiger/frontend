@@ -1,14 +1,28 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import getShopsData from '../HomeCustomHooks/getShopsData';
 
 const useSearch = () => {
     const [searchResults, setSearchResults] = useState([]);
     const [searchInput, setSearchInput] = useState('');
     const [hasSearched, setHasSearched] = useState(false);
-    const [data, setData] = useState([]); // 백엔드에서 가져온 데이터를 저장하기 위한 상태
+    const [data, setData] = useState([]);
 
     useEffect(() => {
+<<<<<<< HEAD
         const API_URL = "http://192.168.0.240:1004/info/vendorId"; // 예시 API URL
+=======
+        const fetchData = async () => {
+            const shopData = await getShopsData(); // 공통 함수 호출
+            setData(shopData);
+        };
+
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        const API_URL = "https://mukjachi.site:6443/info/vendorId"; // 예시 API URL
+>>>>>>> dfbbd0f7aed48255a114d10846631cf192d41633
         axios.get(API_URL)
             .then(response => {
                 setData(response.data);

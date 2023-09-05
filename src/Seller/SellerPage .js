@@ -18,7 +18,7 @@ const SellerPage = () => {
     name: "name",
     phoneNumber: "phoneNumber"
   };
-  
+
   useEffect(() => {
     // const socket = io('http://192.168.0.240:1004:8081'); // 판매자 엔드포인트로 연결
     if (!isReserved) {
@@ -42,10 +42,10 @@ const SellerPage = () => {
 
     socket.on('new_order', ({ phoneNumber, orderArray }) => {
       alert(`새로운 주문이 도착했습니다! 구매자: ${phoneNumber}, 주문 내역: ${orderArray.join(', ')}`);
-      
+
       setReservationList2(prevState =>
         [...prevState, { vendor: 'Vendor ID here', name: 'Name here', phoneNumber, items: orderArray }]
-        );
+      );
     });
     socket.on('update', (updatedReservationList) => {
       setReservationList(updatedReservationList);
@@ -58,38 +58,38 @@ const SellerPage = () => {
     };
   }, [socket]);
 
-   const handleDisconnect = (phoneNumber) => {
+  const handleDisconnect = (phoneNumber) => {
 
-     // 클라이언트와의 연결을 끊는 로직 구현
-     // phoneNumber를 기반으로 연결을 찾아서 끊을 수 있도록 해야 합니다.
-     // 아래는 가상의 예시입니다.
-     
-     socket.emit('disconnect_user', phoneNumber);
-     
-     setReservationList(prevState =>
-       prevState.filter(reservation => reservation.phoneNumber !== phoneNumber)
-       );
-   };
+    // 클라이언트와의 연결을 끊는 로직 구현
+    // phoneNumber를 기반으로 연결을 찾아서 끊을 수 있도록 해야 합니다.
+    // 아래는 가상의 예시입니다.
 
-   const handleConfirmReject = (index,statusMessage) =>{
-    
-        // 확인 버튼 클릭 시 해당 예약 정보 처리 및 알림 메시지 전송 로직 추가
-        let updatedReservations = [...reservationList2];
-        updatedReservations[index].status=statusMessage;
-        
-        let emitEvent=statusMessage==="확인됨"?"confirm":"reject";
-        
-        // 서버로 업데이트된 예약 정보 전송
-        socket.emit(emitEvent, updatedReservations);
-      
-        // 알림 메시지 전송
-        let messageInfo ={
-          phoneNumber : reservationList2[index].phoneNumber,
-          message : `주문이 ${statusMessage}되었습니다.`
-        };
-        
-         socket.emit("notification", messageInfo);
-   }
+    socket.emit('disconnect_user', phoneNumber);
+
+    setReservationList(prevState =>
+      prevState.filter(reservation => reservation.phoneNumber !== phoneNumber)
+    );
+  };
+
+  const handleConfirmReject = (index, statusMessage) => {
+
+    // 확인 버튼 클릭 시 해당 예약 정보 처리 및 알림 메시지 전송 로직 추가
+    let updatedReservations = [...reservationList2];
+    updatedReservations[index].status = statusMessage;
+
+    let emitEvent = statusMessage === "확인됨" ? "confirm" : "reject";
+
+    // 서버로 업데이트된 예약 정보 전송
+    socket.emit(emitEvent, updatedReservations);
+
+    // 알림 메시지 전송
+    let messageInfo = {
+      phoneNumber: reservationList2[index].phoneNumber,
+      message: `주문이 ${statusMessage}되었습니다.`
+    };
+
+    socket.emit("notification", messageInfo);
+  }
 
   return (
     <div>
@@ -104,18 +104,18 @@ const SellerPage = () => {
         </div>
       ))}
       {reservationList2.map((reservation, index) => (
-           <div key={index}>
-             <p>Vendor: {reservation.vendor}</p>
-             <p>Name: {reservation.name}</p>
+        <div key={index}>
+          <p>Vendor: {reservation.vendor}</p>
+          <p>Name: {reservation.name}</p>
 
-             {/* 확인 및 거절 버튼에 대한 핸들러를 간소화 */}
-             {/* 상태 메시지를 인자로 전달하여 처리 */}
-             
-             <button onClick={() => handleConfirmReject(index,"확인됨")}>확인</button>
-             <button onClick={() => handleConfirmReject(index,"거절됨")}>거절</button>
+          {/* 확인 및 거절 버튼에 대한 핸들러를 간소화 */}
+          {/* 상태 메시지를 인자로 전달하여 처리 */}
 
-            </div>
-          ))}
+          <button onClick={() => handleConfirmReject(index, "확인됨")}>확인</button>
+          <button onClick={() => handleConfirmReject(index, "거절됨")}>거절</button>
+
+        </div>
+      ))}
 
     </div>
   );
