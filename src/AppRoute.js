@@ -22,7 +22,7 @@ import SellSignUp1 from './Sell/SellSignUp/SSUComponents/SellSignUp1';
 import SellLogin from './Sell/SellJoin/SellLogin';
 import SellStoreSet from './Sell/SellStoreSet/SellStroreSet';
 import SellHome from './Sell/SellHome/SellHome';
-import SellMySet from './Sell/SellMySet/SellMySet';
+import SellMySet from './Sell/SellMySet';
 import CartPage from './ShopDetails/Containers/Menu/MenuComponents/Cart';
 import { FavoriteProvider } from './Menu/MyPage/MyPageComponents/FavoriteContext';
 import { useLocation } from 'react-router-dom';
@@ -41,9 +41,7 @@ import MyTakeoutDetail from './Menu/MyPage/MyPageComponents/MyTakeoutDetail';
 import Seller from './WebSocket/Seller';
 import Buyer from './WebSocket/Buyer';
 import SellList from './Sell/SellStoreSet/SellList';
-
-
-
+import SellMyinfo from './Sell/SellMyinfoList';
 
 const muitheme = createTheme({
   palette: {
@@ -61,14 +59,35 @@ const menuRoutes = [
   { path: '/geolocationcomponent', element: <GeolocationComponent /> },
   { path: '/search', element: <Search /> },
   { path: '/waiting', element: <Waiting /> },
-  { path: '/myreview', element: <FavoriteProvider><MyReview /> </FavoriteProvider> },
+  {
+    path: '/myreview',
+    element: (
+      <FavoriteProvider>
+        <MyReview />{' '}
+      </FavoriteProvider>
+    ),
+  },
   { path: '/waitingDetail', element: <WaitingDetail /> },
   { path: '/shopHome/:vendorId', element: <ShopMain /> },
   { path: '/reviewform/:orderId/:vendorId', element: <ReviewForm /> },
   { path: '/review-detail/:vendorId', element: <ReviewDetail /> },
   { path: '/notice', element: <Notice /> },
-  { path: '/mypage', element: <FavoriteProvider><Mypage /></FavoriteProvider> },
-  { path: '/myfavorite', element: <FavoriteProvider><MyFavorite /></FavoriteProvider> },
+  {
+    path: '/mypage',
+    element: (
+      <FavoriteProvider>
+        <Mypage />
+      </FavoriteProvider>
+    ),
+  },
+  {
+    path: '/myfavorite',
+    element: (
+      <FavoriteProvider>
+        <MyFavorite />
+      </FavoriteProvider>
+    ),
+  },
   { path: '/mytakeout', element: <MyTakeout /> },
   { path: '/mytakeoutdetail/order/:orderId', element: <MyTakeoutDetail /> },
   { path: '/myedit', element: <MyEdit /> },
@@ -76,8 +95,6 @@ const menuRoutes = [
   { path: '/buyer', element: <Buyer /> },
   { path: '/seller', element: <Seller /> },
   { path: '*', element: <NotFound /> },
-
-
 ];
 
 const authRoutes = [
@@ -96,9 +113,10 @@ const sellAuthRoutes = [
 ];
 
 const sellRoutes = [
+  { path: '/sellmyset/:vendorId', element: <SellList /> },
   { path: '/sellset/:vendorId', element: <SellStoreSet /> },
   { path: '/sellhome/', element: <SellHome /> },
-  { path: '/sellmyset/:vendorId', element: <SellList /> },
+  { path: '/sellinfo/:vendorId', element: <SellMyinfo /> },
 ];
 const mapRoutes = [
   { path: '/trfood', element: <TrFood /> },
@@ -106,18 +124,23 @@ const mapRoutes = [
 ];
 
 export const browserRoutes = [
-
   ...authRoutes,
   ...menuRoutes,
   ...mapRoutes,
 
   ...sellAuthRoutes,
   ...sellRoutes,
+];
+export const mobileRoutes = [
+  ...authRoutes,
+  ...menuRoutes,
+  ...mapRoutes,
 
+  ...sellAuthRoutes,
+  ...sellRoutes,
 ];
 
 export function AppRoute() {
-
   return (
     <Router>
       <InnerAppRoute />
@@ -125,13 +148,15 @@ export function AppRoute() {
   );
 }
 
-
-
 function InnerAppRoute() {
   const location = useLocation();
 
-  const isSellerRoute = [...sellRoutes, ...sellAuthRoutes].some(route => location.pathname.startsWith(route.path));
-  const isUserRoute = [...authRoutes, ...menuRoutes, ...mapRoutes].some(route => location.pathname.startsWith(route.path));
+  const isSellerRoute = [...sellRoutes, ...sellAuthRoutes].some((route) =>
+    location.pathname.startsWith(route.path)
+  );
+  const isUserRoute = [...authRoutes, ...menuRoutes, ...mapRoutes].some(
+    (route) => location.pathname.startsWith(route.path)
+  );
 
   let className = 'App';
 
@@ -145,7 +170,7 @@ function InnerAppRoute() {
     <div className={className}>
       <ThemeProvider theme={muitheme}>
         <NoticeProvider>
-          <BrowserView className='BV'>
+          <BrowserView className="BV">
             <AnimatedCursor />
             <Routes>
               {browserRoutes.map((route, index) => (
@@ -153,15 +178,13 @@ function InnerAppRoute() {
               ))}
             </Routes>
           </BrowserView>
-          {/* 
+          {/*           
         <MobileView className='MV'>
-          <Router>
             <Routes>
               {mobileRoutes.map((route, index) => (
                 <Route key={index} path={route.path} element={route.element} />
               ))}
             </Routes>
-          </Router>
         </MobileView> */}
         </NoticeProvider>
       </ThemeProvider>

@@ -1,5 +1,5 @@
 import React from 'react'
-import SellMySet from '../SellMySet/SellMySet'
+import SellMySet from '../SellMySet'
 
 const SellList = () => {
   return (

@@ -28,7 +28,7 @@ function SellFooter({ vendorId }) {
       }}
     >
       <Toolbar sx={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
-        <Link to={`/sellset/${vendorId}`}>
+        <Link to={`/sellmyset/${vendorId}`}>
           <IconButton onClick={() => handleButtonClick('streetFood')}>
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <ImSpoonKnife style={{ color: iconColor('streetFood'), fontSize: '25px' }} />
@@ -46,11 +46,11 @@ function SellFooter({ vendorId }) {
           </IconButton>
         </Link>
 
-        <Link to={`/sellmyset/${vendorId}`}>
+        <Link to={`/sellinfo/${vendorId}`}>
           <IconButton onClick={() => handleButtonClick('myPage')}>
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <BsPersonCircle style={{ color: iconColor('myPage'), fontSize: '25px' }} />
-              <Box sx={{ fontSize: '60%', marginTop: '10%', color: iconColor('myPage'), fontWeight: activeButton === 'myPage' ? 'bold' : 'normal' }}>판매 확인</Box>
+              <Box sx={{ fontSize: '60%', marginTop: '10%', color: iconColor('myPage'), fontWeight: activeButton === 'myPage' ? 'bold' : 'normal' }}>나의 정보</Box>
             </Box>
           </IconButton>
         </Link>
