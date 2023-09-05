@@ -25,7 +25,7 @@ export default function useCart() {
       };
 
       const response = await axios.post(
-        'https://mukjachi.site:7443/cart/info',
+        'https://mukjachi.site:6443/cart/info',
         payload,
         config
       );
@@ -40,7 +40,7 @@ export default function useCart() {
   // 전체 삭제
   const clearCart = async () => {
     try {
-      await axios.delete(`https://mukjachi.site:7443/cart/info`, { headers });
+      await axios.delete(`https://mukjachi.site:6443/cart/info`, { headers });
       setCartItems([]);
       console.log('ssssssssss');
     } catch (error) {
@@ -54,7 +54,7 @@ export default function useCart() {
     console.log('메뉴 아이디' + menuId);
     try {
       const response = await axios.delete(
-        `https://mukjachi.site:7443/cart/deletecartitem`,
+        `https://mukjachi.site:6443/cart/deletecartitem`,
         {
           headers: headers,
           params: {
@@ -77,7 +77,7 @@ export default function useCart() {
   // 사용자 장바구니 확인
   const fetchCartItems = async () => {
     try {
-      const response = await axios.get('https://mukjachi.site:7443/cart/info', {
+      const response = await axios.get('https://mukjachi.site:6443/cart/info', {
         headers,
       });
       if (response.status === 200) {

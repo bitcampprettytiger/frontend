@@ -33,7 +33,7 @@ const VendorAPI = async (
     }
     // Axios 요청에서 'Content-Type': 'application/json' 헤더를 사용합니다.
     const response = await axios.post(
-      'https://mukjachi.site:7443/vendor/info',
+      'https://mukjachi.site:6443/vendor/info',
       formData, // FormData 사용
       {
         headers: {
