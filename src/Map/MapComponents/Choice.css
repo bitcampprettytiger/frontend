@@ -62,7 +62,7 @@
     background-color: white; /* 배경색은 흰색 */
     width: 20%; /* 너비 20% */
     height: 30%; /* 높이 30% */
-    font-size: 27px; /* 글자 크기 27px */
+    font-size: 100%;
     font-weight: 700; /* 글자 두께 */
     text-align: center; /* 텍스트 중앙 정렬 */
     justify-content: center; /* 가운데 정렬 */

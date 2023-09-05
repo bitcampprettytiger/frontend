@@ -7,8 +7,9 @@ import useReview from './Containers/Review/ReviewCustomHook/useReview';
 import { ShopHomeTabsProvider } from './SDCustomHooks/SHTContext';
 import ShopInfo from './Containers/ShopDetail/ShopInfo';
 import CircularProgress from '@mui/material/CircularProgress';
-import { Stack } from '@mui/material';
-import useVendor from './SDCustomHooks/useVendor';
+import { Stack } from "@mui/material";
+import useVendor from "./SDCustomHooks/useVendor";
+import { Box } from '@mui/system';
 
 const ShopMain = () => {
   const { vendorId } = useParams();

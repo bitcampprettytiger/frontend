@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import {
   Typography,
   IconButton,
-  CssBaseline,
   Divider,
   Container,
   Box,
@@ -151,10 +150,9 @@ function CartPage() {
   };
   return (
     <>
-      <CssBaseline />
-      {/* <AppBarWithTitle title="장바구니" /> */}
-      <Container style={{ marginTop: '15%' }}>
-        <Box sx={{ my: 2 }}>
+      <Container style={{ border: '1px solid #ff0000', height: '100vh', padding:'0' }}>
+      <AppBarWithTitle title="장바구니" />
+        <Box sx={{ my: 2,  height: '70vh', padding: '5%'}}>
           <Typography variant="h6" gutterBottom component="div">
             총 {getTotalItems()}개의 메뉴
           </Typography>
@@ -162,7 +160,19 @@ function CartPage() {
             size="small"
             variant="outlined"
             onClick={onDeleteAll}
-            sx={{ marginBottom: 2 }}
+            sx={{ marginBottom: 2
+            , border: '1px solid #ff0000',
+          color: '#FD5E53' ,
+          '&:hover': {
+            backgroundColor: '#FD5E53',
+            color: 'white',
+            border: '1px solid #FD5E53',
+          },
+          '&:active': {
+            backgroundColor: '#FD5E53',
+            color: 'white',
+            border: '1px solid #FD5E53',
+          }}}
           >
             전체 삭제
           </Button>
@@ -239,8 +249,8 @@ function CartPage() {
         </Box>
       </Container>
       <Box
+      position= 'absolute'
         sx={{
-          position: 'fixed',
           bottom: 0,
           width: width,
           left: `calc((100% - ${width}) / 2)`,
@@ -267,6 +277,16 @@ function CartPage() {
             fontSize: '110%',
             position: 'relative',
             marginBottom: '0',
+            '&:hover': {
+              backgroundColor: '#f1eceb',
+              border: '1px solid #FD5E53',
+              color: 'black'
+            },
+            '&:active': {
+              backgroundColor: '#f1eceb',
+              borderColor: '1px solid #FD5E53',
+              color: 'black'
+            }
           }}
         >
           결제하기

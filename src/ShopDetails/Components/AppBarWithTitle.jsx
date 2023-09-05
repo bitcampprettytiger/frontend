@@ -17,35 +17,31 @@ const AppBarWithTitle = ({ title }) => {
   return (
     <React.Fragment>
       <CssBaseline />
-      <AppBar sx={{
-                width: width,
-                left: `calc((100% - ${width}) / 2)`,
-                right: `calc((100% - ${width}) / 2)`,
-                backgroundColor: 'white', 
-                height: '10vh', 
-                position: 'fixed', 
-                top : 0,
-                boxShadow: 0,
-                borderBottom: '1px solid #e7e7e7',
-                verticalAlign: 'middle'
-            }}>
-                <Toolbar sx={{ minHeight: '0', display: 'flex', height: '10vh' }}>
-                    <Box sx={{
-                        height: '50%',
-                        width: 'auto',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        marginRight: '1vw',
-                        marginLeft: '1vw',
-                    }}>
-                        <IconButton edge="start" aria-label="back" onClick={() => { navigate(-1) }}>
-                            <ArrowBackIcon sx={{
-                                marginTop: 'auto',
-                                marginBottom: 'auto',
-                            }} />
-                        </IconButton>
-                    </Box>
+      <AppBar position='sticky' sx={{
+        width: '100%',
+        height: '10vh',
+        backgroundColor: 'white',
+        top: 0,
+        boxShadow: 0,
+        borderBottom: '1px solid #e7e7e7',
+        verticalAlign: 'middle',
+      }}>
+        <Toolbar sx={{ display: 'flex', height: '10vh', }}>
+          <Box sx={{
+            width: 'auto',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginRight: '1vw',
+            marginLeft: '1vw',
+          }}>
+            <IconButton edge="start" aria-label="back" onClick={() => { navigate(-1) }}>
+              <ArrowBackIcon sx={{
+                marginTop: 'auto',
+                marginBottom: 'auto',
+              }} />
+            </IconButton>
+          </Box>
           <Typography
             variant="h6"
             component="div"

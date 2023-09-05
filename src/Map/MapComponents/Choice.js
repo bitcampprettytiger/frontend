@@ -1,6 +1,8 @@
 import React from 'react';
 import { Box, Button, TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { AiOutlineSearch } from 'react-icons/ai';
+import { ImSpoonKnife } from 'react-icons/im';
 const Choice = ({ moveToCurrentPosition, toggleSIGmenu, selectedSIGmenus }) => {
   const navigate = useNavigate();
   return (
@@ -23,7 +25,7 @@ const Choice = ({ moveToCurrentPosition, toggleSIGmenu, selectedSIGmenus }) => {
           display: 'flex',
           margin: '0 auto',
           marginTop: '10%',
-          height:'10%',
+          height: '8%',
         }}
       >
         <Box
@@ -32,62 +34,90 @@ const Choice = ({ moveToCurrentPosition, toggleSIGmenu, selectedSIGmenus }) => {
             pointerEvents: 'auto',
             margin: '0 auto',
             bgcolor: 'red',
-            width: '15%',
+            width: '20%',
             ml: '25px',
             borderRadius: '20px',
+            height: '90%'
           }}
         >
-          <img
-            src="images/stfood.png"
-            alt="menu"
-            style={{ width: '100%', height: '100%' }}
-          />
+          <Box sx={{
+            width: '100%',
+            height: '100%',
+            backgroundColor: '#FD5E53',
+            color: 'white',
+            fontWeight: 'bold',
+            borderRadius: '10px',
+          }}>
+            <ImSpoonKnife />
+            길거리음식
+          </Box>
         </Box>
         {/* search로 이동 */}
         <Box
           onClick={() => navigate('/search')}
           sx={{
-            width: '60%',
+            width: '65%',
             borderColor: 'black',
-            border:'1px solid black',
-            // borderRadius: '20px',
+            border: 'none',
+            boxShadow: '1px 1px 4px 1px grey',
             textAlign: 'center',
             margin: '0 auto',
             pointerEvents: 'auto',
             backgroundColor: 'white',
+            borderRadius: '5px',
+            height: '90%',
+            textAlign: 'left',
+            position: 'relative'
           }}
-        />
+        >
+          <AiOutlineSearch style={{
+            fontSize: '150%',
+            position: 'absolute',
+            top: '25%',
+            marginLeft: '4%',
+            color: 'gray'
+          }} />
+        </Box>
+
       </Box>
       <Box
         sx={{
           display: 'flex',
           mt: '5%',
-          gap: '30px',
+          gap: '8%',
           justifyContent: 'center',
         }}
       >
         {['분식', '국물', '볶음', '튀김'].map((type, index) => (
           <Button
             key={index}
+            placeholder='장소 검색'
             sx={{
               pointerEvents: 'auto',
-              color: '#C47BFD',
-              borderColor: 'gray',
-              borderRadius: '10px',
+              color: '#FD5E53',
+              borderStyle: 'none',
+              borderRadius: '20px',
               backgroundColor: 'white',
-              width: '20%',
+              width: '15%',
               height: '30%',
-              fontSize: '27px',
+              fontSize: '100%',
               fontWeight: 700,
+              boxShadow: '1px 1px 4px 1px grey',
               textAlign: 'center',
               justifyContent: 'center',
               alignItems: 'center',
-              borderWidth: selectedSIGmenus.includes(type) ? '2px' : '1px',
-              borderStyle: 'solid',
-              borderColor: selectedSIGmenus.includes(type) ? 'red' : 'gray',
               '&:hover': {
-                backgroundColor: 'green', // 마우스를 올렸을 때 배경색을 파란색으로
+                backgroundColor: '#FD5E53',
+                color: 'white'
               },
+              '&:active': {
+                backgroundColor: '#FD5E53',
+                color: 'white'
+              },
+              '&:focus': {
+                backgroundColor: '#FD5E53',
+                color: 'white'
+              }
             }}
             onClick={() => toggleSIGmenu(type)}
           >
