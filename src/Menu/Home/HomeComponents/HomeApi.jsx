@@ -55,13 +55,23 @@ export const fetchShopsInArea = async (areaName) => {
 // 리뷰 관련 함수
 // -------------------------------------
 
-// 가게 ID를 통해 리뷰 가져오기
-export const fetchReviewsByVendorId = (vendorId) => {
-    return axios.get(`${API_BASE_URL}/reviews/review-list/${vendorId}`, {
-        headers: getHeaders()
-    });
-};
+// 사용자 ID를 통해 리뷰 가져오기
+// 사용자의 리뷰를 가져오는 함수
+export const fetchReviewsByMemberId = async () => {
+    const headers = getHeaders();
 
+    try {
+        const response = await axios.get(`${API_BASE_URL}/reviews/review`, { headers: headers });
+
+        if (response.status !== 200) {
+            throw new Error('서버가 예상치 못한 상태 코드를 반환했습니다.');
+        }
+
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
 // 리뷰 업데이트하기
 export const updateReview = (reviewDto, uploadFiles, changeFileList, originFileList) => {
     const formData = new FormData();
@@ -432,23 +442,27 @@ export const getVendorInfo = (searchInput) => {
     });
 };
 
-// 판매자의 ID를 이용하여 해당 판매자의 주문 리스트를 가져오는 함수
-export const fetchVendorOrders = async (orderId, navigate) => {
+//사용자의 상세주문내역
+export const fetchMyOrders = async () => {
     try {
-        const response = await axios.get(`${API_BASE_URL}/orderInfo/orderList/${orderId}`, {
-            headers: getHeaders(navigate)
+        const response = await axios.get(`${API_BASE_URL}/myPage/myOrders`, {
+            headers: getHeaders()  // 이 함수는 적절한 인증 헤더를 반환해야 합니다.
         });
 
-        console.log("Vendor Orders received:", response);
+        console.log("My Orders received:", response);
 
-        if (Array.isArray(response.data.itemlist)) {
-            return response.data.itemlist;
+        if (Array.isArray(response.data.item)) {
+            return response.data.item;
         } else {
-            console.error('itemlist is not an array');
+            console.error('item is not an array');
             return [];
         }
     } catch (error) {
-        console.error('Error fetching vendor orders:', error);
+        console.error('Error fetching my orders:', error);
         throw error;
     }
 };
+
+
+
+
