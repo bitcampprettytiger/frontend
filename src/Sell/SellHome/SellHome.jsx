@@ -20,7 +20,7 @@ const SellHome = () => {
   useEffect(() => {
     const getVendor = async () => {
       try {
-        const response = await axios.get('http://localhost/vendor/getVendorInfo', {
+        const response = await axios.get('https://mukjachi.site:6443/vendor/getVendorInfo', {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('accessToken')}`
           }
@@ -76,7 +76,7 @@ const SellHome = () => {
 
     const getorder = async () => {
       try {
-        const response = await axios.get(`http://localhost/orders/orderDetail/${orderId}`, {
+        const response = await axios.get(`https://mukjachi.site:6443/orders/orderDetail/${orderId}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('accessToken')}`
           }

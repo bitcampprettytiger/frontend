@@ -25,7 +25,7 @@ const FindPW = ({ openModal, handleModalClose }) => {
   const findPhoneNumber = async () => {
     try {
       const response = await axios.post(
-        'http://localhost/member/findPhoneNumber',
+        'https://mukjachi.site:6443/member/findPhoneNumber',
         {
           phoneNumber,
         }
@@ -48,7 +48,7 @@ const FindPW = ({ openModal, handleModalClose }) => {
 
     try {
       const response = await axios.post(
-        'http://localhost/member/updatePassword',
+        'https://mukjachi.site:6443/member/updatePassword',
         {
           newPassword,
         }

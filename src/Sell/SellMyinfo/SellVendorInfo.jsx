@@ -39,7 +39,7 @@ const SellVendorInfo = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost/vendor/infoDetail/${vendorId}`,
+          `https://mukjachi.site:6443/vendor/infoDetail/${vendorId}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
