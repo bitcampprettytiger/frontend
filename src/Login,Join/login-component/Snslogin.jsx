@@ -1,43 +1,41 @@
 import { Box, Typography, Grid } from '@mui/material';
 
 const SnsLogin = () => (
-  <Box>
-    <Typography variant="h6" gutterBottom>
+  <Box sx={{margin: '5%'}}>
+    <Typography 
+      sx={{ fontSize: '90%' }}>
       SNS 로그인
     </Typography>
     <Box
       sx={{
         height: '1px',
         backgroundColor: 'grey.300',
+        margin: '10%'
       }}
     />
     <Grid container spacing={2}>
       <Grid item xs>
         <Box
-          sx={{
-            width: '100%',
-            height: '100px',
-            backgroundColor: 'blue',
-          }}
         />
+        <img src='/images/kakaologin.png' alt='카카오 로그인'
+          style={{
+            width: '100%',
+            height: '100%',
+          }}></img>
       </Grid>
       <Grid item xs>
-        <Box
-          sx={{
+        <img src='/images/googlelogin.png' alt='구글 로그인'
+          style={{
             width: '100%',
-            height: '100px',
-            backgroundColor: 'pink',
-          }}
-        />
+            height: '100%',
+          }}></img>
       </Grid>
       <Grid item xs>
-        <Box
-          sx={{
+        <img src='/images/applelogin.png' alt=' 로그인'
+          style={{
             width: '100%',
-            height: '100px',
-            backgroundColor: 'error.main',
-          }}
-        />
+            height: '100%',
+          }}></img>
       </Grid>
     </Grid>
   </Box>

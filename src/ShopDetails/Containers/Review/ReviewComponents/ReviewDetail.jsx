@@ -1,12 +1,22 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Box, Card, CardContent, CardMedia, Typography } from "@mui/material";
 import Rating from "@mui/material/Rating";
 import useReview from "../ReviewCustomHook/useReview";
 import { useParams } from "react-router-dom";
+import { useInView } from 'react-intersection-observer';
 
 const ReviewDetail = () => {
   const { vendorId } = useParams();
-  const { reviews, error, loading } = useReview(vendorId);
+  const { reviews, error, loading, fetchMore } = useReview(vendorId);
+  const [ref, inView] = useInView({
+    threshold: 0.1 
+  });
+  //뷰포트 내 새 데이터
+  useEffect(() => {
+    if (inView) {
+      fetchMore();
+    }
+  }, [inView]);
 
   return (
     <Box padding={2} textAlign={'left'}>
@@ -50,6 +60,9 @@ const ReviewDetail = () => {
           </CardContent>
         </Card>
       ))}
+      <div ref={ref}>
+        {loading && <div style={{fontSize: '90%', textAlign: 'center'}}>리뷰 불러오는 중...</div>}
+      </div>
     </Box>
   );
 };
