@@ -1,0 +1,6 @@
+.App-main2 {
+    width: 100%;
+    min-height: calc(100vh - 10vh);
+    flex-direction: column;
+    justify-content: space-between;
+}

@@ -17,8 +17,6 @@ function MyFavorite() {
     const memberId = localStorage.getItem('memberId');
     const { favoriteShops, setFavoriteShops } = useFavorite();
 
-    const nickname = localStorage.getItem('nickName');  // 닉네임 가져오기
-
     // 가게를 클릭했을 때 동작하는 함수
     const handleShopClick = (vendorId) => {
         navigate(`/shophome/${vendorId}`);
@@ -65,7 +63,7 @@ function MyFavorite() {
             <Header page="myfavorite" />
 
             <div className="myfavorite-container">
-                <h3>{nickname}님이 즐겨찾기한 가게는 {favoriteShops.length}개입니다.</h3>
+                <h3>님이 즐겨찾기한 가게는 {favoriteShops.length}개입니다.</h3>
                 {favoriteShops.map(vendor => (
                     <div key={vendor.id} className="favorite-item">
                         <div className="store-image-container">

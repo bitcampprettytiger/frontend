@@ -13,7 +13,7 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { AiOutlineSearch } from 'react-icons/ai'
 import { IoIosCloseCircleOutline } from 'react-icons/io'
 
-function Header({ page, searchInput, handleSearchChange, handleDeleteClick, handleSearchClick, setAddressToHome, handleKeyUp }) {
+function Header({ page, searchInput, handleSearchChange, handleDeleteClick, handleSearchClick, setAddressToHome, handleKeyUp, selectedRegion }) {
 
 
     const navigate = useNavigate();
@@ -24,6 +24,7 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
     const [error, setError] = useState(null);
     const [showNotificationPanel, setShowNotificationPanel] = useState(false);
     const [headerText, setHeaderText] = useState("검색"); // 기본 값으로 "검색"
+    const [selectedRegionState, setSelectedRegionState] = useState('');
 
     const navigateToNotificationPage = () => {
         navigate('/notice'); // 여기에 알림 페이지의 경로를 입력하세요.
@@ -75,20 +76,12 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
         }
     }, [location]);
 
-    // useEffect(() => {
-    //     if (fetchedAddress) {
-    //         setAddressToHome(fetchedAddress.address, fetchedAddress.location);
-    //     }
-    // }, [fetchedAddress]);
-
-
     const toggleNotificationPanel = () => {
         setShowNotificationPanel(!showNotificationPanel);
     };
     const clearNotifications = () => {
         setNotifications([]);
     };
-
 
 
     const renderHomeHeader = () => (
@@ -103,13 +96,13 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
             </div>
             <div className="Home-header-right-section">
                 <div className='cart-container'
-                onClick={() =>
+                    onClick={() =>
                         navigate(`/cart`)}>
-                        <ShoppingCartOutlinedIcon/>
+                    <ShoppingCartOutlinedIcon />
                 </div>
                 <div className="notification-container">
                     <NotificationsNoneIcon
-                    onClick={navigateToNotificationPage} />
+                        onClick={navigateToNotificationPage} />
                     {notifications.length > 0 && (
                         <div className="notification-count">
                             {notifications.length}
@@ -163,9 +156,9 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
                 </button>
             </div>
             <div className="search-header-center-section">
-                <div className="search-container" style={{padding: '0 5%', height: '5vh'}}>
+                <div className="search-container" style={{ padding: '0 5%', height: '5vh' }}>
                     <button className="search-button" onClick={handleSearchClick}>
-                        <AiOutlineSearch style={{fontSize: '160%', color: '#FD5E53'}}/>
+                        <AiOutlineSearch style={{ fontSize: '160%', color: '#FD5E53' }} />
                     </button>
                     <input
                         className="search-input"
@@ -174,7 +167,7 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
                         onChange={handleSearchChange}
                         onKeyDown={handleKeyDown}
                         onKeyUp={handleKeyUp}  // 이렇게 handleKeyUp를 추가합니다.
-                        style={{height: '2vh'}}
+                        style={{ height: '2vh' }}
                     />
                     <button style={{ border: 'none', background: 'none' }} onClick={handleDeleteClick}>
                         <IoIosCloseCircleOutline style={{ color: '#FD5E53', fontSize: '160%' }} />
@@ -290,6 +283,34 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
         </div>
     );
 
+    const renderpopular = (props) => {
+        const { selectedRegion, handleBackButtonClick } = props;
+
+        return (
+            <div className="app-header">
+                <div className="header-left-section">
+                    <button
+                        className="back-button" // inline 스타일 대신 클래스를 사용
+                        onClick={handleBackButtonClick}
+                    >
+                        <ArrowBackIcon style={{ color: 'black' }} />
+                    </button>
+                </div>
+                {selectedRegion ? (
+                    <div className="search-header-center-section">
+                        {`${selectedRegion} 지역의 주변 가게들`}
+                    </div>
+                ) : (
+                    <div className="header-center-section">
+                        인기 스테이션
+                    </div>
+                )}
+                <div className="header-right-section">
+                    {/* 필요한 오른쪽 섹션의 아이콘 또는 버튼을 여기에 추가하세요. */}
+                </div>
+            </div>
+        );
+    };
 
     const renderMyTakeoutHeader = () => (
         <div className="App-header">
@@ -319,7 +340,7 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
                 </button>
             </div>
             <div className="header-center-section header-center-section-with-back">
-                주문 상세 내역 
+                주문 상세 내역
             </div>
             <div className="header-right-section">
             </div>
@@ -347,6 +368,7 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
             {page === 'myfavorite' && renderMyFavoriteHeader()}
             {page === 'mytakeout' && renderMyTakeoutHeader()}
             {page === 'mytakeoutdetail' && takeOutDetailHeader()}
+            {page === 'popularstation' && renderpopular({ selectedRegion, handleBackButtonClick })}
         </div>
 
     );

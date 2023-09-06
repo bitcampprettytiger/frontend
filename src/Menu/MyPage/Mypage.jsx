@@ -20,6 +20,7 @@ import { MdOutlineShoppingBasket } from 'react-icons/md';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useReviewContext } from '../../Menu/MyPage/MyPageComponents/ReviewContext';
+import { updateMemberInfo } from '../Home/HomeComponents/HomeApi';
 
 function Mypage() {
   const [isEditing, setIsEditing] = useState(false);
@@ -73,12 +74,31 @@ function Mypage() {
     setNewnickname(nickname);
   };
 
-  const handleSaveClick = () => {
-    setnickname(newnickname);
-    setIsEditing(false);
-    setShowModal(true);
-    setTimeout(() => setShowModal(false), 2000);
+  // const handleSaveClick = () => {
+  //   setnickname(newnickname);
+  //   setIsEditing(false);
+  //   setShowModal(true);
+  //   setTimeout(() => setShowModal(false), 2000);
+  // };
+  const handleSaveClick = async () => {
+    const updatedInfo = {
+      nickName: newnickname,
+      // Include any other fields you want to update
+      // password: newPassword, // Include password if applicable
+    };
+
+    try {
+      const response = await updateMemberInfo(updatedInfo);
+      setnickname(response.item.username);
+      setIsEditing(false);
+      setShowModal(true);
+      setTimeout(() => setShowModal(false), 2000);
+    } catch (error) {
+      console.error('Error updating member info:', error);
+      // Handle error state or show an error message to the user
+    }
   };
+
 
   const handleCancelClick = () => {
     setIsEditing(false);

@@ -10,7 +10,7 @@ const KaKaoMap = (props) => {
   const location = useLocation();
   const [markers, setMarkers] = useState([]);
   const [currentPosition, setCurrentPosition] = useState(null);
-  const { data, loading } = useMapAPI('http://192.168.0.240:1004/vendor/info');
+  const { data, loading } = useMapAPI('http://mukjachi.site:6443:1004/vendor/info');
   const [selectedVendorTypes, setSelectedVendorTypes] = useState([]);
   const [selectedVendor, setSelectedVendor] = useState(null);
   const [selectedSIGmenus, setSelectedSIGmenus] = useState([]);

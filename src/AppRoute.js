@@ -43,7 +43,7 @@ import Buyer from './WebSocket/Buyer';
 import SellList from './Sell/SellStoreSet/SellList';
 import SellMyinfo from './Sell/SellMyinfoList';
 import { ReviewContextProvider } from './Menu/MyPage/MyPageComponents/ReviewContext';
-
+import PopularStation from './Menu/Home/HomeComponents/PopularStation';
 const muitheme = createTheme({
   palette: {
     primary: {
@@ -71,6 +71,8 @@ const menuRoutes = [
   { path: '/reviewform/:orderId/:vendorId', element: <ReviewForm /> },
   { path: '/review-detail/:vendorId', element: <ReviewDetail /> },
   { path: '/notice', element: <Notice /> },
+  { path: '/popularstation/:region', element: <PopularStation /> },
+  // { path: '/popularstation', element: <PopularStation /> },
   {
     path: '/mypage',
     element:

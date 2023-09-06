@@ -28,7 +28,7 @@ const FindPW = ({ openModal, handleModalClose }) => {
   const findPhoneNumber = async () => {
     try {
       const response = await axios.post(
-        'http://192.168.0.240:1004/member/findPhoneNumber',
+        'http://mukjachi.site:6443:1004/member/findPhoneNumber',
         {
           phoneNumber,
         }
@@ -83,7 +83,7 @@ const FindPW = ({ openModal, handleModalClose }) => {
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: width, 
+          width: width,
           bgcolor: 'background.paper',
           boxShadow: 24,
           p: 4,
@@ -101,17 +101,19 @@ const FindPW = ({ openModal, handleModalClose }) => {
           margin="normal"
         />
         {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-        <Button variant="contained" onClick={findPhoneNumber} 
-        sx= {{background: '#FD5E53', 
-        color : 'white',
-        '&:hover': {
-          backgroundColor: '#FD5E53',
-          color: 'white',
-        },
-        '&:active': {
-          backgroundColor: '#FD5E53',
-          color: 'white',}
-        }}>
+        <Button variant="contained" onClick={findPhoneNumber}
+          sx={{
+            background: '#FD5E53',
+            color: 'white',
+            '&:hover': {
+              backgroundColor: '#FD5E53',
+              color: 'white',
+            },
+            '&:active': {
+              backgroundColor: '#FD5E53',
+              color: 'white',
+            }
+          }}>
           번호 확인
         </Button>
         {isVerified && (
@@ -134,7 +136,7 @@ const FindPW = ({ openModal, handleModalClose }) => {
               fullWidth
               margin="normal"
             />
-            <Button variant="contained" color="secondary" onClick={updatePassword} sx = {{background : '#FD5E53', color : 'white'}}>
+            <Button variant="contained" color="secondary" onClick={updatePassword} sx={{ background: '#FD5E53', color: 'white' }}>
               수정완료
             </Button>
           </div>
@@ -142,7 +144,7 @@ const FindPW = ({ openModal, handleModalClose }) => {
         <Button variant="text" onClick={() => {
           handleModalClose();
           resetState();
-        }} sx= {{color : '#FD5E53'}}>
+        }} sx={{ color: '#FD5E53' }}>
           닫기
         </Button>
       </Box>

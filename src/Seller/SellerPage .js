@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 
 const SellerPage = () => {
-  const phoneNumber  = '1';
+  const phoneNumber = '1';
   const [reservationList, setReservationList] = useState([]);
   const [reservationList2, setReservationList2] = useState([]);
-  
+
   const socket = io('http://192.168.0.63:8081', {
-    query: { phoneNumber  }
+    query: { phoneNumber }
   });
 
   const [position, setPosition] = useState(0);
@@ -20,7 +20,7 @@ const SellerPage = () => {
   };
 
   useEffect(() => {
-    // const socket = io('http://192.168.0.240:1004:8081'); // 판매자 엔드포인트로 연결
+    // const socket = io('http://mukjachi.site:6443:1004:8081'); // 판매자 엔드포인트로 연결
     if (!isReserved) {
       socket.emit('enter_room', data);
       setIsReserved(true);

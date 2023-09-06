@@ -112,120 +112,122 @@ const SellMyList = () => {
   };
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{padding: '5%', 
-          height: '80vh',}}>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          width: '100%',
-          margin: 'auto',
-          marginTop: '5%',
-          border: '1px solid black',
-          height: '60vh',
-          padding: '3%',
-        }}
-      >
-        {' '}
-        <Typography sx={{ marginBottom: '5%', fontSize: '130%', fontWeight: 'bold' }}>
-          메뉴 관리
-        </Typography>
-        <Grid
-          container
-          spacing={1}
-          justifyContent="center"
-          sx={{ marginBottom: '5%' }}
-        >
-          <Grid item xs={2} sx={{ textAlign: 'center' }}>
-            사진
-          </Grid>
-          <Grid item xs={2} sx={{ textAlign: 'center' }}>
-            종류
-          </Grid>
-          <Grid item xs={2} sx={{ textAlign: 'center' }}>
-            이름
-          </Grid>
-          <Grid item xs={2} sx={{ textAlign: 'center' }}>
-            내용
-          </Grid>
-          <Grid item xs={2} sx={{ textAlign: 'center' }}>
-            금액
-          </Grid>
-          <Grid item xs={2} sx={{ textAlign: 'center' }}>
-            수정
-          </Grid>
-        </Grid>
+      <Box sx={{
+        padding: '5%',
+        height: '80vh',
+      }}>
         <Box
           sx={{
-            maxHeight: '100%',
-            minHeight: '180px',
-            overflowY: 'scroll',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
             width: '100%',
-            height: '100%',
-            fontSize: '70%',
+            margin: 'auto',
+            marginTop: '5%',
+            border: '1px solid black',
+            height: '60vh',
+            padding: '3%',
           }}
         >
-          <Grid container spacing={2} justifyContent="center">
-            {menus.map((menu, index) => (
-              <React.Fragment key={index}>
-                <Grid
-                  item
-                  xs={12}
-                  style={{
-                    backgroundColor: outOfStock[index] ? 'lightgray' : 'white', // 품절 상태에 따라 배경색 변경
-                  }}
-                >
-                  <Grid container>
-                    <Grid item xs={2} sx={{ textAlign: 'center' }}>
-                      {menu.primaryimage ? (
-                        <img
-                          src={menu.menuImageList[0].url}
-                          style={{ width: '50px', height: '100%' }}
-                        />
-                      ) : (
-                        'N/A'
-                      )}
-                    </Grid>
-                    <Grid item xs={2} sx={{ textAlign: 'center' }}>
-                      {menu.menuType}
-                    </Grid>
-                    <Grid item xs={2} sx={{ textAlign: 'center' }}>
-                      {menu.menuName}
-                    </Grid>
-                    <Grid item xs={2} sx={{ textAlign: 'center' }}>
-                      {menu.menuContent}
-                    </Grid>
-                    <Grid item xs={2} sx={{ textAlign: 'center' }}>
-                      {menu.price}
-                    </Grid>
+          {' '}
+          <Typography sx={{ marginBottom: '5%', fontSize: '130%', fontWeight: 'bold' }}>
+            메뉴 관리
+          </Typography>
+          <Grid
+            container
+            spacing={1}
+            justifyContent="center"
+            sx={{ marginBottom: '5%' }}
+          >
+            <Grid item xs={2} sx={{ textAlign: 'center' }}>
+              사진
+            </Grid>
+            <Grid item xs={2} sx={{ textAlign: 'center' }}>
+              종류
+            </Grid>
+            <Grid item xs={2} sx={{ textAlign: 'center' }}>
+              이름
+            </Grid>
+            <Grid item xs={2} sx={{ textAlign: 'center' }}>
+              내용
+            </Grid>
+            <Grid item xs={2} sx={{ textAlign: 'center' }}>
+              금액
+            </Grid>
+            <Grid item xs={2} sx={{ textAlign: 'center' }}>
+              수정
+            </Grid>
+          </Grid>
+          <Box
+            sx={{
+              maxHeight: '100%',
+              minHeight: '180px',
+              overflowY: 'scroll',
+              width: '100%',
+              height: '100%',
+              fontSize: '70%',
+            }}
+          >
+            <Grid container spacing={2} justifyContent="center">
+              {menus.map((menu, index) => (
+                <React.Fragment key={index}>
+                  <Grid
+                    item
+                    xs={12}
+                    style={{
+                      backgroundColor: outOfStock[index] ? 'lightgray' : 'white', // 품절 상태에 따라 배경색 변경
+                    }}
+                  >
+                    <Grid container>
+                      <Grid item xs={2} sx={{ textAlign: 'center' }}>
+                        {menu.primaryimage ? (
+                          <img
+                            src={menu.menuImageList[0].url}
+                            style={{ width: '50px', height: '100%' }}
+                          />
+                        ) : (
+                          'N/A'
+                        )}
+                      </Grid>
+                      <Grid item xs={2} sx={{ textAlign: 'center' }}>
+                        {menu.menuType}
+                      </Grid>
+                      <Grid item xs={2} sx={{ textAlign: 'center' }}>
+                        {menu.menuName}
+                      </Grid>
+                      <Grid item xs={2} sx={{ textAlign: 'center' }}>
+                        {menu.menuContent}
+                      </Grid>
+                      <Grid item xs={2} sx={{ textAlign: 'center' }}>
+                        {menu.price}
+                      </Grid>
 
-                    <Grid item xs={1} sx={{ textAlign: 'center' }}>
-                      <Button onClick={() => handleEdit(menu.id)}>수정</Button>
+                      <Grid item xs={1} sx={{ textAlign: 'center' }}>
+                        <Button onClick={() => handleEdit(menu.id)}>수정</Button>
+                      </Grid>
                     </Grid>
                   </Grid>
-                </Grid>
-              </React.Fragment>
-            ))}
-          </Grid>
+                </React.Fragment>
+              ))}
+            </Grid>
+          </Box>
         </Box>
-      </Box>
-      <Grid item xs={12} sx={{ textAlign: 'center' }}>
-        <Button
-          variant="contained"
-          sx={{ background: '#21BF73', marginTop: '5%' }}
-          onClick={handleButtonClick}
-        >
-          수정하러 가기
-        </Button>
-      </Grid>
-      <MenuInfoModal
-        open={modalOpen}
-        handleClose={handleClose}
-        menuId={selectedMenu}
-        menus={menus}
-        updateMenus={updateMenus}
-      />
+        <Grid item xs={12} sx={{ textAlign: 'center' }}>
+          <Button
+            variant="contained"
+            sx={{ background: '#21BF73', marginTop: '5%' }}
+            onClick={handleButtonClick}
+          >
+            수정하러 가기
+          </Button>
+        </Grid>
+        <MenuInfoModal
+          open={modalOpen}
+          handleClose={handleClose}
+          menuId={selectedMenu}
+          menus={menus}
+          updateMenus={updateMenus}
+        />
       </Box>
     </ThemeProvider>
   );
