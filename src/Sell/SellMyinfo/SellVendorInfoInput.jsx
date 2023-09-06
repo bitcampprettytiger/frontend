@@ -28,7 +28,7 @@ const SellVendorInfoInput = ({
   const handleSave = async () => {
     try {
       await axios.put(
-        'http://localhost/vendor/info',
+        'https://mukjachi.site:6443/vendor/info',
         {
           vendorType: newVendorType,
           signatureMenu: newSignatureMenu,

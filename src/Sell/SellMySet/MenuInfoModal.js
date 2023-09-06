@@ -39,7 +39,7 @@ const MenuInfoModal = ({ open, handleClose, menuId, menus, updateMenus }) => {
       const formData = new FormData();
       formData.append('id', menuId);
       const response = await axios.delete(
-        `http://localhost/menu/info/deleteMenu`,
+        `https://mukjachi.site:6443/menu/info/deleteMenu`,
         {
           data: formData,
           headers: {
@@ -73,7 +73,7 @@ const MenuInfoModal = ({ open, handleClose, menuId, menus, updateMenus }) => {
       // 추가적으로 필요한 필드가 있다면 이곳에 추가
 
       const response = await axios.put(
-        `http://localhost/menu/info/changeMenu`,
+        `https://mukjachi.site:6443/menu/info/changeMenu`,
         formData,
         {
           headers: {
