@@ -110,12 +110,15 @@ const SellMyList = () => {
     updatedMenus[index][field] = event.target.value;
     setMenus(updatedMenus);
   };
+  console.log('메뉴===================', menus);
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{
-        padding: '5%',
-        height: '80vh',
-      }}>
+      <Box
+        sx={{
+          padding: '5%',
+          height: '80vh',
+        }}
+      >
         <Box
           sx={{
             display: 'flex',
@@ -130,7 +133,9 @@ const SellMyList = () => {
           }}
         >
           {' '}
-          <Typography sx={{ marginBottom: '5%', fontSize: '130%', fontWeight: 'bold' }}>
+          <Typography
+            sx={{ marginBottom: '5%', fontSize: '130%', fontWeight: 'bold' }}
+          >
             메뉴 관리
           </Typography>
           <Grid
@@ -175,14 +180,17 @@ const SellMyList = () => {
                     item
                     xs={12}
                     style={{
-                      backgroundColor: outOfStock[index] ? 'lightgray' : 'white', // 품절 상태에 따라 배경색 변경
+                      backgroundColor: outOfStock[index]
+                        ? 'lightgray'
+                        : 'white', // 품절 상태에 따라 배경색 변경
                     }}
                   >
                     <Grid container>
                       <Grid item xs={2} sx={{ textAlign: 'center' }}>
                         {menu.primaryimage ? (
                           <img
-                            src={menu.menuImageList[0].url}
+                            src={menu.primaryimage}
+                            alt='먹어'
                             style={{ width: '50px', height: '100%' }}
                           />
                         ) : (
@@ -203,7 +211,9 @@ const SellMyList = () => {
                       </Grid>
 
                       <Grid item xs={1} sx={{ textAlign: 'center' }}>
-                        <Button onClick={() => handleEdit(menu.id)}>수정</Button>
+                        <Button onClick={() => handleEdit(menu.id)}>
+                          수정
+                        </Button>
                       </Grid>
                     </Grid>
                   </Grid>

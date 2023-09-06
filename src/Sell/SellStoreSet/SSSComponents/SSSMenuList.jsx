@@ -78,7 +78,9 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
       console.error('There was an error sending the data', error);
     }
   };
-
+  useEffect(() => {
+    console.log('메뉴야111111111111111', menus);
+  });
   return (
     <ThemeProvider theme={theme}>
       <Box
@@ -131,7 +133,7 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
                 <Grid item xs={3} sx={{ textAlign: 'center' }}>
                   {menu.menuImage ? (
                     <img
-                      src={menu.menuImage}
+                      src={URL.createObjectURL(menu.menuImage)}
                       alt="menu preview"
                       style={{ width: '50px', height: '50px' }}
                     />
