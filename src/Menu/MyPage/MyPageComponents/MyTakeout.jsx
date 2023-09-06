@@ -15,12 +15,15 @@ function MyTakeout() {
     const navigate = useNavigate();
 
     const formatDateTime = (isoString) => {
-        const date = new Date(isoString);
+        const date = new Date(isoString + "Z"); // 'Z'는 UTC를 나타냅니다.
+
+
         const yyyy = date.getFullYear();
-        const mm = String(date.getMonth() + 1).padStart(2, '0'); // January is 0!
+        const mm = String(date.getMonth() + 1).padStart(2, '0');
         const dd = String(date.getDate()).padStart(2, '0');
         const hh = String(date.getHours()).padStart(2, '0');
         const min = String(date.getMinutes()).padStart(2, '0');
+
         return `${yyyy}-${mm}-${dd}, ${hh}:${min}`;
     };
 
@@ -33,8 +36,8 @@ function MyTakeout() {
                 const todayOrders = orderData.filter(order => order.orderDate.split('T')[0] === today);
                 const uniqueStores = [...new Set(todayOrders.map(order => order.storeName))];
                 const paymentData = await fetchPaymentList(token);
-
-                setOrderDetail(orderData || []);
+                //주문 날짜 기준으로 내림차순
+                setOrderDetail(orderData.sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate)) || []);
                 setTodayStoreCount(uniqueStores.length);
 
                 const groups = {};
@@ -83,7 +86,8 @@ function MyTakeout() {
                                 <div className='mytakeout-store'>
                                     <img src="/images/roopy.png" alt="Store Logo" />
                                     <div className='mytakeout-store-info'>
-                                        <p>{order.menuType}</p>
+                                        <p className='store-name'>{order.vendor.vendorName}</p>
+
                                         <div className='menu-detail'>
                                             <p>{order.orderMenu}</p>
                                             <p>{order.totalPrice}원</p>
