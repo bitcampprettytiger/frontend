@@ -48,7 +48,9 @@ export default function MapList({ vendorInfo, moveTo }) {
     setSelectedItem(index);
     console.log(info.vendorid);
   };
-
+  useEffect(() => {
+    console.log('가게ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ', vendorInfo);
+  });
   return (
     <div
       style={{ position: 'absolute', bottom: '6%', zIndex: 1, width: '100%' }}
@@ -60,9 +62,8 @@ export default function MapList({ vendorInfo, moveTo }) {
               onClick={() => handleClick(info, index)}
               sx={{
                 width: '90%', // 25% - margin
-                height: '90%',
-                borderColor:
-                  selectedItem === index ? '#FD5E53' : 'grey.300',
+                height: '250px',
+                borderColor: selectedItem === index ? '#FD5E53' : 'grey.300',
                 borderWidth: 1,
                 marginLeft: '5%',
                 borderStyle: 'solid',
@@ -74,18 +75,22 @@ export default function MapList({ vendorInfo, moveTo }) {
               <CardMedia
                 component="img"
                 sx={{
-                  maxHeight: '100px', // 최대 높이는 150px
-                  height: '50%', // 실제 높이는 50%
+                  height: '100px', // 실제 높이는 50%
                   objectFit: 'contain', // 이미지 비율 유지
                   objectPosition: 'center', // 중앙 정렬
                   margin: '10% 0',
-
+                  objectFit: 'cover', // 이미지를 채우되 비율을 유지
+                  objectPosition: 'center', // 중앙 정렬
                 }}
-                image={imageMap[info.vendorSIG] || '../images/default.png'}
+                image={info.vendorimg}
                 alt={info.vendorSIG}
               />
               <CardContent>
-                <Typography variant="h8" component="div" sx={{ marginBottom: '5%' }}>
+                <Typography
+                  variant="h8"
+                  component="div"
+                  sx={{ marginBottom: '5%' }}
+                >
                   {info.vendorName}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
