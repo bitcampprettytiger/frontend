@@ -47,7 +47,7 @@ input {
     background: none;
     border: none;
     color: grey;
-    font-size: 75%;
+    font-size: 85%;
     cursor: pointer;
     text-decoration: none;
 }
@@ -63,11 +63,11 @@ input {
     color: white;
     background-color: #FD5E53;
     border-radius: 5px;
-    font-size: 90%;
+    font-size: 100%;
     cursor: pointer;
     width: 90%;
     margin-bottom: 10%;
-    height: 5vh;
+    height: 6vh;
 }
 
 .login-btn:hover {

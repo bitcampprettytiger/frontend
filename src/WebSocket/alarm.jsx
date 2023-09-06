@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 
-const socket = io('http://mukjachi.site:6443:1004:3030');
+const socket = io('https://mukjachi.site:6443:3030');
 
 function Alarm() {
     // 주문 목록을 관리하는 상태

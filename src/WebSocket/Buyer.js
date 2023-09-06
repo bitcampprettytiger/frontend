@@ -6,7 +6,7 @@ const Buyer = () => {
   const [orderStatus, setOrderStatus] = useState(false);
 
   useEffect(() => {
-    const newSocket = io('http://mukjachi.site:6443:1004:3030');
+    const newSocket = io('https://mukjachi.site:6443:3030');
     setSocket(newSocket);
 
     newSocket.emit("register", { role: "buyer" });

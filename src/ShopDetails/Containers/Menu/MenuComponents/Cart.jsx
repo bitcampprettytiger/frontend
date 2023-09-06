@@ -49,7 +49,7 @@ function CartPage() {
   };
   const fetchUserInfo = async () => {
     try {
-      const response = await axios.get('http://mukjachi.site:6443:1004/member/info', { headers: getHeaders() });
+      const response = await axios.get('http://192.168.0.240:1004/member/info', { headers: getHeaders() });
       console.log(response);
       if (response.status === 200) {
         setPhoneNumber(response.data.tel);
@@ -60,7 +60,7 @@ function CartPage() {
   };
 
   useEffect(() => {
-    const socket = io('http://192.168.0.63:8081', { query: `phoneNumber=${phoneNumber}` });
+    const socket = io('https://mukjachi.site:8081', { query: `phoneNumber=${phoneNumber}` });
     setSocket(socket);
     fetchUserInfo();
 
@@ -170,7 +170,7 @@ function CartPage() {
     try {
       // 서버로 데이터를 전송합니다.
       const serverResponse = await axios.post(
-        'http://mukjachi.site:6443:1004/payment/addPayment',
+        'http://192.168.0.240:1004/payment/addPayment',
         payload,
         { headers }
       );
