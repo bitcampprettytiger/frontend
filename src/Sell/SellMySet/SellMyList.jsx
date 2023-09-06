@@ -216,7 +216,7 @@ const SellMyList = () => {
           sx={{ background: '#21BF73', marginTop: '5%' }}
           onClick={handleButtonClick}
         >
-          수정하러 가기
+          메뉴 등록
         </Button>
       </Grid>
       <MenuInfoModal

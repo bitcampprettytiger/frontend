@@ -39,10 +39,8 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
 
   const sendMenuInfo = async () => {
     try {
-      const formData = new FormData();
-
-      // 메뉴 정보들을 각각 평평하게 (flat) 추가
-      menus.forEach((menu, index) => {
+      for (const [index, menu] of menus.entries()) {
+        const formData = new FormData();
         formData.append('menuName', menu.menuName);
         formData.append('price', parseInt(menu.price, 10));
         formData.append('menuContent', menu.menuContent);
@@ -51,31 +49,30 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
           'menuSellStatus',
           outOfStock[index] ? 'OUT_OF_STOCK' : 'SELL'
         );
+
         if (menu.menuImage) {
           formData.append('file', menu.menuImage);
         }
-      });
-      // formData.append('vendorId', vendorId);
 
-      // vendor.id도 추가한다면
+        const response = await axios.post(
+          'https://mukjachi.site:6443/menu/info/insertMenu',
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
 
-      const response = await axios.post(
-        'https://mukjachi.site:6443/menu/info/insertMenu', // 서버 주소
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            Authorization: `Bearer ${accessToken}`,
-          },
+        if (response.status === 200) {
+          console.log('메뉴정보', response);
+        } else {
+          alert('서버코드실패');
         }
-      );
-
-      if (response.status === 200) {
-        console.log('메뉴정보들', response);
-        alert('메뉴 정보 전송 성공');
-      } else {
-        alert('서버코드실패');
       }
+      window.location.reload();
+      alert('모든 메뉴 정보 전송 성공');
     } catch (error) {
       alert('실패');
       console.error('There was an error sending the data', error);
