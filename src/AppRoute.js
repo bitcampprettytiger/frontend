@@ -43,6 +43,10 @@ import Buyer from './WebSocket/Buyer';
 import SellList from './Sell/SellStoreSet/SellList';
 import SellMyinfo from './Sell/SellMyinfoList';
 import LoginSelectionPage from './Login,Join/TwoLogin';
+import { ReviewContextProvider } from './Menu/MyPage/MyPageComponents/ReviewContext';
+import PopularStation from './Menu/Home/HomeComponents/PopularStation';
+import AllLogin from './Menu/Home/HomeComponents/AllLogin';
+import MemoizedVendorReview from './Menu/MyPage/MyPageComponents/VendorReview';
 
 const muitheme = createTheme({
   palette: {
@@ -62,32 +66,27 @@ const menuRoutes = [
   { path: '/waiting', element: <Waiting /> },
   {
     path: '/myreview',
-    element: (
-      <FavoriteProvider>
-        <MyReview />{' '}
-      </FavoriteProvider>
-    ),
+    element: <MyReview />,
+  },
+  {
+    path: '/vendorreview/:vendorId',
+    element: <MemoizedVendorReview />,
   },
   { path: '/waitingDetail', element: <WaitingDetail /> },
+  { path: '/alllogin', element: <AllLogin /> },
   { path: '/shopHome/:vendorId', element: <ShopMain /> },
   { path: '/reviewform/:orderId/:vendorId', element: <ReviewForm /> },
   { path: '/review-detail/:vendorId', element: <ReviewDetail /> },
   { path: '/notice', element: <Notice /> },
+  { path: '/popularstation/:region', element: <PopularStation /> },
+  // { path: '/popularstation', element: <PopularStation /> },
   {
     path: '/mypage',
-    element: (
-      <FavoriteProvider>
-        <Mypage />
-      </FavoriteProvider>
-    ),
+    element: <Mypage />,
   },
   {
     path: '/myfavorite',
-    element: (
-      <FavoriteProvider>
-        <MyFavorite />
-      </FavoriteProvider>
-    ),
+    element: <MyFavorite />,
   },
   { path: '/mytakeout', element: <MyTakeout /> },
   { path: '/mytakeoutdetail/order/:orderId', element: <MyTakeoutDetail /> },

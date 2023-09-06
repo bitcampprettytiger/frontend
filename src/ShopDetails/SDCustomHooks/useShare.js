@@ -10,7 +10,8 @@ const useShare = (vendorId) => {
         navigator.share({
           title: "[먹자취]",
           text: vendor.address,
-          url: "https://mukjachi.site:6443/vendor/infoDetail/${vendorId}",
+          url: "https://mukjachi.site:6443:1004/vendor/infoDetail/${vendorId}",
+
         });
       }
     } else {

@@ -98,7 +98,7 @@ const FindPW = ({ openModal, handleModalClose }) => {
           margin="normal"
         />
         {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-        <Button variant="contained" color="primary" onClick={findPhoneNumber} sx= {{color: 'white'}}>
+        <Button variant="contained" color="primary" onClick={findPhoneNumber} sx={{ color: 'white' }}>
           검증
         </Button>
         {isVerified && (

@@ -1,4 +1,4 @@
-import React, { useState ,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Typography,
   IconButton,
@@ -32,7 +32,7 @@ function CartPage() {
   const accessToken = localStorage.getItem('accessToken');
   const [showModal, setShowModal] = useState(false);
   const [paymentOK, setpaymentOK] = useState(false);
-  const [phoneNumber,setPhoneNumber] = useState(null); // 초기값을 null로 설정
+  const [phoneNumber, setPhoneNumber] = useState(null); // 초기값을 null로 설정
   const [socket, setSocket] = useState(null); // socket state 추가
   const headers = {
     'Content-Type': 'application/json',
@@ -58,14 +58,14 @@ function CartPage() {
       console.error('Failed to fetch user info:', error);
     }
   };
-  
+
   useEffect(() => {
     const socket = io('http://192.168.0.95:8081', { query: `phoneNumber=${phoneNumber}` });
     setSocket(socket);
     fetchUserInfo();
 
 
-    return () => socket.close(); 
+    return () => socket.close();
   }, [phoneNumber]);
 
   const { cartItems, clearCart, deleteCartItem, setCartItems } = useCart();
@@ -125,7 +125,7 @@ function CartPage() {
   const onClickPayment = async () => {
     const { IMP } = window;
     IMP.init('imp45381601');
-    
+
     const data = {
       pg: 'html5_inicis',
       pay_method: 'card',
@@ -136,7 +136,7 @@ function CartPage() {
     };
     IMP.request_pay(data, callback);
   };
-  
+
   const callback = async (rsp) => {
     const {
       success,
@@ -148,48 +148,45 @@ function CartPage() {
       paymentOK,
     } = rsp;
     console.log('rsp@@@', rsp);
-    
+
     //페이먼트 아이디
     console.log('콜백 벤더아이디@@@@@@@@@@@@@@@@@@@@', rsp);
     console.log('콜백ㄱㄱㄱㄱㄱㄱㄱㄱㄱ', vendorId); //페이먼트 아이디
     //벤더아이디
-    
-    // if (success) {
-      setShowModal(true); // 결제 성공 시 모달 표시
-      const payload = {
-        payMethod: 'card',
-        impUid: imp_uid,
-        merchantUid: merchant_uid,
-        amount: paid_amount,
-        name: name,
-        paymentOK: paymentOK,
-        vendorId: vendorId,
-        
-      };
-      console.log('페이로드', payload);
-      try {
-        // 서버로 데이터를 전송합니다.
-        const serverResponse = await axios.post(
-          'https://mukjachi.site:6443/payment/addPayment',
-          payload,
-          { headers }
-          );
-          setpaymentOK(true);
-          console.log('서버 응답:', serverResponse);
-          console.log("phoneNumber"+phoneNumber);
-          console.log("serverResponse"+serverResponse)
-          // if (socket) socket.emit('order', { phoneNumber, serverResponse });
 
-          
-          if (socket) socket.emit('order', { phoneNumber, orderArray: serverResponse.data.item , cartItems: cartItems});
-          
-        } catch (error) {
-          console.error('서버로 전송 실패:', error);
-        }
-    // }
-    //  else {
-      alert(`결제 실패: ${error_msg}`);
-    // }
+    // if (success) {
+    setShowModal(true); // 결제 성공 시 모달 표시
+    const payload = {
+      payMethod: 'card',
+      impUid: imp_uid,
+      merchantUid: merchant_uid,
+      amount: paid_amount,
+      name: name,
+      paymentOK: paymentOK,
+      vendorId: vendorId,
+
+    };
+    console.log('페이로드', payload);
+    try {
+      // 서버로 데이터를 전송합니다.
+      const serverResponse = await axios.post(
+        'https://mukjachi.site:6443/payment/addPayment',
+        payload,
+        { headers }
+      );
+      setpaymentOK(true);
+      console.log('서버 응답:', serverResponse);
+      console.log("phoneNumber" + phoneNumber);
+      console.log("serverResponse" + serverResponse)
+      // if (socket) socket.emit('order', { phoneNumber, serverResponse });
+
+
+      if (socket) socket.emit('order', { phoneNumber, orderArray: serverResponse.data.item, cartItems: cartItems });
+
+    } catch (error) {
+      console.error('서버로 전송 실패:', error);
+    }
+
   };
   const onModalConfirm = () => {
     setShowModal(false); // 모달 닫기
@@ -198,9 +195,9 @@ function CartPage() {
   };
   return (
     <>
-      <Container style={{ border: '1px solid #ff0000', height: '100vh', padding:'0' }}>
-      <AppBarWithTitle title="장바구니" />
-        <Box sx={{ my: 2,  height: '70vh', padding: '5%'}}>
+      <Container style={{ border: '1px solid #ff0000', height: '100vh', padding: '0' }}>
+        <AppBarWithTitle title="장바구니" />
+        <Box sx={{ my: 2, height: '70vh', padding: '5%' }}>
           <Typography variant="h6" gutterBottom component="div">
             총 {getTotalItems()}개의 메뉴
           </Typography>
@@ -208,19 +205,21 @@ function CartPage() {
             size="small"
             variant="outlined"
             onClick={onDeleteAll}
-            sx={{ marginBottom: 2
-            , border: '1px solid #ff0000',
-          color: '#FD5E53' ,
-          '&:hover': {
-            backgroundColor: '#FD5E53',
-            color: 'white',
-            border: '1px solid #FD5E53',
-          },
-          '&:active': {
-            backgroundColor: '#FD5E53',
-            color: 'white',
-            border: '1px solid #FD5E53',
-          }}}
+            sx={{
+              marginBottom: 2
+              , border: '1px solid #ff0000',
+              color: '#FD5E53',
+              '&:hover': {
+                backgroundColor: '#FD5E53',
+                color: 'white',
+                border: '1px solid #FD5E53',
+              },
+              '&:active': {
+                backgroundColor: '#FD5E53',
+                color: 'white',
+                border: '1px solid #FD5E53',
+              }
+            }}
           >
             전체 삭제
           </Button>
@@ -297,7 +296,7 @@ function CartPage() {
         </Box>
       </Container>
       <Box
-      position= 'absolute'
+        position='absolute'
         sx={{
           bottom: 0,
           width: width,

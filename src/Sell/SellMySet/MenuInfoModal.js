@@ -6,8 +6,7 @@ import {
   DialogTitle,
   Button,
   TextField,
-  FormControlLabel,
-  Checkbox,
+  Typography,
 } from '@mui/material';
 import axios from 'axios';
 const MenuInfoModal = ({ open, handleClose, menuId, menus, updateMenus }) => {
@@ -15,6 +14,9 @@ const MenuInfoModal = ({ open, handleClose, menuId, menus, updateMenus }) => {
   const accessToken = localStorage.getItem('accessToken');
   const selectedMenu = menus.find((menu) => menu.menuId === menuId);
   const [updatedMenu, setUpdatedMenu] = useState(selectedMenu || null);
+  const [menuImage, setMenuImage] = useState(null);
+  const [menuType, setMenuType] = useState('');
+
   useEffect(() => {
     const newSelectedMenu = menus.find((menu) => menu.id === menuId);
     setUpdatedMenu(newSelectedMenu);
@@ -30,7 +32,13 @@ const MenuInfoModal = ({ open, handleClose, menuId, menus, updateMenus }) => {
     updateMenus(updatedMenu); // updatedMenu 값이 채워져 있어야 함
     handleClose();
   };
+  const handleImageChange = (e) => {
+    setMenuImage(e.target.files[0]);
+  };
 
+  const handleTypeChange = (e) => {
+    setMenuType(e.target.value);
+  };
   const handleDelete = async () => {
     try {
       const confirmDelete = window.confirm('정말로 삭제하시겠습니까?');
@@ -51,7 +59,9 @@ const MenuInfoModal = ({ open, handleClose, menuId, menus, updateMenus }) => {
 
       if (response.status === 200) {
         alert('삭제가 완료되었습니다.');
+
         handleClose();
+        window.location.reload();
       }
     } catch (error) {
       alert('삭제를 실패했습니다.');
@@ -70,8 +80,10 @@ const MenuInfoModal = ({ open, handleClose, menuId, menus, updateMenus }) => {
       formData.append('menuName', updatedMenu.menuName);
       formData.append('menuContent', updatedMenu.menuContent);
       formData.append('price', updatedMenu.price);
+      formData.append('menuType', updatedMenu.menuType);
+      formData.append('primaryimage', updatedMenu.primaryimage);
+      console.log('first',updatedMenu.primaryimage)
       // 추가적으로 필요한 필드가 있다면 이곳에 추가
-
       const response = await axios.put(
         `https://mukjachi.site:6443/menu/info/changeMenu`,
         formData,
@@ -85,6 +97,7 @@ const MenuInfoModal = ({ open, handleClose, menuId, menus, updateMenus }) => {
       if (response.status === 200) {
         alert('수정이 완료되었습니다.');
         handleClose();
+        window.location.reload();
       }
     } catch (error) {
       console.error('메뉴 수정 실패:', error);
@@ -94,18 +107,35 @@ const MenuInfoModal = ({ open, handleClose, menuId, menus, updateMenus }) => {
       alert('수정을 실패했습니다.');
     }
   };
-
+  useEffect(() => {}, []);
   return (
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle>메뉴 수정</DialogTitle>
       <DialogContent>
-        {updatedMenu?.imageURL && (
+        {updatedMenu?.primaryimage ? (
           <img
-            src={updatedMenu.imageURL}
+            src={updatedMenu.primaryimage}
             alt="Menu"
             style={{ width: '100px', height: '100px' }}
           />
+        ) : (
+          'N:A'
         )}
+
+        {/* 메뉴 타입을 보여주되, 수정 불가능하게 설정 */}
+
+        <TextField
+          autoFocus
+          margin="dense"
+          id="name"
+          label="메뉴 타입"
+          type="text"
+          value={updatedMenu?.menuType || ''}
+          fullWidth
+          InputProps={{
+            readOnly: true, // 수정 불가능하게 만들기
+          }}
+        />
         <TextField
           autoFocus
           margin="dense"
@@ -116,16 +146,7 @@ const MenuInfoModal = ({ open, handleClose, menuId, menus, updateMenus }) => {
           fullWidth
           onChange={(e) => handleInputChange(e, 'menuName')}
         />
-        <TextField
-          autoFocus
-          margin="dense"
-          id="type"
-          label="메뉴 타입"
-          type="text"
-          value={updatedMenu?.menuType || ''}
-          fullWidth
-          onChange={(e) => handleInputChange(e, 'menuType')}
-        />
+
         <TextField
           margin="dense"
           id="content"
@@ -135,6 +156,7 @@ const MenuInfoModal = ({ open, handleClose, menuId, menus, updateMenus }) => {
           fullWidth
           onChange={(e) => handleInputChange(e, 'menuContent')}
         />
+
         <TextField
           margin="dense"
           id="price"
@@ -144,6 +166,7 @@ const MenuInfoModal = ({ open, handleClose, menuId, menus, updateMenus }) => {
           fullWidth
           onChange={(e) => handleInputChange(e, 'price')}
         />
+
         <Button
           onClick={() => handleDelete(updatedMenu?.menuId)}
           color="secondary"

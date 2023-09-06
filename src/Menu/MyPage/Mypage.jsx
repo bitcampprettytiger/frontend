@@ -19,22 +19,26 @@ import { FaHeart } from 'react-icons/fa';
 import { MdOutlineShoppingBasket } from 'react-icons/md';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useReviewContext } from '../../Menu/MyPage/MyPageComponents/ReviewContext';
+import { updateMemberInfo } from '../Home/HomeComponents/HomeApi';
 
 function Mypage() {
   const [isEditing, setIsEditing] = useState(false);
-  const [nickname, setNickname] = useState("닉네임");
-  const [newNickname, setNewNickname] = useState("");
+  const [nickname, setnickname] = useState("닉네임");
+  const [newnickname, setNewnickname] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [reviewCount, setReviewCount] = useState(0);
   const { favoriteCount, setFavoriteCount, favoriteShops, setFavoriteShops } = useFavorite();
   const [open, setOpen] = useState(false);
   const [modalType, setModalType] = useState('');
   const navigate = useNavigate();
+  const { reviews: contextReviews, setReviews: setContextReviews } = useReviewContext();
+
 
   const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
   });
-  
+
 
   const fetchFavorites = async () => {
     try {
@@ -67,23 +71,43 @@ function Mypage() {
   };
   const handleEditClick = () => {
     setIsEditing(true);
-    setNewNickname(nickname);
+    setNewnickname(nickname);
   };
 
-  const handleSaveClick = () => {
-    setNickname(newNickname);
-    setIsEditing(false);
-    setShowModal(true);
-    setTimeout(() => setShowModal(false), 2000);
+  // const handleSaveClick = () => {
+  //   setnickname(newnickname);
+  //   setIsEditing(false);
+  //   setShowModal(true);
+  //   setTimeout(() => setShowModal(false), 2000);
+  // };
+  const handleSaveClick = async () => {
+    const updatedInfo = {
+      nickName: newnickname,
+      // Include any other fields you want to update
+      // password: newPassword, // Include password if applicable
+    };
+
+    try {
+      const response = await updateMemberInfo(updatedInfo);
+      setnickname(response.item.username);
+      setIsEditing(false);
+      setShowModal(true);
+      setTimeout(() => setShowModal(false), 2000);
+    } catch (error) {
+      console.error('Error updating member info:', error);
+      // Handle error state or show an error message to the user
+    }
   };
+
 
   const handleCancelClick = () => {
     setIsEditing(false);
   };
 
   const handleChange = (e) => {
-    setNewNickname(e.target.value);
+    setNewnickname(e.target.value);
   };
+
 
   useEffect(() => {
     const fetchAllData = async () => {
@@ -94,7 +118,8 @@ function Mypage() {
         const userInfoResponse = await axios.get('https://mukjachi.site:6443/myPage/myInfo', { headers });
         const userData = userInfoResponse.data;
 
-        setNickname(userData.nickname || "닉네임");
+        setnickname(userData.item.nickname || "닉네임");
+        console.log("User data:", userInfoResponse.data);
 
         // 즐겨찾기 정보 가져오기
         const favoriteVendorsResponse = await axios.get('https://mukjachi.site:6443/myPage/myFavoriteVendors', { headers });
@@ -119,7 +144,7 @@ function Mypage() {
             <div className="nickname-edit">
               <input
                 type="text"
-                value={newNickname}
+                value={newnickname}
                 onChange={handleChange}
                 className="nickname-input"
               />
@@ -157,7 +182,7 @@ function Mypage() {
                   color: '#FD5E53',
                   fontSize: '105%'
                 }}>리뷰</Button>
-                <div className='cntNum'>{reviewCount}</div>
+                <div className='cntNum'> {contextReviews.length}</div>
               </Link>
             </div>
 
@@ -225,14 +250,14 @@ function Mypage() {
               margin: 'auto'
             }}
           >
-            <DialogTitle sx={{fontSize: '100%', color : 'black'}}>
+            <DialogTitle sx={{ fontSize: '100%', color: 'black' }}>
               {modalType === 'Terms' && '이용약관'}
               {modalType === 'Privacy' && '개인정보처리방침'}
               {modalType === 'Logout' && '로그아웃'}
             </DialogTitle>
 
             <DialogContent >
-              <DialogContentText id="alert-dialog-slide-description" sx={{fontSize: '80%'}}>
+              <DialogContentText id="alert-dialog-slide-description" sx={{ fontSize: '80%' }}>
                 {modalType === 'Terms' && '이용약관의 내용'}
                 {modalType === 'Privacy' && '개인정보처리방침의 내용'}
                 {modalType === 'Logout' && '로그아웃하시겠습니까?'}
@@ -242,12 +267,12 @@ function Mypage() {
             <DialogActions>
               {modalType === 'Logout' ? (
                 <>
-                  <Button onClick={handleClose} sx={{color: '#FD5E53', fontSize: '90%'}}>아니오</Button>
-                  <Button onClick={handleClose} sx={{color: '#FD5E53', fontSize: '90%'}}>네</Button>
+                  <Button onClick={handleClose} sx={{ color: '#FD5E53', fontSize: '90%' }}>아니오</Button>
+                  <Button onClick={handleClose} sx={{ color: '#FD5E53', fontSize: '90%' }}>네</Button>
                 </>
               ) : (
                 <>
-                  <Button onClick={handleClose} sx={{color: 'black', fontSize: '90%'}}>확인</Button>
+                  <Button onClick={handleClose} sx={{ color: 'black', fontSize: '90%' }}>확인</Button>
                 </>
               )}
             </DialogActions>
