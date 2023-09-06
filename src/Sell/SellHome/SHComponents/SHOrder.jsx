@@ -10,10 +10,11 @@ import {
   Typography
 } from '@mui/material';
 
-const OrderDetail = ({order, onClick }) => {
+const OrderDetail = ({ menu, quantity ,onClick}) => {
   const [openDialog, setOpenDialog] = useState(false);
 
   useEffect(() => {
+    console.log(menu);
     if (openDialog) {
       const timer = setTimeout(() => {
         setOpenDialog(false);
@@ -25,10 +26,8 @@ const OrderDetail = ({order, onClick }) => {
   }, [openDialog]);
 
   useEffect(() => {
-    if (order) {
-      console.log(order);
-    }
-  }, [order]);
+      console.log(menu);
+  }, [menu]);
 
   // 주문 반려 버튼 클릭 이벤트 핸들러
   const handleOrderBack = () => {
@@ -59,6 +58,8 @@ const OrderDetail = ({order, onClick }) => {
         marginBottom: '10px',
       }}
     >
+
+
       <Typography
         variant="h6"
         align="center"
@@ -68,14 +69,36 @@ const OrderDetail = ({order, onClick }) => {
       </Typography>
           <Grid container spacing={1}>
       <Grid item xs={6} sx={{ fontWeight: 'bold', color: '#555' }}>
-        주문번호
+        메뉴이름
       </Grid>
       <Grid item xs={6} sx={{ color: '#555' }}>
-        {order[0] && order[0].menu && order[0].menu.id}
+        {menu?.menuName}
+      </Grid>
+      <Grid item xs={6} sx={{ fontWeight: 'bold', color: '#555' }}>
+        메뉴 소개
       </Grid>
       <Grid item xs={12} sx={{ color: '#555' }}>
-        {order[0] && order[0].menu && order[0].menu.menuName}
+        {menu?.menuContent}
       </Grid>
+      <Grid item xs={6} sx={{ fontWeight: 'bold', color: '#555' }}>
+        메뉴 타입
+      </Grid>
+      <Grid item xs={12} sx={{ color: '#555' }}>
+        {menu?.menuType}
+      </Grid>
+      <Grid item xs={6} sx={{ fontWeight: 'bold', color: '#555' }}>
+        메뉴 타입
+      </Grid>
+      <Grid item xs={12} sx={{ color: '#555' }}>
+        {menu?.price}
+      </Grid>
+      <Grid item xs={6} sx={{ fontWeight: 'bold', color: '#555' }}>
+        주문 수량
+      </Grid>
+      <Grid item xs={12} sx={{ color: '#555' }}>
+        {quantity}
+      </Grid>
+
 </Grid>
       <Grid container spacing={1} sx={{ marginTop: '2%' }}>
         <Grid item xs={6}>

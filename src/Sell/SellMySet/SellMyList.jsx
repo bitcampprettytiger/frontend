@@ -61,7 +61,7 @@ const SellMyList = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://mukjachi.site:6443/menu/info/${vendorId}`,
+          `http://localhost/menu/info/${vendorId}`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -90,7 +90,7 @@ const SellMyList = () => {
   const handleUpdateClick = async () => {
     try {
       const response = await axios.post(
-        'https://mukjachi.site:6443/menu/info/changeMenu',
+        'http://localhost/menu/info/changeMenu',
         { menus },
         {
           headers: {
