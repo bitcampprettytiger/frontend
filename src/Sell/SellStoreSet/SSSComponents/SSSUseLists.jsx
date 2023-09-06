@@ -41,7 +41,11 @@ const SSSUseLists = () => {
 
     try {
       // 서버에 비동기로 전송
+<<<<<<< HEAD
       const response = await axios.post('http://mukjachi.site:6443:1004/vendor/info', {
+=======
+      const response = await axios.post('https://mukjachi.site:6443/vendor/info', {
+>>>>>>> dfbbd0f7aed48255a114d10846631cf192d41633
         helpCheck: amenitiesString,
       });
       console.log('Data sent to server:', response.data);
