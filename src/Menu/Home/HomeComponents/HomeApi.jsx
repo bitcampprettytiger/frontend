@@ -3,7 +3,7 @@ import { ar } from 'date-fns/locale';
 import { useNavigate } from 'react-router-dom';
 
 
-export const API_BASE_URL = "https://mukjachi.site:6443";
+export const API_BASE_URL = "http://localhost";
 
 // API 요청을 위한 헤더 가져오기
 export const getHeaders = (navigate) => {

@@ -20,7 +20,6 @@ const SellerPage = () => {
   };
 
   useEffect(() => {
-    // const socket = io('https://mukjachi.site:6443:8081'); // 판매자 엔드포인트로 연결
     if (!isReserved) {
       socket.emit('enter_room', data);
       setIsReserved(true);
