@@ -17,6 +17,8 @@ const Search = () => {
     const [shops, setShops] = useState([]); // 상점 정보를 저장하는 상태
     const [sortRating, setSortRating] = useState('high');
     const [sortReview, setSortReview] = useState('many');
+    const [query, setQuery] = useState(location.state ? location.state.query : '');
+    const autoSearch = location.state ? location.state.autoSearch : false;
 
     const {
         searchInput,
@@ -127,6 +129,24 @@ const Search = () => {
             // 여기서 query를 사용하여 자동으로 검색을 수행하면 됩니다.
         }
     }, [location]);
+
+    useEffect(() => {
+        if (location.state) {
+            const { query, autoSearch } = location.state;
+
+            // 검색창 값 채우기
+            if (query) {
+                setSearchInput(query); // 여기서 검색창의 값을 업데이트합니다.
+            }
+
+            // autoSearch 값이 true일 경우 자동으로 검색 수행
+            if (autoSearch) {
+                handleSearchClick(); // 여기서 자동 검색을 수행합니다.
+            }
+        }
+    }, [location, handleSearchClick]);
+
+
     return (
         <div>
             <div className="App-main2">

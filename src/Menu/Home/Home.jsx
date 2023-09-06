@@ -187,7 +187,12 @@ function Home() {
   };
   //메뉴버튼 누르면 검색창이동
   const handleMenuItemClick = (menuText) => {
-    navigate(`/search?query=${menuText}`);
+    navigate(`/search`, {
+      state: {
+        query: menuText,
+        autoSearch: true
+      }
+    });
   };
   //역버튼 누르면 검색창이동
   const navigateToSearchWithInfo = async (areaName) => {
