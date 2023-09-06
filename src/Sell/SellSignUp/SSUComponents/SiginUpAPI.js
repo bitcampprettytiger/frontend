@@ -18,7 +18,6 @@ const SellUpAPI = async (username, password, tel, privacy) => {
     });
 
     if (response.status === 200) {
-      alert('성공');
       return '회원가입 성공!';
     } else {
       return '회원가입 실패, 다시 시도해 주세요.';
