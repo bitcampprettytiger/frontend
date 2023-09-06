@@ -28,7 +28,7 @@ const FindPW = ({ openModal, handleModalClose }) => {
   const findPhoneNumber = async () => {
     try {
       const response = await axios.post(
-        'http://192.168.0.63/member/findPhoneNumber',
+        'https://mukjachi.site:6443/member/findPhoneNumber',
         {
           phoneNumber,
         }

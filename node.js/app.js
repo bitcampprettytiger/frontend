@@ -38,7 +38,7 @@ app.use(Sentry.Handlers.errorHandler());
 app.use(
   cors({
     origin: [
-      "http://192.168.0.63:3000",
+      "https://mukjachi.site:6443:3000",
       "http://52.78.56.220:3000",
       "https://www.dawhisky.com",
       "https://dawhisky-fe.vercel.app",

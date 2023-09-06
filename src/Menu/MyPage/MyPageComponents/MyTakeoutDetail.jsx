@@ -3,14 +3,12 @@ import Header from '../../../Layout/Header.jsx';
 import Footer from '../../../Layout/Footer.jsx';
 import './MyTakeoutDetail.css';
 import { useParams } from 'react-router-dom';
-import {IoIosCall} from 'react-icons/io';
-import {BiStoreAlt} from 'react-icons/bi'
-import { fetchVendorOrders } from '../../Home/HomeComponents/HomeApi.jsx';
+import { fetchMyOrders } from '../../Home/HomeComponents/HomeApi.jsx';
 
 // React 컴포넌트 시작
 function MyTakeoutDetail() {
-    const { orderId, vendorId } = useParams();
-    console.log("컴포넌트가 마운트됨. orderId 값:", orderId, "vendorId 값:", vendorId); // 1번 위치
+    const { orderId } = useParams();
+    console.log("컴포넌트가 마운트됨. orderId 값:", orderId);
 
     const [orderDetail, setOrderDetail] = useState(null);
 
@@ -37,27 +35,18 @@ function MyTakeoutDetail() {
     useEffect(() => {
         const fetchOrderDetail = async () => {
             try {
-                console.log("fetchOrderDetail 함수가 호출됨"); // 2번 위치
-                const vendorOrders = await fetchVendorOrders(vendorId);
-                console.log("fetchVendorOrders 반환 값:", vendorOrders); // 3번 위치
-
-                // orderId 해당하는 주문만 필터링
-                const specificOrder = vendorOrders.find(order => order.orderDate === orderId);
-                console.log("specificOrder 값:", specificOrder); // 4번 위치
-
-
+                const vendorOrders = await fetchMyOrders();
+                const specificOrder = vendorOrders.find(order => order.orderId === parseInt(orderId)); // 여기를 수정
                 if (!specificOrder) {
                     throw new Error('Order not found');
                 }
                 setOrderDetail(specificOrder);
-
             } catch (error) {
                 console.error('Error fetching order detail:', error);
             }
         };
-
         fetchOrderDetail();
-    }, [orderId, vendorId]);
+    }, [orderId]);
 
     // 주문 상세 정보가 없을 때 렌더링
     if (!orderDetail) {
@@ -71,32 +60,37 @@ function MyTakeoutDetail() {
                 <p className='takeout-complete'>포장이 완료되었어요</p>
                 <div className='mytakeout-detail'>
                     <div>
-                        <div className='tdstorename margin-btm'><strong>{orderDetail.item.member ? orderDetail.item.member.shopName : "가게명"}</strong></div>
-                        <div className='tdorderedate margin-btm'>주문일시 : {formatDateTime(orderDetail.item.orderDate)}</div>
-                        <div className='tdordernum margin-btm'>주문번호 : {orderDetail.item.orderDate}</div>
-                        <div className='tdstoremenu margin-btm'>
-                            {Array.isArray(orderDetail.orderMenu) ? (
-                                orderDetail.orderMenu.map(menu => <div>{menu}</div>)
-                            ) : (
-                                <div>{formattedMenu(orderDetail.item.orderedMenuDTOList)}</div>
-                            )}
-                        </div>
-                        <div className='button-container margin-btm'>
-                            <button
-                                onClick={() => window.location.href = `tel:${orderDetail.storeTelNumber}`}
-                                className='tdbtn'><IoIosCall className='tdicon'/>가게 전화</button>
-                            <button className='tdbtn'><BiStoreAlt className='tdicon'/>재주문 하기</button>
-                        </div>
-                           <ul>
-                            {orderDetail.item.orderedMenuDTOList.map((menuDetail, index) => (
-                                <li key={index}>
-                                    {menuDetail.menu.menuName}
-                                </li>
-                            ))}
+                        <p>{orderDetail && orderDetail.vendor ? orderDetail.vendor.vendorName : "가게명"}</p>
+                        <p>
+                            {orderDetail && orderDetail.orderedMenuDTOList ? formattedMenu(orderDetail.orderedMenuDTOList) : "데이터 로딩 중..."}
+                        </p>
+                        <p>
+                            주문일시 : {orderDetail && (formatDateTime(orderDetail.orderDate))}
+                        </p>
+                        <p>
+                            주문번호 : {orderDetail && (orderDetail.orderId)}
+                        </p>
+                        <button>가게전화</button>
+                        <button>가게보기</button>
+
+                        <ul>
+                            {orderDetail && orderDetail.item && orderDetail.item.orderedMenuDTOList
+                                ? orderDetail.item.orderedMenuDTOList.map((menuDetail, index) => (
+                                    <li key={index}>
+                                        {menuDetail.menu.menuName}
+                                    </li>
+                                ))
+                                : <li>메뉴 정보 없음</li>
+                            }
                         </ul>
-                        <div className='tdprice margin-btm'>총 금액 | {orderDetail.item.totalPrice}원</div>
-                        <div className='divider'></div>
-                        <p>결제방법 : 카드결제</p> {/* 실제 결제 방법 정보가 주어진다면 이 부분을 수정해야 함 */}
+
+                        <p>{orderDetail.totalPrice} 원</p>
+                        <p>
+                            총결제금액 : {orderDetail.totalPrice} 원
+                        </p>
+                        <p>결제방법 : 카드결제</p>
+                        <p>가게주소</p>
+                        <p>{orderDetail && orderDetail.vendor.address ? orderDetail.vendor.address : "주소 정보 로딩 중..."}</p>
                     </div>
                 </div>
             </div>
