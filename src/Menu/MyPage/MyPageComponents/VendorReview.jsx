@@ -103,6 +103,7 @@ function VendorReview({ reviewsData, setReviewsData, token }) {
                 <div className="review-header">
                   <span className="store-name">
                     {review.orders?.vendor?.vendorName || '가게명 정보 없음'}
+
                   </span>
                   <button
                     className="delete-btn"
