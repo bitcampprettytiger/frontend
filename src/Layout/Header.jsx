@@ -3,18 +3,17 @@ import '../App.css';
 import './Header.css';
 import MenuIcon from '@mui/icons-material/Menu';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import SearchIcon from '@mui/icons-material/Search';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { useNavigate } from 'react-router-dom';
 import ShareIcon from '@mui/icons-material/Share';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import SettingsIcon from '@mui/icons-material/Settings';
-import HomeIcon from '@mui/icons-material/Home';
 import { convertCoordsToAddress } from '../Utils/kakaoUtils';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import Notice from '../Menu/Home/HomeComponents/Notice';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import { AiOutlineSearch } from 'react-icons/ai'
+import { IoIosCloseCircleOutline } from 'react-icons/io'
 
-function Header({ page, searchInput, handleSearchChange, handleDeleteClick, handleSearchClick, setAddressToHome, handleKeyUp }) {
+function Header({ page, searchInput, handleSearchChange, handleDeleteClick, handleSearchClick, setAddressToHome, handleKeyUp, selectedRegion }) {
 
 
     const navigate = useNavigate();
@@ -25,6 +24,7 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
     const [error, setError] = useState(null);
     const [showNotificationPanel, setShowNotificationPanel] = useState(false);
     const [headerText, setHeaderText] = useState("검색"); // 기본 값으로 "검색"
+    const [selectedRegionState, setSelectedRegionState] = useState('');
 
     const navigateToNotificationPage = () => {
         navigate('/notice'); // 여기에 알림 페이지의 경로를 입력하세요.
@@ -76,20 +76,12 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
         }
     }, [location]);
 
-    // useEffect(() => {
-    //     if (fetchedAddress) {
-    //         setAddressToHome(fetchedAddress.address, fetchedAddress.location);
-    //     }
-    // }, [fetchedAddress]);
-
-
     const toggleNotificationPanel = () => {
         setShowNotificationPanel(!showNotificationPanel);
     };
     const clearNotifications = () => {
         setNotifications([]);
     };
-
 
 
     const renderHomeHeader = () => (
@@ -103,8 +95,14 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
                     : "위치 정보를 가져오는 중..."}
             </div>
             <div className="Home-header-right-section">
+                <div className='cart-container'
+                    onClick={() =>
+                        navigate(`/cart`)}>
+                    <ShoppingCartOutlinedIcon />
+                </div>
                 <div className="notification-container">
-                    <NotificationsNoneIcon onClick={navigateToNotificationPage} />
+                    <NotificationsNoneIcon
+                        onClick={navigateToNotificationPage} />
                     {notifications.length > 0 && (
                         <div className="notification-count">
                             {notifications.length}
@@ -158,9 +156,9 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
                 </button>
             </div>
             <div className="search-header-center-section">
-                <div className="search-container">
+                <div className="search-container" style={{ padding: '0 5%', height: '5vh' }}>
                     <button className="search-button" onClick={handleSearchClick}>
-                        <img src="/images/inputsearch.png" alt="검색아이콘" />
+                        <AiOutlineSearch style={{ fontSize: '160%', color: '#FD5E53' }} />
                     </button>
                     <input
                         className="search-input"
@@ -169,10 +167,10 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
                         onChange={handleSearchChange}
                         onKeyDown={handleKeyDown}
                         onKeyUp={handleKeyUp}  // 이렇게 handleKeyUp를 추가합니다.
-
+                        style={{ height: '2vh' }}
                     />
                     <button style={{ border: 'none', background: 'none' }} onClick={handleDeleteClick}>
-                        <HighlightOffIcon style={{ color: '#ff813d' }} />
+                        <IoIosCloseCircleOutline style={{ color: '#FD5E53', fontSize: '160%' }} />
                     </button>
                 </div>
             </div>
@@ -235,19 +233,9 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
     );
 
     const renderMypageHeader = () => (
-        <div className="App-header">
-            <div className="mypage-header-left-section">
-                {/* 다른 페이지의 왼쪽 섹션 내용 */}
-            </div>
+        <div className="App-header" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <div className="mypage-header-center-section">
-                {/* 여기에 원하는 내용을 넣거나 비워둘 수 있습니다. */}
-            </div>
-            <div className="mypage-header-right-section">
-                <button
-                    className="mypage-settings-button"
-                    onClick={() => navigate('/myedit')}>
-                    <SettingsIcon />
-                </button>
+                나의 먹자취
             </div>
         </div>
     );
@@ -274,12 +262,6 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
                 나의 먹자취 리뷰
             </div>
             <div className="header-right-section">
-                <button
-                    style={{ border: 'none', background: 'none' }}
-                    onClick={handleGoToHome}
-                >
-                    <HomeIcon style={{ color: 'black' }} />
-                </button>
             </div>
         </div>
     );
@@ -297,16 +279,38 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
                 내가 찜해찜!
             </div>
             <div className="header-right-section">
-                <button
-                    style={{ border: 'none', background: 'none' }}
-                    onClick={handleGoToHome}
-                >
-                    <HomeIcon style={{ color: 'black' }} />
-                </button>
             </div>
         </div>
     );
 
+    const renderpopular = (props) => {
+        const { selectedRegion, handleBackButtonClick } = props;
+
+        return (
+            <div className="app-header">
+                <div className="header-left-section">
+                    <button
+                        className="back-button" // inline 스타일 대신 클래스를 사용
+                        onClick={handleBackButtonClick}
+                    >
+                        <ArrowBackIcon style={{ color: 'black' }} />
+                    </button>
+                </div>
+                {selectedRegion ? (
+                    <div className="search-header-center-section">
+                        {`${selectedRegion} 지역의 주변 가게들`}
+                    </div>
+                ) : (
+                    <div className="header-center-section">
+                        인기 스테이션
+                    </div>
+                )}
+                <div className="header-right-section">
+                    {/* 필요한 오른쪽 섹션의 아이콘 또는 버튼을 여기에 추가하세요. */}
+                </div>
+            </div>
+        );
+    };
 
     const renderMyTakeoutHeader = () => (
         <div className="App-header">
@@ -322,16 +326,10 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
                 포장주문내역
             </div>
             <div className="header-right-section">
-                <button
-                    style={{ border: 'none', background: 'none' }}
-                    onClick={handleGoToHome}
-                >
-                    <HomeIcon style={{ color: 'black' }} />
-                </button>
             </div>
         </div>
     );
-    const renderMyEditHeader = () => (
+    const takeOutDetailHeader = () => (
         <div className="App-header">
             <div className="header-left-section">
                 <button
@@ -341,16 +339,10 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
                     <ArrowBackIcon style={{ color: 'black' }} />
                 </button>
             </div>
-            <div className="header-center-section">
-                회원 정보 설정
+            <div className="header-center-section header-center-section-with-back">
+                주문 상세 내역
             </div>
             <div className="header-right-section">
-                <button
-                    style={{ border: 'none', background: 'none' }}
-                    onClick={handleGoToHome}
-                >
-                    <HomeIcon style={{ color: 'black' }} />
-                </button>
             </div>
         </div>
     );
@@ -375,7 +367,8 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
             {page === 'myreview' && renderMyReviewHeader()}
             {page === 'myfavorite' && renderMyFavoriteHeader()}
             {page === 'mytakeout' && renderMyTakeoutHeader()}
-            {page === 'myedit' && renderMyEditHeader()}
+            {page === 'mytakeoutdetail' && takeOutDetailHeader()}
+            {page === 'popularstation' && renderpopular({ selectedRegion, handleBackButtonClick })}
         </div>
 
     );

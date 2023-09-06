@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import SSSMenuList from './SSSComponents/SSSMenuList.jsx';
 import SSSMenuInputs from './SSSComponents/SSSMenuInputs.jsx';
 import SellHeader from '../SellLayout/SellHeader.jsx';
 import SellFooter from '../SellLayout/SellFooter.jsx';
 import { Menu } from '@mui/material';
+import Scrollbar from 'smooth-scrollbar';
+
 const SellStoreSet = () => {
   const [menus, setMenus] = useState([]);
 
@@ -15,7 +17,15 @@ const SellStoreSet = () => {
     newMenus.splice(index, 1);
     setMenus(newMenus);
   };
-
+  useEffect(() => {
+    Scrollbar.init(document.getElementById('my-scrollbar'), {
+      damping: 0.01,
+      thumbMinSize: 20,
+      renderByPixels: !('ontouchstart' in document),
+      alwaysShowTracks: false,
+      continuousScrolling: true,
+    });
+  }, []);
   return (
     <div
       style={{
@@ -24,14 +34,21 @@ const SellStoreSet = () => {
         msOverflowStyle: 'none',
         height: '100vh',
       }}
+      id="my-scrollbar"
     >
       <style>{`::-webkit-scrollbar { display: none; }`}</style>
       <SellHeader></SellHeader>
-      <div style={{
-        padding: '5%'
-      }}>
-      <SSSMenuInputs onAddMenu={handleAddMenu}></SSSMenuInputs>
-      <SSSMenuList menus={menus} onDeleteMenu={handleDeleteMenu}></SSSMenuList>
+      <div
+        style={{
+          padding: '5%',
+          height: '80vh',
+        }}
+      >
+        <SSSMenuInputs onAddMenu={handleAddMenu}></SSSMenuInputs>
+        <SSSMenuList
+          menus={menus}
+          onDeleteMenu={handleDeleteMenu}
+        ></SSSMenuList>
       </div>
       {/* <SSSReserveBtn></SSSReserveBtn> */}
       <SellFooter></SellFooter>

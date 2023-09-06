@@ -4,14 +4,22 @@ import Logo from './login-component/Logo';
 import InputField from './login-component/InputField';
 import instance from './instance';
 import { Link, useNavigate } from 'react-router-dom';
+import styles from './SellLogin.css';
+import FindPW from '../SellJoin/FindPW';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
   const navigate = useNavigate(); // useNavigate hook을 사용합니다.
-
+  // 모달 열고 닫기
+  const handleModalOpen = (e) => {
+    e.preventDefault();
+    setOpenModal(true);
+  };
+  const handleModalClose = () => setOpenModal(false);
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -22,7 +30,7 @@ const Login = () => {
 
     try {
       const response = await instance.post(
-        'http://192.168.0.58/member/login',
+        'https://mukjachi.site:6443/member/login',
         data,
         {
           headers: {
@@ -76,8 +84,11 @@ const Login = () => {
           <Link to={'/sellsign1'}>
             <button className="sub-button">회원가입</button>
           </Link>
-          <button className="sub-button">비밀번호 찾기</button>
+          <button className="sub-button" onClick={handleModalOpen}>
+            비밀번호 찾기
+          </button>
         </div>
+        <FindPW openModal={openModal} handleModalClose={handleModalClose} />
       </form>
     </div>
   );

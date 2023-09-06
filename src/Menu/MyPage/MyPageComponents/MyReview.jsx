@@ -1,40 +1,33 @@
 import Header from '../../../Layout/Header.jsx';
 import Footer from '../../../Layout/Footer.jsx';
 import './MyReview.css';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'; // 사용되지 않음, 제거
 import StarIcon from '@mui/icons-material/Star';
-import { yellow } from '@mui/material/colors';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
+import Button from '@mui/material/Button'; // 사용되지 않음, 제거
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Link } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
-import { fetchReviewsByVendorId, createReview, updateReview, deleteReview as deleteReviewAPI } from '../../Home/HomeComponents/HomeApi.jsx';
+import { fetchReviewsByMemberId, deleteReview as deleteReviewAPI } from '../../Home/HomeComponents/HomeApi.jsx'; // 필요없는 함수와 임포트 제거
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { yellow } from '@mui/material/colors';
+import { useReviewContext } from './ReviewContext.jsx';
+function MyReview({ reviewsData, setReviewsData, token }) {
+    // 상태 변수들을 정의합니다.
 
-
-
-function MyReview() {
-    const [reviews, setReviews] = useState([]);
-    const [isModalOpen, setModalOpen] = useState(false);
-    const [currentReview, setCurrentReview] = useState(null);
-
-    const [isButtonClicked, setButtonClicked] = useState(false);
-    const [isExpanded, setIsExpanded] = useState(false);
-    const vendorId = 1; // 임시로 1로 설정. 실제 로직에서는 변경 필요.
-
-
-    const handleOpen = () => {
-        setModalOpen(true);
-    };
-
+    const [isModalOpen, setModalOpen] = useState(false); // 모달 오픈 여부
+    const [currentReview, setCurrentReview] = useState(null); // 현재 선택된 리뷰
+    const [isButtonClicked, setButtonClicked] = useState(false); // 버튼 클릭 여부
+    const [isExpanded, setIsExpanded] = useState(false); // 리뷰 내용 확장 여부
+    const { reviews: contextReviews, setReviews: setContextReviews } = useReviewContext();
     const handleClose = () => {
         setModalOpen(false);
         setCurrentReview(null);
-    };
+    }; // 모달을 닫는 함수
 
     const style = {
         position: 'absolute',
@@ -46,192 +39,108 @@ function MyReview() {
         bgcolor: 'background.paper',
         boxShadow: 24,
         p: 4,
-    };
+    }; // 모달의 스타일
 
 
-    // 임의의 리뷰 개수 (실제 데이터로 바꿔야 함)
-    const reviewCount = 4;
-    //임의 리뷰데이터
-
-    // 리뷰를 삭제하는 함수
-    const handleDeleteReview = async (reviewId) => {
-        try {
-            await deleteReviewAPI(reviewId);
-            const updatedReviews = reviews.filter(review => review.id !== reviewId);
-            setReviews(updatedReviews);
-        } catch (error) {
-            // More robust error handling
-            alert('Failed to delete review. Please try again.');
-        }
-    };
 
     useEffect(() => {
         const fetchReviews = async () => {
             try {
-                const response = await fetchReviewsByVendorId(vendorId);
+                const response = await fetchReviewsByMemberId();
+                console.log("가져온 리뷰 데이터:", response);
                 if (response.status === 200) {
-                    setReviews(response.data);
+                    const fetchedReviews = response.data.item.reviews || [];
+                    setContextReviews(fetchedReviews);
                 }
             } catch (error) {
-                alert('Failed to fetch reviews. Please try again.');  // User-friendly error message
+                alert('리뷰를 가져오는데 실패했습니다. 다시 시도해주세요.');
             }
         };
-
         fetchReviews();
     }, []);
 
-    const handleCreateReview = async (reviewDto, files) => {  // Added 'async' keyword
+
+    const handleDeleteReview = async (reviewId) => {
         try {
-            const response = await createReview(reviewDto, files);  // Added 'await'
-            if (response.status === 200) {
-                // 리뷰가 성공적으로 생성되면, 다시 데이터를 로드합니다.
-                const newReviews = await fetchReviewsByVendorId(vendorId);  // Added 'await'
-                setReviews(newReviews.data);
-            } else {
-                // Handle unsuccessful HTTP response
-                alert('Failed to create review. Please try again.');
-            }
+            await deleteReviewAPI(reviewId, token);
+            const updatedReviews = contextReviews.filter(review => review.id !== reviewId);
+            setContextReviews(updatedReviews);
         } catch (error) {
-            console.error('Failed to create review:', error);
-            // Added user-friendly error alert
-            alert('An error occurred while creating the review. Please try again.');
+            alert('리뷰 삭제에 실패했습니다. 다시 시도해주세요.');
         }
     };
-
-    const handleDeleteReviewApiCall = async (reviewId) => {
-        try {
-            const response = await deleteReviewAPI(reviewId); // deleteReview API 호출
-            if (response.status === 200) {
-                // 성공적으로 삭제한 후에 다시 리뷰 목록을 로드
-                const newReviews = await fetchReviewsByVendorId(vendorId);
-                setReviews(newReviews.data);
-            }
-        } catch (error) {
-            console.error('Failed to delete review:', error);
-        }
-    };
-
-
-
 
     return (
         <div className='App-main2'>
             <Header page="myreview" />
             <div className='myreview-container'>
-                <h2>내가 쓴 총 {reviews.length}개의 리뷰</h2>
+                <h3>내가 쓴 총{contextReviews?.length || 0}개의 리뷰</h3>
                 <hr className="review-divider" />
+                {Array.isArray(contextReviews) && contextReviews.map((review, index) => {
+                    if (!review) {
+                        console.log(`인덱스 ${index}의 리뷰 데이터가 누락되었습니다.`);
+                        return null;
+                    }
+                    return (
+                        <div key={review.reviewId || index} className="review-item">
 
-                {reviews.map((review, index) => (
-                    <div key={review.id || index} className="review-item"> {/* 고유한 값으로 key 설정 */}
-                        <div className="review-header">
-                            <span className="store-name">
-                                <Link to={`/store/${review.storeId}`}>{review.storeName}</Link>
-                            </span>
-                            <button className="delete-btn" onClick={() => handleDeleteReview(review.id)}>
-                                <KeyboardArrowRightIcon className="navigate-icon" />
-                            </button>
-
-                            <button className="delete-btn" onClick={() => handleDeleteReviewApiCall(review.id)}>
-                                <DeleteForeverIcon className="delete-icon" />
-                            </button>
-
-                        </div>
-                        <div className="star-container">
-                            {Array.from({ length: review.starCount }).map((_, idx) => (
-                                <StarIcon key={idx} className="star-icon" style={{ color: yellow[500] }} />
+                            {Array.isArray(review.reviewFileList) && review.reviewFileList.slice(0, 3).map((image, imgIdx) => (
+                                <img key={imgIdx} src={image} alt={`Review Image ${imgIdx}`} className="review-image" />
                             ))}
-                        </div>
 
-                        <div className="images-container">
-                            {review.images.slice(0, 4).map((img, idx) => (
-                                <img key={idx} src={img} alt={`review-${idx}`} className="review-image" />
-                            ))}
-                            {review.images.length > 4 &&
-                                <div className="more-images" onClick={() => handleOpen(review)}>+</div>
-                            }
-                        </div>
+                            <div className="review-header">
+                                <span className="store-name">
+                                    {review.orders?.vendor?.vendorName || '가게명 정보 없음'}
+                                </span>
+                                <button className="delete-btn" onClick={() => handleDeleteReview(review.reviewId)}>
+                                    <DeleteForeverIcon className="delete-icon" />
+                                </button>
+                            </div>
 
-                        <Typography
-                            className={isExpanded ? 'expanded-class' : 'collapsed-class'}  // added class names
-                        >
+                            <div className="star-container">
+                                {Array.from({ length: review.reviewScore || 0 }).map((_, idx) => (
+                                    <StarIcon key={idx} className="star-icon" style={{ color: yellow[500] }} />
+                                ))}
+                            </div>
 
-                            {review.text}
-                        </Typography>
+                            <Typography className={isExpanded ? 'expanded-class' : 'collapsed-class'}>
+                                {review.reviewContent}
+                            </Typography>
 
-                        {review.text.split('\n').length > 3 && (
-                            <button
-                                onClick={() => {
+                            {review.reviewContent?.split('\n').length > 3 && (
+                                <button onClick={() => {
                                     setIsExpanded(!isExpanded);
                                     setButtonClicked(!isButtonClicked);
                                 }}
-                                style={{
-                                    border: 'none',
-                                    background: 'none',
-                                    cursor: 'pointer',
-                                    outline: 'none'
-                                }}
-                            >
-                                <KeyboardArrowDownIcon
-                                    style={{
-                                        color: isButtonClicked ? '#999' : '#000',
-                                        transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
-                                        transition: 'transform 0.3s'
-                                    }}
-                                />
-                            </button>
-                        )}
-                    </div>
-                ))}
-
-                <Modal open={isModalOpen} onClose={handleClose}>
-                    <Box sx={{
-                        ...style,
-                        overflow: 'auto',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center'
-                    }}>
-                        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-                            {currentReview?.images.map((img, idx) => (
-                                <img
-                                    key={idx}
-                                    src={img}
-                                    alt={`review-${idx}`}
-                                    style={{ width: 'calc(33.33% - 10px)', margin: '5px', objectFit: 'cover' }}
-                                />
-                            ))}
+                                    style={{ border: 'none', background: 'none', cursor: 'pointer', outline: 'none' }}>
+                                    <KeyboardArrowDownIcon style={{ color: isButtonClicked ? '#999' : '#000', transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s' }} />
+                                </button>
+                            )}
                         </div>
-                        <Typography id="modal-modal-description" sx={{ mt: 2 }} className={isExpanded ? '' : 'review-text'}>
-                            {currentReview?.text}
-                        </Typography>
-                        {currentReview?.text.split('\n').length > 3 && (
-                            <button
-                                onClick={() => {
-                                    setIsExpanded(!isExpanded);
-                                    setButtonClicked(!isButtonClicked);
-                                }}
-                                style={{
-                                    border: 'none',
-                                    background: 'none',
-                                    cursor: 'pointer',
-                                    outline: 'none'
-                                }}
-                            >
-                                <KeyboardArrowDownIcon
-                                    style={{
-                                        color: isButtonClicked ? '#999' : '#000',
-                                        transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
-                                        transition: 'transform 0.3s'
-                                    }}
-                                />
-                            </button>
-                        )}
-                    </Box>
-                </Modal>
+                    );
+                })}
             </div>
+
+            <Modal open={isModalOpen} onClose={handleClose}>
+                <Box sx={{ ...style, overflow: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    {currentReview?.images?.map((img, idx) => (
+                        <img key={idx} src={img} alt={`review-${idx}`} style={{ width: 'calc(33.33% - 10px)', margin: '5px', objectFit: 'cover' }} />
+                    ))}
+                    <Typography id="modal-modal-description" sx={{ mt: 2 }} className={isExpanded ? '' : 'review-text'}>
+                        {currentReview?.text}
+                    </Typography>
+                    {currentReview?.text?.split('\n').length > 3 && (
+                        <button onClick={() => { setIsExpanded(!isExpanded); setButtonClicked(!isButtonClicked); }} style={{ border: 'none', background: 'none', cursor: 'pointer', outline: 'none' }}>
+                            <KeyboardArrowDownIcon style={{ color: isButtonClicked ? '#999' : '#000', transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.3s' }} />
+                        </button>
+                    )}
+                </Box>
+            </Modal>
             <Footer type="myreview" />
         </div>
     );
-}
 
-export default MyReview;
+};
+
+const MemoizedMyReview = React.memo(MyReview);
+export default MemoizedMyReview;

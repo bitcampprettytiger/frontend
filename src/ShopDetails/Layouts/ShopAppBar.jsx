@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState , useEffect} from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -23,19 +23,24 @@ function ShopAppBar(props) {
     const { vendorId, memberId } = useParams();
     const { vendor, error, loading } = useVendor(vendorId);
     const [open, setOpen] = React.useState(false);
-    const { width } = useResponsive();
+    const { toggleFavorite, favoriteShops } = useFavoritePick();
+    const [liked, setLiked] = useState(false);
 
+    
     const handleClickOpen = () => {
         setOpen(true);
     };
-
+    
     const handleClose = () => {
         setOpen(false);
     };
-
-    const { toggleFavorite } = useFavoritePick();
-    const [liked, setLiked] = useState(false);
-
+    
+    useEffect(() => {
+        const favoriteVendorIds = favoriteShops.map(favoriteShop => favoriteShop.vendor.id);
+        setLiked(favoriteVendorIds.includes(parseInt(vendorId)));
+    }, [favoriteShops, vendorId]);
+    
+    
     const handleLike = async () => {
         try {
             await toggleFavorite(vendorId, liked);
@@ -50,16 +55,16 @@ function ShopAppBar(props) {
     return (
         <React.Fragment>
             <CssBaseline />
-            <AppBar sx={{
-                width: width,
-                left: `calc((100% - ${width}) / 2)`,
-                right: `calc((100% - ${width}) / 2)`,
+            <AppBar position='sticky' sx={{
+                width: '100%',
                 backgroundColor: 'white', 
-                height: '8%', 
-                position: 'fixed', 
-                top : 0,
+                height: '10vh',  
+                top : '0',
+                boxShadow: 0,
+                borderBottom: '1px solid #e7e7e7',
+                verticalAlign: 'middle'
             }}>
-                <Toolbar sx={{ minHeight: '0', display: 'flex' }}>
+                <Toolbar sx={{ minHeight: '0', display: 'flex', height: '10vh' }}>
                     <Box sx={{
                         height: '50%',
                         width: 'auto',
@@ -104,12 +109,12 @@ function ShopAppBar(props) {
                             aria-label="like"
                             onClick={handleLike}
                             sx={{
-                                color: liked ? '#FF745A' : 'inherit',
+                                color: liked ? '#FD5E53' : 'inherit',
                                 height: '100%',
                                 width: 'auto',
                             }}
                         >
-                            {liked ? <FavoriteIcon /> : <FavoriteBorderIcon sx={{ color: '#FF745A' }} />}
+                            {liked ? <FavoriteIcon /> : <FavoriteBorderIcon sx={{ color: '#FD5E53' }} />}
                         </IconButton>
                         </Box>
                         <Box sx={{

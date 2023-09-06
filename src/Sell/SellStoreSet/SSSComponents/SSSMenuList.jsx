@@ -4,11 +4,9 @@ import { Box, Grid, Button, Typography, Checkbox } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useParams } from 'react-router-dom';
 const SSSMenuList = ({ menus, onDeleteMenu }) => {
-  const { vendorId } = useParams();
-
-  console.log('Received menus: ', menus);
+  console.log('메뉴받기', menus);
   console.log(
-    'Current menu.menuImage states in menus: ',
+    '메뉴 - 메뉴 이미지 : ',
     menus.map((menu) => menu.menuImage)
   );
   useEffect(() => {
@@ -41,10 +39,8 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
 
   const sendMenuInfo = async () => {
     try {
-      const formData = new FormData();
-
-      // 메뉴 정보들을 각각 평평하게 (flat) 추가
-      menus.forEach((menu, index) => {
+      for (const [index, menu] of menus.entries()) {
+        const formData = new FormData();
         formData.append('menuName', menu.menuName);
         formData.append('price', parseInt(menu.price, 10));
         formData.append('menuContent', menu.menuContent);
@@ -57,33 +53,34 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
         if (menu.menuImage) {
           formData.append('file', menu.menuImage);
         }
-      });
-      // formData.append('vendorId', vendorId);
 
-      // vendor.id도 추가한다면
+        const response = await axios.post(
+          'https://mukjachi.site:6443/menu/info/insertMenu',
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
 
-      const response = await axios.post(
-        'http://192.168.0.58/menu/info/insertMenu', // 서버 주소
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            Authorization: `Bearer ${accessToken}`,
-          },
+        if (response.status === 200) {
+          console.log('메뉴정보', response);
+        } else {
+          alert('서버코드실패');
         }
-      );
-
-      if (response.status === 200) {
-        alert('메뉴 정보 전송 성공');
-      } else {
-        alert('서버코드실패');
       }
+      alert('모든 메뉴 정보 전송 성공');
+      window.location.reload();
     } catch (error) {
       alert('실패');
       console.error('There was an error sending the data', error);
     }
   };
-
+  useEffect(() => {
+    console.log('메뉴야111111111111111', menus);
+  });
   return (
     <ThemeProvider theme={theme}>
       <Box
@@ -106,7 +103,7 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
           justifyContent="center"
           sx={{ marginBottom: '5%' }}
         >
-          <Grid item xs={2} sx={{ textAlign: 'center' }}>
+          <Grid item xs={3} sx={{ textAlign: 'center' }}>
             사진
           </Grid>
           <Grid item xs={2} sx={{ textAlign: 'center' }}>
@@ -115,17 +112,11 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
           <Grid item xs={2} sx={{ textAlign: 'center' }}>
             이름
           </Grid>
-          <Grid item xs={2} sx={{ textAlign: 'center' }}>
+          <Grid item xs={3} sx={{ textAlign: 'center' }}>
             내용
           </Grid>
           <Grid item xs={2} sx={{ textAlign: 'center' }}>
             금액
-          </Grid>
-          <Grid item xs={1} sx={{ textAlign: 'center' }}>
-            품절
-          </Grid>
-          <Grid item xs={1} sx={{ textAlign: 'center' }}>
-            삭제
           </Grid>
         </Grid>
         <Box
@@ -139,10 +130,10 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
           <Grid container spacing={3} justifyContent="center">
             {menus.map((menu, index) => (
               <React.Fragment key={index}>
-                <Grid item xs={2} sx={{ textAlign: 'center' }}>
+                <Grid item xs={3} sx={{ textAlign: 'center' }}>
                   {menu.menuImage ? (
                     <img
-                      src={menu.menuImage}
+                      src={URL.createObjectURL(menu.menuImage)}
                       alt="menu preview"
                       style={{ width: '50px', height: '50px' }}
                     />
@@ -156,25 +147,11 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
                 <Grid item xs={2} sx={{ textAlign: 'center' }}>
                   {menu.menuName}
                 </Grid>
-                <Grid item xs={2} sx={{ textAlign: 'center' }}>
+                <Grid item xs={3} sx={{ textAlign: 'center' }}>
                   {menu.menuContent}
                 </Grid>
                 <Grid item xs={2} sx={{ textAlign: 'center' }}>
                   {formatPrice(menu.price)}
-                </Grid>
-                <Grid item xs={1} sx={{ textAlign: 'center' }}>
-                  <Checkbox
-                    checked={outOfStock[index] || false}
-                    onChange={(e) => handleStockChange(e, index)}
-                  />
-                </Grid>
-                <Grid item xs={1} sx={{ textAlign: 'center' }}>
-                  <img
-                    src="delete-icon-path.jpg" // 삭제 아이콘 이미지 경로
-                    alt="Delete"
-                    style={{ cursor: 'pointer' }}
-                    onClick={() => handleDelete(index)}
-                  />
                 </Grid>
               </React.Fragment>
             ))}

@@ -39,7 +39,7 @@ export const StyledMenuItem = styled.div`
 
     .menu-price {
       margin: 0;
-      color: #FF745A;
+      color: #FD5E53;
     }
   }
 `;

@@ -3,10 +3,24 @@
   box-sizing: border-box;
 }
 
+body, html, body * {
+  cursor: none;
+}
+
+.animated-cursor {
+  position: fixed;
+  pointer-events: none;
+  border-radius: 50%;
+  z-index: 9999;
+  opacity: 0.85;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease;
+}
+
 .BV {
   width: 30%;
   margin: 0 auto;
-  background-color: #F9FCFB;
+  background-color: #fafafa;
 }
 
 .sellerPage {
@@ -15,6 +29,7 @@
 
 .userPage {
   background-color: #f1eceb;
+  top: 0;
 }
 
 .view{

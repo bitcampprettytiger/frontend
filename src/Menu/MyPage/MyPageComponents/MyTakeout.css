@@ -4,11 +4,17 @@
     height: auto;
 }
 
+.mytakeout-list {
+    padding-left: 0;
+}
+
 .mytakeout-item {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    margin-bottom: 2%; /* 아이템과 아이템 사이의 간격을 줍니다 */
+    align-items: flex-start;
+    margin-bottom: 3%;
+    width: 100%;
+    /* 아이템과 아이템 사이의 간격을 줍니다 */
 }
 
 .mytakeout-date {
@@ -19,30 +25,57 @@
     margin-bottom: 2%;
 }
 
-.mytakeout-review-button{
-    text-align: center;
-    margin: 2% auto;
+.mytakeout-review-button {
+  border: none;
+  background-color: #FD5E53;
+  color: white;
+  border-radius: 5px;
+  width: 90%;
+  height: 5vh;
+  text-align: center;
+  margin-top: 5%;
+  font-size: 100%;
+  align-self: center;
 }
+
 
 .mytakeout-store {
     display: flex;
-    justify-content: flex-start;  /* 이미지와 정보를 왼쪽으로 정렬합니다 */
-    align-items: center;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
     width: 100%;
 }
 
 .mytakeout-store img {
-    width: 20%;     /* 원하는 너비 설정 */
-    height: 10%;  
-    margin-right: 1%;  /* 이미지와 정보 사이의 간격 */
+    width: 30%;
+    height: 20%;
+    margin-right: 2%;
+    /* 이미지와 정보 사이의 간격 */
 }
 
 .mytakeout-store-info {
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
-    flex: 1;
-    gap: 1%;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 0 7%;
 }
+
+.mytakeout-store-info > p:first-child {
+    font-size: 100%;
+    font-weight: bold;
+    width: 100%;
+  }
+
+  .mytakeout-store-info > div {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 80%;
+  }
+  
 
 .menu-detail {
     display: flex;
@@ -57,4 +90,29 @@
 .menu-detail p:last-child {
     flex: 1;
     text-align: right;
+}
+
+.order-summary p {
+    font-size: 120%;
+}
+
+.boldNumber {
+    font-weight: bold;
+}
+
+.dateAndStatus {
+    text-align: left;
+}
+
+.mytakeout-detail-button {
+    border: none;
+    color: black;
+    border-radius: 5px;
+    text-decoration: none;
+    width: 20%;
+    height: 4vh;
+    background-color: #f1f3f5;
+    font-size: 80%;
+    text-align: center;
+    line-height: 4vh;
 }

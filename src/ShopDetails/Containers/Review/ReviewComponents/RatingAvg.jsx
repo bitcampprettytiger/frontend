@@ -1,35 +1,30 @@
-import React from "react";
-import { Rating, Box, Typography, Grid } from "@mui/material";
+import { Rating, Box, Typography, Grid, Table, TableBody, TableCell, TableRow  } from "@mui/material";
 import useReview from '../ReviewCustomHook/useReview';
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  ResponsiveContainer,
-} from "recharts";
+import React, { useState } from 'react';
 import { useParams } from "react-router-dom";
 
 const RatingAvg = () => {
-  const {vendorId} = useParams();
+  const { vendorId } = useParams();
   const { reviews } = useReview(vendorId);
 
-const calculateAverageRating = (reviews) => {
+  const [foodRating, setFoodRating] = useState(0); // 음식 평점 상태
+  const [hygieneRating, setHygieneRating] = useState(0); // 위생 평점 상태
 
-  if (!Array.isArray(reviews) || reviews.length === 0) {
-    return 0;
-  }  
+  const calculateAverageRating = (reviews) => {
 
-  const totalRating = reviews.reduce(
-    (accumulator, currentValue) => {
-      return accumulator + currentValue.reviewScore;
-    },
-    0
-  );
+    if (!Array.isArray(reviews) || reviews.length === 0) {
+      return 0;
+    }
 
-  return totalRating / reviews.length;
-};
+    const totalRating = reviews.reduce(
+      (accumulator, currentValue) => {
+        return accumulator + currentValue.reviewScore;
+      },
+      0
+    );
+
+    return totalRating / reviews.length;
+  };
 
   const averageRating = calculateAverageRating(reviews);
 
@@ -37,7 +32,7 @@ const calculateAverageRating = (reviews) => {
     if (!Array.isArray(reviews)) {
       return 0;
     }
-    return reviews.filter((review) => review.reviewscore === rating).length;
+    return reviews.filter((review) => review.reviewScore === rating).length;  // reviewScore로 변경
   };
 
   const ratingCounts = [
@@ -48,69 +43,63 @@ const calculateAverageRating = (reviews) => {
     { rating: 1, count: calculateRatingCounts(reviews, 1) },
   ];
 
-  const CustomLabel = (props, color) => {
-    const { x, y, width, height, value } = props;
-    return (
-      <text 
-        x={x + width + 10}
-        y={y + height / 2} 
-        fill={color} 
-        dominantBaseline="middle"
-      >
-        ({value})
-      </text>
-    );
-  };
+  const generateTableRow = (rating, count) => (
+    <TableRow key={rating} sx={{ height: '20px' }}>
+      <TableCell component="th" scope="row" sx={{ padding: '0' }}>
+        {rating}점
+      </TableCell>
+      <TableCell align="left" sx={{ padding: '0 5%' }}>
+        <div style={{
+          backgroundColor: "#FFE500",
+          width: `${count * 10}px`,
+          height: "10px",
+          borderRadius: "5px",
+          padding: 0
+        }}>
+        </div>
+      </TableCell>
+      <TableCell align="right" sx={{ padding: '3% 5%', color: '#ababab', fontSize: '70%' }}>
+        ({count}명)
+      </TableCell>
+    </TableRow>
+  );
 
   return (
-    <Box>
+    <Box sx={{width: '100%', height: ''}}>
       <Grid container spacing={2}>
-      <Grid item xs={6}>
-        <Box 
-          display="flex" 
-          flexDirection="column" 
-          justifyContent="center" 
-          alignItems="center" 
-          height="100%"
-        >
-          <Typography 
-            sx={{ fontSize: '140%', fontWeight: 'bold' }}
-          >
-            {averageRating.toFixed(1)}
-          </Typography>
-          <Rating
-            name="half-rating-read"
-            value={averageRating}
-            precision={0.5}
-            readOnly
-          />
-        </Box>
-      </Grid>
         <Grid item xs={6}>
-        <ResponsiveContainer width={"100%"} height={100}>
-          <BarChart data={ratingCounts} layout="vertical" barCategoryGap={20}>
-            <XAxis type="number" hide />
-            <YAxis
-              dataKey="rating"
-              type="category"
-              axisLine={false}
-              width={30}
-              interval={0}
+          <Box
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="center"
+            height="100%"
+          >
+            <Typography
+              sx={{ fontSize: '140%', fontWeight: 'bold' }}
+            >
+              {averageRating.toFixed(1)}
+            </Typography>
+            <Rating
+              name="half-rating-read"
+              value={averageRating}
+              precision={0.5}
+              readOnly
             />
-            <CartesianGrid horizontal={false} vertical={false} />
-            <Bar 
-              dataKey="count" 
-              fill="#FFE500" 
-              barSize={30}
-              radius={[5, 5, 5, 5]}
-              label={props => CustomLabel(props, "#E2E2E2")}
-            />
-          </BarChart>
-        </ResponsiveContainer>
+          </Box>
+        </Grid>
+
+        <Grid item xs={6}>
+            <Table>
+              <TableBody>
+                {ratingCounts.map((item) => generateTableRow(item.rating, item.count))}
+              </TableBody>
+            </Table>
         </Grid>
       </Grid>
     </Box>
   );
 };
+
 
 export default RatingAvg;

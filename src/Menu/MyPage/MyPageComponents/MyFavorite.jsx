@@ -5,22 +5,31 @@ import Footer from '../../../Layout/Footer';
 import { fetchMyFavoriteVendors } from '../../Home/HomeComponents/HomeApi';
 import useFavoritePick from '../../../ShopDetails/SDCustomHooks/useFavoritePick';
 import StarIcon from '@mui/icons-material/Star';
+import { IconButton } from '@mui/material';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useFavorite } from './FavoriteContext';
+import './MyFavorite.css';
 
 function MyFavorite() {
     const { toggleFavorite } = useFavoritePick();
     const navigate = useNavigate();
     const token = localStorage.getItem('accessToken');
     const memberId = localStorage.getItem('memberId');
-    const { favoriteShops, setFavoriteShops } = useFavorite(); // Using context to manage state
+    const { favoriteShops, setFavoriteShops } = useFavorite();
+
+    // 가게를 클릭했을 때 동작하는 함수
+    const handleShopClick = (vendorId) => {
+        navigate(`/shophome/${vendorId}`);
+        // 이 부분은 커스텀 훅에서도 처리할 수 있습니다.
+    };
 
     useEffect(() => {
         if (!token || !memberId) {
+            console.log("Component re-rendered with favoriteShops: ", favoriteShops);
             console.error("JWT Token is not available in localStorage");
             navigate('/');
             return;
         }
-
         const fetchFavorites = async () => {
             try {
                 const response = await fetchMyFavoriteVendors();
@@ -31,14 +40,15 @@ function MyFavorite() {
                 console.error("API 호출이 실패하였습니다.", error);
             }
         };
-
         fetchFavorites();
-    }, [token, memberId, setFavoriteShops]);
+    }, [token, memberId]);  // favoriteShops를 제거함
+
 
     const deleteFavorite = async (vendorName, vendorId) => {
         try {
-            await toggleFavorite(vendorId, true);
-            const updatedFavorites = favoriteShops.filter(vendor => vendor.name !== vendorName);
+            const response = await toggleFavorite(vendorId, true);
+
+            const updatedFavorites = favoriteShops.filter(vendor => vendor.vendor.vendorName !== vendorName);
             setFavoriteShops(updatedFavorites);
         } catch (error) {
             console.error("Error toggling favorite:", error);
@@ -52,31 +62,44 @@ function MyFavorite() {
         <div className='App-main2'>
             <Header page="myfavorite" />
 
-            <div className="results-container">
+            <div className="myfavorite-container">
+                <h3>님이 즐겨찾기한 가게는 {favoriteShops.length}개입니다.</h3>
                 {favoriteShops.map(vendor => (
-                    <div key={vendor.id} className="result-item">
-                        <img
-                            src={vendor.image || `${process.env.PUBLIC_URL}/images/roopy.png`}
-                            alt="가게 이미지"
-                            className="store-image"
-                        />
-                        <div className="result-info">
-                            <p className="shop-name">{vendor.vendor.vendorName}</p>
-                            <div className="rating">
-                                <StarIcon style={{ color: 'goldenrod' }} /> {/* 노란색 별 아이콘 */}
-                                {vendor.vendor.averageReviewScore}
-                            </div>
-                            <p>{vendor.vendor.vendorType} / {vendor.vendor.address}</p>
+                    <div key={vendor.id} className="favorite-item">
+                        <div className="store-image-container">
+                            <img
+                                src={vendor.image || `${process.env.PUBLIC_URL}/images/roopy.png`}
+                                alt="가게 이미지"
+                                className="shop-image"
+                            />
                         </div>
-                        <div className="favorite-container">
-                            <button onClick={() => deleteFavorite(vendor.vendorName, vendor.id)}>즐겨찾기 삭제</button>
+                        <div className="store-info-container">
+                            <div className="store-info">
+                                <p className="store-name" onClick={() => handleShopClick(vendor.vendor.id)}>{vendor.vendor.vendorName}</p>
+                                <div className="rating">
+                                    <StarIcon style={{ color: 'goldenrod' }} />
+                                    {vendor.vendor.averageReviewScore}
+                                </div>
+                                <p className='fstore-address'>{vendor.vendor.vendorType} / {vendor.vendor.address}</p>
+                            </div>
+                            <div className="delete-btn">
+                                <IconButton
+                                    aria-label="like"
+                                    onClick={() => deleteFavorite(vendor.vendorName, vendor.vendor.id)}
+                                    sx={{
+                                        color: '#FD5E53',
+                                    }}
+                                >
+                                    <FavoriteIcon />
+                                </IconButton>
+                            </div>
                         </div>
                     </div>
                 ))}
             </div>
 
             <Footer type="myfavorite" />
-        </div>
+        </div >
     );
 
 

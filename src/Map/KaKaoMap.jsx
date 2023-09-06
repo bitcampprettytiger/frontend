@@ -10,14 +10,14 @@ const KaKaoMap = (props) => {
   const location = useLocation();
   const [markers, setMarkers] = useState([]);
   const [currentPosition, setCurrentPosition] = useState(null);
-  const { data, loading } = useMapAPI('http://192.168.0.58/vendor/info');
+  const { data, loading } = useMapAPI('https://mukjachi.site:6443/vendor/info');
   const [selectedVendorTypes, setSelectedVendorTypes] = useState([]);
   const [selectedVendor, setSelectedVendor] = useState(null);
   const [selectedSIGmenus, setSelectedSIGmenus] = useState([]);
   const vendorInfo = useMemo(() => {
     if (data) {
-   
-      console.log('1222222222222222',data);
+
+      console.log('1222222222222222', data);
 
       return data.map((vendor) => ({
         vendorName: vendor.vendorName,

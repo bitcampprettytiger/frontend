@@ -82,7 +82,7 @@ function Footer({ type, activeButton, handleButtonClick, isWaitingDetailFooterTy
           <span
             style={{
               fontSize: '16px',
-              color: activeButton === 'home' ? '#FF745A' : 'gray',
+              color: activeButton === 'home' ? '#FD5E53' : 'gray',
               fontWeight: activeButton === 'home' ? 'bold' : 'normal',
             }}
           >
@@ -99,7 +99,7 @@ function Footer({ type, activeButton, handleButtonClick, isWaitingDetailFooterTy
           <span
             style={{
               fontSize: '16px',
-              color: activeButton === 'stfood' ? '#FF745A' : 'gray',
+              color: activeButton === 'stfood' ? '#FD5E53' : 'gray',
               fontWeight: activeButton === 'stfood' ? 'bold' : 'normal',
             }}
           >
@@ -116,7 +116,7 @@ function Footer({ type, activeButton, handleButtonClick, isWaitingDetailFooterTy
           <span
             style={{
               fontSize: '16px',
-              color: activeButton === 'foodTruck' ? '#FF745A' : 'gray',
+              color: activeButton === 'foodTruck' ? '#FD5E53' : 'gray',
               fontWeight: activeButton === 'foodTruck' ? 'bold' : 'normal',
             }}
           >
@@ -133,7 +133,7 @@ function Footer({ type, activeButton, handleButtonClick, isWaitingDetailFooterTy
           <span
             style={{
               fontSize: '16px',
-              color: activeButton === 'myPage' ? '#FF745A' : 'gray',
+              color: activeButton === 'myPage' ? '#FD5E53' : 'gray',
               fontWeight: activeButton === 'myPage' ? 'bold' : 'normal',
             }}
           >
@@ -144,7 +144,7 @@ function Footer({ type, activeButton, handleButtonClick, isWaitingDetailFooterTy
     </footer>
 
   );
-  const isDefaultFooterType = ['home', 'stfood', 'trfood', 'mypage', 'search', 'myedit', 'myreview', 'myfavorite', 'mytakeout'].includes(type);
+  const isDefaultFooterType = ['home', 'stfood', 'trfood', 'mypage', 'search', 'myedit', 'myreview', 'myfavorite', 'mytakeout', 'mytakeoutdetail', 'popularstation'].includes(type);
 
 
   return (

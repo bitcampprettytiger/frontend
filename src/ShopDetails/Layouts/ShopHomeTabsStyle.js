@@ -13,7 +13,7 @@ export const StyledAppBar = styled(Tabs)`
     color: black;
   }
   & .MuiTabs-indicator {
-    background-color: #FF745A;
+    background-color: #FD5E53;
   }
 `;
 
@@ -32,6 +32,6 @@ export const WrapBox = styled(Box)`
   borderBottom: 1 
   borderColor: divider 
   pb: 8% 
-  height: calc(84% - appBarHeight)
+  height: calc(100% - appBarHeight)
   overflowY: auto 
 `;

@@ -14,32 +14,29 @@ function MyTakeout() {
     const MEMBER_ID = localStorage.getItem('member_id');
     const navigate = useNavigate();
 
+    const formatDateTime = (isoString) => {
+        const date = new Date(isoString);
+        const yyyy = date.getFullYear();
+        const mm = String(date.getMonth() + 1).padStart(2, '0'); // January is 0!
+        const dd = String(date.getDate()).padStart(2, '0');
+        const hh = String(date.getHours()).padStart(2, '0');
+        const min = String(date.getMinutes()).padStart(2, '0');
+        return `${yyyy}-${mm}-${dd}, ${hh}:${min}`;
+    };
+
+
     useEffect(() => {
-        // 주문과 결제 정보를 가져오는 비동기 함수
         const fetchOrderAndPaymentData = async () => {
             try {
-                // 주문 상세 정보를 가져옵니다.
                 const orderData = await fetchOrderDetail(MEMBER_ID);
-                console.log("이건 상세정보", orderData);
-                // 현재 날짜를 ISO 형식으로 가져옵니다.
                 const today = new Date().toISOString().split('T')[0];
-
-                // 오늘의 주문만 필터링합니다.
                 const todayOrders = orderData.filter(order => order.orderDate.split('T')[0] === today);
-
-                // 중복되지 않은 가게 이름만 가져옵니다.
                 const uniqueStores = [...new Set(todayOrders.map(order => order.storeName))];
-
-                // 결제 내역을 가져옵니다.
                 const paymentData = await fetchPaymentList(token);
 
-                // 주문 상세 정보를 상태에 저장합니다.
                 setOrderDetail(orderData || []);
-
-                // 오늘의 가게 개수를 상태에 저장합니다.
                 setTodayStoreCount(uniqueStores.length);
 
-                // 주문 정보를 날짜별로 그룹화합니다.
                 const groups = {};
                 orderData.forEach(order => {
                     const date = order.orderDate.split('T')[0];
@@ -49,22 +46,18 @@ function MyTakeout() {
                     groups[date].push(order);
                 });
 
-                // 날짜별로 그룹화된 주문을 상태에 저장합니다.
                 setGroupedOrders(groups);
 
             } catch (error) {
-                // 에러가 발생하면 상태에 에러를 저장합니다.
                 setError(error);
             }
         };
 
-        // 위에서 정의한 비동기 함수를 호출합니다.
         fetchOrderAndPaymentData();
-
-    }, []); // useEffect는 컴포넌트가 마운트될 때 한 번만 실행됩니다.
+    }, []);
 
     if (error) {
-        return <div>Error: {error.message}</div>; // 에러가 있으면 에러 메시지를 표시합니다.
+        return <div>Error: {error.message}</div>;
     }
 
     return (
@@ -72,19 +65,21 @@ function MyTakeout() {
             <Header page="mytakeout" />
             <div className='mytakeout-container'>
                 <div className="order-summary">
-                    <p>{localStorage.getItem('nickname')}님이 오늘 주문한 가게는 {todayStoreCount}개 입니다.</p>
-                    <p>총 {orderDetail.length} 개의 결제 내역이 있습니다.</p>
+                    <p><span className="boldText">{localStorage.getItem('nickname')}님의 주문 가게 </span><span className="boldNumber">{todayStoreCount}</span>개</p>
+                    <p>결제내역 : 총 <span className="boldNumber">{orderDetail.length}</span> 개</p>
                 </div>
+
                 <ul className='mytakeout-list'>
                     {orderDetail.length > 0 ? (
                         orderDetail.map((order, index) => (
                             <li className='mytakeout-item' key={order.id || index}>
                                 <div className='mytakeout-date'>
-                                    {order.orderDate} 포장완료
-                                    <Link to={`/order/${order.orderNumber}`} className='mytakeout-detail-button'>
+                                    {formatDateTime(order.orderDate)} 포장완료
+                                    <Link to={`/mytakeoutdetail/order/${order.orderId}`} className='mytakeout-detail-button'>
                                         주문 상세
                                     </Link>
                                 </div>
+
                                 <div className='mytakeout-store'>
                                     <img src="/images/roopy.png" alt="Store Logo" />
                                     <div className='mytakeout-store-info'>
@@ -94,18 +89,23 @@ function MyTakeout() {
                                             <p>{order.totalPrice}원</p>
                                         </div>
                                     </div>
-                                    <button
-                                        className="write-review-button"
-                                        onClick={() => {
-                                            console.log("주문이되나여?", order);
-                                            console.log("아이디는 찍히나?", order.id);
-                                            console.log("가게아이디는?", order.vendorId);
-
-                                            navigate(`/ReviewForm/${order.id}/${order.vendorId}`); // ReviewForm 페이지로 이동하면서 order.id와 vendorId를 전달
-                                        }}
-                                    >
-                                        리뷰 작성하기
-                                    </button>
+                                    {!order.hasReviewed ? (
+                                        <button
+                                            className="mytakeout-review-button"
+                                            disabled={!order || !"orderId" in order || !"id" in order.vendor}
+                                            onClick={() => {
+                                                if (order && "orderId" in order && "id" in order.vendor) {
+                                                    navigate(`/ReviewForm/${order.orderId}/${order.vendor.id}`);
+                                                } else {
+                                                    console.error("order, order.orderId or order.vendor.id is undefined!");
+                                                }
+                                            }}
+                                        >
+                                            리뷰 작성하기
+                                        </button>
+                                    ) : (
+                                        <p>리뷰 작성완료</p>
+                                    )}
                                 </div>
                             </li>
                         ))
@@ -117,7 +117,6 @@ function MyTakeout() {
             <Footer type="mytakeout" />
         </div>
     );
-
 }
 
 export default MyTakeout;

@@ -10,7 +10,7 @@ import {
   Grid,
 } from '@mui/material';
 
-const SSUsaup = ({setNextButtonEnabled }) => {
+const SSUsaup = ({ setNextButtonEnabled }) => {
   const [region, setRegion] = useState('');
   const [value1, setValue1] = useState('');
   const [value2, setValue2] = useState('');
@@ -31,7 +31,7 @@ const SSUsaup = ({setNextButtonEnabled }) => {
       console.log(value2);
       console.log(region);
       const response = await axios.post(
-        'http://192.168.0.58/API/validateByRegion',
+        'https://mukjachi.site:6443/API/validateByRegion',
         payload
       );
       // 성공적으로 응답을 받은 경우 처리 로직
@@ -39,12 +39,12 @@ const SSUsaup = ({setNextButtonEnabled }) => {
       // 응답에서 일치 여부 확인 (서버 응답 형식에 따라 수정 필요)
       setResponseMessage('정보가 일치합니다.');
       setNextButtonEnabled(true); // 정보 일치시 버튼 활성화
-      setButtonColor('#f0f0f0'); 
+      setButtonColor('#f0f0f0');
       setFontColor('black');
     } catch (error) {
       setResponseMessage('정보가 일치하지 않습니다.');
       setNextButtonEnabled(false); // 정보 불일치시 버튼 활성화
-      setButtonColor('#FF745A');
+      setButtonColor('#21BF73');
       setFontColor('white');
       // 에러 발생 시 처리 로직
       console.error(error);
@@ -57,24 +57,24 @@ const SSUsaup = ({setNextButtonEnabled }) => {
         return (
           <>
             <TextField
-              label="정보1"
+              label="승인번호"
               value={value1}
               onChange={(e) => setValue1(e.target.value)}
               fullWidth
             />
             <TextField
-              label="정보2"
+              label="가게이름"
               value={value2}
               onChange={(e) => setValue2(e.target.value)}
               fullWidth
-              sx={{marginTop : '10%'}}
+              sx={{ marginTop: '10%' }}
             />
           </>
         );
       case '노량진':
         return (
           <TextField
-            label="정보1"
+            label="위치"
             value={value1}
             onChange={(e) => setValue1(e.target.value)}
             fullWidth
@@ -84,17 +84,17 @@ const SSUsaup = ({setNextButtonEnabled }) => {
         return (
           <div>
             <TextField
-              label="정보1"
+              label="거리가게명"
               value={value1}
               onChange={(e) => setValue1(e.target.value)}
               fullWidth
             />
             <TextField
-              label="정보2"
+              label="위치"
               value={value2}
               onChange={(e) => setValue2(e.target.value)}
               fullWidth
-              sx={{marginTop : '10%'}}
+              sx={{ marginTop: '10%' }}
             />
           </div>
         );
@@ -102,17 +102,17 @@ const SSUsaup = ({setNextButtonEnabled }) => {
         return (
           <div>
             <TextField
-              label="value1"
+              label="위치"
               value={value1}
               onChange={(e) => setValue1(e.target.value)}
               fullWidth
             />
             <TextField
-              label="value2"
+              label="판매품목"
               value={value2}
               onChange={(e) => setValue2(e.target.value)}
               fullWidth
-              sx={{marginTop : '10%'}}
+              sx={{ marginTop: '10%' }}
             />
           </div>
         );
@@ -120,7 +120,7 @@ const SSUsaup = ({setNextButtonEnabled }) => {
         return (
           <div>
             <TextField
-              label="value1"
+              label="소재지주소"
               value={value1}
               onChange={(e) => setValue1(e.target.value)}
               fullWidth
@@ -141,7 +141,7 @@ const SSUsaup = ({setNextButtonEnabled }) => {
               value={value2}
               onChange={(e) => setValue2(e.target.value)}
               fullWidth
-              sx={{marginTop : '10%'}}
+              sx={{ marginTop: '10%' }}
             />
           </div>
         );
@@ -159,7 +159,7 @@ const SSUsaup = ({setNextButtonEnabled }) => {
               value={value2}
               onChange={(e) => setValue2(e.target.value)}
               fullWidth
-              sx={{marginTop : '10%'}}
+              sx={{ marginTop: '10%' }}
             />
           </div>
         );
@@ -192,9 +192,11 @@ const SSUsaup = ({setNextButtonEnabled }) => {
         </Grid>
         <Grid item xs={12} style={{ textAlign: 'center' }}>
           {/* 버튼 중앙 배치 */}
-          <button onClick={handleSubmit} style={{width: '90%', marginTop: '5%', height: '5vh', 
-          backgroundColor: buttonColor, color: fontColor, borderStyle: 'none',
-          borderRadius: '5px', fontSize: '110%'}}>전송</button>
+          <button onClick={handleSubmit} style={{
+            width: '90%', marginTop: '5%', height: '5vh',
+            backgroundColor: buttonColor, color: fontColor, borderStyle: 'none',
+            borderRadius: '5px', fontSize: '110%'
+          }}>전송</button>
         </Grid>
         <Grid
           item

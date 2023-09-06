@@ -84,7 +84,7 @@
 /* Favorite Icon Styling */
 .results-container .result-favorite svg {
     font-size: 24px;
-    color: #FF745A;
+    color: #FD5E53;
 }
 
 
@@ -105,12 +105,17 @@
 }
 
 /* Hashtag Buttons */
-.hashtag-buttons {
+.hashtag-button {
     display: flex;
     gap: 2%;
+    border: none;
+    background: none;
+    font-size: 95%;
+    text-decoration: none;
 }
 
-/* Hashtag Button Hover Effect */
-.hashtag-buttons button:hover {
-    background-color: #ffccb1;
-}
+.hashtag-button:hover, .hashtag-button:active {
+    text-decoration: underline;
+    font-weight: bold;
+    color: black; 
+  }
