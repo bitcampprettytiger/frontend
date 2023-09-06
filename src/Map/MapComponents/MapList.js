@@ -62,7 +62,7 @@ export default function MapList({ vendorInfo, moveTo }) {
               onClick={() => handleClick(info, index)}
               sx={{
                 width: '90%', // 25% - margin
-                height: '250px',
+                height: '200px',
                 borderColor: selectedItem === index ? '#FD5E53' : 'grey.300',
                 borderWidth: 1,
                 marginLeft: '5%',
@@ -78,7 +78,7 @@ export default function MapList({ vendorInfo, moveTo }) {
                   height: '100px', // 실제 높이는 50%
                   objectFit: 'contain', // 이미지 비율 유지
                   objectPosition: 'center', // 중앙 정렬
-                  margin: '10% 0',
+                  marginBottom:'5%',
                   objectFit: 'cover', // 이미지를 채우되 비율을 유지
                   objectPosition: 'center', // 중앙 정렬
                 }}

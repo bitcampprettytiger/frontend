@@ -45,6 +45,7 @@ import SellMyinfo from './Sell/SellMyinfoList';
 import { ReviewContextProvider } from './Menu/MyPage/MyPageComponents/ReviewContext';
 import PopularStation from './Menu/Home/HomeComponents/PopularStation';
 import AllLogin from './Menu/Home/HomeComponents/AllLogin';
+import MemoizedVendorReview from './Menu/MyPage/MyPageComponents/VendorReview';
 
 const muitheme = createTheme({
   palette: {
@@ -64,9 +65,11 @@ const menuRoutes = [
   { path: '/waiting', element: <Waiting /> },
   {
     path: '/myreview',
-    element:
-
-      <MyReview />
+    element: <MyReview />,
+  },
+  {
+    path: '/vendorreview/:vendorId',
+    element: <MemoizedVendorReview />,
   },
   { path: '/waitingDetail', element: <WaitingDetail /> },
   { path: '/alllogin', element: <AllLogin /> },
@@ -78,17 +81,11 @@ const menuRoutes = [
   // { path: '/popularstation', element: <PopularStation /> },
   {
     path: '/mypage',
-    element:
-      <Mypage />
-
+    element: <Mypage />,
   },
   {
     path: '/myfavorite',
-    element: (
-
-      <MyFavorite />
-
-    ),
+    element: <MyFavorite />,
   },
   { path: '/mytakeout', element: <MyTakeout /> },
   { path: '/mytakeoutdetail/order/:orderId', element: <MyTakeoutDetail /> },
