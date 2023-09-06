@@ -15,7 +15,7 @@ app.use(express.static("public"));
 //chat1
 const socket = require("socket.io");
 const server = app.listen(port, () => {
-  console.log(`running https://mukjachi.site:6443:${port}`);
+  console.log(`running http://192.168.0.63:${port}`);
 });
 const io = socket(server, { path: "/socket.io" });
 

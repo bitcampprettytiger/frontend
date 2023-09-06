@@ -12,8 +12,10 @@ const SellHome = () => {
   const [vendor, setVendor] = useState();
   const [socket, setSocket] = useState(null); // socket state 추가
   const [order, setorder] = useState([]);
-
-  // const socket = io('http://192.168.0.63:8081', { query: `phoneNumber=${phoneNumber}` });
+  const [order2, setOrder2] = useState([]); 
+  const [orderdto,setorderdto] = useState([]);
+  const[orderId,setorderId]=useState();
+  // const socket = io('https://mukjachi.site:8081', { query: `phoneNumber=${phoneNumber}` });
 
   useEffect(() => {
     const getVendor = async () => {
@@ -24,13 +26,13 @@ const SellHome = () => {
           }
         });
   
-        console.log(response);
+        // console.log(response);
   
         if (response.data && response.data.item) {
           setVendor(response.data.item);
   
           // vendor 정보를 성공적으로 가져온 후에 소켓을 생성하고 이벤트를 보냅니다.
-          const socket = io('http://192.168.0.63:8081', { query: `${response.data.item}` });
+          const socket = io('https://mukjachi.site:8081', { query: `${response.data.item}` });
           setSocket(socket);
           
           socket.emit('enter_room', { data:`${response.data.item.id}`});
@@ -39,13 +41,10 @@ const SellHome = () => {
 
           socket.on('new_order', (data) => {
             console.log(`Received a new order from ${data.phoneNumber}:`, data.order,data.cartItems,data.orderArray);
-            console.log(data.cartItems);
-            // console.log("data.order");
-            // console.log(data.order);
-            // console.log("data.cartItems");
-            // console.log(data.cartItems);
-            // console.log("data.orderArray");
-            // console.log(data.orderArray.cartItems);
+            if(data.orderArray.orderId){
+              // console.log(data.orderArray.orderId)
+              setorderId(data.orderArray.orderId);
+            }
 
 
 
@@ -54,7 +53,7 @@ const SellHome = () => {
             // 예: 주문 목록 업데이트, 알림 메시지 표시 등
             setorder(prevOrders => [...prevOrders, data.cartItems]);
             alert("주문이 들어왔습니다.");
-            console.log(data.cartItems);
+            // console.log(data.cartItems);
           });
   
            // 컴포넌트가 언마운트될 때 소켓 연결 해제
@@ -62,13 +61,43 @@ const SellHome = () => {
           //    socket.disconnect();
           //  };
         }
-      } catch (error) {
+      }
+       catch (error) {
+        console.log(error);
+      }
+      
+    }
+    
+    getVendor();
+  }, []); 
+  
+  useEffect(() => {
+
+
+    const getorder = async () => {
+      try {
+        const response = await axios.get(`https://mukjachi.site:6443/orders/orderDetail/${orderId}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+          }
+        });
+        // console.log("!!!!!!!!!!!!!response");
+        // console.log(response);
+        if (response.data && response.data.item) {
+          console.log(response.data.item.orderedMenuDTOList[0]);
+          console.log(response.data.item.orderedMenuDTOList)
+          setOrder2(response.data.item.orderedMenuDTOList || []); 
+
+        }
+      }
+      catch (error) {
         console.log(error);
       }
     }
-  
-    getVendor();
-  }, []); 
+    if(orderId){
+      getorder();
+    }
+  },[orderId]);
 
   const handleWaitingClick = () => {
     setMessage('대기가 승인되었습니다.');
@@ -120,9 +149,9 @@ const SellHome = () => {
         >
           포장주문하기
         </Typography>
-        {order.map((item, index) => (
-        <SHOrder key={index} order={item} onClick={handlePackagingClick} />
-      ))}               
+        {order2?.map((item, index) => (
+          <SHOrder key={index} menu={item.menu} quantity={item.quantity} onClick={handlePackagingClick}/>
+  ))}               
        </Box>
         <Modal open={!!message}>
           <Box

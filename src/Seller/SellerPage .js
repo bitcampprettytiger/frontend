@@ -6,7 +6,7 @@ const SellerPage = () => {
   const [reservationList, setReservationList] = useState([]);
   const [reservationList2, setReservationList2] = useState([]);
   
-  const socket = io('http://192.168.0.63:8081', {
+  const socket = io('https://mukjachi.site:8081', {
     query: { phoneNumber  }
   });
 
@@ -20,7 +20,6 @@ const SellerPage = () => {
   };
 
   useEffect(() => {
-    // const socket = io('https://mukjachi.site:6443:8081'); // 판매자 엔드포인트로 연결
     if (!isReserved) {
       socket.emit('enter_room', data);
       setIsReserved(true);
