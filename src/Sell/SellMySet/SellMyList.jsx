@@ -190,7 +190,7 @@ const SellMyList = () => {
                         {menu.primaryimage ? (
                           <img
                             src={menu.primaryimage}
-                            alt='먹어'
+                            alt="먹어"
                             style={{ width: '50px', height: '100%' }}
                           />
                         ) : (
