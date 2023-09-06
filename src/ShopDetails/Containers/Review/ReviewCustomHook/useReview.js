@@ -12,7 +12,7 @@ const useReview = (vendorId) => {
 
   const fetchReviews = (pageNumber) => {
     setLoading(true);
-    axios.get(`https://mukjachi.site:6443/reviews/review-list/${vendorId}}?page=${pageNumber}`)
+    axios.get(`https://mukjachi.site:6443/reviews/review-list/${vendorId}?page=${pageNumber}`)
       .then((res) => {
         setLoading(false);
         if (res.data.statusCode === 200) {
