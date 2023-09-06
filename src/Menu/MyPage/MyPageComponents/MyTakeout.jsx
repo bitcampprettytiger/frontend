@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Header from '../../../Layout/Header.jsx';
 import Footer from '../../../Layout/Footer.jsx';
 import { Link, useNavigate } from 'react-router-dom';
 import { fetchOrderDetail, fetchPaymentList } from '../../Home/HomeComponents/HomeApi.jsx';
 import './MyTakeout.css';
+import ReviewForm from '../../../ShopDetails/Containers/Review/ReviewComponents/ReviewForm.jsx';
 
 function MyTakeout() {
     const [orderDetail, setOrderDetail] = useState([]);
@@ -13,6 +14,17 @@ function MyTakeout() {
     const [groupedOrders, setGroupedOrders] = useState({});
     const MEMBER_ID = localStorage.getItem('member_id');
     const navigate = useNavigate();
+    const [isReviewFormOpen, setIsReviewFormOpen] = useState(false);
+    const [selectedOrder, setSelectedOrder] = useState(null);
+
+    // useRef를 사용하여 token과 MEMBER_ID를 관리
+    const tokenRef = useRef(localStorage.getItem('accessToken'));
+    const MEMBER_ID_Ref = useRef(localStorage.getItem('member_id'));
+
+    const openReviewForm = (order) => {
+        setSelectedOrder(order);
+        setIsReviewFormOpen(true);
+    };
 
     const formatDateTime = (isoString) => {
         const date = new Date(isoString + "Z"); // 'Z'는 UTC를 나타냅니다.
@@ -27,6 +39,10 @@ function MyTakeout() {
         return `${yyyy}-${mm}-${dd}, ${hh}:${min}`;
     };
 
+    const handleReviewSubmit = () => {
+        // 리뷰 제출 로직을 추가해주세요.
+        setIsReviewFormOpen(false);
+    };
 
     useEffect(() => {
         const fetchOrderAndPaymentData = async () => {
@@ -68,7 +84,7 @@ function MyTakeout() {
             <Header page="mytakeout" />
             <div className='mytakeout-container'>
                 <div className="order-summary">
-                    <p><span className="boldText">{localStorage.getItem('nickname')}님의 주문 가게 </span><span className="boldNumber">{todayStoreCount}</span>개</p>
+                    <p><span className="boldText">{localStorage.getItem('nickname')} 오늘 주문한 가게 </span><span className="boldNumber">{todayStoreCount}</span>개</p>
                     <p>결제내역 : 총 <span className="boldNumber">{orderDetail.length}</span> 개</p>
                 </div>
 
@@ -117,6 +133,10 @@ function MyTakeout() {
                         <p>주문 내역이 없습니다.</p>
                     )}
                 </ul>
+                {
+                    isReviewFormOpen &&
+                    <ReviewForm mytakeoutData={selectedOrder} onReviewSubmit={handleReviewSubmit} />
+                }
             </div>
             <Footer type="mytakeout" />
         </div>

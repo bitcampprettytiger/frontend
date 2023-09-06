@@ -16,7 +16,7 @@ import AppBarWithTitle from '../../../Components/AppBarWithTitle';
 import axios from 'axios';
 import { API_BASE_URL } from '../../../../Menu/Home/HomeComponents/HomeApi';
 
-function ReviewForm({ onReviewSubmit }) {
+function ReviewForm({ onReviewSubmit, mytakeoutData }) {
   const { orderId, vendorId } = useParams();
 
   const [isLike, setIsLike] = useState(false);
@@ -25,6 +25,7 @@ function ReviewForm({ onReviewSubmit }) {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [reviewScore, setReviewScore] = useState(0);
   const [vendorName, setVendorName] = useState("");
+
 
   const handleLikeBtnClick = () => {
     console.log("Like button clicked");
@@ -57,31 +58,20 @@ function ReviewForm({ onReviewSubmit }) {
   };
 
   // 가게 이름을 가져오기
-  const fetchStoreName = async () => {
-    try {
-      const response = await axios.get(`/api/stores/${vendorId}`);
-      if (response.status === 200) {
-        setVendorName(response.data.vendorName);
-      }
-    } catch (error) {
-      console.error("가게 이름을 가져오는데 실패했습니다.", error);
+  const fetchStoreName = () => {
+    if (!mytakeoutData || !vendorId) {
+      console.error("mytakeoutData 또는 vendorId가 정의되지 않았습니다.");
+      return;
+    }
+
+    const store = mytakeoutData.find(s => s.vendorId === vendorId);
+    if (store) {
+      setVendorName(store.vendorName);
+    } else {
+      console.error("해당 vendorId를 가진 가게를 찾을 수 없습니다.");
     }
   };
 
-  useEffect(() => {
-    async function fetchVendorName() {
-      try {
-        const response = await axios.get(`${API_BASE_URL}/your-endpoint-for-vendor/${vendorId}`);
-        if (response.status === 200) {
-          setVendorName(response.data.vendorName);
-        }
-      } catch (error) {
-        console.error("가게이름이 안나와여:", error);
-      }
-    }
-
-    fetchVendorName();
-  }, [vendorId]);
 
 
   const handleReviewSubmit = async () => {
@@ -130,6 +120,10 @@ function ReviewForm({ onReviewSubmit }) {
       console.error("리뷰 저장 중 오류가 발생했습니다.", error);
     }
   };
+
+  useEffect(() => {
+    fetchStoreName();
+  }, [vendorId]);
 
   return (
     <div style={{ height: '100vh', margin: '0' }}>
