@@ -6,7 +6,7 @@ const SellerPage = () => {
   const [reservationList, setReservationList] = useState([]);
   const [reservationList2, setReservationList2] = useState([]);
   
-  const socket = io('http://192.168.0.63:8081', {
+  const socket = io('https://mukjachi.site:8081', {
     query: { phoneNumber  }
   });
 

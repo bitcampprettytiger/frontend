@@ -15,7 +15,7 @@ const SellHome = () => {
   const [order2, setOrder2] = useState([]); 
   const [orderdto,setorderdto] = useState([]);
   const[orderId,setorderId]=useState();
-  // const socket = io('http://192.168.0.63:8081', { query: `phoneNumber=${phoneNumber}` });
+  // const socket = io('https://mukjachi.site:8081', { query: `phoneNumber=${phoneNumber}` });
 
   useEffect(() => {
     const getVendor = async () => {
@@ -32,7 +32,7 @@ const SellHome = () => {
           setVendor(response.data.item);
   
           // vendor 정보를 성공적으로 가져온 후에 소켓을 생성하고 이벤트를 보냅니다.
-          const socket = io('http://192.168.0.63:8081', { query: `${response.data.item}` });
+          const socket = io('https://mukjachi.site:8081', { query: `${response.data.item}` });
           setSocket(socket);
           
           socket.emit('enter_room', { data:`${response.data.item.id}`});
