@@ -15,12 +15,12 @@ const SellHome = () => {
   const [order2, setOrder2] = useState([]); 
   const [orderdto,setorderdto] = useState([]);
   const[orderId,setorderId]=useState();
-  // const socket = io('http://192.168.0.63:8081', { query: `phoneNumber=${phoneNumber}` });
+  // const socket = io('https://mukjachi.site:8081', { query: `phoneNumber=${phoneNumber}` });
 
   useEffect(() => {
     const getVendor = async () => {
       try {
-        const response = await axios.get('http://localhost/vendor/getVendorInfo', {
+        const response = await axios.get('https://mukjachi.site:6443/vendor/getVendorInfo', {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('accessToken')}`
           }
@@ -32,7 +32,7 @@ const SellHome = () => {
           setVendor(response.data.item);
   
           // vendor 정보를 성공적으로 가져온 후에 소켓을 생성하고 이벤트를 보냅니다.
-          const socket = io('http://192.168.0.63:8081', { query: `${response.data.item}` });
+          const socket = io('https://mukjachi.site:8081', { query: `${response.data.item}` });
           setSocket(socket);
           
           socket.emit('enter_room', { data:`${response.data.item.id}`});
@@ -76,7 +76,7 @@ const SellHome = () => {
 
     const getorder = async () => {
       try {
-        const response = await axios.get(`http://localhost/orders/orderDetail/${orderId}`, {
+        const response = await axios.get(`https://mukjachi.site:6443/orders/orderDetail/${orderId}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('accessToken')}`
           }

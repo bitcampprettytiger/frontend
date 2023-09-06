@@ -51,7 +51,7 @@ const FindPW = ({ openModal, handleModalClose }) => {
 
     try {
       const response = await axios.post(
-        'http://localhost/member/updatePassword',
+        'https://mukjachi.site:6443/member/updatePassword',
         {
           newPassword,
         }

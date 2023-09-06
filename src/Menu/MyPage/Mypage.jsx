@@ -91,13 +91,13 @@ function Mypage() {
         const headers = getHeaders();
 
         // 사용자 정보 가져오기
-        const userInfoResponse = await axios.get('http://localhost/myPage/myInfo', { headers });
+        const userInfoResponse = await axios.get('https://mukjachi.site:6443/myPage/myInfo', { headers });
         const userData = userInfoResponse.data;
 
         setNickname(userData.nickname || "닉네임");
 
         // 즐겨찾기 정보 가져오기
-        const favoriteVendorsResponse = await axios.get('http://localhost/myPage/myFavoriteVendors', { headers });
+        const favoriteVendorsResponse = await axios.get('https://mukjachi.site:6443/myPage/myFavoriteVendors', { headers });
         const favoriteVendorsData = favoriteVendorsResponse.data;
 
         setFavoriteShops(favoriteVendorsData.favoriteShops || []);
