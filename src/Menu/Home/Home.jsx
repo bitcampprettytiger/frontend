@@ -38,6 +38,7 @@ function Home() {
   const [headerText, setHeaderText] = useState(''); // 초기값은 빈 문자열
   const [selectedStation, setSelectedStation] = useState(''); // 선택된 역 정보를 상태로 관리
   const [shopsAroundArea, setShopsAroundArea] = useState([]);
+  const [selectedArea, setSelectedArea] = useState(null);
 
 
 
@@ -50,6 +51,16 @@ function Home() {
     navigate(`/shophome/${vendorId}`);
   };
 
+  const navigateToPopularStation = (location, shopsAround) => {
+    console.log(`[${location}] 지역의 인기 매장 정보로 페이지 이동하는 중...`);
+    navigate(`/popularstation/${location}`, {
+      state: {
+        headerText: `${location}지역의 인기 매장 BEST`,
+        shops: shopsAround
+      }
+    });
+  };
+
   // 주소와 위치 정보를 상태에 저장
   const setAddressToHome = (newAddress, newlocation) => {
     setAddress(newAddress);
@@ -58,7 +69,11 @@ function Home() {
       longitude: newlocation.longitude
     });
   };
+
   const getShopsInArea = async (areaName) => {
+    // setSelectedArea를 호출하지만 이후 코드에서 바로 사용하지 않습니다.
+    setSelectedArea(areaName);
+
     try {
       const data = await fetchShopsInArea(areaName);
       console.log(`[${areaName}] 지역의 매장 정보를 세팅 중...`);
@@ -72,8 +87,6 @@ function Home() {
       console.error(`[${areaName}] 지역의 매장 정보 세팅 중 오류 발생:`, error);
     }
   };
-
-
 
 
   // 데이터를 가져와서 상태 설정
@@ -130,6 +143,7 @@ function Home() {
     let isMounted = true;
     console.log("fetchPopularPlaces");
     console.log(fetchPopularPlaces(address, location.latitude, location.longitude))
+
     fetchAndSet(() => fetchPopularPlaces(address, location.latitude, location.longitude), setPopularPlaces);
     const fetchAndSetData = async () => {
       if (address && address !== '') {  // address가 undefined나 빈 문자열이 아닐 경우에만 API 호출
@@ -179,11 +193,12 @@ function Home() {
   const navigateToSearchWithInfo = async (areaName) => {
     console.log(`[${areaName}] 지역의 매장 정보를 검색하고 페이지로 이동하는 중...`);
     await getShopsInArea(areaName);
-    console.log(`[${areaName}] 지역의 매장 정보 검색 완료, 검색 페이지로 이동합니다.`);
-    navigate('/search', {
+    console.log(`[${areaName}] 지역의 매장 정보 검색 완료, PopularStation 페이지로 이동합니다.`);
+    navigate('/popularstation', { // '/popularstation'은 PopularStation 컴포넌트의 경로입니다. 필요에 따라 수정하세요.
       state: {
         headerText: `${areaName}지역의 인기 매장 BEST`,
         shops: shopsAroundArea
+
       }
     });
   };
@@ -230,7 +245,7 @@ function Home() {
             <button
               key={place.id}
               className="button-round"
-              onClick={() => navigateToSearchWithInfo(place.location, place.shopsAround)}
+              onClick={() => navigateToPopularStation(place.location, place.shopsAround)}
             >
               <img src={place.imageUrl} alt={place.name} className="button-image" />
               <span className="button-text">{place.location}</span>
@@ -281,7 +296,7 @@ function Home() {
         </div>
         <div className="menu-box">
           {top10Menus.slice(5, 10).map((menu, index) => (
-            <button className="menu-button" key={index + 5}>
+            <button className="menu-button" key={index + 5} onClick={() => handleMenuItemClick(menu)}>
               <span style={{ fontWeight: 'bold' }}>{index + 6}위</span>
               {" "}
               <span className='textbar'>|</span>

@@ -3,6 +3,7 @@ import { ar } from 'date-fns/locale';
 import { useNavigate } from 'react-router-dom';
 
 
+// export const API_BASE_URL = "https://mukjachi.site:6443";
 export const API_BASE_URL = "https://mukjachi.site:6443";
 
 // API 요청을 위한 헤더 가져오기
@@ -67,9 +68,10 @@ export const fetchReviewsByMemberId = async () => {
 
         if (response.status !== 200) {
             throw new Error('서버가 예상치 못한 상태 코드를 반환했습니다.');
+
         }
 
-        return response.data;
+        return response;
     } catch (error) {
         console.error("리뷰 정보 가져오기 오류:", error); // 오류 발생 시 오류 내용 확인
         throw error;
@@ -467,6 +469,20 @@ export const fetchMyOrders = async () => {
     }
 };
 
+//닉네임변경
 
+export const updateMemberInfo = async (updatedInfo) => {
+    const headers = getHeaders(); // Make sure to implement the getHeaders() function
+
+    try {
+        const response = await axios.put(`${API_BASE_URL}/myPage/member/update`, updatedInfo, {
+            headers: getHeaders()
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Could not update member info:', error);
+        throw error;
+    }
+};
 
 

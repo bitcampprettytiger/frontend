@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { io } from 'socket.io-client';
 
 const SellerPage = () => {
-  const phoneNumber  = '1';
+  const phoneNumber = '1';
   const [reservationList, setReservationList] = useState([]);
   const [reservationList2, setReservationList2] = useState([]);
-  
+
   const socket = io('https://mukjachi.site:8081', {
-    query: { phoneNumber  }
+    query: { phoneNumber }
   });
 
   const [position, setPosition] = useState(0);

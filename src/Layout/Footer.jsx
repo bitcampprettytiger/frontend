@@ -144,7 +144,7 @@ function Footer({ type, activeButton, handleButtonClick, isWaitingDetailFooterTy
     </footer>
 
   );
-  const isDefaultFooterType = ['home', 'stfood', 'trfood', 'mypage', 'search', 'myedit', 'myreview', 'myfavorite', 'mytakeout', 'mytakeoutdetail'].includes(type);
+  const isDefaultFooterType = ['home', 'stfood', 'trfood', 'mypage', 'search', 'myedit', 'myreview', 'myfavorite', 'mytakeout', 'mytakeoutdetail', 'popularstation'].includes(type);
 
 
   return (
