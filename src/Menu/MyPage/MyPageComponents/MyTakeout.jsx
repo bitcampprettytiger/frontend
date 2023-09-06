@@ -4,6 +4,7 @@ import Footer from '../../../Layout/Footer.jsx';
 import { Link, useNavigate } from 'react-router-dom';
 import { fetchOrderDetail, fetchPaymentList } from '../../Home/HomeComponents/HomeApi.jsx';
 import './MyTakeout.css';
+import { useInView } from 'react-intersection-observer';
 
 function MyTakeout() {
     const [orderDetail, setOrderDetail] = useState([]);
@@ -13,15 +14,36 @@ function MyTakeout() {
     const [groupedOrders, setGroupedOrders] = useState({});
     const MEMBER_ID = localStorage.getItem('member_id');
     const navigate = useNavigate();
+    const [orders, setOrders] = useState([]);
+    const [hasMore, setHasMore] = useState(true);
+    const { ref, inView } = useInView();
+    const [currentPage, setCurrentPage] = useState(0);
+    const itemsPerPage = 4;
+
 
     const formatDateTime = (isoString) => {
         const date = new Date(isoString);
         const yyyy = date.getFullYear();
-        const mm = String(date.getMonth() + 1).padStart(2, '0'); // January is 0!
+        const mm = String(date.getMonth() + 1).padStart(2, '0');
         const dd = String(date.getDate()).padStart(2, '0');
         const hh = String(date.getHours()).padStart(2, '0');
         const min = String(date.getMinutes()).padStart(2, '0');
         return `${yyyy}-${mm}-${dd}, ${hh}:${min}`;
+    };
+
+    const fetchNextPage = () => {
+        const nextPage = currentPage + 1;
+        const start = currentPage * itemsPerPage;
+        const end = start + itemsPerPage;
+        const nextPageData = orderDetail.slice(start, end);
+
+        if (nextPageData.length === 0) {
+            setHasMore(false);
+            return;
+        }
+
+        setCurrentPage(nextPage);
+        setOrders(prevOrders => [...prevOrders, ...nextPageData]);
     };
 
 
@@ -29,13 +51,16 @@ function MyTakeout() {
         const fetchOrderAndPaymentData = async () => {
             try {
                 const orderData = await fetchOrderDetail(MEMBER_ID);
+                const paymentData = await fetchPaymentList(token);
                 const today = new Date().toISOString().split('T')[0];
                 const todayOrders = orderData.filter(order => order.orderDate.split('T')[0] === today);
                 const uniqueStores = [...new Set(todayOrders.map(order => order.storeName))];
-                const paymentData = await fetchPaymentList(token);
+                setTodayStoreCount(uniqueStores.length);
 
                 setOrderDetail(orderData || []);
-                setTodayStoreCount(uniqueStores.length);
+
+                const firstPageData = orderData.slice(0, itemsPerPage);
+                setOrders(firstPageData);
 
                 const groups = {};
                 orderData.forEach(order => {
@@ -56,9 +81,13 @@ function MyTakeout() {
         fetchOrderAndPaymentData();
     }, []);
 
-    if (error) {
-        return <div>Error: {error.message}</div>;
-    }
+
+
+    useEffect(() => {
+        if (inView && hasMore) {
+            fetchNextPage();
+        }
+    }, [inView]);
 
     return (
         <div className='App-main2'>
@@ -70,8 +99,8 @@ function MyTakeout() {
                 </div>
 
                 <ul className='mytakeout-list'>
-                    {orderDetail.length > 0 ? (
-                        orderDetail.map((order, index) => (
+                    {orders.length > 0 ? (
+                        orders.map((order, index) => (
                             <li className='mytakeout-item' key={order.id || index}>
                                 <div className='mytakeout-date'>
                                     {formatDateTime(order.orderDate)} 포장완료
@@ -83,12 +112,14 @@ function MyTakeout() {
                                 <div className='mytakeout-store'>
                                     <img src="/images/roopy.png" alt="Store Logo" />
                                     <div className='mytakeout-store-info'>
-                                        <p>{order.menuType}</p>
+                                        <p>{order.vendor ? order.vendor.vendorName : "Vendor 이름 불러오기 실패"}</p>
                                         <div className='menu-detail'>
-                                            <p>{order.orderMenu}</p>
+                                            <p className='gray'>{order.orderMenu}</p>
                                             <p>{order.totalPrice}원</p>
                                         </div>
                                     </div>
+                                </div>
+                                <div className="review-button-container">
                                     {!order.hasReviewed ? (
                                         <button
                                             className="mytakeout-review-button"
@@ -113,6 +144,9 @@ function MyTakeout() {
                         <p>주문 내역이 없습니다.</p>
                     )}
                 </ul>
+                <div ref={ref} style={{ textAlign: 'center' }}>
+                    {hasMore ? "주문 내역 가져오는 중..." : ""}
+                </div>
             </div>
             <Footer type="mytakeout" />
         </div>

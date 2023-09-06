@@ -60,7 +60,7 @@ function CartPage() {
   };
   
   useEffect(() => {
-    const socket = io('https://mukjachi.site:8081', { query: `phoneNumber=${phoneNumber}` });
+    const socket = io('http://192.168.0.95:8081', { query: `phoneNumber=${phoneNumber}` });
     setSocket(socket);
     fetchUserInfo();
 
