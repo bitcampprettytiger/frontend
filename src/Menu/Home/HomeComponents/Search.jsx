@@ -7,7 +7,7 @@ import { useSearch } from '../SearchCustomHooks/useSearch';
 import { useGeolocation } from '../../GeolocationCustomHooks/useGeolocation';
 import StarIcon from '@mui/icons-material/Star';
 import getShopsData from '../../HomeCustomHooks/getShopsData';
-import { Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+import { ToggleButton, ToggleButtonGroup, Box } from '@mui/material';
 
 const Search = () => {
     const location = useLocation(); //추가
@@ -15,9 +15,8 @@ const Search = () => {
     const navigate = useNavigate();
     const headerText = location.state?.headerText || 'Default Header'; //추가
     const [shops, setShops] = useState([]); // 상점 정보를 저장하는 상태
-    const [sortBy, setSortBy] = useState('');
-    const [ratingSort, setRatingSort] = useState('highRating'); // 별점 순서를 위한 상태
-    const [reviewSort, setReviewSort] = useState('manyReviews'); // 리뷰 순서를 위한 상태
+    const [sortRating, setSortRating] = useState('high');
+    const [sortReview, setSortReview] = useState('many');
 
     const {
         searchInput,
@@ -40,17 +39,6 @@ const Search = () => {
         setSearchInput("");  // 검색창의 내용을 지움
     };
 
-    const handleSortChange = (e) => {
-        const { name, value } = e.target;
-        if (name === "rating") {
-            setRatingSort(value);
-            // 별점 기준 정렬 로직 추가
-        } else if (name === "reviews") {
-            setReviewSort(value);
-            // 리뷰 기준 정렬 로직 추가
-        }
-    };
-
 
     // 검색 입력값이 변경될 때 동작하는 함수
     const handleSearchChange = (e) => {
@@ -69,6 +57,27 @@ const Search = () => {
         setSearchInput(text);
         handleSearchClick();
     };
+
+    const ToggleBox = ({ options, selected, onToggle }) => {
+        return (
+            <Box mr={2}>
+                <ToggleButtonGroup
+                    value={selected}
+                    exclusive
+                    onChange={(_, newValue) => onToggle(newValue)}
+                    aria-label="sort options"
+                >
+                    {options.map(option => (
+                        <ToggleButton key={option.value} value={option.value}>
+                            {option.label}
+                        </ToggleButton>
+                    ))}
+                </ToggleButtonGroup>
+            </Box>
+        );
+    };
+
+
     useEffect(() => {
         async function fetchData() {
             const data = await getShopsData(); // 공통 함수를 통해 상점 정보를 가져옴
@@ -85,6 +94,27 @@ const Search = () => {
             handleSearchClick();
         }
     }, [searchQuery]);
+
+    useEffect(() => {
+        let sortedResults = [...searchResults];
+
+        // 별점 정렬
+        if (sortRating === 'high') {
+            sortedResults.sort((a, b) => b.averageReviewScore - a.averageReviewScore);
+        } else if (sortRating === 'low') {
+            sortedResults.sort((a, b) => a.averageReviewScore - b.averageReviewScore);
+        }
+
+        // 리뷰 수 정렬
+        if (sortReview === 'many') {
+            sortedResults.sort((a, b) => b.reviewCount - a.reviewCount);
+        } else if (sortReview === 'few') {
+            sortedResults.sort((a, b) => a.reviewCount - b.reviewCount);
+        }
+
+        setSearchResults(sortedResults);
+    }, [sortRating, sortReview]);
+
 
     useEffect(() => {
         // URL의 쿼리 파라미터로부터 검색어를 가져옴
@@ -108,36 +138,31 @@ const Search = () => {
                     handleDeleteClick={handleDeleteClick}
                     handleKeyUp={handleKeyUp}
                 />
-                <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem', marginBottom: '1rem' }}>
-                    <FormControl variant="outlined" size="small" style={{ width: '150px' }}>
-                        <InputLabel>별점 순서</InputLabel>
-                        <Select
-                            value={ratingSort}
-                            onChange={handleSortChange}
-                            label="별점 순서"
-                            name="rating"
-                        >
-                            <MenuItem value="highRating">별점 높은 순</MenuItem>
-                            <MenuItem value="lowRating">별점 낮은 순</MenuItem>
-                        </Select>
-                    </FormControl>
 
-                    <FormControl variant="outlined" size="small" style={{ width: '150px' }}>
-                        <InputLabel>리뷰 순서</InputLabel>
-                        <Select
-                            value={reviewSort}
-                            onChange={handleSortChange}
-                            label="리뷰 순서"
-                            name="reviews"
-                        >
-                            <MenuItem value="manyReviews">리뷰 많은 순</MenuItem>
-                            <MenuItem value="fewReviews">리뷰 적은 순</MenuItem>
-                        </Select>
-                    </FormControl>
-                </div>
+                {/* ToggleBox는 항상 상단에 위치합니다. */}
+                <Box display="flex" justifyContent="flex-end" mb={2}>
+                    <ToggleBox
+                        options={[
+                            { label: '별점높은순', value: 'high' },
+                            { label: '별점낮은순', value: 'low' }
+                        ]}
+                        selected={sortRating}
+                        onToggle={(option) => setSortRating(option)}
+                    />
+                    <ToggleBox
+                        options={[
+                            { label: '리뷰많은순', value: 'many' },
+                            { label: '리뷰적은순', value: 'few' }
+                        ]}
+                        selected={sortReview}
+                        onToggle={(option) => setSortReview(option)}
+                    />
+                </Box>
+
+                {/* 최근 검색어와 최근 확인한 가게는 검색어가 없거나 검색 결과가 없을 때만 보입니다. */}
                 {(!searchInput || searchResults.length === 0) && (
                     <div style={{ padding: '5%' }}>
-                        <div>
+                        <div >
                             <h3>최근 검색어</h3>
                             <div className="hashtag-buttons">
                                 {recentSearches.map((item, index) => (
@@ -167,8 +192,8 @@ const Search = () => {
                     </div>
                 )}
 
+                {/* 검색 결과에 따라 가게 목록을 표시합니다. */}
                 <div className="results-container">
-
                     {searchResults.map(vendor => (
                         <div key={vendor.id} className="result-item" onClick={() => handleShopClick(vendor.id)}>
                             <img src={vendor.imgSrc ? vendor.imgSrc : "/images/roopy.png"} alt={vendor.vendorName} />
@@ -177,6 +202,7 @@ const Search = () => {
                                 <div className="rating">
                                     <StarIcon style={{ color: 'goldenrod' }} />
                                     {vendor.averageReviewScore}
+                                    <span className="review-count">작성된 리뷰{vendor.reviewCount}개</span>
                                 </div>
                                 <p>{vendor.vendorType} / {vendor.address}</p>
                             </div>
@@ -187,6 +213,7 @@ const Search = () => {
                     ))}
                 </div>
 
+                {/* 상점 정보를 화면에 출력합니다. */}
                 {shops.map(shop => (
                     <div key={shop.id}>
                         <h2>{shop.vendorName}</h2>
@@ -194,6 +221,7 @@ const Search = () => {
                         <p>영업 시간: {shop.open} - {shop.close} ({shop.businessDay})</p>
                     </div>
                 ))}
+
             </div>
             <Footer type="search" />
         </div>
@@ -201,6 +229,10 @@ const Search = () => {
 
 
 }
+
+
+
+
 
 
 export default Search;
