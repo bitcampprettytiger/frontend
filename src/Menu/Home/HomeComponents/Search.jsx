@@ -7,6 +7,7 @@ import { useSearch } from '../SearchCustomHooks/useSearch';
 import { useGeolocation } from '../../GeolocationCustomHooks/useGeolocation';
 import StarIcon from '@mui/icons-material/Star';
 import getShopsData from '../../HomeCustomHooks/getShopsData';
+import { Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 
 const Search = () => {
     const location = useLocation(); //추가
@@ -14,6 +15,9 @@ const Search = () => {
     const navigate = useNavigate();
     const headerText = location.state?.headerText || 'Default Header'; //추가
     const [shops, setShops] = useState([]); // 상점 정보를 저장하는 상태
+    const [sortBy, setSortBy] = useState('');
+    const [ratingSort, setRatingSort] = useState('highRating'); // 별점 순서를 위한 상태
+    const [reviewSort, setReviewSort] = useState('manyReviews'); // 리뷰 순서를 위한 상태
 
     const {
         searchInput,
@@ -34,6 +38,17 @@ const Search = () => {
     };
     const handleDeleteClick = () => {
         setSearchInput("");  // 검색창의 내용을 지움
+    };
+
+    const handleSortChange = (e) => {
+        const { name, value } = e.target;
+        if (name === "rating") {
+            setRatingSort(value);
+            // 별점 기준 정렬 로직 추가
+        } else if (name === "reviews") {
+            setReviewSort(value);
+            // 리뷰 기준 정렬 로직 추가
+        }
     };
 
 
@@ -93,10 +108,36 @@ const Search = () => {
                     handleDeleteClick={handleDeleteClick}
                     handleKeyUp={handleKeyUp}
                 />
-                {/* 최근 검색어와 최근 확인한 가게는 검색어가 없거나 검색 결과가 없을 때만 보입니다. */}
+                <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem', marginBottom: '1rem' }}>
+                    <FormControl variant="outlined" size="small" style={{ width: '150px' }}>
+                        <InputLabel>별점 순서</InputLabel>
+                        <Select
+                            value={ratingSort}
+                            onChange={handleSortChange}
+                            label="별점 순서"
+                            name="rating"
+                        >
+                            <MenuItem value="highRating">별점 높은 순</MenuItem>
+                            <MenuItem value="lowRating">별점 낮은 순</MenuItem>
+                        </Select>
+                    </FormControl>
+
+                    <FormControl variant="outlined" size="small" style={{ width: '150px' }}>
+                        <InputLabel>리뷰 순서</InputLabel>
+                        <Select
+                            value={reviewSort}
+                            onChange={handleSortChange}
+                            label="리뷰 순서"
+                            name="reviews"
+                        >
+                            <MenuItem value="manyReviews">리뷰 많은 순</MenuItem>
+                            <MenuItem value="fewReviews">리뷰 적은 순</MenuItem>
+                        </Select>
+                    </FormControl>
+                </div>
                 {(!searchInput || searchResults.length === 0) && (
                     <div style={{ padding: '5%' }}>
-                        <div >
+                        <div>
                             <h3>최근 검색어</h3>
                             <div className="hashtag-buttons">
                                 {recentSearches.map((item, index) => (
@@ -126,16 +167,15 @@ const Search = () => {
                     </div>
                 )}
 
-                {/* 검색 결과에 따라 가게 목록을 표시합니다. */}
                 <div className="results-container">
+
                     {searchResults.map(vendor => (
-                        <div key={vendor.id} className="result-item"
-                            onClick={() => handleShopClick(vendor.id)}>
+                        <div key={vendor.id} className="result-item" onClick={() => handleShopClick(vendor.id)}>
                             <img src={vendor.imgSrc ? vendor.imgSrc : "/images/roopy.png"} alt={vendor.vendorName} />
                             <div className="result-info">
                                 <p className="shop-name">{vendor.vendorName}</p>
                                 <div className="rating">
-                                    <StarIcon style={{ color: 'goldenrod' }} /> {/* 별 아이콘으로 평점을 표시합니다. */}
+                                    <StarIcon style={{ color: 'goldenrod' }} />
                                     {vendor.averageReviewScore}
                                 </div>
                                 <p>{vendor.vendorType} / {vendor.address}</p>
@@ -147,7 +187,6 @@ const Search = () => {
                     ))}
                 </div>
 
-                {/* 상점 정보를 화면에 출력합니다. */}
                 {shops.map(shop => (
                     <div key={shop.id}>
                         <h2>{shop.vendorName}</h2>
@@ -155,7 +194,6 @@ const Search = () => {
                         <p>영업 시간: {shop.open} - {shop.close} ({shop.businessDay})</p>
                     </div>
                 ))}
-
             </div>
             <Footer type="search" />
         </div>
@@ -163,10 +201,6 @@ const Search = () => {
 
 
 }
-
-
-
-
 
 
 export default Search;

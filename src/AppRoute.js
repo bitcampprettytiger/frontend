@@ -44,6 +44,8 @@ import SellList from './Sell/SellStoreSet/SellList';
 import SellMyinfo from './Sell/SellMyinfoList';
 import { ReviewContextProvider } from './Menu/MyPage/MyPageComponents/ReviewContext';
 import PopularStation from './Menu/Home/HomeComponents/PopularStation';
+import AllLogin from './Menu/Home/HomeComponents/AllLogin';
+
 const muitheme = createTheme({
   palette: {
     primary: {
@@ -67,6 +69,7 @@ const menuRoutes = [
       <MyReview />
   },
   { path: '/waitingDetail', element: <WaitingDetail /> },
+  { path: '/alllogin', element: <AllLogin /> },
   { path: '/shopHome/:vendorId', element: <ShopMain /> },
   { path: '/reviewform/:orderId/:vendorId', element: <ReviewForm /> },
   { path: '/review-detail/:vendorId', element: <ReviewDetail /> },
