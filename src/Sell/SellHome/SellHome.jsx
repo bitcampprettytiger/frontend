@@ -5,7 +5,8 @@ import SHOrder from './SHComponents/SHOrder';
 import SellHeader from '../SellLayout/SellHeader.jsx';
 import SellFooter from '../SellLayout/SellFooter.jsx';
 import axios from 'axios';
-import { io } from 'socket.io-client';
+import { useInView } from 'react-intersection-observer';
+import { io } from 'socket.io-client';  
 
 const SellHome = () => {
   const [message, setMessage] = useState(null);
@@ -15,7 +16,63 @@ const SellHome = () => {
   const [order2, setOrder2] = useState([]);
   const [orderdto, setorderdto] = useState([]);
   const [orderId, setorderId] = useState();
+  const [waitingRef, waitingInView] = useInView({ threshold: 0.1 });
+  const [orderRef, orderInView] = useInView({ threshold: 0.1 });
+  const [hasMoreData, setHasMoreData] = useState(true);
+  const isMobileView = window.innerWidth <= 767;
+
+  const modalWidth = isMobileView ? '80%' : 'calc(0.8 * 0.3 * 100vw)';
   // const socket = io('https://mukjachi.site:8081', { query: `phoneNumber=${phoneNumber}` });
+
+
+  const handleMoreWaiting = (newWaitingData) => {
+    if (newWaitingData.length === 0) {
+      setHasMoreData(false);
+    } else {
+      setorder(prevOrder => [...prevOrder, ...newWaitingData]);
+    }
+  };
+
+  const handleMoreOrders = (newOrdersData) => {
+    if (newOrdersData.length === 0) {
+      setHasMoreData(false);
+    } else {
+      setOrder2(prevOrder => [...prevOrder, ...newOrdersData]);
+    }
+  };
+
+  //줄서기 moredata 불러오기
+  useEffect(() => {
+    if (socket && waitingInView && hasMoreData) {
+      const lastItem = order[order.length - 1];
+      const lastItemId = lastItem ? lastItem.id : null;
+      socket.emit('fetch_more_waiting', { lastItemId });
+    }
+  }, [waitingInView, socket]);
+
+
+  //포장주문 moredata 불러오기
+  useEffect(() => {
+    if (socket && orderInView && hasMoreData) {
+      const lastItem = order2[order2.length - 1];
+      const lastItemId = lastItem ? lastItem.id : null;
+      socket.emit('fetch_more_orders', { lastItemId });
+    }
+  }, [orderInView, socket]);
+
+  useEffect(() => {
+    if (socket) {
+      socket.on('more_waiting', handleMoreWaiting);
+      socket.on('more_orders', handleMoreOrders);
+
+      // 컴포넌트가 언마운트될 때 소켓 이벤트 리스너 해제
+      return () => {
+        socket.off('more_waiting', handleMoreWaiting);
+        socket.off('more_orders', handleMoreOrders);
+      };
+    }
+  }, [socket]);
+
 
   useEffect(() => {
     const getVendor = async () => {
@@ -32,14 +89,14 @@ const SellHome = () => {
           setVendor(response.data.item);
 
           // vendor 정보를 성공적으로 가져온 후에 소켓을 생성하고 이벤트를 보냅니다.
-          const socket = io('http://192.168.0.95:8081', { query: `${response.data.item}` });
-          setSocket(socket);
+          const socketInstance = io('http://192.168.0.95:8081', { query: `${response.data.item}` });
+          setSocket(socketInstance);
 
-          socket.emit('enter_room', { data: `${response.data.item.id}` });
+          socketInstance.emit('enter_room', { data: `${response.data.item.id}` });
 
           // new_order 이벤트 리스너 설정
 
-          socket.on('new_order', (data) => {
+          socketInstance.on('new_order', (data) => {
             console.log(`Received a new order from ${data.phoneNumber}:`, data.order, data.cartItems, data.orderArray);
             if (data.orderArray.orderId) {
               // console.log(data.orderArray.orderId)
@@ -58,8 +115,11 @@ const SellHome = () => {
 
           // 컴포넌트가 언마운트될 때 소켓 연결 해제
           //  return () => {
-          //    socket.disconnect();
+          //    if (socketInstance) {
+          //     socketInstance.disconnect();
           //  };
+          socketInstance.on('more_waiting', handleMoreWaiting);
+          socketInstance.on('more_orders', handleMoreOrders);
         }
       }
       catch (error) {
@@ -113,9 +173,11 @@ const SellHome = () => {
     }, 2000);
   };
 
+
+
   return (
     <>
-      <Box sx={{ width: '100%', height: '100vh' }}>
+      <Box sx={{ width: '100%', height: '100vh', boxSizing: 'border-box' }}>
         <SellHeader></SellHeader>
         <Box
           sx={{
@@ -126,12 +188,12 @@ const SellHome = () => {
             margin: 'auto',
             padding: '3%',
             backgroundColor: '#f5f5f5',
-            marginBottom: '10px',
-            height: '79vh',
+            height: '80vh',
+            boxSizing: 'border-box'
           }}
         >
 
-          <Box sx={{ height: '40vh' }}>
+          <Box sx={{ height: '40vh', boxSizing: 'border-box' }} ref={waitingRef}>
             <Typography
               variant="h6"
               align="center"
@@ -141,7 +203,7 @@ const SellHome = () => {
             </Typography>
             <SHWaiting onClick={handleWaitingClick}></SHWaiting>
           </Box>
-          <Box sx={{ height: '40vh' }}>
+          <Box sx={{ height: '40vh' }} ref={orderRef}>
             <Typography
               variant="h6"
               align="center"
@@ -156,14 +218,17 @@ const SellHome = () => {
           <Modal open={!!message}>
             <Box
               sx={{
-                position: 'absolute',
-                width: '80%',
+                position: 'relative',
+                width: modalWidth,
                 borderRadius: '5px',
                 boxShadow: 24,
                 p: 4,
                 top: '50%',
                 left: '50%',
                 transform: 'translate(-50%, -50%)',
+                boxSizing: 'border-box',
+                opacity: 1,
+                background: 'white'
               }}
             >
               <Typography variant="h6" align="center">

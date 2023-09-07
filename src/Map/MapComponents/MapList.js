@@ -10,6 +10,10 @@ export default function MapList({ vendorInfo, moveTo }) {
   const [filteredVendorInfo, setFilteredVendorInfo] = useState(vendorInfo);
   const sliderRef = useRef(null);
   const location = useLocation();
+  const isSTFood = location.pathname === '/stfood';
+  const isTRFood = location.pathname === '/trfood';
+
+  const bgColor = isSTFood ? '#FD5E53' : isTRFood ? '#FF5403' : '#FD5E53';
 
   const settings = {
     dots: false,
@@ -63,7 +67,7 @@ export default function MapList({ vendorInfo, moveTo }) {
               sx={{
                 width: '90%', // 25% - margin
                 height: '200px',
-                borderColor: selectedItem === index ? '#FD5E53' : 'grey.300',
+                borderColor: selectedItem === index ? bgColor : 'grey.300',
                 borderWidth: 1,
                 marginLeft: '5%',
                 borderStyle: 'solid',
