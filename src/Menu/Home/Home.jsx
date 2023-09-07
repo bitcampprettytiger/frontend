@@ -208,6 +208,25 @@ function Home() {
     });
   };
 
+  const loadKakaoMapsScript = (callback) => {
+    // 이미 로드되었는지 확인
+    if (window.kakao && window.kakao.maps) {
+      callback();
+      return;
+    }
+
+    const script = document.createElement('script');
+    script.onload = () => callback();
+    script.src = 'https://dapi.kakao.com/v2/maps/sdk.js?appkey=39d8d307a77655d09ea578c0f244c2ab&autoload=false';
+    document.head.appendChild(script);
+  };
+
+  useEffect(() => {
+    loadKakaoMapsScript(() => {
+      // Kakao Maps SDK가 로드된 후 이곳에 지도 생성 코드나 다른 기능을 넣습니다.
+    });
+  }, []);
+
 
   return (
     <div className='App-main2'>
