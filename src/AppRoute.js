@@ -46,7 +46,7 @@ import LoginSelectionPage from './Login,Join/TwoLogin';
 import { ReviewContextProvider } from './Menu/MyPage/MyPageComponents/ReviewContext';
 import PopularStation from './Menu/Home/HomeComponents/PopularStation';
 import AllLogin from './Menu/Home/HomeComponents/AllLogin';
-import MemoizedVendorReview from './Menu/MyPage/MyPageComponents/VendorReview';
+import MemoizedVendorReview from './Sell/SellMyinfo/VendorReview';
 
 const muitheme = createTheme({
   palette: {
@@ -67,10 +67,6 @@ const menuRoutes = [
   {
     path: '/myreview',
     element: <MyReview />,
-  },
-  {
-    path: '/vendorreview/:vendorId',
-    element: <MemoizedVendorReview />,
   },
   { path: '/waitingDetail', element: <WaitingDetail /> },
   { path: '/alllogin', element: <AllLogin /> },
@@ -116,6 +112,10 @@ const sellRoutes = [
   { path: '/sellset/:vendorId', element: <SellStoreSet /> },
   { path: '/sellhome/', element: <SellHome /> },
   { path: '/sellinfo/:vendorId', element: <SellMyinfo /> },
+  {
+    path: '/vendorreview/:vendorId',
+    element: <MemoizedVendorReview />,
+  },
 ];
 const mapRoutes = [
   { path: '/trfood', element: <TrFood /> },
