@@ -15,6 +15,7 @@ import useResponsive from '../SDCustomHooks/useResponsive';
 import MenuSeeMore from '../Containers/Menu/MenuComponents/MenuSeeMore';
 import PhotoSeeMore from '../Containers/Review/ReviewComponents/PhotoSeeMore';
 import { motion } from 'framer-motion';
+import Swipe from "react-easy-swipe";
 
 const getSlideInFromRight = (index) => ({
   hidden: { opacity: 0, x: 50 },
@@ -58,6 +59,8 @@ function a11yProps(index) {
 export default function ShopHomeTabs({ images, locationRef,vendorId }) {
   const { value, setValue, handleChange } = useContext(ShopHomeTabsContext);
   const viewType = useResponsive();
+  const [positionX, setPositionX] = useState(0);
+  
 
   const [isInView, setIsInView] = useState({
     ShopFacilities: false,
@@ -66,6 +69,23 @@ export default function ShopHomeTabs({ images, locationRef,vendorId }) {
     Location: false,
   });
 
+  const onSwipeMove = (position) => {
+    setPositionX(position.x); // 스와이프 중인 위치를 상태에 저장
+  };
+
+  const onSwipeEnd = () => {
+    if (Math.abs(positionX) > window.innerWidth / 2) {
+      if (positionX < 0 && value < 2) {
+        setValue(value + 1);
+      }
+      else if (positionX > 0 && value > 0) {
+        setValue(value - 1);
+      }
+    }
+    setPositionX(0);
+  };
+
+  
   useEffect(() => {
     const checkScroll = () => {
       const elements = [
@@ -90,6 +110,7 @@ export default function ShopHomeTabs({ images, locationRef,vendorId }) {
   }, []);
 
   return (
+    <Swipe onSwipeEnd={onSwipeEnd} onSwipeMove={onSwipeMove}>
     <Box sx={{ width: '100%' }}>
       <WrapBox>
         <StyledAppBar
@@ -152,5 +173,6 @@ export default function ShopHomeTabs({ images, locationRef,vendorId }) {
       </CustomTabPanel>
       {value === 0 && <SHFooter viewType={viewType} />}
     </Box>
+    </Swipe>
   );
 }

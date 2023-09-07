@@ -1,10 +1,24 @@
 import React from 'react';
-import { Box, Button, TextField } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { Box, Button } from '@mui/material';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { ImSpoonKnife } from 'react-icons/im';
+import { BiStoreAlt } from 'react-icons/bi';
+
 const Choice = ({ moveToCurrentPosition, toggleSIGmenu, selectedSIGmenus }) => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const isSTFood = location.pathname === '/stfood';
+  const isTRFood = location.pathname === '/trfood';
+
+  const bgColor = isSTFood ? '#FD5E53' : isTRFood ? '#FF5403' : '#FD5E53';
+  const borderColor = isSTFood ? '#FD5E53' : isTRFood ? '#FF5403' : '#FD5E53';
+
+  const IconComponent = isSTFood ? ImSpoonKnife : isTRFood ? BiStoreAlt : ImSpoonKnife;
+  const textDisplay = isSTFood ? '길거리' : isTRFood ? '포차' : '길거리';
+
+
   return (
     <Box
       sx={{
@@ -33,7 +47,7 @@ const Choice = ({ moveToCurrentPosition, toggleSIGmenu, selectedSIGmenus }) => {
           sx={{
             pointerEvents: 'auto',
             margin: '0 auto',
-            bgcolor: 'red',
+            bgcolor: bgColor, 
             width: '20%',
             ml: '25px',
             borderRadius: '20px',
@@ -43,24 +57,24 @@ const Choice = ({ moveToCurrentPosition, toggleSIGmenu, selectedSIGmenus }) => {
           <Box sx={{
             width: '100%',
             height: '100%',
-            backgroundColor: '#FD5E53',
+            backgroundColor: bgColor,
             color: 'white',
             fontWeight: 'bold',
             borderRadius: '10px',
-            display: 'flex',        // Flexbox 사용
-            justifyContent: 'center', // 수평 가운데 정렬
-            alignItems: 'center',     // 수직 가운데 정렬
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}>
-            <ImSpoonKnife style={{marginRight: '3%'}} />
-            길거리
+            <IconComponent style={{ marginRight: '3%', fontSize: '120%' }} /> 
+            {textDisplay}
           </Box>
         </Box>
-        {/* search로 이동 */}
         <Box
           onClick={() => navigate('/search')}
           sx={{
             width: '65%',
-            border: '1px solid #FD5E53',
+            border: '1px solid',
+            borderColor : borderColor,
             textAlign: 'center',
             margin: '0 auto',
             pointerEvents: 'auto',
@@ -68,16 +82,16 @@ const Choice = ({ moveToCurrentPosition, toggleSIGmenu, selectedSIGmenus }) => {
             borderRadius: '30px',
             height: '90%',
             textAlign: 'left',
-            display: 'flex', 
-            alignItems: 'center', 
+            display: 'flex',
+            alignItems: 'center',
           }}
         >
           <AiOutlineSearch style={{
             fontSize: '150%',
-            color: '#FD5E53',
+            color: borderColor,
             margin: '0 4%'
           }} />
-          <span style={{color : 'grey', fontSize: '90%'}}>검색하기</span>
+          <span style={{ color: 'grey', fontSize: '90%' }}>검색하기</span>
         </Box>
 
       </Box>
@@ -95,7 +109,7 @@ const Choice = ({ moveToCurrentPosition, toggleSIGmenu, selectedSIGmenus }) => {
             placeholder='장소 검색'
             sx={{
               pointerEvents: 'auto',
-              color: '#FD5E53',
+              color: borderColor,
               borderStyle: 'none',
               borderRadius: '20px',
               backgroundColor: 'white',
@@ -108,15 +122,15 @@ const Choice = ({ moveToCurrentPosition, toggleSIGmenu, selectedSIGmenus }) => {
               justifyContent: 'center',
               alignItems: 'center',
               '&:hover': {
-                backgroundColor: '#FD5E53',
+                backgroundColor: borderColor,
                 color: 'white'
               },
               '&:active': {
-                backgroundColor: '#FD5E53',
+                backgroundColor: borderColor,
                 color: 'white'
               },
               '&:focus': {
-                backgroundColor: '#FD5E53',
+                backgroundColor: borderColor,
                 color: 'white'
               }
             }}
