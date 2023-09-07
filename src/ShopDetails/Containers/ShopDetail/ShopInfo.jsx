@@ -25,8 +25,8 @@ function ShopInfo({ onCall, onViewLocation }) {
 
   return (
     <Container sx={{ margin: '0 5%' }}>
-      <Typography variant="h6" gutterBottom>
-        {vendor.vendorType}
+      <Typography variant="h6" sx={{margin: '5% 0'}}>
+        {vendor.vendorName}
       </Typography>
       <StarBox>
         <StarIcon sx={{ color: '#FFC700', marginRight: 1 }} />
