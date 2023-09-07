@@ -180,7 +180,9 @@ export const deleteReview = async (reviewId, loggedInUserId, reviewAuthorId, tok
     alert('리뷰 작성자만 리뷰를 삭제할 수 있습니다.');
     return;
   }
-  const url = `${API_BASE_URL}/reviews/review?reviewId=${reviewId}`;
+
+  // 수정된 URL
+  const url = `${API_BASE_URL}/myPage/myReviews/deleteReviews`;
   console.log("요청 URL:", url);
 
   // 기존 헤더 가져오기
@@ -194,7 +196,8 @@ export const deleteReview = async (reviewId, loggedInUserId, reviewAuthorId, tok
   }
 
   try {
-    const response = await axios.delete(url, { headers });
+    // 수정된 부분: DELETE 요청 시 body에 reviewId를 배열 형태로 전달
+    const response = await axios.delete(url, { headers, data: [reviewId] });
 
     if (response.status !== 200 || response.data.errorMessage) {
       throw new Error(response.data.errorMessage || 'Failed to delete review.');
@@ -210,6 +213,7 @@ export const deleteReview = async (reviewId, loggedInUserId, reviewAuthorId, tok
     throw error;
   }
 };
+
 
 // 리뷰가 많으면서 별점이 높은순으로 가게를 가져옴
 export const fetchTop5ReviewVendors = async () => {
@@ -281,6 +285,8 @@ export const fetchMyFavoriteVendors = async () => {
       }
     );
     if (response.status === 200) {
+      console.log("이건 데이터얌 ", response.data);  // <-- 콘솔문 추가
+
       return response.data;
     } else {
       throw new Error('Failed to fetch favorite vendors');
@@ -353,7 +359,7 @@ export const fetchOrderDetail = async (MEMBER_ID) => {
     const response = await axios.get(`${API_BASE_URL}/myPage/myOrders`, {
       headers: getHeaders(),
     });
-    console.log('Data received:', response);
+    console.log("Order data:", response.data.item); // 주문 데이터 로그 추가
     if (Array.isArray(response.data.item)) {
       return response.data.item;
     } else {
@@ -401,6 +407,7 @@ export const fetchPaymentList = async (token) => {
       headers: getHeaders(),
     });
     const data = response.data;
+    console.log("Payment data:", data.item); // 결제 데이터 로그 추가
     if (data.statusCode === 200 && Array.isArray(data.item)) {
       return data.item;
     } else {
@@ -412,6 +419,7 @@ export const fetchPaymentList = async (token) => {
     return null;
   }
 };
+
 
 // 장바구니 특정 아이템을 삭제함
 export const deleteCartItem = (cartItemDTO, token) => {

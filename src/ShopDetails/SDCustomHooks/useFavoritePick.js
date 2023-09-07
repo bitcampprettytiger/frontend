@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import { fetchFavoriteShops, addFavoriteShop, removeFavoriteShop } from '../../Menu/Home/HomeComponents/HomeApi';
+import { fetchFavoriteShops, addFavoriteShop, removeFavoriteShop, getHeaders } from '../../Menu/Home/HomeComponents/HomeApi';
 
 function useFavoritePick(setExternalFavoriteShops) {
     const [isLoading, setLoading] = useState(false);
@@ -8,23 +8,14 @@ function useFavoritePick(setExternalFavoriteShops) {
     const [internalFavoriteShops, setInternalFavoriteShops] = useState([]);
     const [memberId, setMemberId] = useState(localStorage.getItem('memberId'));
 
-
-    const favoriteCount = (setExternalFavoriteShops ? setExternalFavoriteShops.length : internalFavoriteShops.length);  // 즐겨찾기 개수
-
-
-    const accessToken = localStorage.getItem('accessToken');
-
-    const headers = {
-        'Content-Type': 'application/json;charset=UTF-8',
-        Authorization: `Bearer ${accessToken}`,
-    };
-
     const updateFavoriteShops = async () => {
         try {
-            const response = await fetchFavoriteShops();
-            if (response.data && Array.isArray(response.data.item)) {  // Array 확인 추가
+            const response = await fetchFavoriteShops({ headers: getHeaders() });
+            if (response.data && Array.isArray(response.data.item)) {
                 setInternalFavoriteShops(response.data.item);
-
+                if (setExternalFavoriteShops) {
+                    setExternalFavoriteShops(response.data.item);
+                }
             } else {
                 console.error("No items found or not an array in the response");
             }
@@ -33,27 +24,26 @@ function useFavoritePick(setExternalFavoriteShops) {
         }
     };
 
-
     const toggleFavorite = async (vendorId, isFavorite) => {
         setLoading(true);
         setError(null);
         try {
-            let response;
+            const headers = getHeaders();
             if (isFavorite) {
-                response = await removeFavoriteShop(vendorId, headers);
+                await removeFavoriteShop(vendorId, headers);
             } else {
-                // console.error("No items found or not an array in the response");
-                response = await addFavoriteShop(vendorId, headers);  // 이 부분이 추가되어야 합니다.
-
+                await addFavoriteShop(vendorId, headers);
             }
+            await updateFavoriteShops();
             setLoading(false);
-            return response;
         } catch (err) {
             setError(err.response ? err.response.data : err);
             setLoading(false);
             throw err;
         }
     };
+
+
 
     // 처음 로드할 때 즐겨찾기 목록을 가져옵니다.
     // useEffect 수정: 의존성 배열에 updateFavoriteShops 추가
