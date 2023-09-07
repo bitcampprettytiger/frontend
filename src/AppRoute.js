@@ -45,8 +45,8 @@ import SellMyinfo from './Sell/SellMyinfoList';
 import LoginSelectionPage from './Login,Join/TwoLogin';
 import { ReviewContextProvider } from './Menu/MyPage/MyPageComponents/ReviewContext';
 import PopularStation from './Menu/Home/HomeComponents/PopularStation';
-import AllLogin from './Menu/Home/HomeComponents/AllLogin';
 import MemoizedVendorReview from './Sell/SellMyinfo/VendorReview';
+
 
 const muitheme = createTheme({
   palette: {
@@ -69,7 +69,6 @@ const menuRoutes = [
     element: <MyReview />,
   },
   { path: '/waitingDetail', element: <WaitingDetail /> },
-  { path: '/alllogin', element: <AllLogin /> },
   { path: '/shopHome/:vendorId', element: <ShopMain /> },
   { path: '/reviewform/:orderId/:vendorId', element: <ReviewForm /> },
   { path: '/review-detail/:vendorId', element: <ReviewDetail /> },
@@ -115,7 +114,8 @@ const sellRoutes = [
   {
     path: '/vendorreview/:vendorId',
     element: <MemoizedVendorReview />,
-  },
+  }
+  ,
 ];
 const mapRoutes = [
   { path: '/trfood', element: <TrFood /> },
@@ -144,7 +144,7 @@ export function AppRoute() {
     <Router>
       <AnimatedCursor />
       <Routes>
-       <Route path="/" element={<LoginSelectionPage />} />
+        <Route path="/" element={<LoginSelectionPage />} />
       </Routes>
       <InnerAppRoute />
     </Router>
@@ -159,11 +159,10 @@ function InnerAppRoute() {
     //NotFound 예외처리
   }
 
-  const isSellerRoute = [...sellRoutes, ...sellAuthRoutes].some((route) =>
-    location.pathname.startsWith(route.path)
+  const isSellerRoute = [...sellRoutes, ...sellAuthRoutes].some((route) => { console.log(route); return location.pathname.startsWith(route.path) }
   );
   const isUserRoute = [...authRoutes, ...menuRoutes, ...mapRoutes].some(
-    (route) => location.pathname.startsWith(route.path)
+    (route) => { console.log(route); return location.pathname.startsWith(route.path) }
   );
 
   let className = 'App';
@@ -184,7 +183,7 @@ function InnerAppRoute() {
               {browserRoutes.map((route, index) => (
                 <Route key={index} path={route.path} element={route.element} />
               ))}
-               <Route path="*" element={<NotFound />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserView>
           {/*           

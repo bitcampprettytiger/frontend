@@ -14,12 +14,15 @@ function MyTakeoutDetail() {
 
     // 날짜와 시간 형식 변환 함수
     const formatDateTime = (isoString) => {
-        const date = new Date(isoString);
+        const date = new Date(isoString + "Z"); // 'Z'는 UTC를 나타냅니다.
+
+
         const yyyy = date.getFullYear();
         const mm = String(date.getMonth() + 1).padStart(2, '0');
         const dd = String(date.getDate()).padStart(2, '0');
         const hh = String(date.getHours()).padStart(2, '0');
         const min = String(date.getMinutes()).padStart(2, '0');
+
         return `${yyyy}-${mm}-${dd}, ${hh}:${min}`;
     };
 

@@ -174,9 +174,14 @@ export const createReview = async (reviewDto, file, token) => {
   }
 };
 // 리뷰 삭제
-export const deleteReview = async (reviewId, token, navigate) => {
+export const deleteReview = async (reviewId, loggedInUserId, reviewAuthorId, token, navigate) => {
+  // 사용자와 리뷰 작성자가 다를 경우 함수를 중단하고 알림
+  if (loggedInUserId !== reviewAuthorId) {
+    alert('리뷰 작성자만 리뷰를 삭제할 수 있습니다.');
+    return;
+  }
   const url = `${API_BASE_URL}/reviews/review?reviewId=${reviewId}`;
-  console.log('요청 URL:', url);
+  console.log("요청 URL:", url);
 
   // 기존 헤더 가져오기
   const headers = getHeaders();

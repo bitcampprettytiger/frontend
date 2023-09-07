@@ -13,9 +13,10 @@ import { useParams } from 'react-router-dom';
 import useReview from '../ReviewCustomHook/useReview';
 import { createReview } from '../../../../Menu/Home/HomeComponents/HomeApi';
 import AppBarWithTitle from '../../../Components/AppBarWithTitle';
+import axios from 'axios';
+import { API_BASE_URL } from '../../../../Menu/Home/HomeComponents/HomeApi';
 
-
-function ReviewForm({ onReviewSubmit }) {
+function ReviewForm({ onReviewSubmit, mytakeoutData }) {
   const { orderId, vendorId } = useParams();
 
   const [isLike, setIsLike] = useState(false);
@@ -23,6 +24,8 @@ function ReviewForm({ onReviewSubmit }) {
   const [rating, setRating] = useState(0);
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [reviewScore, setReviewScore] = useState(0);
+  const [vendorName, setVendorName] = useState("");
+
 
   const handleLikeBtnClick = () => {
     console.log("Like button clicked");
@@ -53,6 +56,23 @@ function ReviewForm({ onReviewSubmit }) {
     newSelectedFiles.splice(index, 1);
     setSelectedFiles(newSelectedFiles);
   };
+
+  // 가게 이름을 가져오기
+  const fetchStoreName = () => {
+    if (!mytakeoutData || !vendorId) {
+      console.error("mytakeoutData 또는 vendorId가 정의되지 않았습니다.");
+      return;
+    }
+
+    const store = mytakeoutData.find(s => s.vendorId === vendorId);
+    if (store) {
+      setVendorName(store.vendorName);
+    } else {
+      console.error("해당 vendorId를 가진 가게를 찾을 수 없습니다.");
+    }
+  };
+
+
 
   const handleReviewSubmit = async () => {
 
@@ -101,9 +121,13 @@ function ReviewForm({ onReviewSubmit }) {
     }
   };
 
+  useEffect(() => {
+    fetchStoreName();
+  }, [vendorId]);
+
   return (
-    <div style={{height: '100vh' , margin:'0'}}>
-      <AppBarWithTitle title='리뷰 작성하기'/>
+    <div style={{ height: '100vh', margin: '0' }}>
+      <AppBarWithTitle title='리뷰 작성하기' />
       <div style={{ textAlign: 'left', paddingLeft: '10%', marginTop: '5vh' }}>
         <Typography
           variant="h6"
@@ -114,7 +138,7 @@ function ReviewForm({ onReviewSubmit }) {
             color: 'black',
           }}
         >
-          가게 이름
+          {vendorName || "가게 이름 로딩 중..."}
         </Typography>
       </div>
       <div style={{ textAlign: 'center' }}>
@@ -128,8 +152,8 @@ function ReviewForm({ onReviewSubmit }) {
         >
           음식은 어떠셨나요?
         </Typography>
-        <Rating value={reviewScore} onChange={(e, newValue) => setReviewScore(newValue)} 
-        sx={{marginTop: '5%'}}/>
+        <Rating value={reviewScore} onChange={(e, newValue) => setReviewScore(newValue)}
+          sx={{ marginTop: '5%' }} />
 
 
         <div
@@ -166,7 +190,7 @@ function ReviewForm({ onReviewSubmit }) {
                 borderColor: "#FF745A",
                 background: "#FF745A",
                 color: 'white'
-              }, 
+              },
             }}
           >
             좋아요
@@ -196,7 +220,7 @@ function ReviewForm({ onReviewSubmit }) {
                 borderColor: "#FF745A",
                 background: "#FF745A",
                 color: 'white'
-              }, 
+              },
             }}
           >
             아쉬워요
@@ -214,7 +238,7 @@ function ReviewForm({ onReviewSubmit }) {
           placeholder="다른 사람들이 볼 수 있게 남겨주세요. :)"
           fullWidth
           color='secondary'
-          sx={{margin: '2%', width: '90%'}}
+          sx={{ margin: '2%', width: '90%' }}
         />
         <input
           type="file"
