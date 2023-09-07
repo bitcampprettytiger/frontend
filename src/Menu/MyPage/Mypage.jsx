@@ -144,14 +144,16 @@ function Mypage() {
   useEffect(() => {
     const fetchAllData = async () => {
       try {
-        const headers = getHeaders();
+
         console.log('Fetching data...'); // <--- 추가
 
         // 사용자 정보 가져오기
-        const userInfoResponse = await axios.get(`${API_BASE_URL}/myPage/myReviews`, { getHeaders });
+        const headers = getHeaders();
+        const userInfoResponse = await axios.get(`${API_BASE_URL}/myPage/myReviews`, { headers });
         const userData = userInfoResponse.data;
 
-        setnickname(userData.item.nickname || "닉네임");
+        const nickname = userData?.item?.reviews[0]?.member?.nickname || "닉네임 없음";
+        setnickname(nickname);
         console.log("User data:", userInfoResponse.data);
 
         // 즐겨찾기 정보 가져오기
