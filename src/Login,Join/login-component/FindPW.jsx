@@ -100,7 +100,6 @@ const FindPW = ({ openModal, handleModalClose }) => {
           password: newPassword,
         }
       );
-      clg
       if (response.data.success) {
         alert('비밀번호가 업데이트 되었습니다.');
         handleModalClose();
