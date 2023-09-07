@@ -142,7 +142,6 @@ export const mobileRoutes = [
 export function AppRoute() {
   return (
     <Router>
-      <AnimatedCursor />
       <Routes>
         <Route path="/" element={<LoginSelectionPage />} />
       </Routes>
@@ -185,9 +184,8 @@ function InnerAppRoute() {
               ))}
               <Route path="*" element={<NotFound />} />
             </Routes>
-          </BrowserView>
-          {/*           
-        <MobileView className='MV'>
+          </BrowserView>   
+        {/* <MobileView className='MV'>
             <Routes>
               {mobileRoutes.map((route, index) => (
                 <Route key={index} path={route.path} element={route.element} />
