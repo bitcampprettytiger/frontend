@@ -15,7 +15,7 @@ app.use(express.static("public"));
 //chat1
 const socket = require("socket.io");
 const server = app.listen(port, () => {
-  console.log(`running http://mukjachi.site:6443:1004:${port}`);
+  console.log(`running https://mukjachi.site:6443:${port}`);
 });
 const io = socket(server, { path: "/socket.io" });
 
@@ -38,7 +38,7 @@ app.use(Sentry.Handlers.errorHandler());
 app.use(
   cors({
     origin: [
-      "http://mukjachi.site:6443:1004:3000",
+      "https://mukjachi.site:6443:3000",
       "http://52.78.56.220:3000",
       "https://www.dawhisky.com",
       "https://dawhisky-fe.vercel.app",

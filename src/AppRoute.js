@@ -46,7 +46,9 @@ import LoginSelectionPage from './Login,Join/TwoLogin';
 import { ReviewContextProvider } from './Menu/MyPage/MyPageComponents/ReviewContext';
 import PopularStation from './Menu/Home/HomeComponents/PopularStation';
 import MemoizedVendorReview from './Sell/SellMyinfo/VendorReview';
-
+import { el } from 'date-fns/locale';
+import KaKao from './Login,Join/login-component/snsLogin/KaKaoLogin';
+import KaKaoLogin from './Login,Join/login-component/snsLogin/KaKaoLogin';
 
 const muitheme = createTheme({
   palette: {
@@ -114,19 +116,20 @@ const sellRoutes = [
   {
     path: '/vendorreview/:vendorId',
     element: <MemoizedVendorReview />,
-  }
-  ,
+  },
 ];
 const mapRoutes = [
   { path: '/trfood', element: <TrFood /> },
   { path: '/stfood', element: <StFood /> },
 ];
 
+const snsLogin = [{ path: '/auth', element: <KaKaoLogin></KaKaoLogin> }];
+
 export const browserRoutes = [
   ...authRoutes,
   ...menuRoutes,
   ...mapRoutes,
-
+  ...snsLogin,
   ...sellAuthRoutes,
   ...sellRoutes,
 ];
@@ -142,7 +145,6 @@ export const mobileRoutes = [
 export function AppRoute() {
   return (
     <Router>
-      <AnimatedCursor />
       <Routes>
         <Route path="/" element={<LoginSelectionPage />} />
       </Routes>
@@ -159,10 +161,15 @@ function InnerAppRoute() {
     //NotFound 예외처리
   }
 
-  const isSellerRoute = [...sellRoutes, ...sellAuthRoutes].some((route) => { console.log(route); return location.pathname.startsWith(route.path) }
-  );
+  const isSellerRoute = [...sellRoutes, ...sellAuthRoutes].some((route) => {
+    console.log(route);
+    return location.pathname.startsWith(route.path);
+  });
   const isUserRoute = [...authRoutes, ...menuRoutes, ...mapRoutes].some(
-    (route) => { console.log(route); return location.pathname.startsWith(route.path) }
+    (route) => {
+      console.log(route);
+      return location.pathname.startsWith(route.path);
+    }
   );
 
   let className = 'App';
@@ -183,11 +190,10 @@ function InnerAppRoute() {
               {browserRoutes.map((route, index) => (
                 <Route key={index} path={route.path} element={route.element} />
               ))}
-              <Route path="*" element={<NotFound />} />
+              {/* <Route path="*" element={<NotFound />} /> */}
             </Routes>
-          </BrowserView>
-          {/*           
-        <MobileView className='MV'>
+          </BrowserView>   
+        {/* <MobileView className='MV'>
             <Routes>
               {mobileRoutes.map((route, index) => (
                 <Route key={index} path={route.path} element={route.element} />

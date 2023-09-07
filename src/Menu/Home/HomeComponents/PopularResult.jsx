@@ -6,7 +6,7 @@ import Footer from '../../../Layout/Footer';
 import './PopularResult.css';
 
 function PopularResult() {
-    const BASE_URL = 'http://mukjachi.site:6443:1004';
+    const BASE_URL = 'https://mukjachi.site:6443';
     const [places, setPlaces] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
     const { query } = useParams();
