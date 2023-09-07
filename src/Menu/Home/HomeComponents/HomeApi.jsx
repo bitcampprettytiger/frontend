@@ -281,6 +281,8 @@ export const fetchMyFavoriteVendors = async () => {
       }
     );
     if (response.status === 200) {
+      console.log("이건 데이터얌 ", response.data);  // <-- 콘솔문 추가
+
       return response.data;
     } else {
       throw new Error('Failed to fetch favorite vendors');
@@ -353,7 +355,7 @@ export const fetchOrderDetail = async (MEMBER_ID) => {
     const response = await axios.get(`${API_BASE_URL}/myPage/myOrders`, {
       headers: getHeaders(),
     });
-    console.log('Data received:', response);
+    console.log("Order data:", response.data.item); // 주문 데이터 로그 추가
     if (Array.isArray(response.data.item)) {
       return response.data.item;
     } else {
@@ -401,6 +403,7 @@ export const fetchPaymentList = async (token) => {
       headers: getHeaders(),
     });
     const data = response.data;
+    console.log("Payment data:", data.item); // 결제 데이터 로그 추가
     if (data.statusCode === 200 && Array.isArray(data.item)) {
       return data.item;
     } else {
@@ -412,6 +415,7 @@ export const fetchPaymentList = async (token) => {
     return null;
   }
 };
+
 
 // 장바구니 특정 아이템을 삭제함
 export const deleteCartItem = (cartItemDTO, token) => {
