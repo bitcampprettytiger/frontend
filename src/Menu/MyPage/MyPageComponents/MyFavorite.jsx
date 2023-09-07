@@ -63,7 +63,7 @@ function MyFavorite() {
             <Header page="myfavorite" />
 
             <div className="myfavorite-container">
-                <h3>님이 즐겨찾기한 가게는 {favoriteShops.length}개입니다.</h3>
+                <h3>내가 찜한 가게는 {favoriteShops.length}개입니다.</h3>
                 {favoriteShops.map(vendor => (
                     <div key={vendor.id} className="favorite-item">
                         <div className="store-image-container">

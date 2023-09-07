@@ -1,6 +1,13 @@
 .App-main2 {
     width: 100%;
-    min-height: calc(100vh - 10vh);
+    height: calc(100vh - 100px);
+
     flex-direction: column;
     justify-content: space-between;
+}
+.inner-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 아이템들이 가운데 정렬되게 합니다. */
+    gap: 20px; /* 아이템들 사이의 간격을 설정합니다. */
 }

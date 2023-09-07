@@ -45,9 +45,6 @@ import SellMyinfo from './Sell/SellMyinfoList';
 import LoginSelectionPage from './Login,Join/TwoLogin';
 import { ReviewContextProvider } from './Menu/MyPage/MyPageComponents/ReviewContext';
 import PopularStation from './Menu/Home/HomeComponents/PopularStation';
-import AllLogin from './Menu/Home/HomeComponents/AllLogin';
-import MemoizedVendorReview from './Sell/SellMyinfo/VendorReview';
-
 const muitheme = createTheme({
   palette: {
     primary: {
@@ -69,7 +66,6 @@ const menuRoutes = [
     element: <MyReview />,
   },
   { path: '/waitingDetail', element: <WaitingDetail /> },
-  { path: '/alllogin', element: <AllLogin /> },
   { path: '/shopHome/:vendorId', element: <ShopMain /> },
   { path: '/reviewform/:orderId/:vendorId', element: <ReviewForm /> },
   { path: '/review-detail/:vendorId', element: <ReviewDetail /> },
@@ -144,7 +140,7 @@ export function AppRoute() {
     <Router>
       <AnimatedCursor />
       <Routes>
-       <Route path="/" element={<LoginSelectionPage />} />
+        <Route path="/" element={<LoginSelectionPage />} />
       </Routes>
       <InnerAppRoute />
     </Router>
@@ -184,7 +180,7 @@ function InnerAppRoute() {
               {browserRoutes.map((route, index) => (
                 <Route key={index} path={route.path} element={route.element} />
               ))}
-               <Route path="*" element={<NotFound />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserView>
           {/*           

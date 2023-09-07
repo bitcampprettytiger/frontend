@@ -180,6 +180,8 @@
   width: 100%;
   border: none;
   outline: none;
+  height: 100%;
+  margin-top: 0;
   /* 활성화된 테두리 제거 */
 }
 

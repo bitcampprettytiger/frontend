@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Header from '../../../Layout/Header.jsx';
 import Footer from '../../../Layout/Footer.jsx';
 import { Link, useNavigate } from 'react-router-dom';
 import { fetchOrderDetail, fetchPaymentList } from '../../Home/HomeComponents/HomeApi.jsx';
 import './MyTakeout.css';
-import { useInView } from 'react-intersection-observer';
+import ReviewForm from '../../../ShopDetails/Containers/Review/ReviewComponents/ReviewForm.jsx';
 
 function MyTakeout() {
     const [orderDetail, setOrderDetail] = useState([]);
@@ -14,38 +14,35 @@ function MyTakeout() {
     const [groupedOrders, setGroupedOrders] = useState({});
     const MEMBER_ID = localStorage.getItem('member_id');
     const navigate = useNavigate();
-    const [orders, setOrders] = useState([]);
-    const [hasMore, setHasMore] = useState(true);
-    const { ref, inView } = useInView();
-    const [currentPage, setCurrentPage] = useState(0);
-    const itemsPerPage = 4;
+    const [isReviewFormOpen, setIsReviewFormOpen] = useState(false);
+    const [selectedOrder, setSelectedOrder] = useState(null);
 
+    // useRef를 사용하여 token과 MEMBER_ID를 관리
+    const tokenRef = useRef(localStorage.getItem('accessToken'));
+    const MEMBER_ID_Ref = useRef(localStorage.getItem('member_id'));
+
+    const openReviewForm = (order) => {
+        setSelectedOrder(order);
+        setIsReviewFormOpen(true);
+    };
 
     const formatDateTime = (isoString) => {
-        const date = new Date(isoString);
+        const date = new Date(isoString + "Z"); // 'Z'는 UTC를 나타냅니다.
+
+
         const yyyy = date.getFullYear();
         const mm = String(date.getMonth() + 1).padStart(2, '0');
         const dd = String(date.getDate()).padStart(2, '0');
         const hh = String(date.getHours()).padStart(2, '0');
         const min = String(date.getMinutes()).padStart(2, '0');
+
         return `${yyyy}-${mm}-${dd}, ${hh}:${min}`;
     };
 
-    const fetchNextPage = () => {
-        const nextPage = currentPage + 1;
-        const start = currentPage * itemsPerPage;
-        const end = start + itemsPerPage;
-        const nextPageData = orderDetail.slice(start, end);
-
-        if (nextPageData.length === 0) {
-            setHasMore(false);
-            return;
-        }
-
-        setCurrentPage(nextPage);
-        setOrders(prevOrders => [...prevOrders, ...nextPageData]);
+    const handleReviewSubmit = () => {
+        // 리뷰 제출 로직을 추가해주세요.
+        setIsReviewFormOpen(false);
     };
-
 
     useEffect(() => {
         const fetchOrderAndPaymentData = async () => {
@@ -55,12 +52,9 @@ function MyTakeout() {
                 const today = new Date().toISOString().split('T')[0];
                 const todayOrders = orderData.filter(order => order.orderDate.split('T')[0] === today);
                 const uniqueStores = [...new Set(todayOrders.map(order => order.storeName))];
+                //주문 날짜 기준으로 내림차순
+                setOrderDetail(orderData.sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate)) || []);
                 setTodayStoreCount(uniqueStores.length);
-
-                setOrderDetail(orderData || []);
-
-                const firstPageData = orderData.slice(0, itemsPerPage);
-                setOrders(firstPageData);
 
                 const groups = {};
                 orderData.forEach(order => {
@@ -94,7 +88,7 @@ function MyTakeout() {
             <Header page="mytakeout" />
             <div className='mytakeout-container'>
                 <div className="order-summary">
-                    <p><span className="boldText">{localStorage.getItem('nickname')}님의 주문 가게 </span><span className="boldNumber">{todayStoreCount}</span>개</p>
+                    <p><span className="boldText">{localStorage.getItem('nickname')} 오늘 주문한 가게 </span><span className="boldNumber">{todayStoreCount}</span>개</p>
                     <p>결제내역 : 총 <span className="boldNumber">{orderDetail.length}</span> 개</p>
                 </div>
 
@@ -112,7 +106,8 @@ function MyTakeout() {
                                 <div className='mytakeout-store'>
                                     <img src="/images/roopy.png" alt="Store Logo" />
                                     <div className='mytakeout-store-info'>
-                                        <p>{order.vendor ? order.vendor.vendorName : "Vendor 이름 불러오기 실패"}</p>
+                                        <p className='store-name'>{order.vendor.vendorName}</p>
+
                                         <div className='menu-detail'>
                                             <p className='gray'>{order.orderMenu}</p>
                                             <p>{order.totalPrice}원</p>
@@ -144,9 +139,10 @@ function MyTakeout() {
                         <p>주문 내역이 없습니다.</p>
                     )}
                 </ul>
-                <div ref={ref} style={{ textAlign: 'center' }}>
-                    {hasMore ? "주문 내역 가져오는 중..." : ""}
-                </div>
+                {
+                    isReviewFormOpen &&
+                    <ReviewForm mytakeoutData={selectedOrder} onReviewSubmit={handleReviewSubmit} />
+                }
             </div>
             <Footer type="mytakeout" />
         </div>
