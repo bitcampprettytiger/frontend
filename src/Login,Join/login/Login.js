@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import InputField from '../login-component/InputField';
 import SnsLogin from '../login-component/Snslogin';
 import instance from './instance';
 import FindPW from '../login-component/FindPW';
 import styles from './Login.module.css';
+import Footprint from '../login-component/Footprint';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -12,6 +13,11 @@ const Login = () => {
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const [footprints, setFootprints] = useState([]);
+  const [x, setX] = useState(50);
+  const [y, setY] = useState(50);
+  const [rotation, setRotation] = useState(0); 
+  const [flip, setFlip] = useState(false);
 
   // 모달 열고 닫기
   const handleModalOpen = (e) => {
@@ -29,6 +35,8 @@ const Login = () => {
       username: username,
       password: password,
     };
+
+    
 
     try {
       const response = await instance.post(
@@ -57,8 +65,56 @@ const Login = () => {
     }
   };
 
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const angle = Math.random() * (Math.PI / 4) + rotation;
+      const step = 50;
+      const dx = Math.cos(angle) * step;
+      const dy = Math.sin(angle) * step;
+
+      const newX = x + dx;
+      const newY = y + dy;
+
+      const newFootprint = {
+        x: `${newX}px`,
+        y: `${newY}px`,
+        rotation: (angle * 90) / Math.PI,
+        flip: flip,
+        id: Date.now(),
+        opacity: 1, 
+      };
+
+      const opacities = [1, 0.6, 0.2];
+
+      setFootprints((prevFootprints) => {
+        let updatedFootprints = [...prevFootprints, newFootprint];
+
+        if (updatedFootprints.length > 3) {
+          updatedFootprints.shift();
+        }
+
+        updatedFootprints = updatedFootprints.map((footprint, index) => ({
+          ...footprint,
+          opacity: opacities[updatedFootprints.length - index - 1]
+        }));
+
+        return updatedFootprints;
+      });
+
+      setX(newX);
+      setY(newY);
+      setRotation(angle);
+      setFlip(!flip);
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, [x, y, rotation, flip]);
+
   return (
     <div className={styles['login-container']}>
+      {footprints.map((footprint) => (
+        <Footprint key={footprint.id} {...footprint} />
+      ))}
       <form className={styles['userlogin-form']}>
         <div className={styles['header']}>
           <div className={styles['logo-name']}>먹자취</div>

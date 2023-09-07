@@ -1,0 +1,18 @@
+.footprint {
+    position: absolute;
+    animation-duration: 5s;
+    animation-name: fadeOut;
+  }
+  
+  @keyframes fadeOut {
+    0% {
+      opacity: 1;
+    }
+    80% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  

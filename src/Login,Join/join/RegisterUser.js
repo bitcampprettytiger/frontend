@@ -12,7 +12,7 @@ const registerUser = async (username, password, tel, privacy, nickname) => {
     };
 
     // Axios 요청에서 'Content-Type': 'application/json' 헤더를 사용합니다.
-    const response = await axios.post('http://mukjachi.site:6443:1004/member/join', data, {
+    const response = await axios.post('https://mukjachi.site:6443/member/join', data, {
       headers: {
         'Content-Type': 'application/json',
       },

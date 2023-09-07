@@ -49,7 +49,7 @@ function CartPage() {
   };
   const fetchUserInfo = async () => {
     try {
-      const response = await axios.get('http://192.168.0.240:1004/member/info', { headers: getHeaders() });
+      const response = await axios.get('https://mukjachi.site:6443/member/info', { headers: getHeaders() });
       console.log(response);
       if (response.status === 200) {
         setPhoneNumber(response.data.tel);
@@ -60,7 +60,7 @@ function CartPage() {
   };
 
   useEffect(() => {
-    const socket = io('https://mukjachi.site:8081', { query: `phoneNumber=${phoneNumber}` });
+    const socket = io('http://192.168.0.95:8081', { query: `phoneNumber=${phoneNumber}` });
     setSocket(socket);
     fetchUserInfo();
 
@@ -170,7 +170,7 @@ function CartPage() {
     try {
       // 서버로 데이터를 전송합니다.
       const serverResponse = await axios.post(
-        'http://192.168.0.240:1004/payment/addPayment',
+        'https://mukjachi.site:6443/payment/addPayment',
         payload,
         { headers }
       );
@@ -186,10 +186,7 @@ function CartPage() {
     } catch (error) {
       console.error('서버로 전송 실패:', error);
     }
-    // }
-    //  else {
-    alert(`결제 실패: ${error_msg}`);
-    // }
+
   };
   const onModalConfirm = () => {
     setShowModal(false); // 모달 닫기

@@ -48,10 +48,10 @@ function MyTakeout() {
         const fetchOrderAndPaymentData = async () => {
             try {
                 const orderData = await fetchOrderDetail(MEMBER_ID);
+                const paymentData = await fetchPaymentList(token);
                 const today = new Date().toISOString().split('T')[0];
                 const todayOrders = orderData.filter(order => order.orderDate.split('T')[0] === today);
                 const uniqueStores = [...new Set(todayOrders.map(order => order.storeName))];
-                const paymentData = await fetchPaymentList(token);
                 //주문 날짜 기준으로 내림차순
                 setOrderDetail(orderData.sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate)) || []);
                 setTodayStoreCount(uniqueStores.length);
@@ -75,9 +75,13 @@ function MyTakeout() {
         fetchOrderAndPaymentData();
     }, []);
 
-    if (error) {
-        return <div>Error: {error.message}</div>;
-    }
+
+
+    useEffect(() => {
+        if (inView && hasMore) {
+            fetchNextPage();
+        }
+    }, [inView]);
 
     return (
         <div className='App-main2'>
@@ -89,8 +93,8 @@ function MyTakeout() {
                 </div>
 
                 <ul className='mytakeout-list'>
-                    {orderDetail.length > 0 ? (
-                        orderDetail.map((order, index) => (
+                    {orders.length > 0 ? (
+                        orders.map((order, index) => (
                             <li className='mytakeout-item' key={order.id || index}>
                                 <div className='mytakeout-date'>
                                     {formatDateTime(order.orderDate)} 포장완료
@@ -105,10 +109,12 @@ function MyTakeout() {
                                         <p className='store-name'>{order.vendor.vendorName}</p>
 
                                         <div className='menu-detail'>
-                                            <p>{order.orderMenu}</p>
+                                            <p className='gray'>{order.orderMenu}</p>
                                             <p>{order.totalPrice}원</p>
                                         </div>
                                     </div>
+                                </div>
+                                <div className="review-button-container">
                                     {!order.hasReviewed ? (
                                         <button
                                             className="mytakeout-review-button"

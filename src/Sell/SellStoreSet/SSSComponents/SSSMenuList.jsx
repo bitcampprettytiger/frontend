@@ -71,14 +71,16 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
           alert('서버코드실패');
         }
       }
+      alert('메뉴가 입력되었습니다.');
       window.location.reload();
-      alert('모든 메뉴 정보 전송 성공');
     } catch (error) {
       alert('실패');
       console.error('There was an error sending the data', error);
     }
   };
-
+  useEffect(() => {
+    console.log('메뉴야111111111111111', menus);
+  });
   return (
     <ThemeProvider theme={theme}>
       <Box
@@ -131,7 +133,7 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
                 <Grid item xs={3} sx={{ textAlign: 'center' }}>
                   {menu.menuImage ? (
                     <img
-                      src={menu.menuImage}
+                      src={URL.createObjectURL(menu.menuImage)}
                       alt="menu preview"
                       style={{ width: '50px', height: '50px' }}
                     />

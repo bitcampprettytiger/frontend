@@ -59,7 +59,9 @@ const MenuInfoModal = ({ open, handleClose, menuId, menus, updateMenus }) => {
 
       if (response.status === 200) {
         alert('삭제가 완료되었습니다.');
+
         handleClose();
+        window.location.reload();
       }
     } catch (error) {
       alert('삭제를 실패했습니다.');
@@ -77,14 +79,11 @@ const MenuInfoModal = ({ open, handleClose, menuId, menus, updateMenus }) => {
       formData.append('id', menuId);
       formData.append('menuName', updatedMenu.menuName);
       formData.append('menuContent', updatedMenu.menuContent);
-      formData.append('price', updatedMenu.price);  
+      formData.append('price', updatedMenu.price);
       formData.append('menuType', updatedMenu.menuType);
-
-      if (updatedMenu.menuImageList[0]) {
-        formData.append('primaryimage', updatedMenu.menuImageList[0]);
-      }
+      formData.append('primaryimage', updatedMenu.primaryimage);
+      console.log('first',updatedMenu.primaryimage)
       // 추가적으로 필요한 필드가 있다면 이곳에 추가
-      console.log('폼데이터',);
       const response = await axios.put(
         `https://mukjachi.site:6443/menu/info/changeMenu`,
         formData,
@@ -98,6 +97,7 @@ const MenuInfoModal = ({ open, handleClose, menuId, menus, updateMenus }) => {
       if (response.status === 200) {
         alert('수정이 완료되었습니다.');
         handleClose();
+        window.location.reload();
       }
     } catch (error) {
       console.error('메뉴 수정 실패:', error);
@@ -107,16 +107,19 @@ const MenuInfoModal = ({ open, handleClose, menuId, menus, updateMenus }) => {
       alert('수정을 실패했습니다.');
     }
   };
+  useEffect(() => {}, []);
   return (
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle>메뉴 수정</DialogTitle>
       <DialogContent>
-        {updatedMenu?.menuImageList?.[0]?.url && (
+        {updatedMenu?.primaryimage ? (
           <img
-            src={updatedMenu.menuImageList[0].url}
+            src={updatedMenu.primaryimage}
             alt="Menu"
             style={{ width: '100px', height: '100px' }}
           />
+        ) : (
+          'N:A'
         )}
 
         {/* 메뉴 타입을 보여주되, 수정 불가능하게 설정 */}

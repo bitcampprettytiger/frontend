@@ -42,6 +42,7 @@ import Seller from './WebSocket/Seller';
 import Buyer from './WebSocket/Buyer';
 import SellList from './Sell/SellStoreSet/SellList';
 import SellMyinfo from './Sell/SellMyinfoList';
+import LoginSelectionPage from './Login,Join/TwoLogin';
 import { ReviewContextProvider } from './Menu/MyPage/MyPageComponents/ReviewContext';
 import PopularStation from './Menu/Home/HomeComponents/PopularStation';
 const muitheme = createTheme({
@@ -62,9 +63,7 @@ const menuRoutes = [
   { path: '/waiting', element: <Waiting /> },
   {
     path: '/myreview',
-    element:
-
-      <MyReview />
+    element: <MyReview />,
   },
   { path: '/waitingDetail', element: <WaitingDetail /> },
   { path: '/shopHome/:vendorId', element: <ShopMain /> },
@@ -75,17 +74,11 @@ const menuRoutes = [
   // { path: '/popularstation', element: <PopularStation /> },
   {
     path: '/mypage',
-    element:
-      <Mypage />
-
+    element: <Mypage />,
   },
   {
     path: '/myfavorite',
-    element: (
-
-      <MyFavorite />
-
-    ),
+    element: <MyFavorite />,
   },
   { path: '/mytakeout', element: <MyTakeout /> },
   { path: '/mytakeoutdetail/order/:orderId', element: <MyTakeoutDetail /> },
@@ -93,11 +86,10 @@ const menuRoutes = [
   { path: '/cart', element: <CartPage /> },
   { path: '/buyer', element: <Buyer /> },
   { path: '/seller', element: <Seller /> },
-  { path: '*', element: <NotFound /> },
 ];
 
 const authRoutes = [
-  { path: '/', element: <AppLogin /> },
+  { path: '/login', element: <AppLogin /> },
   { path: '/signup', element: <AppSignup /> },
 ];
 
@@ -116,6 +108,10 @@ const sellRoutes = [
   { path: '/sellset/:vendorId', element: <SellStoreSet /> },
   { path: '/sellhome/', element: <SellHome /> },
   { path: '/sellinfo/:vendorId', element: <SellMyinfo /> },
+  {
+    path: '/vendorreview/:vendorId',
+    element: <MemoizedVendorReview />,
+  },
 ];
 const mapRoutes = [
   { path: '/trfood', element: <TrFood /> },
@@ -142,6 +138,10 @@ export const mobileRoutes = [
 export function AppRoute() {
   return (
     <Router>
+      <AnimatedCursor />
+      <Routes>
+        <Route path="/" element={<LoginSelectionPage />} />
+      </Routes>
       <InnerAppRoute />
     </Router>
   );
@@ -149,6 +149,11 @@ export function AppRoute() {
 
 function InnerAppRoute() {
   const location = useLocation();
+
+  if (location.pathname === '/') {
+    return null;
+    //NotFound 예외처리
+  }
 
   const isSellerRoute = [...sellRoutes, ...sellAuthRoutes].some((route) =>
     location.pathname.startsWith(route.path)
@@ -175,6 +180,7 @@ function InnerAppRoute() {
               {browserRoutes.map((route, index) => (
                 <Route key={index} path={route.path} element={route.element} />
               ))}
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserView>
           {/*           
@@ -183,6 +189,7 @@ function InnerAppRoute() {
               {mobileRoutes.map((route, index) => (
                 <Route key={index} path={route.path} element={route.element} />
               ))}
+               <Route path="*" element={<NotFound />} />
             </Routes>
         </MobileView> */}
         </NoticeProvider>
