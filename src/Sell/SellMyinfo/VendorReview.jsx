@@ -1,6 +1,5 @@
-import Header from '../../../Layout/Header.jsx';
-import Footer from '../../../Layout/Footer.jsx';
-import './MyReview.css';
+
+import '../../Menu/MyPage/MyPageComponents/MyReview.css';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'; // 사용되지 않음, 제거
 import StarIcon from '@mui/icons-material/Star';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -14,11 +13,16 @@ import React, { useEffect, useState } from 'react';
 import {
   fetchReviewsByVendorId,
   deleteReview as deleteReviewAPI,
-} from '../../Home/HomeComponents/HomeApi.jsx'; // 필요없는 함수와 임포트 제거
+} from '../../Menu/Home/HomeComponents/HomeApi.jsx'; // 필요없는 함수와 임포트 제거
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { yellow } from '@mui/material/colors';
-import { useReviewContext } from './ReviewContext.jsx';
+import { useReviewContext } from '../../Menu/MyPage/MyPageComponents/ReviewContext.jsx';
+import Header from '../SellLayout/SellHeader';
+import SellFooter from '../SellLayout/SellFooter';
+
+
+
 function VendorReview({ reviewsData, setReviewsData, token }) {
   // 상태 변수들을 정의합니다.
   const { vendorId } = useParams();
@@ -75,7 +79,7 @@ function VendorReview({ reviewsData, setReviewsData, token }) {
 
   return (
     <div className="App-main2">
-      <Header page="myreview" />
+      <Header/>
       <div className="myreview-container">
         <h3>{contextReviews?.length || 0}개의 리뷰</h3>
         <hr className="review-divider" />
@@ -159,8 +163,7 @@ function VendorReview({ reviewsData, setReviewsData, token }) {
             );
           })}
       </div>
-
-      <Footer type="myreview" />
+      <SellFooter/>
     </div>
   );
 }
