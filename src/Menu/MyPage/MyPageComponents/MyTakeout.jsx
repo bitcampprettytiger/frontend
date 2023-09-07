@@ -16,6 +16,7 @@ function MyTakeout() {
     const navigate = useNavigate();
     const [isReviewFormOpen, setIsReviewFormOpen] = useState(false);
     const [selectedOrder, setSelectedOrder] = useState(null);
+    const [orders, setOrders] = useState();
 
     // useRef를 사용하여 token과 MEMBER_ID를 관리
     const tokenRef = useRef(localStorage.getItem('accessToken'));
@@ -52,6 +53,7 @@ function MyTakeout() {
                 const today = new Date().toISOString().split('T')[0];
                 const todayOrders = orderData.filter(order => order.orderDate.split('T')[0] === today);
                 const uniqueStores = [...new Set(todayOrders.map(order => order.storeName))];
+                setOrders(orderData.sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate)) || []);
                 //주문 날짜 기준으로 내림차순
                 setOrderDetail(orderData.sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate)) || []);
                 setTodayStoreCount(uniqueStores.length);
@@ -77,11 +79,11 @@ function MyTakeout() {
 
 
 
-    useEffect(() => {
-        if (inView && hasMore) {
-            fetchNextPage();
-        }
-    }, [inView]);
+    // useEffect(() => {
+    //     if (inView && hasMore) {
+    //         fetchNextPage();
+    //     }
+    // }, [inView]);
 
     return (
         <div className='App-main2'>
@@ -93,7 +95,7 @@ function MyTakeout() {
                 </div>
 
                 <ul className='mytakeout-list'>
-                    {orders.length > 0 ? (
+                    {orders && orders.length > 0 ? (
                         orders.map((order, index) => (
                             <li className='mytakeout-item' key={order.id || index}>
                                 <div className='mytakeout-date'>
