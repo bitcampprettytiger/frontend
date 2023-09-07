@@ -180,7 +180,9 @@ export const deleteReview = async (reviewId, loggedInUserId, reviewAuthorId, tok
     alert('리뷰 작성자만 리뷰를 삭제할 수 있습니다.');
     return;
   }
-  const url = `${API_BASE_URL}/reviews/review?reviewId=${reviewId}`;
+
+  // 수정된 URL
+  const url = `${API_BASE_URL}/myPage/myReviews/deleteReviews`;
   console.log("요청 URL:", url);
 
   // 기존 헤더 가져오기
@@ -194,7 +196,8 @@ export const deleteReview = async (reviewId, loggedInUserId, reviewAuthorId, tok
   }
 
   try {
-    const response = await axios.delete(url, { headers });
+    // 수정된 부분: DELETE 요청 시 body에 reviewId를 배열 형태로 전달
+    const response = await axios.delete(url, { headers, data: [reviewId] });
 
     if (response.status !== 200 || response.data.errorMessage) {
       throw new Error(response.data.errorMessage || 'Failed to delete review.');
@@ -210,6 +213,7 @@ export const deleteReview = async (reviewId, loggedInUserId, reviewAuthorId, tok
     throw error;
   }
 };
+
 
 // 리뷰가 많으면서 별점이 높은순으로 가게를 가져옴
 export const fetchTop5ReviewVendors = async () => {

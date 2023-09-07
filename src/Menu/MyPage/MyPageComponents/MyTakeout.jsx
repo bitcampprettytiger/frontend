@@ -1,168 +1,97 @@
-import React, { useState, useEffect, useRef } from 'react';
-import Header from '../../../Layout/Header.jsx';
-import Footer from '../../../Layout/Footer.jsx';
-import { Link, useNavigate } from 'react-router-dom';
-import { fetchOrderDetail, fetchPaymentList, API_BASE_URL } from '../../Home/HomeComponents/HomeApi.jsx';
-import './MyTakeout.css';
-import ReviewForm from '../../../ShopDetails/Containers/Review/ReviewComponents/ReviewForm.jsx';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Header from '../../../Layout/Header';
+import Footer from '../../../Layout/Footer';
+import { fetchMyFavoriteVendors } from '../../Home/HomeComponents/HomeApi';
+import useFavoritePick from '../../../ShopDetails/SDCustomHooks/useFavoritePick';
+import StarIcon from '@mui/icons-material/Star';
+import { IconButton } from '@mui/material';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import { useFavorite } from './FavoriteContext';
+import './MyFavorite.css';
 
-function MyTakeout() {
-    const [orderDetail, setOrderDetail] = useState([]);
-    const [error, setError] = useState(null);
-    const token = localStorage.getItem('accessToken');
-    const [todayStoreCount, setTodayStoreCount] = useState(0);
-    const [groupedOrders, setGroupedOrders] = useState({});
-    const MEMBER_ID = localStorage.getItem('member_id');
+function MyFavorite() {
+    const { toggleFavorite } = useFavoritePick();
     const navigate = useNavigate();
-    const [isReviewFormOpen, setIsReviewFormOpen] = useState(false);
-    const [selectedOrder, setSelectedOrder] = useState(null);
-    const [orders, setOrders] = useState();
+    const token = localStorage.getItem('accessToken');
+    const memberId = localStorage.getItem('memberId');
+    const { favoriteShops, setFavoriteShops } = useFavorite();
 
-
-
-    // useRef를 사용하여 token과 MEMBER_ID를 관리
-    const tokenRef = useRef(localStorage.getItem('accessToken'));
-    const MEMBER_ID_Ref = useRef(localStorage.getItem('member_id'));
-
-    const openReviewForm = (order) => {
-        setSelectedOrder(order);
-        setIsReviewFormOpen(true);
-    };
-
-    const formatDateTime = (isoString) => {
-        const date = new Date(isoString + "Z"); // 'Z'는 UTC를 나타냅니다.
-
-
-        const yyyy = date.getFullYear();
-        const mm = String(date.getMonth() + 1).padStart(2, '0');
-        const dd = String(date.getDate()).padStart(2, '0');
-        const hh = String(date.getHours()).padStart(2, '0');
-        const min = String(date.getMinutes()).padStart(2, '0');
-
-        return `${yyyy}-${mm}-${dd}, ${hh}:${min}`;
-    };
-
-    const handleReviewSubmit = () => {
-        // 리뷰 제출 로직을 추가해주세요.
-        setIsReviewFormOpen(false);
+    const handleShopClick = (vendorId) => {
+        navigate(`/shophome/${vendorId}`);
     };
 
     useEffect(() => {
-        const fetchOrderAndPaymentData = async () => {
+        if (!token || !memberId) {
+            console.log("Component re-rendered with favoriteShops: ", favoriteShops);
+            console.error("JWT Token is not available in localStorage");
+            navigate('/');
+            return;
+        }
+        const fetchFavorites = async () => {
             try {
-                const orderData = await fetchOrderDetail(MEMBER_ID);
-                console.log("Order data:", orderData);  // 주문 데이터 로깅
-
-                const paymentData = await fetchPaymentList(token);
-                console.log("Payment data:", paymentData);  // 결제 데이터 로깅
-
-                const today = new Date().toISOString().split('T')[0];
-                const todayOrders = orderData.filter(order => order.orderDate && order.orderDate.split('T')[0] === today);
-                console.log("Today's orders:", todayOrders);  // 오늘의 주문 로깅
-
-                const uniqueStores = [...new Set(todayOrders.map(order => order.vendorName))];
-                console.log("Unique stores:", uniqueStores);  // 고유 상점 로깅
-
-                setOrders(orderData.sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate)) || []);
-                setOrderDetail(orderData.sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate)) || []);
-                setTodayStoreCount(uniqueStores.length);
-
-                const groupedData = {};
-                orderData.forEach(order => {
-                    const key = order.orderDate
-                        ? `${order.vendor.vendorName}-${order.orderDate.split('T')[0]}-${new Date(order.orderDate).getHours()}:${new Date(order.orderDate).getMinutes()}`
-                        : '';
-
-                    if (key && !groupedData[key]) {
-                        groupedData[key] = [];
-                    }
-                    groupedData[key].push(order);
-                });
-                console.log("Grouped data:", groupedData);  // 그룹화된 데이터 로깅
-
-                const aggregatedOrders = Object.values(groupedData).map(group => {
-                    const totalPrice = group.reduce((sum, order) => sum + order.totalPrice, 0);
-                    return { ...group[0], totalPrice, orderCount: group.length };
-                });
-                console.log("Aggregated orders:", aggregatedOrders);  // 집계된 주문 로깅
-
-                setOrders(aggregatedOrders.sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate)) || []);
+                const response = await fetchMyFavoriteVendors();
+                if (response) {
+                    setFavoriteShops(response.item || []);
+                }
             } catch (error) {
-                console.error("Error fetching order and payment data:", error);
+                console.error("API 호출이 실패하였습니다.", error);
             }
         };
+        fetchFavorites();
+    }, [token, memberId, setFavoriteShops]);
 
-        fetchOrderAndPaymentData();
-    }, []);
+    const deleteFavorite = async (vendorName, vendorId) => {
+        try {
+            const response = await toggleFavorite(vendorId, true);
+            const updatedFavorites = favoriteShops.filter(vendor => vendor.vendor.vendorName !== vendorName);
+            setFavoriteShops(updatedFavorites);
+        } catch (error) {
+            console.error("Error toggling favorite:", error);
+        }
+    };
 
+    if (!token || !memberId) {
+        return null;
+    }
     return (
         <div className='App-main2'>
-            <Header page="mytakeout" />
-            <div className='mytakeout-container'>
-                <div className="order-summary">
-                    <p><span className="boldText">{localStorage.getItem('nickname')}님, 오늘 주문한 가게는</span> <span className="boldNumber">{todayStoreCount}</span>개입니다.</p>
-                    <p>결제 내역 : 총 <span className="boldNumber">{orderDetail.length}</span> 건</p>
-                </div>
-
-                <ul className='mytakeout-list'>
-                    {orders && orders.length > 0 ? (
-                        orders.map((order, index) => {
-                            // 첫 번째 메뉴 이름을 구합니다.
-                            const firstMenuName = order.orderedMenuDTOList && order.orderedMenuDTOList[0] && order.orderedMenuDTOList[0].menu && order.orderedMenuDTOList[0].menu.menuName;
-                            // 전체 메뉴 개수를 구합니다.
-                            const totalMenus = order.orderedMenuDTOList ? order.orderedMenuDTOList.length : 0;
-
-                            return (
-                                <li className='mytakeout-item' key={order.id || index}>
-                                    <div className='mytakeout-date'>
-                                        {formatDateTime(order.orderDate)} 포장 완료
-                                        <Link to={`/mytakeoutdetail/order/${order.orderId}`} className='mytakeout-detail-button'>
-                                            주문 상세
-                                        </Link>
+            <Header page="myfavorite" />
+            <div className="myfavorite-container">
+                <h3>내가 찜한 가게는 {favoriteShops.length}개입니다.</h3>
+                {favoriteShops.map(vendor => {
+                    return (
+                        <div key={vendor.id} className="favorite-item">
+                            <div className="store-image-container">
+                                {/* 이미지 로딩 방식 변경 */}
+                                <img src={vendor.vendorImages[0].url || "/images/roopy.png"} alt={vendor?.vendor?.vendorName} className="shop-image" />
+                            </div>
+                            <div className="store-info-container">
+                                <div className="store-info">
+                                    <p className="store-name" onClick={() => handleShopClick(vendor.vendor.id)}>{vendor.vendor.vendorName}</p>
+                                    <div className="rating">
+                                        <StarIcon style={{ color: 'goldenrod' }} />
+                                        {vendor.vendor.averageReviewScore}
                                     </div>
-                                    <div className='mytakeout-store'>
-                                        <img src={order.vendorImageDtos[0].url || "/images/roopy.png"} alt={order.vendor.vendorName} />
-                                        <div className='mytakeout-store-info'>
-                                            <p className='store-name'>{order.vendor.vendorName}</p>
-                                            <div className='menu-detail'>
-                                                <p className='gray'>
-                                                    {firstMenuName} 외 {totalMenus - 1}개
-                                                </p>
-                                                <p>{order.totalPrice.toLocaleString()}원</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="review-button-container">
-                                        {!order.hasReviewed ? (
-                                            <button
-                                                className="mytakeout-review-button"
-                                                disabled={!order || !"orderId" in order || !"id" in order.vendor}
-                                                onClick={() => {
-                                                    if (order && "orderId" in order && "id" in order.vendor) {
-                                                        navigate(`/ReviewForm/${order.orderId}/${order.vendor.id}`);
-                                                    } else {
-                                                        console.error("order, order.orderId or order.vendor.id is undefined!");
-                                                    }
-                                                }}
-                                            >
-                                                리뷰 작성하기
-                                            </button>
-                                        ) : (
-                                            <p>리뷰 작성 완료</p>
-                                        )}
-                                    </div>
-                                </li>
-                            );
-                        })
-                    ) : (
-                        <p>주문 내역이 없습니다.</p>
-                    )}
-                </ul>
-                {isReviewFormOpen && <ReviewForm mytakeoutData={selectedOrder} onReviewSubmit={handleReviewSubmit} />}
+                                    <p className='fstore-address'>{vendor.vendor.vendorType} / {vendor.vendor.address}</p>
+                                </div>
+                                <div className="delete-btn">
+                                    <IconButton
+                                        aria-label="like"
+                                        onClick={() => deleteFavorite(vendor.vendorName, vendor.vendor.id)}
+                                        sx={{ color: '#FD5E53', }}
+                                    >
+                                        <FavoriteIcon />
+                                    </IconButton>
+                                </div>
+                            </div>
+                        </div>
+                    );
+                })}
             </div>
-            <Footer type="mytakeout" />
+            <Footer type="myfavorite" />
         </div>
     );
-};
+}
 
-export default MyTakeout;
+export default MyFavorite;
