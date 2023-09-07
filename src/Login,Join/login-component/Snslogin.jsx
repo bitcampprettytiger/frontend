@@ -31,7 +31,7 @@ const SnsLogin = () => (
           }}></img>
       </Grid>
       <Grid item xs>
-        <img src='/images/applelogin.png' alt=' 로그인'
+        <img src='/images/naverlogin.png' alt=' 로그인'
           style={{
             width: '100%',
             height: '100%',
