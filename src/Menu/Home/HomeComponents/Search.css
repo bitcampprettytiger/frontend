@@ -14,6 +14,7 @@
 
 /* Result Item Area */
 .result-item {
+    display: flex;
     position: relative;
     align-items: center;
     margin: 10px 0;
@@ -28,6 +29,7 @@
     height: 100px;
     object-fit: cover;
     margin-right: 15px;
+    flex-shrink: 0;
 }
 
 /* Favorite Icon Container */

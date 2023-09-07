@@ -19,6 +19,7 @@ const Search = () => {
     const [sortReview, setSortReview] = useState('many');
     const [query, setQuery] = useState(location.state ? location.state.query : '');
     const autoSearch = location.state ? location.state.autoSearch : false;
+    const recentShops = JSON.parse(localStorage.getItem("recentShops")) || [];
 
     const {
         searchInput,
@@ -27,7 +28,6 @@ const Search = () => {
         setSearchResults,
         recentSearches,
         setRecentSearches,
-        recentShops,
         setRecentShops,
         handleSearchClick,
     } = useSearch('');
@@ -35,8 +35,19 @@ const Search = () => {
     // 가게를 클릭했을 때 동작하는 함수
     const handleShopClick = (vendorId) => {
         navigate(`/shophome/${vendorId}`);
-        // 이 부분은 커스텀 훅에서도 처리할 수 있습니다.
+
+        // 최근 확인한 가게에 저장하기
+        const shopToSave = searchResults.find(shop => shop.id === vendorId);
+        if (shopToSave) {
+            // 만약 이미 최근에 확인한 가게에 있다면 제거 후 다시 추가
+            setRecentShops(prev => {
+                const updatedShops = prev.filter(shop => shop.id !== vendorId);
+                return [shopToSave, ...updatedShops];
+            });
+        }
     };
+
+
     const handleDeleteClick = () => {
         setSearchInput("");  // 검색창의 내용을 지움
     };
@@ -200,15 +211,31 @@ const Search = () => {
                             <h3>최근 확인한 가게</h3>
                             <div className="hashtag-container">
                                 <div className="hashtag-buttons">
-                                    {recentShops.map((shop, index) => (
-                                        <button key={index} onClick={() => handleShopClick(shop)}>
-                                            <img src={shop.imgSrc} alt={shop.vendorName} style={{ borderRadius: '50%' }} />
-                                            {shop.vendorName}
-                                        </button>
+                                    {recentShops.map(shop => (
+                                        <div key={shop.id} className="result-item" onClick={() => handleShopClick(shop.id)}>
+                                            {/* primaryimgurl 키를 사용하여 이미지를 불러옵니다. */}
+                                            <img src={shop.primaryimgurl ? shop.primaryimgurl : "/images/roopy.png"} alt={shop.vendorName} />
+                                            <div className="result-info">
+                                                <p className="shop-name">{shop.vendorName}</p>
+                                                <div className="rating">
+                                                    <StarIcon style={{ color: 'goldenrod' }} />
+                                                    {shop.averageReviewScore}
+                                                    <span className="review-count">작성된 리뷰{shop.reviewCount}개</span>
+                                                </div>
+                                                <p>{shop.vendorType} / {shop.address}</p>
+                                            </div>
+                                            <div className="favorite-container">
+                                                {/* 즐겨찾기 아이콘을 추가할 위치 */}
+                                            </div>
+                                        </div>
                                     ))}
                                 </div>
                             </div>
                         </div>
+
+
+
+
                     </div>
                 )}
 
@@ -216,7 +243,8 @@ const Search = () => {
                 <div className="results-container">
                     {searchResults.map(vendor => (
                         <div key={vendor.id} className="result-item" onClick={() => handleShopClick(vendor.id)}>
-                            <img src={vendor.imgSrc ? vendor.imgSrc : "/images/roopy.png"} alt={vendor.vendorName} />
+                            {/* primaryimgurl 키를 사용하여 이미지를 불러옵니다. */}
+                            <img src={vendor.primaryimgurl ? vendor.primaryimgurl : "/images/roopy.png"} alt={vendor.vendorName} />
                             <div className="result-info">
                                 <p className="shop-name">{vendor.vendorName}</p>
                                 <div className="rating">

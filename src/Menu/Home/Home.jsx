@@ -374,6 +374,8 @@ function Home() {
       </div>
       <Footer type="home" />
     </div>
+
+
   );
 }
 export default Home;
