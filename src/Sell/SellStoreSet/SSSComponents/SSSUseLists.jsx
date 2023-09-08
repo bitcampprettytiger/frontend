@@ -42,7 +42,7 @@ const SSSUseLists = () => {
     try {
       // 서버에 비동기로 전송
 
-      const response = await axios.post('http://mukjachi.site:6443:1004/vendor/info', {
+      const response = await axios.post('https://mukjachi.site:6443:1004/vendor/info', {
 
 
         helpCheck: amenitiesString,

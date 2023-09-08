@@ -18,28 +18,71 @@ const SHWaiting = ({ onClick }) => {
         marginBottom: '3%',
       }}
     >
-      <Grid container spacing={1} className="줄서기" style={{ marginBottom: '2%' }}>
-        <Grid item xs={4} style={{ fontWeight: 'bold', color: 'black', fontSize: '100%', marginBottom: '2%' }}>
+      <Grid
+        container
+        spacing={1}
+        className="줄서기"
+        style={{ marginBottom: '2%' }}
+      >
+        <Grid
+          item
+          xs={4}
+          style={{
+            fontWeight: 'bold',
+            color: 'black',
+            fontSize: '100%',
+            marginBottom: '2%',
+          }}
+        >
           대기 순번
         </Grid>
-        <Grid item xs={8} style={{ color: 'black', fontSize: '100%', marginBottom: '2%' }}>
+        <Grid
+          item
+          xs={8}
+          style={{ color: 'black', fontSize: '100%', marginBottom: '2%' }}
+        >
           1번
         </Grid>
-        <Grid item xs={4} style={{ fontWeight: 'bold', color: 'black', fontSize: '100%', marginBottom: '2%' }}>
+        <Grid
+          item
+          xs={4}
+          style={{
+            fontWeight: 'bold',
+            color: 'black',
+            fontSize: '100%',
+            marginBottom: '2%',
+          }}
+        >
           전화 번호
         </Grid>
-        <Grid item xs={8} style={{ textAlign: 'left', color: 'black', fontSize: '100%', marginBottom: '2%' }}>
+        <Grid
+          item
+          xs={8}
+          style={{
+            textAlign: 'left',
+            color: 'black',
+            fontSize: '100%',
+            marginBottom: '2%',
+          }}
+        >
           111-111-1111
         </Grid>
-        <Grid item xs={4} style={{ fontWeight: 'bold', color: 'black', fontSize: '100%' }}>
+        <Grid
+          item
+          xs={4}
+          style={{ fontWeight: 'bold', color: 'black', fontSize: '100%' }}
+        >
           대기 인원
         </Grid>
-        <Grid item xs={8} style={{ textAlign: 'left', color: 'black', fontSize: '100%' }}>
+        <Grid
+          item
+          xs={8}
+          style={{ textAlign: 'left', color: 'black', fontSize: '100%' }}
+        >
           5명
         </Grid>
       </Grid>
     </Box>
   );
 };
-
 export default SHWaiting;

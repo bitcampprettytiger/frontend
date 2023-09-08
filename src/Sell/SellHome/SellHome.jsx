@@ -89,7 +89,7 @@ const SellHome = () => {
           setVendor(response.data.item);
 
           // vendor 정보를 성공적으로 가져온 후에 소켓을 생성하고 이벤트를 보냅니다.
-          const socketInstance = io('http://192.168.0.95:8081', { query: `${response.data.item}` });
+          const socketInstance = io('http://192.168.0.208:8081', { query: `${response.data.item}` });
           setSocket(socketInstance);
 
           socketInstance.emit('enter_room', { data: `${response.data.item.id}` });
