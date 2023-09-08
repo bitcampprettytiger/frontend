@@ -40,7 +40,7 @@ function Home() {
 
   const images = ['/images/sli1.png', '/images/sli2.png', '/images/sli3.png']; // 이미지 슬라이더에 사용될 이미지들
   const swiperRef = useSlider(images); //이미지 추가
-
+  console.log('aaaaaaaaaaaaa', top5ReviewVendors);
   // 판매자 상세 페이지로 이동
   const navigateToVendorDetail = (vendorId) => {
     navigate(`/shophome/${vendorId}`);
@@ -195,8 +195,8 @@ function Home() {
     navigate(`/search`, {
       state: {
         query: menuText,
-        autoSearch: true
-      }
+        autoSearch: true,
+      },
     });
   };
   //역버튼 누르면 검색창이동
@@ -226,7 +226,8 @@ function Home() {
 
     const script = document.createElement('script');
     script.onload = () => callback();
-    script.src = 'https://dapi.kakao.com/v2/maps/sdk.js?appkey=39d8d307a77655d09ea578c0f244c2ab&autoload=false';
+    script.src =
+      'https://dapi.kakao.com/v2/maps/sdk.js?appkey=39d8d307a77655d09ea578c0f244c2ab&autoload=false';
     document.head.appendChild(script);
   };
 
@@ -235,7 +236,6 @@ function Home() {
       // Kakao Maps SDK가 로드된 후 이곳에 지도 생성 코드나 다른 기능을 넣습니다.
     });
   }, []);
-
 
   return (
     <div className="App-main2">
@@ -278,7 +278,7 @@ function Home() {
 
       <p className="title">오늘 이곳은 어때요?</p>
       <div className="outer-container">
-        <div className="inner-container">
+        <div className="inner-round-container">
           {popularPlaces.map((place) => (
             <button
               key={place.id}
@@ -306,7 +306,7 @@ function Home() {
             className="macha-button"
             onClick={() => navigateToVendorDetail(vendor.id)}
           >
-            <img src={vendor.imageUrl} alt={vendor.name} />
+            <img src={vendor.primaryimgurl} alt={vendor.name} />
           </button>
         ))}
       </div>
@@ -345,12 +345,12 @@ function Home() {
         <div className="menu-box">
           {top10Menus.slice(5, 10).map((menu, index) => (
             <button className="menu-button" key={index + 5}>
-              <span style={{ fontWeight: 'bold' }}>{index + 6}위</span>
-              {" "}
-              <span className='textbar'>|</span>
-              {" "}
-              <span>{menu}</span>
-              <div key={index} style={{ borderBottom: '1px solid #ccc', paddingBottom: '8%' }}></div>
+              <span style={{ fontWeight: 'bold' }}>{index + 6}위</span>{' '}
+              <span className="textbar">|</span> <span>{menu}</span>
+              <div
+                key={index}
+                style={{ borderBottom: '1px solid #ccc', paddingBottom: '8%' }}
+              ></div>
             </button>
           ))}
         </div>
@@ -374,8 +374,6 @@ function Home() {
       </div>
       <Footer type="home" />
     </div>
-
-
   );
 }
 export default Home;

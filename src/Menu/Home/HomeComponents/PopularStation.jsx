@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import Footer from '../../../Layout/Footer';
 import Header from '../../../Layout/Header';
 import { fetchShopsInArea } from '../HomeComponents/HomeApi';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import './PopularStation.css';
+import StarIcon from '@mui/icons-material/Star';
+
 function PopularStation() {
     const { region } = useParams();
     const [popularPlaces, setPopularPlaces] = useState([]);
@@ -12,6 +14,10 @@ function PopularStation() {
     const [isLoading, setIsLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);  // 더 로드할 데이터가 있는지 확인
     const [page, setPage] = useState(1);  // 현재 페이지 번호
+    const navigate = useNavigate();
+    const handleBackButtonClick = () => {
+        navigate.goBack();
+    };
 
     console.log("selectedArea가 찍히나여?", selectedArea);
 
@@ -54,7 +60,7 @@ function PopularStation() {
 
     return (
         <div>
-            <Header page="popularstation" selectedRegion={selectedRegionState} />
+            <Header page="popularstation" selectedRegion={selectedRegionState} onBackClick={handleBackButtonClick} />
 
             <div className="App-main2" onScroll={handleScroll} style={{ height: 'calc(100vh - 120px)', overflowY: 'auto' }}>
                 <h2>오늘 이곳은 어때요?</h2>
@@ -67,12 +73,22 @@ function PopularStation() {
                                     alt={place.vendorName}
                                     className="place-image"
                                 />
-                                <h3>{place.vendorName}</h3>
-                                <p>{place.address}</p>
-                                <p>별점: {place.averageReviewScore || '리뷰 없음'}</p>
-                                <p>카테고리: {place.vendorType}</p>
+                                <div className="place-info">
+                                    <h3>{place.vendorName}</h3>
+                                    <div className="rating">
+                                        <StarIcon style={{ color: '#d4af37', verticalAlign: 'middle' }} />
+                                        {place.averageReviewScore || '리뷰 없음'}
+                                    </div>
+                                    <div className="category-address">
+                                        <p>{place.vendorType}</p>
+                                        <span> / </span>
+                                        <p>{place.address}</p>
+                                    </div>
+                                </div>
                             </div>
                         ))}
+
+
                     </div>
                 </div>
             </div>

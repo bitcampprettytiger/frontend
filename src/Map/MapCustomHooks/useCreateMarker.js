@@ -15,19 +15,19 @@ export const useCreateMarkers = (map, data) => {
         let imagePath;
         switch (row.sigmenu) {
           case '분식':
-            imagePath = '../images/blackMA.png';
+            imagePath = '../images/git.png';
             break;
           case '국물':
-            imagePath = '../images/redMa.png';
+            imagePath = '../images/git.png';
             break;
           case '볶음':
-            imagePath = '../images/readRed.png';
+            imagePath = '../images/git.png';
             break;
           case '튀김':
-            imagePath = '../images/yellow.png';
+            imagePath = '../images/git.png';
             break;
           default:
-            imagePath = '../images/bell.png';
+            imagePath = '../images/git.png';
             break;
         }
 

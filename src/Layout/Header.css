@@ -306,3 +306,16 @@
   width: 27px;
   height: 27px;
 }
+.app-header {
+  display: flex;
+  align-items: center; 
+  justify-content: space-between;
+  height: 90px; /* 원하는 높이로 조절하세요 */
+  background-color: white;
+}
+
+.header-left-section {
+  display: flex;
+  align-items: center;
+}
+

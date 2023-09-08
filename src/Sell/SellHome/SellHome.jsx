@@ -194,14 +194,7 @@ const SellHome = () => {
         >
 
           <Box sx={{ height: '40vh', boxSizing: 'border-box' }} ref={waitingRef}>
-            <Typography
-              variant="h6"
-              align="center"
-              sx={{ margin: '2% 0', color: '#333', fontWeight: 'bold' }}
-            >
-              줄서기 목록
-            </Typography>
-            <SHWaiting onClick={handleWaitingClick}></SHWaiting>
+            
           </Box>
           <Box sx={{ height: '40vh' }} ref={orderRef}>
             <Typography
