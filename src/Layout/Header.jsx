@@ -13,7 +13,7 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { AiOutlineSearch } from 'react-icons/ai'
 import { IoIosCloseCircleOutline } from 'react-icons/io'
 
-function Header({ page, searchInput, handleSearchChange, handleDeleteClick, handleSearchClick, setAddressToHome, handleKeyUp, selectedRegion }) {
+function Header({ page, searchInput, handleSearchChange, handleDeleteClick, handleSearchClick, setAddressToHome, handleKeyUp, selectedRegion, onBackClick }) {
 
 
     const navigate = useNavigate();
@@ -282,7 +282,6 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
             </div>
         </div>
     );
-
     const renderpopular = (props) => {
         const { selectedRegion, handleBackButtonClick } = props;
 
@@ -290,12 +289,13 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
             <div className="app-header">
                 <div className="header-left-section">
                     <button
-                        className="back-button" // inline 스타일 대신 클래스를 사용
+                        className="back-button"
                         onClick={handleBackButtonClick}
                     >
                         <ArrowBackIcon style={{ color: 'black' }} />
                     </button>
                 </div>
+
                 {selectedRegion ? (
                     <div className="search-header-center-section">
                         {`${selectedRegion} 지역의 주변 가게들`}
@@ -305,12 +305,14 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
                         인기 스테이션
                     </div>
                 )}
+
                 <div className="header-right-section">
                     {/* 필요한 오른쪽 섹션의 아이콘 또는 버튼을 여기에 추가하세요. */}
                 </div>
             </div>
         );
     };
+
 
     const renderMyTakeoutHeader = () => (
         <div className="App-header">
@@ -368,7 +370,7 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
             {page === 'myfavorite' && renderMyFavoriteHeader()}
             {page === 'mytakeout' && renderMyTakeoutHeader()}
             {page === 'mytakeoutdetail' && takeOutDetailHeader()}
-            {page === 'popularstation' && renderpopular({ selectedRegion, handleBackButtonClick })}
+            {page === 'popularstation' && renderpopular({ selectedRegion, handleBackButtonClick: onBackClick })}
         </div>
 
     );

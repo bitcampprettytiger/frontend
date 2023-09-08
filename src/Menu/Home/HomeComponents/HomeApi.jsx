@@ -174,7 +174,13 @@ export const createReview = async (reviewDto, file, token) => {
   }
 };
 // 리뷰 삭제
-export const deleteReview = async (reviewId, loggedInUserId, reviewAuthorId, token, navigate) => {
+export const deleteReview = async (
+  reviewId,
+  loggedInUserId,
+  reviewAuthorId,
+  token,
+  navigate
+) => {
   // 사용자와 리뷰 작성자가 다를 경우 함수를 중단하고 알림
   if (loggedInUserId !== reviewAuthorId) {
     alert('리뷰 작성자만 리뷰를 삭제할 수 있습니다.');
@@ -183,7 +189,7 @@ export const deleteReview = async (reviewId, loggedInUserId, reviewAuthorId, tok
 
   // 수정된 URL
   const url = `${API_BASE_URL}/myPage/myReviews/deleteReviews`;
-  console.log("요청 URL:", url);
+  console.log('요청 URL:', url);
 
   // 기존 헤더 가져오기
   const headers = getHeaders();
@@ -214,7 +220,6 @@ export const deleteReview = async (reviewId, loggedInUserId, reviewAuthorId, tok
   }
 };
 
-
 // 리뷰가 많으면서 별점이 높은순으로 가게를 가져옴
 export const fetchTop5ReviewVendors = async () => {
   try {
@@ -224,7 +229,7 @@ export const fetchTop5ReviewVendors = async () => {
     const response = await axios.get(url, {
       headers: getHeaders(),
     });
-
+    console.log('우알엘ㄹㄹㄹㄹㄹㄹ', url);
     const top5Vendors = response.data.itemlist.slice(0, 5);
     return top5Vendors;
   } catch (error) {
@@ -285,7 +290,7 @@ export const fetchMyFavoriteVendors = async () => {
       }
     );
     if (response.status === 200) {
-      console.log("이건 데이터얌 ", response.data);  // <-- 콘솔문 추가
+      console.log('이건 데이터얌 ', response.data); // <-- 콘솔문 추가
 
       return response.data;
     } else {
@@ -359,7 +364,7 @@ export const fetchOrderDetail = async (MEMBER_ID) => {
     const response = await axios.get(`${API_BASE_URL}/myPage/myOrders`, {
       headers: getHeaders(),
     });
-    console.log("Order data:", response.data.item); // 주문 데이터 로그 추가
+    console.log('Order data:', response.data.item); // 주문 데이터 로그 추가
     if (Array.isArray(response.data.item)) {
       return response.data.item;
     } else {
@@ -407,7 +412,7 @@ export const fetchPaymentList = async (token) => {
       headers: getHeaders(),
     });
     const data = response.data;
-    console.log("Payment data:", data.item); // 결제 데이터 로그 추가
+    console.log('Payment data:', data.item); // 결제 데이터 로그 추가
     if (data.statusCode === 200 && Array.isArray(data.item)) {
       return data.item;
     } else {
@@ -419,7 +424,6 @@ export const fetchPaymentList = async (token) => {
     return null;
   }
 };
-
 
 // 장바구니 특정 아이템을 삭제함
 export const deleteCartItem = (cartItemDTO, token) => {

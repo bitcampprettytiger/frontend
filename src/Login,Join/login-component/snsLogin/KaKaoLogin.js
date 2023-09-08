@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const KakaoLogin = () => {
+  console.log(new URL(window.location.href).searchParams.get('code'))
   const navi = useNavigate();
   const grant_type = 'authorization_code';
   const client_id = '88c6a288697fac101a89f4f639c56f15';

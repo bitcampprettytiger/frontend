@@ -14,12 +14,12 @@ const ImageGrid = ({ image }) => {
           width: '100%',
           paddingTop: '100%',
           position: 'relative',
-          overflow: 'hidden'
+          overflow: 'hidden',
         }}
       >
         <Box
           component="img"
-          src={`${image[0].reviewFilePath}`}
+          src={`${image[0]?.reviewFilePath}`}
           alt={`리뷰 이미지`}
           sx={{
             position: 'absolute',
@@ -28,50 +28,58 @@ const ImageGrid = ({ image }) => {
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            objectPosition: 'center'
+            objectPosition: 'center',
           }}
         />
       </Paper>
     </Grid>
-  )
+  );
 };
 
 export default function PhotoSeeMore({ images }) {
-
   const maxImagesToShow = 6;
-  const [imagesToShow, setImageToShow] = useState(images);
+  const imagesToShow = images.slice(0, maxImagesToShow);
   const { setValue } = useContext(ShopHomeTabsContext);
 
   console.log(imagesToShow);
 
   const handleReviewClick = () => {
     setValue(2); //리뷰로 이동
-  }
+  };
   return (
     <Box sx={{ width: '100%', paddingBottom: '2vh' }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
         <Typography variant="h6" fontWeight="bold">
           방문자 사진
         </Typography>
         <Typography variant="body1" onClick={handleReviewClick}>
-          <Box component="span" sx={{
-            fontSize: '80%',
-            '&:hover': {
-              color: '#FD5E53'
-            }
-          }}>
+          <Box
+            component="span"
+            sx={{
+              fontSize: '80%',
+              '&:hover': {
+                color: '#FD5E53',
+              },
+            }}
+          >
             더 보기
           </Box>
         </Typography>
       </Box>
       <Grid container spacing={2} sx={{ marginTop: '1%' }}>
-        {imagesToShow && imagesToShow.map((image, index) =>
-          <ImageGrid key={index} image={image} />
-
-        )}
+        {imagesToShow &&
+          imagesToShow.map((image, index) => (
+            <ImageGrid key={index} image={image} />
+          ))}
       </Grid>
     </Box>
   );
 }
 
-// 리뷰 이미지가 비어있어 ->  리뷰랑 매핑 
+// 리뷰 이미지가 비어있어 ->  리뷰랑 매핑
