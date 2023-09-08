@@ -1,10 +1,10 @@
 .App-footer {
     position: fixed; /* 이렇게 고정 */
     bottom: 0;
-    width: 30%; /* 전체 너비를 사용하려면 100%로 설정 */
+    width: 100%; /* 전체 너비를 사용하려면 100%로 설정 */
     height: 10vh;
-    left: 35%;
-    right: 35%;
+    /* left: 35%;
+    right: 35%; */
     background: #ffffff;
     display: flex;
     justify-content: space-around;

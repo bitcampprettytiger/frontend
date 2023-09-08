@@ -137,7 +137,7 @@ export const mobileRoutes = [
   ...authRoutes,
   ...menuRoutes,
   ...mapRoutes,
-
+  ...snsLogin,
   ...sellAuthRoutes,
   ...sellRoutes,
 ];
