@@ -4,13 +4,30 @@ import Footer from '../../../Layout/Footer.jsx';
 import './MyTakeoutDetail.css';
 import { useParams } from 'react-router-dom';
 import { fetchMyOrders } from '../../Home/HomeComponents/HomeApi.jsx';
+import Divider from '@mui/material/Divider';
+import CallIcon from '@mui/icons-material/Call';
+import FmdGoodIcon from '@mui/icons-material/FmdGood';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import PlaceIcon from '@mui/icons-material/Place';
+import Box from '@mui/material/Box';
+import { useNavigate } from 'react-router-dom';
+
 
 // React 컴포넌트 시작
 function MyTakeoutDetail() {
+    const navigate = useNavigate();
+
     const { orderId } = useParams();
     console.log("컴포넌트가 마운트됨. orderId 값:", orderId);
 
     const [orderDetail, setOrderDetail] = useState(null);
+
+    const onViewLocation = () => {
+        if (orderDetail && orderDetail.vendor) {
+            navigate(`/shopInfo/${orderDetail.vendor.vendorId}/location`);
+        }
+    };
 
     // 날짜와 시간 형식 변환 함수
     const formatDateTime = (isoString) => {
@@ -56,6 +73,8 @@ function MyTakeoutDetail() {
         return <div>Loading...</div>;
     }
 
+
+
     return (
         <div className='App-main2'>
             <Header page="mytakeoutdetail" />
@@ -73,12 +92,36 @@ function MyTakeoutDetail() {
                         <p>
                             주문번호 : {orderDetail && (orderDetail.orderId)}
                         </p>
-                        <button>가게전화</button>
-                        <button>가게보기</button>
+                        <Box sx={{ display: 'flex', gap: '10px', marginBottom: '15px' }}>
+                            <Button
+                                component="a"
+                                href={`tel:${orderDetail && orderDetail.vendor ? orderDetail.vendor.tel : "#"}`}
+                                startIcon={<CallIcon />}
+                                variant="outlined"
+                                sx={{
+                                    backgroundColor: 'white',
+                                    boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)'
+                                }}
+                            >
+                                가게전화
+                            </Button>
+
+                            <Button
+                                onClick={onViewLocation}
+                                startIcon={<FmdGoodIcon />}
+                                variant="outlined"
+                                sx={{
+                                    backgroundColor: 'white',
+                                    boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)'
+                                }}
+                            >
+                                위치보기
+                            </Button>
+                        </Box>
 
                         <ul>
-                            {orderDetail && orderDetail.item && orderDetail.item.orderedMenuDTOList
-                                ? orderDetail.item.orderedMenuDTOList.map((menuDetail, index) => (
+                            {orderDetail && orderDetail.orderedMenuDTOList
+                                ? orderDetail.orderedMenuDTOList.map((menuDetail, index) => (
                                     <li key={index}>
                                         {menuDetail.menu.menuName}
                                     </li>
@@ -87,13 +130,19 @@ function MyTakeoutDetail() {
                             }
                         </ul>
 
+
                         <p>{orderDetail.totalPrice} 원</p>
-                        <p>
-                            총결제금액 : {orderDetail.totalPrice} 원
-                        </p>
+
+                        <Divider variant="middle" style={{ height: '4px', margin: '10px 0' }} />
+
+                        <p>총결제금액 : {orderDetail.totalPrice} 원</p>
+                        <Divider variant="middle" style={{ height: '4px', margin: '10px 0' }} />
                         <p>결제방법 : 카드결제</p>
+                        <Divider variant="middle" style={{ height: '4px', margin: '10px 0' }} />
                         <p>가게주소</p>
-                        <p>{orderDetail && orderDetail.vendor.address ? orderDetail.vendor.address : "주소 정보 로딩 중..."}</p>
+                        <p style={{ color: "#555555" }}>
+                            {orderDetail && orderDetail.vendor.address ? orderDetail.vendor.address : "주소 정보 로딩 중..."}
+                        </p>
                     </div>
                 </div>
             </div>
