@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import ShopAppBar from './Layouts/ShopAppBar';
 import ShopImage from './Containers/ShopDetail/ShopSwiper';
 import { useParams } from 'react-router-dom';
@@ -16,20 +16,34 @@ const ShopMain = () => {
   const locationRef = useRef(null);
   const { reviews: reviewData } = useReview(vendorId);
 
-  if (loading) return;
-  <Stack sx={{ color: 'grey.500' }} spacing={2} direction="row">
-    <CircularProgress color="inherit" />
-  </Stack>;
+  useEffect(() => {
+    if (vendor) {
+      const recentShops = JSON.parse(localStorage.getItem("recentShops")) || [];
+      recentShops.unshift(vendor);
+      if (recentShops.length > 5) recentShops.pop();
+      localStorage.setItem("recentShops", JSON.stringify(recentShops));
+    }
+  }, [vendor]);
+
+  if (loading) {
+    return (
+      <Stack sx={{ color: 'grey.500' }} spacing={2} direction="row">
+        <CircularProgress color="inherit" />
+      </Stack>
+    );
+  }
   if (error) return <div>Error: {error.message}</div>;
   if (!vendor) return <div>No vendor data available</div>;
+  const imagesFromReviews = reviewData.map((review) => { console.log(review.reviewFileList); return review.reviewFileList });
 
-  const imagesFromReviews = reviewData.slice(0, 6).map((review) => review.img);
+  console.log(imagesFromReviews)
+
   const goToLocationSection = () => {
     if (locationRef.current) {
       locationRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   };
-
+  // 배열 이잖아? -> map ? -> 하나씩 다른 컴퍼 로 보내주던가
   return (
     <>
       <ShopAppBar />

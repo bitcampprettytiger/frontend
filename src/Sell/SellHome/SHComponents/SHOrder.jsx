@@ -5,12 +5,10 @@ import {
   Button,
   Dialog,
   DialogTitle,
-  List,
-  ListItem,
-  Typography
+  Typography,
 } from '@mui/material';
 
-const OrderDetail = ({ menu, quantity ,onClick}) => {
+const OrderDetail = ({ menu, quantity, onClick }) => {
   const [openDialog, setOpenDialog] = useState(false);
 
   useEffect(() => {
@@ -26,7 +24,7 @@ const OrderDetail = ({ menu, quantity ,onClick}) => {
   }, [openDialog]);
 
   useEffect(() => {
-      console.log(menu);
+    console.log(menu);
   }, [menu]);
 
   // 주문 반려 버튼 클릭 이벤트 핸들러
@@ -58,8 +56,6 @@ const OrderDetail = ({ menu, quantity ,onClick}) => {
         marginBottom: '10px',
       }}
     >
-
-
       <Typography
         variant="h6"
         align="center"
@@ -67,45 +63,48 @@ const OrderDetail = ({ menu, quantity ,onClick}) => {
       >
         포장주문하기
       </Typography>
-          <Grid container spacing={1}>
-      <Grid item xs={6} sx={{ fontWeight: 'bold', color: '#555' }}>
-        메뉴이름
+      <Grid container spacing={1}>
+        <Grid item xs={6} sx={{ fontWeight: 'bold', color: '#555' }}>
+          메뉴이름
+        </Grid>
+        <Grid item xs={6} sx={{ color: '#555' }}>
+          {menu?.menuName}
+        </Grid>
+        <Grid item xs={6} sx={{ fontWeight: 'bold', color: '#555' }}>
+          메뉴 소개
+        </Grid>
+        <Grid item xs={6} sx={{ color: '#555' }}>
+          {menu?.menuContent}
+        </Grid>
+        <Grid item xs={6} sx={{ fontWeight: 'bold', color: '#555' }}>
+          메뉴 타입
+        </Grid>
+        <Grid item xs={6} sx={{ color: '#555' }}>
+          {menu?.menuType}
+        </Grid>
+        <Grid item xs={6} sx={{ fontWeight: 'bold', color: '#555' }}>
+          메뉴 타입
+        </Grid>
+        <Grid item xs={6} sx={{ color: '#555' }}>
+          {menu?.price}
+        </Grid>
+        <Grid item xs={6} sx={{ fontWeight: 'bold', color: '#555' }}>
+          주문 수량
+        </Grid>
+        <Grid item xs={6} sx={{ color: '#555' }}>
+          {quantity}
+        </Grid>
       </Grid>
-      <Grid item xs={6} sx={{ color: '#555' }}>
-        {menu?.menuName}
-      </Grid>
-      <Grid item xs={6} sx={{ fontWeight: 'bold', color: '#555' }}>
-        메뉴 소개
-      </Grid>
-      <Grid item xs={12} sx={{ color: '#555' }}>
-        {menu?.menuContent}
-      </Grid>
-      <Grid item xs={6} sx={{ fontWeight: 'bold', color: '#555' }}>
-        메뉴 타입
-      </Grid>
-      <Grid item xs={12} sx={{ color: '#555' }}>
-        {menu?.menuType}
-      </Grid>
-      <Grid item xs={6} sx={{ fontWeight: 'bold', color: '#555' }}>
-        메뉴 타입
-      </Grid>
-      <Grid item xs={12} sx={{ color: '#555' }}>
-        {menu?.price}
-      </Grid>
-      <Grid item xs={6} sx={{ fontWeight: 'bold', color: '#555' }}>
-        주문 수량
-      </Grid>
-      <Grid item xs={12} sx={{ color: '#555' }}>
-        {quantity}
-      </Grid>
-
-</Grid>
       <Grid container spacing={1} sx={{ marginTop: '2%' }}>
-        <Grid item xs={6}>
+        <Grid item xs={12}>
           <Button variant="contained" onClick={handleOrderBack}>
             주문반려
           </Button>
-          <Button variant="contained" onClick={handleOrderDetail} style={{ color: 'white', marginLeft: '3%' }}>
+          <Button
+            variant="contained"
+            onClick={handleOrderDetail}
+            style={{ color: 'white', marginLeft: '3%' }}
+          >
             주문상세내역
           </Button>
         </Grid>

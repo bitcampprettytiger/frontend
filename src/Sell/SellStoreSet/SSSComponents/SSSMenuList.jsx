@@ -71,7 +71,7 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
           alert('서버코드실패');
         }
       }
-      alert('모든 메뉴 정보 전송 성공');
+      alert('메뉴가 입력되었습니다.');
       window.location.reload();
     } catch (error) {
       alert('실패');

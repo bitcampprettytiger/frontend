@@ -25,6 +25,12 @@
     margin-bottom: 2%;
 }
 
+.review-button-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
 .mytakeout-review-button {
   border: none;
   background-color: #FD5E53;
@@ -75,6 +81,15 @@
     width: 100%;
     font-size: 80%;
   }
+
+  .gray {
+    color: #666;  /* 기본 회색 색상. 원하는 색상 코드로 변경 가능 */
+}
+
+.darker-text {
+    color: #444;  /* 더 어두운 회색. 원하는 색상 코드로 변경 가능 */
+}
+
   
 
 .menu-detail {

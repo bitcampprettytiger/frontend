@@ -2,45 +2,67 @@ import React, { useState, useEffect } from 'react';
 import Footer from '../../../Layout/Footer';
 import Header from '../../../Layout/Header';
 import { fetchShopsInArea } from '../HomeComponents/HomeApi';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import './PopularStation.css';
+import StarIcon from '@mui/icons-material/Star';
 
 function PopularStation() {
     const { region } = useParams();
     const [popularPlaces, setPopularPlaces] = useState([]);
     const [selectedRegionState, setSelectedRegionState] = useState('');
     const [selectedArea, setSelectedArea] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [hasMore, setHasMore] = useState(true);  // 더 로드할 데이터가 있는지 확인
+    const [page, setPage] = useState(1);  // 현재 페이지 번호
+    const navigate = useNavigate();
+    const handleBackButtonClick = () => {
+        navigate.goBack();
+    };
 
     console.log("selectedArea가 찍히나여?", selectedArea);
 
     useEffect(() => {
-        console.log("selectedArea가 찍히나여?", selectedArea);
-        console.log("Region value:", region);
         setSelectedArea(region);
         setSelectedRegionState(region);
+    }, [region]);
 
+    useEffect(() => {
+        if (!hasMore) return;  // 더 이상 로드할 데이터가 없으면 return
+
+        setIsLoading(true);
         const fetchData = async () => {
             try {
-                // 여기에서 selectedRegionState를 fetchShopsInArea에 인자로 전달
-                const response = await fetchShopsInArea(selectedRegionState);
-
-                // response에서 itemlist 항목을 추출
+                const response = await fetchShopsInArea(selectedRegionState, page);  // 페이지 번호를 인자로 전달
                 const shops = response?.result?.itemlist;
+
                 if (shops && shops.length > 0) {
-                    setPopularPlaces(shops);
+                    setPopularPlaces(prevPlaces => [...prevPlaces, ...shops]);  // 이전 데이터와 새로운 데이터 결합
+                } else {
+                    setHasMore(false);  // 더 이상 데이터가 없다면 hasMore를 false로 설정
                 }
             } catch (error) {
                 console.error(`Error fetching popular places data: ${error}`);
+            } finally {
+                setIsLoading(false);
             }
         };
         fetchData();
-    }, [selectedRegionState], [region]); // useEffect의 의존성 배열에 selectedRegionState 추가
+    }, [selectedRegionState, page]);
 
+    const handleScroll = (event) => {
+        if (isLoading || !hasMore) return;
+
+        const { scrollTop, scrollHeight, clientHeight } = event.currentTarget;
+        if (scrollHeight - scrollTop <= clientHeight + 100) {  // 100은 트리거 포인트(픽셀 단위)로 조절할 수 있습니다.
+            setPage(prevPage => prevPage + 1);  // 다음 페이지 데이터 로드
+        }
+    };
 
     return (
         <div>
-            <Header page="popularstation" selectedRegion={selectedRegionState} />
+            <Header page="popularstation" selectedRegion={selectedRegionState} onBackClick={handleBackButtonClick} />
 
-            <div className="App-main2">
+            <div className="App-main2" onScroll={handleScroll} style={{ height: 'calc(100vh - 120px)', overflowY: 'auto' }}>
                 <h2>오늘 이곳은 어때요?</h2>
                 <div className="outer-container">
                     <div className="inner-container">
@@ -51,12 +73,22 @@ function PopularStation() {
                                     alt={place.vendorName}
                                     className="place-image"
                                 />
-                                <h3>{place.vendorName}</h3>
-                                <p>{place.address}</p>
-                                <p>별점: {place.averageReviewScore || '리뷰 없음'}</p>
-                                <p>카테고리: {place.vendorType}</p>
+                                <div className="place-info">
+                                    <h3>{place.vendorName}</h3>
+                                    <div className="rating">
+                                        <StarIcon style={{ color: '#d4af37', verticalAlign: 'middle' }} />
+                                        {place.averageReviewScore || '리뷰 없음'}
+                                    </div>
+                                    <div className="category-address">
+                                        <p>{place.vendorType}</p>
+                                        <span> / </span>
+                                        <p>{place.address}</p>
+                                    </div>
+                                </div>
                             </div>
                         ))}
+
+
                     </div>
                 </div>
             </div>

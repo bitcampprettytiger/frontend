@@ -17,10 +17,19 @@ function MyFavorite() {
     const memberId = localStorage.getItem('memberId');
     const { favoriteShops, setFavoriteShops } = useFavorite();
 
-    // 가게를 클릭했을 때 동작하는 함수
+    const getImageSrc = (vendorItem) => {
+        if (vendorItem?.vendorImages?.[0]) {
+            // 서버 주소를 임시로 추가합니다. 이 주소는 실제 이미지를 제공하는 서버의 주소로 변경해야 합니다.
+            const serverAddress = "https://mukjachi.site:6443/images/fileName";
+            return `${serverAddress}/${vendorItem.vendorImages[0].fileName}`;
+        } else {
+            return `${process.env.PUBLIC_URL}/images/roopy.png`;
+        }
+    };
+
+
     const handleShopClick = (vendorId) => {
         navigate(`/shophome/${vendorId}`);
-        // 이 부분은 커스텀 훅에서도 처리할 수 있습니다.
     };
 
     useEffect(() => {
@@ -41,13 +50,11 @@ function MyFavorite() {
             }
         };
         fetchFavorites();
-    }, [token, memberId]);  // favoriteShops를 제거함
-
+    }, [token, memberId, setFavoriteShops]);
 
     const deleteFavorite = async (vendorName, vendorId) => {
         try {
             const response = await toggleFavorite(vendorId, true);
-
             const updatedFavorites = favoriteShops.filter(vendor => vendor.vendor.vendorName !== vendorName);
             setFavoriteShops(updatedFavorites);
         } catch (error) {
@@ -61,52 +68,41 @@ function MyFavorite() {
     return (
         <div className='App-main2'>
             <Header page="myfavorite" />
-
             <div className="myfavorite-container">
-                <h3>님이 즐겨찾기한 가게는 {favoriteShops.length}개입니다.</h3>
-                {favoriteShops.map(vendor => (
-                    <div key={vendor.id} className="favorite-item">
-                        <div className="store-image-container">
-                            <img
-                                src={vendor.image || `${process.env.PUBLIC_URL}/images/roopy.png`}
-                                alt="가게 이미지"
-                                className="shop-image"
-                            />
-                        </div>
-                        <div className="store-info-container">
-                            <div className="store-info">
-                                <p className="store-name" onClick={() => handleShopClick(vendor.vendor.id)}>{vendor.vendor.vendorName}</p>
-                                <div className="rating">
-                                    <StarIcon style={{ color: 'goldenrod' }} />
-                                    {vendor.vendor.averageReviewScore}
+                <h3>내가 찜한 가게는 {favoriteShops.length}개입니다.</h3>
+                {favoriteShops.map(vendor => {
+                    const imageSrc = getImageSrc(vendor);
+                    return (
+                        <div key={vendor.id} className="favorite-item">
+                            <div className="store-image-container">
+                                <img src={vendor.vendorImages[0].url || "/images/roopy.png"} alt={vendor?.vendor?.vendorName} className="shop-image" />
+                            </div>
+                            <div className="store-info-container">
+                                <div className="store-info">
+                                    <p className="store-name" onClick={() => handleShopClick(vendor.vendor.id)}>{vendor.vendor.vendorName}</p>
+                                    <div className="rating">
+                                        <StarIcon style={{ color: 'goldenrod' }} />
+                                        {vendor.vendor.averageReviewScore}
+                                    </div>
+                                    <p className='fstore-address'>{vendor.vendor.vendorType} / {vendor.vendor.address}</p>
                                 </div>
-                                <p className='fstore-address'>{vendor.vendor.vendorType} / {vendor.vendor.address}</p>
-                            </div>
-                            <div className="delete-btn">
-                                <IconButton
-                                    aria-label="like"
-                                    onClick={() => deleteFavorite(vendor.vendorName, vendor.vendor.id)}
-                                    sx={{
-                                        color: '#FD5E53',
-                                    }}
-                                >
-                                    <FavoriteIcon />
-                                </IconButton>
+                                <div className="delete-btn">
+                                    <IconButton
+                                        aria-label="like"
+                                        onClick={() => deleteFavorite(vendor.vendorName, vendor.vendor.id)}
+                                        sx={{ color: '#FD5E53', }}
+                                    >
+                                        <FavoriteIcon />
+                                    </IconButton>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                ))}
+                    );
+                })}
             </div>
-
             <Footer type="myfavorite" />
-        </div >
+        </div>
     );
-
-
-
-
-
-
 }
 
 export default MyFavorite;

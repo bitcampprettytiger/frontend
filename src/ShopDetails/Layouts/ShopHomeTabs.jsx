@@ -15,6 +15,7 @@ import useResponsive from '../SDCustomHooks/useResponsive';
 import MenuSeeMore from '../Containers/Menu/MenuComponents/MenuSeeMore';
 import PhotoSeeMore from '../Containers/Review/ReviewComponents/PhotoSeeMore';
 import { motion } from 'framer-motion';
+import Swipe from "react-easy-swipe";
 
 const getSlideInFromRight = (index) => ({
   hidden: { opacity: 0, x: 50 },
@@ -55,9 +56,11 @@ function a11yProps(index) {
   };
 }
 
-export default function ShopHomeTabs({ images, locationRef,vendorId }) {
+export default function ShopHomeTabs({ images, locationRef, vendorId }) {
   const { value, setValue, handleChange } = useContext(ShopHomeTabsContext);
   const viewType = useResponsive();
+  const [positionX, setPositionX] = useState(0);
+
 
   const [isInView, setIsInView] = useState({
     ShopFacilities: false,
@@ -65,6 +68,23 @@ export default function ShopHomeTabs({ images, locationRef,vendorId }) {
     PhotoSeeMore: false,
     Location: false,
   });
+
+  const onSwipeMove = (position) => {
+    setPositionX(position.x); // 스와이프 중인 위치를 상태에 저장
+  };
+
+  const onSwipeEnd = () => {
+    if (Math.abs(positionX) > window.innerWidth / 2) {
+      if (positionX < 0 && value < 2) {
+        setValue(value + 1);
+      }
+      else if (positionX > 0 && value > 0) {
+        setValue(value - 1);
+      }
+    }
+    setPositionX(0);
+  };
+
 
   useEffect(() => {
     const checkScroll = () => {
@@ -90,67 +110,69 @@ export default function ShopHomeTabs({ images, locationRef,vendorId }) {
   }, []);
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <WrapBox>
-        <StyledAppBar
-          value={value}
-          onChange={handleChange}
-          aria-label="ShophHomeTabs"
-          sx={{
-            position: '-webkit-sticky', /* Safari */
-            position: 'sticky',
-            top: '10vh',
-            zIndex: 5
-          }}
-        >
-          <StyledTab label="홈" {...a11yProps(0)} />
-          <StyledTab label="메뉴" {...a11yProps(1)} />
-          <StyledTab label="리뷰" {...a11yProps(2)} />
-        </StyledAppBar>
-      </WrapBox>
-      <CustomTabPanel value={value} index={0}>
-        <motion.div
-          id="ShopFacilities"
-          initial="hidden"
-          animate={isInView.ShopFacilities ? 'visible' : 'hidden'}
-          variants={getSlideInFromRight(0)}
-        >
-          <ShopFacilities />
-        </motion.div>
-        <motion.div
-          id="MenuSeeMore"
-          initial="hidden"
-          animate={isInView.MenuSeeMore ? 'visible' : 'hidden'}
-          variants={getSlideInFromRight(1)}
-        >
-          <MenuSeeMore />
-        </motion.div>
-        <motion.div
-          id="PhotoSeeMore"
-          initial="hidden"
-          animate={isInView.PhotoSeeMore ? 'visible' : 'hidden'}
-          variants={getSlideInFromRight(2)}
-        >
-          <PhotoSeeMore images={images} />
-        </motion.div>
-        <motion.div
-          id="Location"
-          initial="hidden"
-          animate={isInView.Location ? 'visible' : 'hidden'}
-          variants={getSlideInFromRight(3)}
-        >
-          <Location ref={locationRef} vendorId={vendorId} />
-        </motion.div>
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={1}>
-        <MenuOrderPage vendorId={vendorId}/>
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={2}>
-        <RatingAvg />
-        <HygieneStatic />
-        <ReviewDetail />
-      </CustomTabPanel>
-      {value === 0 && <SHFooter viewType={viewType} />}
-    </Box>
+    <Swipe onSwipeEnd={onSwipeEnd} onSwipeMove={onSwipeMove}>
+      <Box sx={{ width: '100%' }}>
+        <WrapBox>
+          <StyledAppBar
+            value={value}
+            onChange={handleChange}
+            aria-label="ShophHomeTabs"
+            sx={{
+              position: '-webkit-sticky', /* Safari */
+              position: 'sticky',
+              top: '10vh',
+              zIndex: 5
+            }}
+          >
+            <StyledTab label="홈" {...a11yProps(0)} />
+            <StyledTab label="메뉴" {...a11yProps(1)} />
+            <StyledTab label="리뷰" {...a11yProps(2)} />
+          </StyledAppBar>
+        </WrapBox>
+        <CustomTabPanel value={value} index={0}>
+          <motion.div
+            id="ShopFacilities"
+            initial="hidden"
+            animate={isInView.ShopFacilities ? 'visible' : 'hidden'}
+            variants={getSlideInFromRight(0)}
+          >
+            <ShopFacilities />
+          </motion.div>
+          <motion.div
+            id="MenuSeeMore"
+            initial="hidden"
+            animate={isInView.MenuSeeMore ? 'visible' : 'hidden'}
+            variants={getSlideInFromRight(1)}
+          >
+            <MenuSeeMore />
+          </motion.div>
+          <motion.div
+            id="PhotoSeeMore"
+            initial="hidden"
+            animate={isInView.PhotoSeeMore ? 'visible' : 'hidden'}
+            variants={getSlideInFromRight(2)}
+          >
+            <PhotoSeeMore images={images} />
+          </motion.div>
+          <motion.div
+            id="Location"
+            initial="hidden"
+            animate={isInView.Location ? 'visible' : 'hidden'}
+            variants={getSlideInFromRight(3)}
+          >
+            <Location ref={locationRef} vendorId={vendorId} />
+          </motion.div>
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={1}>
+          <MenuOrderPage vendorId={vendorId} />
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={2}>
+          <RatingAvg />
+          <HygieneStatic />
+          <ReviewDetail />
+        </CustomTabPanel>
+        {value === 0 && <SHFooter viewType={viewType} />}
+      </Box>
+    </Swipe>
   );
 }

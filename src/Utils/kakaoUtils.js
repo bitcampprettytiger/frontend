@@ -23,8 +23,6 @@ export function useLocation() {
     return location;
 }
 
-
-
 export const loadKakaoMapsScript = (callback) => {
     const existingScript = document.getElementById('kakaoMapsScript');
     if (!existingScript) {
@@ -36,19 +34,25 @@ export const loadKakaoMapsScript = (callback) => {
         script.onload = () => {
             if (callback) callback();
         };
+    } else if (existingScript && callback) {
+        callback();
     }
-    if (existingScript && callback) callback();
 };
 
 export const convertCoordsToAddress = (lat, lng, callback) => {
+    // Kakao Maps SDK가 제대로 로드되었는지 확인
+    if (!window.kakao || !window.kakao.maps || !window.kakao.maps.services) {
+        console.error("Kakao Maps SDK hasn't been initialized.");
+        return;
+    }
+
     const geocoder = new window.kakao.maps.services.Geocoder();
     const coord = new window.kakao.maps.LatLng(lat, lng);
     geocoder.coord2Address(coord.getLng(), coord.getLat(), (result, status) => {
-        console.log("Kakao API Response:", result, status);  // 추가된 부분
+        console.log("Kakao API Response:", result, status);
         callback(result, status);
     });
 };
-
 
 export const fetchAddressFromCoords = (lat, lng) => {
     return fetch(`https://dapi.kakao.com/v2/local/geo/coord2address.json?x=${lng}&y=${lat}&input_coord=WGS84`, {

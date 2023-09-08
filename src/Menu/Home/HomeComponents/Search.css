@@ -14,6 +14,7 @@
 
 /* Result Item Area */
 .result-item {
+    display: flex;
     position: relative;
     align-items: center;
     margin: 10px 0;
@@ -28,6 +29,7 @@
     height: 100px;
     object-fit: cover;
     margin-right: 15px;
+    flex-shrink: 0;
 }
 
 /* Favorite Icon Container */
@@ -119,3 +121,9 @@
     font-weight: bold;
     color: black; 
   }
+
+
+.review-count {
+    margin-left: 2ch; /* 별점과의 간격 조절 */
+    color: grey;      /* 텍스트 색상을 회색으로 설정 */
+}

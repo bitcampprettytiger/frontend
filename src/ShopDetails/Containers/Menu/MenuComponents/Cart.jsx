@@ -60,7 +60,7 @@ function CartPage() {
   };
 
   useEffect(() => {
-    const socket = io('https://mukjachi.site:8081', { query: `phoneNumber=${phoneNumber}` });
+    const socket = io('http://192.168.0.208:8081', { query: `phoneNumber=${phoneNumber}` });
     setSocket(socket);
     fetchUserInfo();
 
@@ -186,10 +186,7 @@ function CartPage() {
     } catch (error) {
       console.error('서버로 전송 실패:', error);
     }
-    // }
-    //  else {
-    alert(`결제 실패: ${error_msg}`);
-    // }
+
   };
   const onModalConfirm = () => {
     setShowModal(false); // 모달 닫기

@@ -20,7 +20,7 @@ import { MdOutlineShoppingBasket } from 'react-icons/md';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useReviewContext } from '../../Menu/MyPage/MyPageComponents/ReviewContext';
-import { updateMemberInfo } from '../Home/HomeComponents/HomeApi';
+import { updateMemberInfo, API_BASE_URL, getHeaders } from '../Home/HomeComponents/HomeApi';
 
 function Mypage() {
   const [isEditing, setIsEditing] = useState(false);
@@ -28,12 +28,12 @@ function Mypage() {
   const [newnickname, setNewnickname] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [reviewCount, setReviewCount] = useState(0);
-  const { favoriteCount, setFavoriteCount, favoriteShops, setFavoriteShops } = useFavorite();
+  const [favoriteCount, setFavoriteCount] = useState(0);
+  const { favoriteShops, setFavoriteShops } = useFavorite();
   const [open, setOpen] = useState(false);
   const [modalType, setModalType] = useState('');
   const navigate = useNavigate();
   const { reviews: contextReviews, setReviews: setContextReviews } = useReviewContext();
-
 
   const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -74,12 +74,7 @@ function Mypage() {
     setNewnickname(nickname);
   };
 
-  // const handleSaveClick = () => {
-  //   setnickname(newnickname);
-  //   setIsEditing(false);
-  //   setShowModal(true);
-  //   setTimeout(() => setShowModal(false), 2000);
-  // };
+
   const handleSaveClick = async () => {
     const updatedInfo = {
       nickName: newnickname,
@@ -108,21 +103,61 @@ function Mypage() {
     setNewnickname(e.target.value);
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const headers = getHeaders();
+
+        // 리뷰 개수 가져오기
+        const reviewResponse = await axios.get(`${API_BASE_URL}/myPage/myReviews`, { headers });
+        console.log('Review Data:', reviewResponse.data);  // <--- 추가
+
+        const reviewDataCount = reviewResponse.data.item.numberOfReviews;
+        setReviewCount(reviewDataCount);
+        console.log('Review count set to:', reviewDataCount);  // <--- 추가
+
+        // 찜해찜 개수 가져오기
+        const favoriteResponse = await axios.get(`${API_BASE_URL}/myPage/myFavoriteVendors`, { headers });
+        console.log('Favorite Data:', favoriteResponse.data);  // <--- 추가
+
+        const favoriteDataCount = favoriteResponse.data.item.length;
+        setFavoriteCount(favoriteDataCount);
+        console.log('Favorite count set to:', favoriteDataCount);  // <--- 추가
+
+      } catch (error) {
+        console.error('Error fetching counts:', error);
+        console.error('오류는?', error.response?.data || error.message);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    setFavoriteCount(favoriteShops.length);
+  }, [favoriteShops]);
+
+  useEffect(() => {
+    console.log("왜 카운트가 안돼?", favoriteCount);
+  }, [favoriteCount]);
 
   useEffect(() => {
     const fetchAllData = async () => {
       try {
-        const headers = getHeaders();
+
+        console.log('Fetching data...'); // <--- 추가
 
         // 사용자 정보 가져오기
-        const userInfoResponse = await axios.get('https://mukjachi.site:6443/myPage/myInfo', { headers });
+        const headers = getHeaders();
+        const userInfoResponse = await axios.get(`${API_BASE_URL}/myPage/myReviews`, { headers });
         const userData = userInfoResponse.data;
 
-        setnickname(userData.item.nickname || "닉네임");
+        const nickname = userData?.item?.reviews[0]?.member?.nickname || "닉네임 없음";
+        setnickname(nickname);
         console.log("User data:", userInfoResponse.data);
 
         // 즐겨찾기 정보 가져오기
-        const favoriteVendorsResponse = await axios.get('https://mukjachi.site:6443/myPage/myFavoriteVendors', { headers });
+        const favoriteVendorsResponse = await axios.get(`${API_BASE_URL}/myPage/myFavoriteVendors`, { getHeaders });
         const favoriteVendorsData = favoriteVendorsResponse.data;
 
         setFavoriteShops(favoriteVendorsData.favoriteShops || []);
@@ -182,7 +217,7 @@ function Mypage() {
                   color: '#FD5E53',
                   fontSize: '105%'
                 }}>리뷰</Button>
-                <div className='cntNum'> {contextReviews.length}</div>
+                <div className='cntNum'> {reviewCount}</div>
               </Link>
             </div>
 
@@ -203,7 +238,7 @@ function Mypage() {
             <Link to="/myreview">
               <div className="custom-button">
                 <LuFootprints className="button-icon icon-left" />
-                <span class="button-text">나의 먹자취 리뷰</span>
+                <span className="button-text">나의 먹자취 리뷰</span>
                 <KeyboardArrowRightIcon className='icon-right' />
               </div>
             </Link>
@@ -211,7 +246,7 @@ function Mypage() {
             <Link to="/myfavorite">
               <div className="custom-button">
                 <FaHeart className="button-icon themeColor icon-left" />
-                <span class="button-text">내가 찜해찜!</span>
+                <span className="button-text">내가 찜해찜!</span>
                 <KeyboardArrowRightIcon className='icon-right' />
               </div>
             </Link>
@@ -219,7 +254,7 @@ function Mypage() {
             <Link to="/mytakeout">
               <div className="custom-button">
                 <MdOutlineShoppingBasket className="button-icon icon-left" />
-                <span class="button-text">포장주문내역</span>
+                <span className="button-text">포장주문내역</span>
                 <KeyboardArrowRightIcon className='icon-right' />
               </div>
             </Link>

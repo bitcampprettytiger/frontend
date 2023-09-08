@@ -43,7 +43,7 @@ const VendorAPI = async (
     );
 
     if (response.status === 200) {
-      alert('성공');
+      alert('회원가입 성공하였습니다.');
       return '회원가입 성공!';
     } else {
       return '회원가입 실패, 다시 시도해 주세요.';

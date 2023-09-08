@@ -5,6 +5,7 @@ export const FavoriteContext = createContext();
 
 export const FavoriteProvider = ({ children }) => {
     const [favoriteShops, setFavoriteShops] = useState([]); // 초기값 설정
+
     const {
         updateFavoriteShops,
         toggleFavorite,
@@ -14,12 +15,12 @@ export const FavoriteProvider = ({ children }) => {
 
     const [favoriteCount, setFavoriteCount] = useState(0);
 
+    // favoriteShops의 길이가 변경될 때마다 favoriteCount 업데이트
     useEffect(() => {
-        if (Array.isArray(favoriteShops)) { // 배열 확인
-            setFavoriteCount(favoriteShops.length);
-        }
+        setFavoriteCount(favoriteShops.length);
     }, [favoriteShops]);
 
+    // 컴포넌트 마운트 시에 favoriteShops 업데이트
     useEffect(() => {
         updateFavoriteShops();
     }, []);

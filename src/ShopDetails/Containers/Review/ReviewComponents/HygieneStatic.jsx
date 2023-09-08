@@ -27,7 +27,7 @@ const HygieneStatic = () => {
   };
 
   const calculatePercentage = (value, total) => {
-    return ((value / total) * 100).toFixed(1);
+    return total === 0 ? 0 : ((value / total) * 100).toFixed(1);
   };
 
   const hygieneCounts = countHygieneRatings(reviews);
