@@ -86,9 +86,9 @@ function Header({ page, searchInput, handleSearchChange, handleDeleteClick, hand
 
     const renderHomeHeader = () => (
         <div className="App-header">
-            <div className="Home-header-left-section">
-                <MenuIcon className="Home-menu-icon" onClick={handleMenuClick} />
-            </div>
+            {/* <div className="Home-header-left-section">
+                여기에 아이콘 로고
+            </div> */}
             <div className="Home-header-center-section">
                 {location && location.latitude && location.longitude
                     ? `${address}`

@@ -56,11 +56,11 @@ function a11yProps(index) {
   };
 }
 
-export default function ShopHomeTabs({ images, locationRef,vendorId }) {
+export default function ShopHomeTabs({ images, locationRef, vendorId }) {
   const { value, setValue, handleChange } = useContext(ShopHomeTabsContext);
   const viewType = useResponsive();
   const [positionX, setPositionX] = useState(0);
-  
+
 
   const [isInView, setIsInView] = useState({
     ShopFacilities: false,
@@ -85,7 +85,7 @@ export default function ShopHomeTabs({ images, locationRef,vendorId }) {
     setPositionX(0);
   };
 
-  
+
   useEffect(() => {
     const checkScroll = () => {
       const elements = [
@@ -111,68 +111,68 @@ export default function ShopHomeTabs({ images, locationRef,vendorId }) {
 
   return (
     <Swipe onSwipeEnd={onSwipeEnd} onSwipeMove={onSwipeMove}>
-    <Box sx={{ width: '100%' }}>
-      <WrapBox>
-        <StyledAppBar
-          value={value}
-          onChange={handleChange}
-          aria-label="ShophHomeTabs"
-          sx={{
-            position: '-webkit-sticky', /* Safari */
-            position: 'sticky',
-            top: '10vh',
-            zIndex: 5
-          }}
-        >
-          <StyledTab label="홈" {...a11yProps(0)} />
-          <StyledTab label="메뉴" {...a11yProps(1)} />
-          <StyledTab label="리뷰" {...a11yProps(2)} />
-        </StyledAppBar>
-      </WrapBox>
-      <CustomTabPanel value={value} index={0}>
-        <motion.div
-          id="ShopFacilities"
-          initial="hidden"
-          animate={isInView.ShopFacilities ? 'visible' : 'hidden'}
-          variants={getSlideInFromRight(0)}
-        >
-          <ShopFacilities />
-        </motion.div>
-        <motion.div
-          id="MenuSeeMore"
-          initial="hidden"
-          animate={isInView.MenuSeeMore ? 'visible' : 'hidden'}
-          variants={getSlideInFromRight(1)}
-        >
-          <MenuSeeMore />
-        </motion.div>
-        <motion.div
-          id="PhotoSeeMore"
-          initial="hidden"
-          animate={isInView.PhotoSeeMore ? 'visible' : 'hidden'}
-          variants={getSlideInFromRight(2)}
-        >
-          <PhotoSeeMore images={images} />
-        </motion.div>
-        <motion.div
-          id="Location"
-          initial="hidden"
-          animate={isInView.Location ? 'visible' : 'hidden'}
-          variants={getSlideInFromRight(3)}
-        >
-          <Location ref={locationRef} vendorId={vendorId} />
-        </motion.div>
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={1}>
-        <MenuOrderPage vendorId={vendorId}/>
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={2}>
-        <RatingAvg />
-        <HygieneStatic />
-        <ReviewDetail />
-      </CustomTabPanel>
-      {value === 0 && <SHFooter viewType={viewType} />}
-    </Box>
+      <Box sx={{ width: '100%' }}>
+        <WrapBox>
+          <StyledAppBar
+            value={value}
+            onChange={handleChange}
+            aria-label="ShophHomeTabs"
+            sx={{
+              position: '-webkit-sticky', /* Safari */
+              position: 'sticky',
+              top: '10vh',
+              zIndex: 5
+            }}
+          >
+            <StyledTab label="홈" {...a11yProps(0)} />
+            <StyledTab label="메뉴" {...a11yProps(1)} />
+            <StyledTab label="리뷰" {...a11yProps(2)} />
+          </StyledAppBar>
+        </WrapBox>
+        <CustomTabPanel value={value} index={0}>
+          <motion.div
+            id="ShopFacilities"
+            initial="hidden"
+            animate={isInView.ShopFacilities ? 'visible' : 'hidden'}
+            variants={getSlideInFromRight(0)}
+          >
+            <ShopFacilities />
+          </motion.div>
+          <motion.div
+            id="MenuSeeMore"
+            initial="hidden"
+            animate={isInView.MenuSeeMore ? 'visible' : 'hidden'}
+            variants={getSlideInFromRight(1)}
+          >
+            <MenuSeeMore />
+          </motion.div>
+          <motion.div
+            id="PhotoSeeMore"
+            initial="hidden"
+            animate={isInView.PhotoSeeMore ? 'visible' : 'hidden'}
+            variants={getSlideInFromRight(2)}
+          >
+            <PhotoSeeMore images={images} />
+          </motion.div>
+          <motion.div
+            id="Location"
+            initial="hidden"
+            animate={isInView.Location ? 'visible' : 'hidden'}
+            variants={getSlideInFromRight(3)}
+          >
+            <Location ref={locationRef} vendorId={vendorId} />
+          </motion.div>
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={1}>
+          <MenuOrderPage vendorId={vendorId} />
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={2}>
+          <RatingAvg />
+          <HygieneStatic />
+          <ReviewDetail />
+        </CustomTabPanel>
+        {value === 0 && <SHFooter viewType={viewType} />}
+      </Box>
     </Swipe>
   );
 }

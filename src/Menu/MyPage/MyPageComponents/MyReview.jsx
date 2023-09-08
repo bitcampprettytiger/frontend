@@ -16,6 +16,7 @@ import styled from '@emotion/styled';
 
 
 
+
 function MyReview({ reviewsData, setReviewsData, token }) {
     const [isModalOpen, setModalOpen] = useState(false); // 모달 오픈 여부
     const [currentReview, setCurrentReview] = useState(null); // 현재 선택된 리뷰
@@ -34,6 +35,8 @@ function MyReview({ reviewsData, setReviewsData, token }) {
             textDecoration: 'underline',
         },
     });
+
+
 
     // 리뷰 텍스트와 버튼을 포함하는 컨테이너 스타일
     const ReviewContainer = styled.div({
@@ -64,6 +67,11 @@ function MyReview({ reviewsData, setReviewsData, token }) {
         setModalOpen(false);
         setCurrentReview(null);
     }; // 모달을 닫는 함수
+
+    const reviewImageUrls = reviews.flatMap(review =>
+        (review.reviewFileList || []).map(image => image.fileUrl)
+    );
+
 
     const MAX_LINES = 2;
     const MAX_CHARACTERS = 30;
@@ -138,6 +146,7 @@ function MyReview({ reviewsData, setReviewsData, token }) {
                                     {review.reviewRegDateTimeFormatted?.split(" ")[0] || '날짜 정보 없음'}
                                 </span>
                             </div>
+
                             <ReviewContainer>
                                 <Typography className={isExpanded ? 'expanded-class' : 'collapsed-class'}>
                                     {displayedContent}
@@ -172,32 +181,41 @@ function MyReview({ reviewsData, setReviewsData, token }) {
                             ))}
 
                             <div className="menu-buttons">
-                                {Array.isArray(review.orderedMenu) && review.orderedMenu.map((menu, menuIdx) => (
-                                    <button key={menuIdx} className="menu-btn">{menu}</button>
+                                {review.orders?.orderMenuList?.map((orderMenu, menuIdx) => (
+                                    <Button
+                                        key={menuIdx}
+                                        variant="contained"
+                                        style={{
+                                            backgroundColor: 'white',
+                                            margin: '5px',
+                                            boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+                                            border: 'none'
+                                        }}
+                                    >
+                                        {orderMenu.menu.menuName}
+                                    </Button>
                                 ))}
                             </div>
+
                         </div>
                     );
                 })}
-            </div>
 
-            <Modal open={isModalOpen} onClose={handleClose}>
-                <Box sx={{ ...style, overflow: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    {currentReview?.reviewFileList?.map((img, idx) => (
-                        <img key={idx} src={img.fileUrl} alt={`review-${idx}`} style={{ width: 'calc(33.33% - 10px)', margin: '5px', objectFit: 'cover' }} />
-                    ))}
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }} className={isExpanded ? '' : 'review-text'}>
-                        {currentReview?.reviewContent}
-                    </Typography>
-                </Box>
-            </Modal>
+                <Modal open={isModalOpen} onClose={handleClose}>
+                    <Box sx={{ ...style, overflow: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        {currentReview?.reviewFileList?.map((img, idx) => (
+                            <img key={idx} src={img.fileUrl} alt={`review-${idx}`} style={{ width: 'calc(33.33% - 10px)', margin: '5px', objectFit: 'cover' }} />
+                        ))}
+                        <Typography id="modal-modal-description" sx={{ mt: 2 }} className={isExpanded ? '' : 'review-text'}>
+                            {currentReview?.reviewContent}
+                        </Typography>
+                    </Box>
+                </Modal>
+            </div>
             <Footer type="myreview" />
         </div>
     );
-
-
-
-};
+}
 
 const MemoizedMyReview = React.memo(MyReview);
 export default MemoizedMyReview;
