@@ -21,13 +21,14 @@ const useReview = (vendorId) => {
             isLiked: isLiked(review),
             isDisliked: isDisliked(review),
           }));
-  
+          console.log(modifiedReviews);
           // 더 불러올 리뷰가 있는지 확인
           if (modifiedReviews.length < 1) {
             setHasMore(false);
           } else {
             // 기존 리뷰와 새 리뷰 합
             setReviews(prevReviews => {
+              console.log(prevReviews)
               const newReviews = [...prevReviews, ...modifiedReviews];
               // 중복을 제거한 최종 리뷰 배열
               const uniqueReviews = Array.from(new Set(newReviews.map(r => r.reviewId)))
@@ -56,7 +57,7 @@ const useReview = (vendorId) => {
         fetchReviews(nextPage);
         return nextPage;
       });
-    
+
     }
   };
 

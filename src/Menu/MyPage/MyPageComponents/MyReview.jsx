@@ -36,6 +36,8 @@ function MyReview({ reviewsData, setReviewsData, token }) {
         },
     });
 
+
+
     // 리뷰 텍스트와 버튼을 포함하는 컨테이너 스타일
     const ReviewContainer = styled.div({
         display: 'inline-flex',
@@ -65,6 +67,11 @@ function MyReview({ reviewsData, setReviewsData, token }) {
         setModalOpen(false);
         setCurrentReview(null);
     }; // 모달을 닫는 함수
+
+    const reviewImageUrls = reviews.flatMap(review =>
+        (review.reviewFileList || []).map(image => image.fileUrl)
+    );
+
 
     const MAX_LINES = 2;
     const MAX_CHARACTERS = 30;

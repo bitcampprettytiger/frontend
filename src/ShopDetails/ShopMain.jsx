@@ -34,14 +34,16 @@ const ShopMain = () => {
   }
   if (error) return <div>Error: {error.message}</div>;
   if (!vendor) return <div>No vendor data available</div>;
+  const imagesFromReviews = reviewData.map((review) => { console.log(review.reviewFileList); return review.reviewFileList });
 
-  const imagesFromReviews = reviewData.slice(0, 6).map((review) => review.img);
+  console.log(imagesFromReviews)
+
   const goToLocationSection = () => {
     if (locationRef.current) {
       locationRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   };
-
+  // 배열 이잖아? -> map ? -> 하나씩 다른 컴퍼 로 보내주던가
   return (
     <>
       <ShopAppBar />
