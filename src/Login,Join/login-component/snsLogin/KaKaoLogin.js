@@ -11,7 +11,7 @@ const KakaoLogin = () => {
     new URL(window.location.href).searchParams.get('code')
   );
   useEffect(() => {
-    console.log('aaaaaaaaaaaaaaaaaaaaaaaaa',code);
+    console.log('aaaaaaaaaaaaaaaaaaaaaaaaa', code);
     axios
       .post(
         `https://kauth.kakao.com/oauth/token`,
@@ -29,7 +29,7 @@ const KakaoLogin = () => {
         }
       )
       .then((res) => {
-        console.log('bbbbbbbbbbbbbbbbbbbbbbb',res);
+        console.log('bbbbbbbbbbbbbbbbbbbbbbb', res);
         const { data } = res;
         const { access_token } = data;
         if (access_token) {
@@ -53,6 +53,18 @@ const KakaoLogin = () => {
               const currentDate = new Date();
               const currentYear = currentDate.getFullYear();
               const ageRange = res.data.kakao_account.age_range;
+              axios
+                .post(`https://mukjachi.site:6443/API/kakao/login`, {
+                  username: res.data.kakao_account.email,
+                  name: res.data.kakao_account.profile.nickname,
+                  nickname: res.data.kakao_account.profile.nickname,
+                })
+                .then((res) => {
+                  console.log('토큰 발급 완료',res)
+                  localStorage.setItem('accessToken', res.data.item.accessToken);
+                  localStorage.setItem('refreshToken', res.data.item.refreshToken);
+                  navi('/home');
+                });
             });
         } else {
           console.log('없어!');

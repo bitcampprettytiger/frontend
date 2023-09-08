@@ -9,7 +9,7 @@ const SellUpAPI = async (username, password, tel, privacy) => {
       tel: tel,
       privacy: privacy,
     };
-
+    console.log('asdasdasasdas',data)
     // Axios 요청에서 'Content-Type': 'application/json' 헤더를 사용합니다.
     const response = await axios.post('https://mukjachi.site:6443/vendor/join', data, {
       headers: {
