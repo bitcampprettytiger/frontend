@@ -192,15 +192,15 @@ function InnerAppRoute() {
               ))}
               {/* <Route path="*" element={<NotFound />} /> */}
             </Routes>
-          </BrowserView>   
-        {/* <MobileView className='MV'>
+          </BrowserView>
+          <MobileView className="MV">
             <Routes>
               {mobileRoutes.map((route, index) => (
                 <Route key={index} path={route.path} element={route.element} />
               ))}
-               <Route path="*" element={<NotFound />} />
+              <Route path="*" element={<NotFound />} />
             </Routes>
-        </MobileView> */}
+          </MobileView>
         </NoticeProvider>
       </ThemeProvider>
     </div>
