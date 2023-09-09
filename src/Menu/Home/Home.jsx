@@ -313,7 +313,7 @@ function Home() {
         ))}
       </div>
 
-      <p className="title">먹자취 추천 어쩌구 NO.5</p>
+      <p className="title">먹자취 추천 NO.5</p>
       <div className="macha-button-container">
         {mostFavoritedVendors.map((vendor) => (
           <button
