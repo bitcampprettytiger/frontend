@@ -95,13 +95,14 @@ const FindPW = ({ openModal, handleModalClose }) => {
       const response = await axios.post(
         'https://mukjachi.site:6443/member/updatePassword',
         {
-          name:name,
-          tel:tel,
+          name: name,
+          tel: tel,
           password: newPassword,
         }
       );
-      if (response.data.success) {
-        alert('비밀번호가 업데이트 되었습니다.');
+      console.log(response);
+      if (response.data.statusCode === 200) {
+        alert('비밀번호가 변경 되었습니다.');
         handleModalClose();
         resetState();
       }
