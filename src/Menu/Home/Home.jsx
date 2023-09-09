@@ -68,7 +68,7 @@ function Home() {
   const getShopsInArea = async (areaName) => {
     // setSelectedArea를 호출하지만 이후 코드에서 바로 사용하지 않습니다.
     setSelectedArea(areaName);
-
+    console.log('aaaaaaaaaa');
     try {
       const data = await fetchShopsInArea(areaName);
       console.log(`[${areaName}] 지역의 매장 정보를 세팅 중...`);
@@ -145,6 +145,7 @@ function Home() {
       setPopularPlaces
     );
     const fetchAndSetData = async () => {
+      console.log('왜 안나와');
       if (address && address !== '') {
         // address가 undefined나 빈 문자열이 아닐 경우에만 API 호출
         await fetchAndSet(async () => {
@@ -154,6 +155,7 @@ function Home() {
             location.longitude
           );
           setPopularPlaces(response.data.result.itemlist);
+          console.log('셋 파풀', response.data);
           return response.data.result.itemlist;
         }, setPopularPlaces);
         await fetchAndSet(fetchPopularPlaces, setPopularPlaces);

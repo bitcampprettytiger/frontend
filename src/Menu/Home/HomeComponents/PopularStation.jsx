@@ -5,6 +5,7 @@ import { fetchShopsInArea } from '../HomeComponents/HomeApi';
 import { useNavigate, useParams } from 'react-router-dom';
 import './PopularStation.css';
 import StarIcon from '@mui/icons-material/Star';
+import AppBarWithTitle from '../../../ShopDetails/Components/AppBarWithTitle';
 
 function PopularStation() {
     const { region } = useParams();
@@ -60,8 +61,8 @@ function PopularStation() {
 
     return (
         <div>
-            <Header page="popularstation" selectedRegion={selectedRegionState} onBackClick={handleBackButtonClick} />
-
+            {/* <Header page="popularstation" selectedRegion={selectedRegionState} onBackClick={handleBackButtonClick} /> */}
+        <AppBarWithTitle></AppBarWithTitle>
             <div className="App-main2" onScroll={handleScroll} style={{ height: 'calc(100vh - 120px)', overflowY: 'auto' }}>
                 <h2>오늘 이곳은 어때요?</h2>
                 <div className="outer-container">

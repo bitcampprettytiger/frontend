@@ -35,7 +35,7 @@ const Register = () => {
 
   const handleClose = (privacy) => {
     setPrivacy(privacy);
-    alert(privacy);
+    alert('동의하였습니다');
     setOpen(false);
   };
 
@@ -90,7 +90,7 @@ const Register = () => {
     if (result === '회원가입 성공!') {
       console.log(privacy);
       alert('회원가입 되었습니다.');
-      navigate('/'); // 로그인 페이지로 이동
+      navigate('/login'); // 로그인 페이지로 이동
     } else {
       alert(result); // 에러 메시지 출력
     }
