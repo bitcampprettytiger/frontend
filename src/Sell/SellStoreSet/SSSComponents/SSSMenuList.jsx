@@ -2,8 +2,10 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { Box, Grid, Button, Typography, Checkbox } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 const SSSMenuList = ({ menus, onDeleteMenu }) => {
+  const navigate = useNavigate();
+
   console.log('메뉴받기', menus);
   console.log(
     '메뉴 - 메뉴 이미지 : ',
@@ -72,7 +74,7 @@ const SSSMenuList = ({ menus, onDeleteMenu }) => {
         }
       }
       alert('메뉴가 입력되었습니다.');
-      window.location.reload();
+      navigate(-1);
     } catch (error) {
       alert('실패');
       console.error('There was an error sending the data', error);

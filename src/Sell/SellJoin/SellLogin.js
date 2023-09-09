@@ -84,9 +84,7 @@ const Login = () => {
           <Link to={'/sellsign1'}>
             <button className="sub-button">회원가입</button>
           </Link>
-          <button className="sub-button" onClick={handleModalOpen}>
-            비밀번호 찾기
-          </button>
+          
         </div>
         <FindPW openModal={openModal} handleModalClose={handleModalClose} />
       </form>
