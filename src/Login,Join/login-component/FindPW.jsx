@@ -189,16 +189,29 @@ const FindPW = ({ openModal, handleModalClose }) => {
 
             <Button
               variant="contained"
+              color="secondary"
               onClick={sendVerificationCode}
-              sx={{ marginTop: '5%', marginLeft: '5%' }}
+              sx={{
+                backgroundColor: isVerified ? '#FD5E53' : 'grey', // 활성화 상태면 원래의 색, 비활성화면 회색
+                color: 'white',
+                marginTop: '5%',
+                marginLeft: '5%',
+              }}
             >
               인증번호 발송
             </Button>
             {confirmErrorMessage && (
               <p style={{ color: 'blue' }}>{confirmErrorMessage}</p>
             )}
-            <Button variant="contained" onClick={sendServerCode}>
-              인증하기
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={sendServerCode}
+              sx={{
+                backgroundColor: isVerified ? '#FD5E53' : 'grey', // 활성화 상태면 원래의 색, 비활성화면 회색
+                color: 'white',
+              }}
+              > 인증하기
             </Button>
 
             <TextField
