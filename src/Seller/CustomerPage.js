@@ -5,7 +5,7 @@ const CustomerPage = () => {
   const [position, setPosition] = useState(0);
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const socket = io('http://172.30.1.60:8081'); // 서버 주소
+  const socket = io('http://172.30.1.22:8081'); // 서버 주소
   const [isReserved, setIsReserved] = useState(false);
   const [nickname, setNickname] = useState(""); // 닉네임 상태 추가
   const [vendor, setvendor] = useState("");
