@@ -4,7 +4,7 @@ import { io } from 'socket.io-client';
 const Tackout = () => {
   const [reservationList, setReservationList] = useState([]);
   const phoneNumber = "1234567890"; // 구매자의 전화번호로 변경
-  const socket = io('http://172.30.1.60:8081', { query: `phoneNumber=${phoneNumber}` });
+  const socket = io('http://172.30.1.22:8081', { query: `phoneNumber=${phoneNumber}` });
   const [menuCount, setMenuCount] = useState(0); // 초기값으로 0 설정
   const [menuName, setMenuName] = useState(""); // 초기값으로 빈 문자열 설정
   useEffect(() => {
